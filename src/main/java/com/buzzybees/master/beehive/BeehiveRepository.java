@@ -1,0 +1,15 @@
+package com.buzzybees.master.beehive;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.ArrayList;
+
+public interface BeehiveRepository extends CrudRepository<Beehive, Long> {
+
+    @Query("SELECT b FROM Beehive b WHERE b.userId = :userId")
+    Beehive[] getAllByUser(long userId);
+
+    @Query("SELECT b FROM Beehive b WHERE b.token = :token")
+    Beehive getBeehiveByToken(String token);
+}

@@ -1,0 +1,7 @@
+{
+  "SK": {
+    "LOW_BATTERY": "Váš úľ má slabú batériu. (%d%%)",
+    "WEIGHT_ALERT": "Hmotnosť vášho úľu presiahla %d kg",
+    "TEMPERATURE_ALERT": "Teplota klesla pod %d°C"
+  }
+}
