@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -67,38 +69,7 @@ public class UserController {
     }
 
 
-    @Deprecated
-  //  @PostMapping(value = {"/login"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String login(@RequestBody Map<String, String> data) {
-        String password = data.get("password");
-        String mail = data.get("email");
 
-        JSONObject response = new JSONObject();
-        User user = null;
-
-        try {
-            //   String password = formData.getFirst("password");
-
-            if (password != null) {
-                String passwdHash = PasswordUtils.hashPasswd(password);
-
-//                System.out.println(passwdHash);
-                user = userRepository.checkUser(mail, passwdHash);
-
-                if (user != null) {
-                    response.put("user", user.toJSON());
-                    String token = UserService.loginUser(user);
-                    response.put("token", token);
-                }
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        response.put("status", user != null ? "ok" : "ERR_INVALID_USER");
-        return response.toString();
-    }
 
     @Deprecated
     @GetMapping("/getToken")

@@ -86,6 +86,21 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.tncrazvan</groupId>
+            <artifactId>Svelte3SSR</artifactId>
+            <version>1.1.0</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.tncrazvan</groupId>
+            <artifactId>Svelte3DOM</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+        </dependency>
+
+
     </dependencies>
 
     <build>
