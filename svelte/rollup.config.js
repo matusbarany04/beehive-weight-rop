@@ -11,14 +11,14 @@ export default {
     sourcemap: true,
     format: 'iife',
     name: 'app',
-    file: '../src/main/resources/static/bundle.js'
+    file: '../src/main/resources/public/bundle.js'
   },
   plugins: [
     svelte({
       // enable run-time checks when not in production
       dev: !production,
     }),
-    css({ input:"../src/main/resources/static/bundle.css", output: 'bundle.css' }),
+    css({ input:"../src/main/resources/public/bundle.css", output: 'bundle.css' }),
     resolve(),
     commonjs(),
 
