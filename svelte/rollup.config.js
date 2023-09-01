@@ -3,9 +3,11 @@ import resolve from '@rollup/plugin-node-resolve';  // Updated import
 import commonjs from '@rollup/plugin-commonjs';     // Updated import
 import terser  from '@rollup/plugin-terser';
 import css from 'rollup-plugin-css-only';
+import postcss from 'rollup-plugin-postcss'
+import tailwindcss from 'tailwindcss';
 const production = !process.env.ROLLUP_WATCH;
 
-export default {
+const dashboardConfig =  {
   input: 'src/main.js',
   output: {
     sourcemap: true,
@@ -14,11 +16,20 @@ export default {
     file: '../src/main/resources/public/bundle.js'
   },
   plugins: [
+    postcss({
+      extract: false, // Inline the CSS into the JS
+      plugins: [
+        tailwindcss(),
+      ],
+      use: [
+        ['sass', { includePaths: ['./src/styles', './node_modules'] }]
+      ]
+    }),
     svelte({
       // enable run-time checks when not in production
       dev: !production,
     }),
-    css({ input:"../src/main/resources/public/bundle.css", output: 'bundle.css' }),
+    // css({ input:"../src/main/resources/static/bundle.css", output: 'bundle.css' }),
     resolve(),
     commonjs(),
 
@@ -27,3 +38,33 @@ export default {
     production && terser()
   ]
 };
+
+const indexConfig =  {
+  input: 'indexSource/main.js',
+  output: {
+    sourcemap: true,
+    format: 'iife',
+    name: 'app',
+    file: '../src/main/resources/public/indexBundle.js'
+  },
+  plugins: [
+    postcss({
+      extract: false, 
+      plugins: [
+        tailwindcss(),
+      ],
+      use: [
+        ['sass', { includePaths: ['./src/styles', './node_modules'] }]
+      ]
+    }),
+    svelte({
+      dev: !production,
+    }),
+    resolve(),
+    commonjs(),
+
+    production && terser()
+  ]
+};
+
+export default [dashboardConfig, indexConfig];

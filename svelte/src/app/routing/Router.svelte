@@ -2,6 +2,7 @@
   import { route, navigate } from '../services/route.serv';
   import Homepage from '../pages/Homepage.svelte';
   import Notfound from '../pages/Notfound.svelte';
+  import Help from '../pages/Help.svelte';
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
@@ -12,20 +13,14 @@
       case BASE_PATH +  '/homepage':
         value = Homepage;
         break;
+      case BASE_PATH +  '/help':
+        value = Homepage;
+        break;
       default:
         value = Notfound;
     }
   });
 </script>
-
-<style>
-  main {
-    flex-grow: 1;
-    background-color: var(--primary-color-2);
-    color: var(--second-color);
-    padding: 1rem;
-  }
-</style>
 
 <main>
   <svelte:component this={value}/>

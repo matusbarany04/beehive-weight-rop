@@ -7,12 +7,7 @@
   }
 </script>
 
-<style>
-  a {
-    color: var(--second-color-4);
-  }
-</style>
 
-<a href="/dashboard/{url}" on:click|preventDefault={changeRoute}>
+<a class="text-confirm-500" href="/dashboard/{url}" on:click|preventDefault={changeRoute}>
   <slot></slot>
 </a>

@@ -5,14 +5,10 @@ import com.buzzybees.master.tables.User;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.users.UserService;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @Controller
 public class LoginController {
@@ -36,7 +30,7 @@ public class LoginController {
 
     @GetMapping("/")
     public String home(@CookieValue(value = SSID, defaultValue = "") String ssid) {
-        return "index";
+        return "dashboard";
         /*if(ssid.length() == 0) return "redirect:/login";
         else return "redirect:/dashboard";*/
     }

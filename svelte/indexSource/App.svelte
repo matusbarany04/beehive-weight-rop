@@ -1,6 +1,4 @@
 <script>
-	import Router from './app/routing/Router.svelte';
-	import Sidenav from './app/component/Sidenav.svelte';
 </script>
 
 <style>
@@ -11,6 +9,5 @@
 </style>
 
 <div class="bg-slate-300">
-  <Sidenav class="sidenav" />
-  <Router />
+    <p>Index page for login, register, etc.</p>
 </div>
