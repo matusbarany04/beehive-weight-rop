@@ -8,7 +8,7 @@ import tailwindcss from 'tailwindcss';
 const production = !process.env.ROLLUP_WATCH;
 
 const dashboardConfig =  {
-  input: 'src/main.js',
+  input: 'dashboard/main.js',
   output: {
     sourcemap: true,
     format: 'iife',
@@ -40,7 +40,7 @@ const dashboardConfig =  {
 };
 
 const indexConfig =  {
-  input: 'indexSource/main.js',
+  input: 'general/main.js',
   output: {
     sourcemap: true,
     format: 'iife',
