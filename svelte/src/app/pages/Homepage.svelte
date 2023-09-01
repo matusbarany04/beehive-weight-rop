@@ -12,10 +12,10 @@
 <h1>Home sweet Home</h1>
 
 
-12345
 
 <button on:click={click}>Increase</button>
 Number: {counter}
 
 <GetList />
 
+536894
