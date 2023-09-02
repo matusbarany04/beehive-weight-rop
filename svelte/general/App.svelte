@@ -1,4 +1,5 @@
 <script>
+  import Router from './app/routing/Router.svelte';
   import TestComponent from "../components/TestComponent.svelte";
 </script>
 
@@ -10,6 +11,5 @@
 </style>
 
 <div class="bg-slate-300">
-    <TestComponent></TestComponent>
-    <p>Index page for login, register, etc.</p>
+    <Router/>
 </div>

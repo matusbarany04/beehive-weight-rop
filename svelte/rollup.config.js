@@ -5,6 +5,7 @@ import terser  from '@rollup/plugin-terser';
 import css from 'rollup-plugin-css-only';
 import postcss from 'rollup-plugin-postcss'
 import tailwindcss from 'tailwindcss';
+import autoprefixer from "autoprefixer";
 const production = !process.env.ROLLUP_WATCH;
 
 const dashboardConfig =  {
@@ -51,7 +52,7 @@ const indexConfig =  {
     postcss({
       extract: false, 
       plugins: [
-        tailwindcss(),
+        tailwindcss()
       ],
       use: [
         ['sass', { includePaths: ['./src/styles', './node_modules'] }]

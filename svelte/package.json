@@ -5,12 +5,14 @@
     "@rollup/plugin-commonjs": "^25.0.4",
     "@rollup/plugin-node-resolve": "^15.2.1",
     "@rollup/plugin-terser": "^0.4.3",
+    "node-sass": "^9.0.0",
     "npm-run-all": "^4.1.5",
     "rollup": "^3.28.1",
     "rollup-plugin-css-only": "^4.3.0",
     "rollup-plugin-svelte": "^7.1.6",
     "sirv-cli": "^0.3.1",
-    "svelte": "^4.2.0"
+    "svelte": "^4.2.0",
+    "svelte-preprocess": "^5.0.4"
   },
   "scripts": {
     "java:dev": "rollup -c rollup.config.js -w --bundleConfigAsCjs",
