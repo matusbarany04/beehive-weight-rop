@@ -4,7 +4,7 @@
   import Notfound from '../pages/Notfound.svelte';
   import Help from '../pages/Help.svelte';
 
-  const BASE_PATH = "/web/dashboard";
+  const BASE_PATH = "/dashboard";
   let value = Notfound;
 
   route.subscribe(val => {

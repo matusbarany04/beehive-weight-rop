@@ -3,7 +3,7 @@
 	import Sidenav from './app/component/Sidenav.svelte';
     import {prefix} from "../components/prefix";
 
-    prefix.setPrefix('/web/dashboard');
+    prefix.setPrefix('/dashboard');
 </script>
 
 <style>

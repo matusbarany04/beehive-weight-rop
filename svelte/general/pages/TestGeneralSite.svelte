@@ -2,4 +2,11 @@
     import RouterLink from "../../components/RouterLink.svelte";
 </script>
 
-<RouterLink url="/web/dashboard" baseRoute="true">Dashboard Home</RouterLink>
+<p>This link takes advantage of the javascript router and tries to find
+    <code class="bg-slate-300">/dashboard</code> inside index spa, but unsuccessfully 
+</p>
+
+<RouterLink url="/dashboard" baseRoute="true">Dashboard Home trough RouterLink</RouterLink>
+
+<p>That's why we need to use a tag </p>
+<a class="underline text-error-600" href="/dashboard">Dashboard Home trough anchor tag</a>

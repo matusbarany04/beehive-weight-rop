@@ -11,7 +11,6 @@
       case '/':
         value = Home;
         break;
-        
       case '/login':
         value = Login;
         break;

@@ -5,6 +5,7 @@ target/
 !svelte/dashboard/test/**/target/
 src/main/resources/public/bundle.js
 src/main/resources/public/indexBundle.js
+src/main/resources/bundle/*
 
 ### STS ###
 .apt_generated
