@@ -3,7 +3,7 @@
   import Login from "../../pages/Login.svelte";
   import Notfound from "../../../dashboard/app/pages/Notfound.svelte";
   import Home from "../../pages/Home.svelte";
-  
+  import TestGeneralSite from "../../pages/TestGeneralSite.svelte";
   let value = Notfound;
   
 
@@ -17,7 +17,9 @@
       case '/login':
         value = Login;
         break;
-
+      case '/test':
+        value = TestGeneralSite;
+        break;
       default:
         value = Notfound;
     }
