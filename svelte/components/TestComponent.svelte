@@ -1,1 +1,1 @@
-<h1> Test component in action !! </h1>
+<h1 class="text-4xl"> Test component in action !!!!111 </h1>

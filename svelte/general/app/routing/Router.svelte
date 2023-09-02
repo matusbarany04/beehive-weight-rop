@@ -1,5 +1,5 @@
 <script>
-  import { route, navigate } from '../services/route.serv';
+  import { route, navigate } from '../../../components/route.serv';
   import Login from "../../pages/Login.svelte";
   import Notfound from "../../../dashboard/app/pages/Notfound.svelte";
   

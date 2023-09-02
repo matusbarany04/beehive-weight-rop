@@ -24,6 +24,17 @@ public class FrontendController {
     }
 
     @GetMapping("/{path:[^\\.]*}")
+<<<<<<< HEAD
+=======
+    public String handleAllIndexPsths() {
+        return "index";
+    }
+    @GetMapping("/dashboard")
+    public String handleDashboardHome() {
+        return "dashboard";
+    }
+    @GetMapping("/dashboard/{path:[^\\.]*}")
+>>>>>>> 14d0dafebeddc90ee25cb478d420315cff835ee2
     public String handleAllPaths() {
         return "index";
     }

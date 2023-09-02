@@ -1,5 +1,5 @@
 <script>
-  import { navigate } from '../services/route.serv.js';
+  import { navigate } from './route.serv';
   export let url;
 
   function changeRoute(event) {
@@ -8,6 +8,6 @@
 </script>
 
 
-<a class="text-confirm-500" href="/dashboard/{url}" on:click|preventDefault={changeRoute}>
+<a class="text-confirm-500" href="/web/dashboard/{url}" on:click|preventDefault={changeRoute}>
   <slot></slot>
 </a>
