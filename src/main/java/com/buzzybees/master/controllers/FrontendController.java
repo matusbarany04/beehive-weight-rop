@@ -8,17 +8,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/web")
 public class FrontendController {
 
+    @GetMapping("/dashboard")
+    public String handleDashboardHome() {
+        return "dashboard";
+    }
+
+    @GetMapping("/dashboard/{path:[^\\.]*}")
+    public String handleAllIndexPaths() {
+        return "dashboard";
+    }
+
     @GetMapping("")
     public String handleIndexDashboard() {
         return "index";
     }
 
-    @GetMapping("/dashboard")
-    public String handleDashboardHome() {
-        return "dashboard";
-    }
-    @GetMapping("/dashboard/{path:[^\\.]*}")
+    @GetMapping("/{path:[^\\.]*}")
     public String handleAllPaths() {
-        return "dashboard";
+        return "index";
     }
+
+
 }
