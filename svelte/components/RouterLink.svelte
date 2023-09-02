@@ -24,11 +24,13 @@
   export let baseRoute = false;
 
   let currentPrefix = '';
+  
   prefix.subscribe(value => {
     console.log(value)
     currentPrefix = value || '';
   });
-
+  
+  
   function changeRoute(event) {
     navigate(event.currentTarget.getAttribute('href'));
   }

@@ -16,7 +16,7 @@ public class FrontendController {
 
     private final String BUNDLE_PATH = "src/main/resources/bundle/";
 
-    @GetMapping("/dashboard/{path:[^\\.]*}")
+    @GetMapping("/dashboard/{path:[^.]*}")
     public String handleDashboardPaths(@PathVariable String path) {
         return "dashboard";
     }

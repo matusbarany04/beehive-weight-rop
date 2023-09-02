@@ -37,7 +37,6 @@ import java.util.Optional;
 @RequestMapping("/dashboardApi")
 public class DashboardController {
 
-    public static final String COOKIE_NAME = "sessionid";
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private StatusRepository statusRepository;
@@ -64,7 +63,7 @@ public class DashboardController {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 System.out.println(cookie.getName() + " " + cookie.getValue());
-                if (cookie.getName().equals(COOKIE_NAME)) {
+                if (cookie.getName().equals(LoginController.SSID)) {
                     currentUserId = UserService.getUserIdByToken(cookie.getValue());
                     return;
                 }

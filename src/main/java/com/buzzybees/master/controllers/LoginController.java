@@ -24,13 +24,16 @@ public class LoginController {
 
     @GetMapping("/")
     public String home(@CookieValue(value = SSID, defaultValue = "") String ssid) {
-        if(ssid.length() == 0) return "index";
+        long id = UserService.getUserIdByToken(ssid);
+        if(id == 0) return "index";
         else return "redirect:/dashboard";
     }
 
     @GetMapping("/{path:[^.]*}")
-    public String handleGeneralPage(@PathVariable String path) {
-        return "index";
+    public String handleGeneralPage(@PathVariable String path, @CookieValue(value = SSID, defaultValue = "") String ssid) {
+        long id = UserService.getUserIdByToken(ssid);
+        if(id == 0) return "index";
+        else return "redirect:/dashboard";
     }
 
     @PostMapping(value = {"/loginUser"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)

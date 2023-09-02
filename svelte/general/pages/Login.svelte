@@ -2,7 +2,7 @@
   
 </script>
 
-<div class="relative bg-primary v-screen h-screen bg-[black]">
+<div class="relative bg-primary v-screen h-screen bg-primary-500">
   <div class="absolute w-full h-screen">
     <img class="absolute bottom-0" src="../img/grass.svg"/>
     <img class="absolute w-1/3 left-[10%] bottom-20 p-5 max-h-[80vh] align-bottom" src="../img/beehive2.svg"/>
@@ -31,7 +31,4 @@
 </div>
 
 <style lang="scss">
-  @import 'tailwindcss/base';
-  @import 'tailwindcss/components';
-  @import 'tailwindcss/utilities';
 </style>
