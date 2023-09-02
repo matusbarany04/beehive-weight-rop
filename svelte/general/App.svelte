@@ -10,6 +10,6 @@
 
 </style>
 
-<div class="bg-slate-300">
+<div class="">
     <Router/>
 </div>
