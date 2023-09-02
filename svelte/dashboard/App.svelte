@@ -1,6 +1,9 @@
 <script>
 	import Router from './app/routing/Router.svelte';
 	import Sidenav from './app/component/Sidenav.svelte';
+    import {prefix} from "../components/prefix";
+
+    prefix.setPrefix('/web/dashboard');
 </script>
 
 <style>

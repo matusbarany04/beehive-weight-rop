@@ -1,6 +1,9 @@
 <script>
   import Router from './app/routing/Router.svelte';
   import TestComponent from "../components/TestComponent.svelte";
+  import {prefix} from "../components/prefix";
+
+  prefix.setPrefix('/web')
 </script>
 
 <style>
