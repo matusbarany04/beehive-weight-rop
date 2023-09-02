@@ -13,6 +13,10 @@ public class FrontendController {
         return "index";
     }
 
+    @GetMapping("/{path:[^\\.]*}")
+    public String handleAllIndexPsths() {
+        return "index";
+    }
     @GetMapping("/dashboard")
     public String handleDashboardHome() {
         return "dashboard";

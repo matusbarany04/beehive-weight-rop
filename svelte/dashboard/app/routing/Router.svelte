@@ -1,20 +1,22 @@
 <script>
-  import { route, navigate } from '../services/route.serv';
+  import { route, navigate } from '../../../components/route.serv';
   import Homepage from '../pages/Homepage.svelte';
   import Notfound from '../pages/Notfound.svelte';
   import Help from '../pages/Help.svelte';
 
-  const BASE_PATH = "/dashboard";
+  const BASE_PATH = "/web/dashboard";
   let value = Notfound;
 
   route.subscribe(val => {
     switch(val) {
       case BASE_PATH + '/':
+      case BASE_PATH + '':
       case BASE_PATH +  '/homepage':
         value = Homepage;
         break;
       case BASE_PATH +  '/help':
-        value = Homepage;
+      case BASE_PATH +  '/help/':
+        value = Help;
         break;
       default:
         value = Notfound;
