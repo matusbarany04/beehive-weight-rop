@@ -7,15 +7,9 @@ import com.buzzybees.master.users.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Controller
 public class LoginController {
@@ -25,25 +19,17 @@ public class LoginController {
 
     public static final String SSID = "sessionid";
 
-    private final String BASE_PATH = "src/main/resources/public/";
 
 
     @GetMapping("/")
     public String home(@CookieValue(value = SSID, defaultValue = "") String ssid) {
-        return "dashboard";
-        /*if(ssid.length() == 0) return "redirect:/login";
-        else return "redirect:/dashboard";*/
+        if(ssid.length() == 0) return "index";
+        else return "redirect:/dashboard";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-
-        return "";
+    @GetMapping("/{path:[^\\.]*}")
+    public String handleGeneralPage() {
+        return "index";
     }
 
     @PostMapping(value = {"/loginUser"}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -72,23 +58,6 @@ public class LoginController {
     }
 
 
-    @GetMapping("/{filename:.+}")
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        Path file = Paths.get(BASE_PATH + filename);
 
-        Resource resource = new FileSystemResource(file);
 
-        String contentType = determineContentType(filename);
-
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);
-    }
-
-    private String determineContentType(String filename) {
-        if (filename.endsWith(".js")) {
-            return "application/javascript";
-        } else if (filename.endsWith(".css")) {
-            return "text/css";
-        } // Add more as necessary
-        return "application/octet-stream";
-    }
 }

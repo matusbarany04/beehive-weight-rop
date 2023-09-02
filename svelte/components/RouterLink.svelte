@@ -8,6 +8,6 @@
 </script>
 
 
-<a class="text-confirm-500" href="/web/dashboard/{url}" on:click|preventDefault={changeRoute}>
+<a class="text-confirm-500" href="{url}" on:click|preventDefault={changeRoute}>
   <slot></slot>
 </a>

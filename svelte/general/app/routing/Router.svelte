@@ -2,16 +2,22 @@
   import { route, navigate } from '../../../components/route.serv';
   import Login from "../../pages/Login.svelte";
   import Notfound from "../../../dashboard/app/pages/Notfound.svelte";
+  import Home from "../../pages/Home.svelte";
   
   let value = Notfound;
+  
 
-  const BASE_PATH = "/web";
 
   route.subscribe(val => {
     switch(val) {
-      case BASE_PATH + '/login':
+      case '/':
+        value = Home;
+        break;
+        
+      case '/login':
         value = Login;
         break;
+
       default:
         value = Notfound;
     }

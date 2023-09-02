@@ -14,7 +14,7 @@ const dashboardConfig =  {
     sourcemap: true,
     format: 'iife',
     name: 'app',
-    file: '../src/main/resources/public/bundle.js'
+    file: '../src/main/resources/bundle/bundle.js'
   },
   plugins: [
     postcss({
@@ -46,7 +46,7 @@ const indexConfig =  {
     sourcemap: true,
     format: 'iife',
     name: 'app',
-    file: '../src/main/resources/public/indexBundle.js'
+    file: '../src/main/resources/bundle/indexBundle.js'
   },
   plugins: [
     postcss({
