@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,15 +17,9 @@ public class FrontendController {
     private final String BUNDLE_PATH = "src/main/resources/bundle/";
 
     @GetMapping("/dashboard/{path:[^\\.]*}")
-    public String handleAllPaths() {
+    public String handleDashboardPaths(@PathVariable String path) {
         return "dashboard";
     }
-
-    @GetMapping("")
-    public String handleIndexDashboard() {
-        return "index";
-    }
-
 
     @GetMapping("/dashboard")
     public String handleDashboardHome() {
@@ -42,7 +35,6 @@ public class FrontendController {
 
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);
     }
-
 
     private String determineContentType(String filename) {
         if (filename.endsWith(".js")) {
