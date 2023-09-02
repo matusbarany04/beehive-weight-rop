@@ -4,6 +4,8 @@
   import Notfound from "../../../dashboard/app/pages/Notfound.svelte";
   import Home from "../../pages/Home.svelte";
   import TestGeneralSite from "../../pages/TestGeneralSite.svelte";
+  import Register from "../../pages/Register.svelte";
+  import AccountCreated from "../../pages/AccountCreated.svelte";
   let value = Notfound;
 
   route.subscribe(val => {
@@ -13,6 +15,12 @@
         break;
       case '/login':
         value = Login;
+        break;
+      case '/register':
+        value = Register;
+        break;
+      case '/accountCreated':
+        value = AccountCreated;
         break;
       case '/test':
         value = TestGeneralSite;

@@ -35,6 +35,6 @@
     navigate(event.currentTarget.getAttribute('href'));
   }
 </script>
-<a class="text-slate-500 text-xl" href="{!baseRoute ? currentPrefix : ''}{url}" on:click|preventDefault={changeRoute}>
+<a class="text-slate-500 underline" href="{!baseRoute ? currentPrefix : ''}{url}" on:click|preventDefault={changeRoute}>
   <slot></slot>
 </a>

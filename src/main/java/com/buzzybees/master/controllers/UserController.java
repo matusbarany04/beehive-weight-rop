@@ -102,66 +102,7 @@ public class UserController {
     }
 
     //http://localhost:8080/user/emailExists/admin@admin.com
-    @RequestMapping(value = "/user/emailExists/{email}", method = RequestMethod.GET)
-    public JSONObject getUserByEmail(@PathVariable("email") String email) {
-        JSONObject response = new JSONObject();
-        response.put("exists", userRepository.getUserByEmail(email) != null);
-        return response;
-    }
-   /*
-     curl -X POST \
-     -H "Content-Type: application/json" \
-     -d  '{
-        "name": "John Doe",
-        "email": "johndoe@example.com",
-        "password": "hardPassword123"
-      }' \
-      http://localhost:8080/register
-    */
 
-    /*curl -X POST -d "name=John Doe" -d "email=john@example" -d "password=hello" http://localhost:8080/register */
-
-    @PostMapping(value = {"/register"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String register(@RequestBody Map<String, String> data) {
-        String password = data.get("password");
-        String email = data.get("email");
-        String name = data.get("name");
-
-        JSONObject response = new JSONObject();
-
-        if (userRepository.getUserByEmail(email) != null) {
-            response.put("status", "exists");
-            return response.toString();
-        }
-
-        User person = new User();
-        person.setEmail(email);
-        person.setName(name);
-
-        try {
-            person.setPassword(password);
-            userRepository.save(person);
-            long id = userRepository.getUserByEmail(email).id;
-            Mailer.sendVerification(email, id);
-
-            response.put("status", "ok");
-            return response.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            response.put("status", "failed");
-        }
-
-        return response.toString();
-    }
-
-    @PostMapping(value = {"/logout"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String logout(@RequestBody Map<String, String> data) {
-        UserService.logoutUser(data.get("token"));
-
-        JSONObject response = new JSONObject();
-        response.put("status", "ok");
-        return response.toString();
-    }
 
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/testing/{id}")
@@ -197,7 +138,7 @@ public class UserController {
 
     @GetMapping("/sendMail")
     public String send() {
-        Mailer.sendVerification("mbelej100@gmail.com", 1152);
+        Mailer.sendVerification("lofera5830@wlmycn.com", 1152);
         return "OK";
     }
 

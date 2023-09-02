@@ -91,6 +91,7 @@ public class User {
 
     @Override
     public String toString() {
+        System.out.println(password);
         return String.format("name = %s, id = %d, type = %s, email = %s", name, id, type, email);
     }
 

@@ -11,24 +11,16 @@ import com.buzzybees.master.tables.Status;
 import com.buzzybees.master.tables.User;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.users.UserService;
-import io.lettuce.core.dynamic.annotation.Param;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import org.aspectj.weaver.ast.Not;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.http.MediaType;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -63,7 +55,7 @@ public class DashboardController {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 System.out.println(cookie.getName() + " " + cookie.getValue());
-                if (cookie.getName().equals(LoginController.SSID)) {
+                if (cookie.getName().equals(AuthController.SSID)) {
                     currentUserId = UserService.getUserIdByToken(cookie.getValue());
                     return;
                 }

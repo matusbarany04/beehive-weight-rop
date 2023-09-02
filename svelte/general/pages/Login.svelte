@@ -1,5 +1,6 @@
 <script>
   
+import RouterLink from "../../components/RouterLink.svelte";
 </script>
 
 <div class="relative bg-primary v-screen h-screen bg-primary-500">
@@ -8,10 +9,10 @@
     <img class="absolute w-1/3 left-[10%] bottom-20 p-5 max-h-[80vh] align-bottom" src="../img/beehive2.svg"/>
   </div>
   <div class="absolute w-1/2 min-w-[40rem] h-screen flex right-0 justify-center items-center">
-    <div class="p-8 rounded-xl bg-white box-border w-9/12 h-max flex-col space-y-5">
+    <div class="p-8 rounded-xl bg-tertiary-100 box-border w-9/12 h-max flex-col space-y-5">
       <h1 class="header font-bold text-6xl">Prihlásiť sa.</h1>
       <p class="alternative">
-        Nemáte účet? Vytvoriť si ho môžete <a href="register"> tu </a>
+        Nemáte účet? Vytvoriť si ho môžete <RouterLink url="/register">tu</RouterLink>
       </p>
 
       <form class="flex-col space-y-4" action="/loginUser" method="POST">
