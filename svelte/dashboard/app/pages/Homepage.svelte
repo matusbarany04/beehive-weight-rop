@@ -23,5 +23,3 @@ Number: {counter}
 
 <TestComponent></TestComponent>
 <GetList/>
-
-536894
