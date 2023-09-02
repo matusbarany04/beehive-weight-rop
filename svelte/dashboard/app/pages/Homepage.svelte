@@ -1,12 +1,22 @@
 <script>
   import GetList from '../component/GetList.svelte'
   import TestComponent from "../../../components/TestComponent.svelte";
-  import {IconHeart} from '@tabler/icons-svelte';
+  import Button from "../../../components/Button.svelte";
 
   let counter = 0;
 
   function click() {
     counter++;
+  }
+  
+  function logout() {
+    fetch("/logoutUser", {method: "POST"})
+      .then(response => response.json())
+      .then(response => {
+        if(response.status === "ok") {
+          location.href = "/login";
+        }
+      });
   }
 </script>
 
@@ -18,10 +28,8 @@
 </div>
 
 
-<button on:click={click}>Increase</button>
-Number: {counter}
+<Button onClick={logout} text="Log Out"/>
+
 
 <TestComponent></TestComponent>
 <GetList/>
-
-536894

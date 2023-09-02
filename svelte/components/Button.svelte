@@ -1,7 +1,4 @@
 <script>
-  import RouterLink from "./RouterLink.svelte";
-
-  import "./styles.css";
   /**
    * @param {string} text text of the button
    */
@@ -31,8 +28,8 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <button
-  type={clickType}
+  <button 
+    type={clickType}
   on:click={() => {
     onClick();
     if (link) {
@@ -44,14 +41,14 @@
   {#if image}
     <div
       class="image"
-      style="mask-image: url(/{image}); -webkit-mask-image: url(/{image}); "
-    />
+      style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "></div>
   {/if}
   <p class="text text-ellipsis no_wrap whitespace-nowrap">
     {text}
   </p>
+    
+  </button>
 
-<RouterLink>
 <style>
   .image {
     mask-size: 100%;
