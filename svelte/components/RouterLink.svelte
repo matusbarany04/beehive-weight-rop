@@ -13,6 +13,14 @@
    */
   export let url;
 
+  /**
+   * Determines if navigation should force a page reload.
+   *
+   * @type {Boolean}
+   * @default false
+   */
+  export let reload = false;
+
 
   /**
    * Determines if the dynamic prefix should be bypassed.
@@ -32,9 +40,14 @@
   
   
   function changeRoute(event) {
-    navigate(event.currentTarget.getAttribute('href'));
+    if(!reload){
+      navigate(event.currentTarget.getAttribute('href'));
+    }else {
+      window.location.href = event.currentTarget.getAttribute('href');
+    }
   }
+  
 </script>
-<a class="text-slate-500 underline" href="{!baseRoute ? currentPrefix : ''}{url}" on:click|preventDefault={changeRoute}>
+<a class="text-slate-500" href="{!baseRoute ? currentPrefix : ''}{url}" on:click|preventDefault={changeRoute}>
   <slot></slot>
 </a>

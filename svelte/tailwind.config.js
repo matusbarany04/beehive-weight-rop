@@ -3,7 +3,7 @@
 const colors = require("tailwindcss/colors");
 
 export default {
-  content: ["./general/**/*.{html,js,svelte,ts}", "./dashboard/**/*.{html,js,svelte,ts}", "./svelte/components/**/*.{html,js,svelte,ts}"],
+  content: ["./general/**/*.{html,js,svelte,ts}", "./dashboard/**/*.{html,js,svelte,ts}", "./components/**/*.{html,js,svelte,ts}"],
   theme: {
     colors: {
       transparent: "transparent",

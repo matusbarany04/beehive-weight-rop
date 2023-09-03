@@ -60,7 +60,7 @@ async function validateForm() {
             
         <div><label for="confirm_password">Potvrď heslo:</label></div>
         <input class="w-full h-10 rounded-md bg-white px-5" type="password" name="confirm_password"
-               id="confirm_password" placeholder="Potvrď heslo" on:keydown={checkPassword} bind:value={form.confirmPasswd} required/>
+               id="confirm_password" placeholder="Potvrď heslo" on:keydown={validateForm} bind:value={form.confirmPasswd} required/>
 
         {#if fieldsError.password !== undefined}
           <div class="zero">
