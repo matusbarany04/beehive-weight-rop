@@ -1,4 +1,7 @@
 <script>
+  import {navigateWithPrefix} from "../route.serv";
+  import 'style.css';
+
   /**
    * @param {string} text text of the button
    */
@@ -16,10 +19,6 @@
    */
   export let link;
   /**
-   * @param {string} type button type when in forms
-   */
-  export let clickType = "none";
-  /**
    * @param {function} onClick function when the button is clicked
    */
   export let onClick = () => {
@@ -28,53 +27,40 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <button 
-    type={clickType}
+<span
   on:click={() => {
     onClick();
     if (link) {
-      goto(link);
+      navigateWithPrefix(link);
     }
   }}
-  class={"root " + type}
+  class={"root flex rounded-lg px-2 h-min " + type}
 >
   {#if image}
     <div
-      class="image"
-      style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "></div>
+      class="image mr-1.5"
+      style="mask-image: url(/{image}); -webkit-mask-image: url(/{image}); "
+    />
   {/if}
-  <p class="text text-ellipsis no_wrap whitespace-nowrap">
+
+  <p class="text text-ellipsis no_wrap whitespace-nowrap text-sm">
     {text}
   </p>
-    
-  </button>
+</span>
 
 <style>
   .image {
     mask-size: 100%;
     height: 20px;
-    mask-repeat: no-repeat;
-    mask-position: center;
     aspect-ratio: 1/1;
     background-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
     background-repeat: no-repeat;
     -webkit-mask-size: 100%;
     mask-size: 100%;
     /* background: black; */
     background-color: var(--icon-color, black);
-  }
-  .root {
-    padding: 1.05rem 1rem;
-    height: 1.5rem;
-    border-radius: 10px;
-    display: flex;
-    width: min-content;
-    align-items: center;
-    justify-content: center;
-    transition-duration: 100ms;
-    cursor: pointer;
-    gap: 0.5rem;
-    /* background-color: var(--color-secondary); */
   }
 
   .text {

@@ -1,7 +1,7 @@
 <script>
   import GetList from '../component/GetList.svelte'
   import TestComponent from "../../../components/TestComponent.svelte";
-  import Button from "../../../components/Button.svelte";
+  import Button from "../../../components/Buttons/Button.svelte";
 
   let counter = 0;
 
@@ -28,7 +28,7 @@
 </div>
 
 
-<Button onClick={logout} text="Log Out"/>
+<Button onClick={logout}  type="secondary" text="LogOut"/>
 
 
 <TestComponent></TestComponent>
