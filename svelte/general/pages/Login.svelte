@@ -1,6 +1,9 @@
 <script>
   
 import RouterLink from "../../components/RouterLink.svelte";
+const urlParams = new URLSearchParams(window.location.search);
+const invalid = urlParams.get("invalid");
+
 </script>
 
 <div class="relative bg-primary v-screen h-screen bg-primary-500">
@@ -12,18 +15,22 @@ import RouterLink from "../../components/RouterLink.svelte";
     <div class="p-8 rounded-xl bg-tertiary-100 box-border w-9/12 h-max flex-col space-y-5">
       <h1 class="header font-bold text-6xl">Prihlásiť sa.</h1>
       <p class="alternative">
-        Nemáte účet? Vytvoriť si ho môžete <RouterLink url="/register">tu</RouterLink>
+        Nemáte účet? Vytvoriť si ho môžete rgfghfghbggb <RouterLink url="/register">tu</RouterLink>
       </p>
+
+      {#if invalid}
+        <div class="text-error">Neplatný email alebo heslo !</div>
+      {/if}
 
       <form class="flex-col space-y-4" action="/loginUser" method="POST">
 
         <div><label for="email">Email:</label></div>
 
-        <input class="w-full h-10 rounded-md bg-white px-5" type="text" name="email" id="email" placeholder="Email"/>
+        <input class="w-full h-10 rounded-md bg-white px-5" type="text" name="email" id="email" placeholder="Email" required/>
 
         <div><label for="password">Heslo:</label></div>
 
-        <input class="w-full h-10 rounded-md bg-white px-5" type="password" name="password" id="password" placeholder="Heslo"/>
+        <input class="w-full h-10 rounded-md bg-white px-5" type="password" name="password" id="password" placeholder="Heslo" required/>
 
         <button type="submit" class="w-full duration-100 mt-8 font-bold text-xl bg-secondary-400 p-2 rounded-xl hover:scale-[1.01] active:scale-[.99]">Príhlásiť sa</button>
       </form>

@@ -24,7 +24,7 @@ public class Mailer {
     public static final String ADDRESS = "noreply@dismounted.tech";
     public static final String HOST = "dismounted.tech";
     public static final String USERNAME = "root";
-    public static final String PASSWORD = "admin";
+    public static final String PASSWORD = "vcelicky#258";
 
     public static final String BACKEND_HOST = "http://localhost:5173";
 

@@ -58,7 +58,7 @@ public class AuthController {
             e.printStackTrace();
         }
 
-        return "redirect:/login";
+        return "redirect:/login?invalid=true";
     }
 
     @PostMapping(value = "/logoutUser", produces = MediaType.APPLICATION_JSON_VALUE)

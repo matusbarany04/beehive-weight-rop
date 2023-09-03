@@ -9,6 +9,29 @@
 
 <body>
 <div id="app"></div>
-    <script src='../bundle/indexBundle.js'></script>
+<script id="js" src='../bundle/indexBundle.js'></script>
+
+<script>
+  /*  let js, first = true;
+
+    setInterval(() => {
+        fetch("../bundle/indexBundle.js").then(r => r.text()).then(content => {
+            console.log(js !== content);
+            if (js !== content) {
+                if(!first) {
+                    document.body.removeChild(document.getElementById("app"));
+                    document.body.removeChild(document.getElementById("js"));
+                    let script = document.createElement("script");
+                    script.src = "../bundle/indexBundle.js";
+                    script.id = "js";
+                    document.body.appendChild(script);
+                }
+                js = content;
+                first = false;
+            }
+        });
+    }, 1000);*/
+</script>
+
 </body>
 </html>
