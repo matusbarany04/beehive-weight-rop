@@ -1,0 +1,3 @@
+po zmeneni domeny treba zmenit hostname servera a upravit subory /etc/postfix/main.cf, /etc/postfix/password, /etc/opendkim.conf, /etc/opendkim/TrustedHosts, /etc/opendkim/KeyTable, /etc/opendkim/SigningTable
+do domeny treba tiez pridat zaznamy mx a txt aby mailer fungoval spravne
+

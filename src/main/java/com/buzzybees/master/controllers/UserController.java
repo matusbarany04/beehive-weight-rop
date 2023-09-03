@@ -138,7 +138,7 @@ public class UserController {
 
     @GetMapping("/sendMail")
     public String send() {
-        Mailer.sendVerification("lofera5830@wlmycn.com", 1152);
+        Mailer.sendVerification("mbelej100@gmail.com", 1152);
         return "OK";
     }
 
