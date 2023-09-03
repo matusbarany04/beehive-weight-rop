@@ -27,7 +27,7 @@ async function validateForm() {
   fieldsError.password = form.confirmPasswd !== form.password ? "Heslá sa nezhodujú !" : undefined;
 }
 
-function checkPassword() {
+function checkPassword(e, password) {
   let confirmPasswd = e.target.value + e.key;
   console.log(password, confirmPasswd);
   fieldsError.password = confirmPasswd !== password ? "Heslá sa nezhodujú !" : undefined;
@@ -61,7 +61,7 @@ function showError() {
         {/if} 
         <div><label for="email">Email:</label></div>
           <input class="w-full h-10 rounded-md bg-white px-5 {fieldsError.email ? 'border-solid border-2 border-error' : ''}" 
-                 type="email" name="email" placeholder="Email address" id="email" on:keydown={validateForm} on:focusout={validateForm} bind:value={form.email}required/>
+                 type="email" name="email" placeholder="Email address" id="email" on:keydown={validateForm} on:focusout={validateForm} bind:value={form.email} required/>
 
         <div><label for="name">First name:</label></div>
         <input class="w-full h-10 rounded-md bg-white px-5" type="text" name="name" placeholder="Name" id="name" required/>
