@@ -6,6 +6,7 @@
   import Settings from "../pages/Settings.svelte";
   import DashLayout from "../layouts/DashLayout.svelte";
   import MainLayout from "../layouts/MainLayout.svelte";
+  import Calendar from "../pages/Calendar.svelte";
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
@@ -25,6 +26,10 @@
       case BASE_PATH +  '/settings':
       case BASE_PATH +  '/settings/':
         value = Settings;
+        break;
+      case BASE_PATH +  '/calendar':
+      case BASE_PATH +  '/calendar/':
+        value = Calendar;
         break;
       default:
         value = Notfound;
