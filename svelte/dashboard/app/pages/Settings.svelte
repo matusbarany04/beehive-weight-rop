@@ -14,9 +14,5 @@
     <title>Analytika</title>
     <meta name="Analytika" content="Analytika" />
 </svelte:head>
-<MainLayout>
-    <DashLayout>
-   settings
-    </DashLayout>
 
-</MainLayout>
+<p>Settings </p>

@@ -1,117 +1,93 @@
 <script>
-    // import { page } from "$app/stores";
-
+    import RouterLink from "../../../RouterLink.svelte";
+    import {route} from "../../../route.serv";
+    
+    /**
+     * Display text for the panel item.
+     *
+     * @type {String}
+     */
     export let text;
+
+    /**
+     * Path for the icon of the panel item.
+     *
+     * @type {String}
+     */
     export let svg;
+
+    /**
+     * URL for the navigation.
+     *
+     * @type {String|null}
+     * @default null
+     */
     export let link = null;
+
+    /**
+     * Indicates if the link is external to the SPA.
+     *
+     * @type {Boolean}
+     * @default false
+     */
+    export let foreignLink = false;
+
+    /**
+     * Determines if the current panel item is selected.
+     *
+     * @type {Boolean}
+     */
     export let selected = false;
+
+    /**
+     * Indicates if the sidebar or panel is in a collapsed state.
+     *
+     * @type {Boolean}
+     */
     export let collapsed = false;
-    let inner_selected = false;
     
-    function getPath(currentPath) {
+    
+    let isLinkActive = false;
+
+  
+    route.subscribe(val => {
         if (selected != null) {
-            inner_selected = currentPath == link;
+            isLinkActive = val === link;
         }
-    }
+    });
     
-     $: getPath(window.location.pathname);
 </script>
-<!--  position: absolute;
-        width: 15px;
-        left: -10px;
-        min-height: 80%;
-        border-radius: 1000rem;
-        background-color: var(--color-secondary); -->
-<a class={"cont group"} href={link}>
-    {#if inner_selected}
-        <div class="w-4 absolute -left-2 h-5/6 bg-secondary-500 rounded-full"  />
-    {/if}
 
-    <div class={"imageIcon collapsed"}>
-        <div
-            class={(inner_selected ? "selected" : "unselected") +
-                " overlay smh "}
-            style="mask-image: url(/{svg}); -webkit-mask-image: url(/{svg}); "
-        />
+<RouterLink baseRoute="true" url={link} reload={foreignLink}>
+    <div class=" w-full h-12 relative flex items-center cursor-pointer" >
+        {#if isLinkActive}
+            <div class="w-4 absolute -left-2 h-4/6 bg-secondary-500 rounded-full"/>
+        {/if}
+        <div class="hover:bg-primary-900 flex-1 flex gap-4 m-4 items-center justify-items-center p-1.5 border-box rounded-xl">
+
+            <div class="transition-all duration-300 ease-in relative ml-2  w-4 h-4 isolation-isolate ">
+                <div class={(isLinkActive ? "bg-secondary-500" : "bg-tertiary-100") +
+                " overlay"} style="mask-image: url(/{svg}); -webkit-mask-image: url(/{svg}); "
+                />
+            </div>
+
+            <p class={"font-normal delay-200 visible opacity-100 transition-opacity group-hover:text-secondary-500 "
+           + (isLinkActive ? " text-secondary-500" : "text-tertiary-100")}>
+                {text}
+            </p>
+        </div>
     </div>
-
-    <!-- in:fly={{delay: 100, duration: 5000 ,x: -50}}
-           out:fly={{duration: 5000 ,x: 50}} -->
-    <!-- {#if !collapsed} -->
-    <p class={"font-normal text-tertiary-100 media_hidden delay-200 visible opacity-100 transition-opacity group-hover:text-secondary-500 " + (inner_selected ? " selectedtext" : "")}>
-        {text}
-    </p>
-    <!-- {/if} -->
-</a>
+</RouterLink>
 
 <style lang="scss">
-  .cont {
-    height: 3rem;
-    display: block;
-
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-  }
-  .media_hidden {
-    @media (max-width: 1200px) {
-      visibility: hidden;
-      opacity: 0;
-      transition-delay: 200ms;
-      transition: opacity 0.3s, visibility 0.3s;
-    }
-  }
-  .imageIcon {
-    transition: all 300ms ease;
-    margin-left: 50px;
-
-    isolation: isolate;
-    -webkit-isolation: isolate;
-    position: relative;
-    width: 20px;
-    height: 20px;
-  }
-
-  .collapsed {
-    /* // padding: 0px;
-    // display: flex;
-
-    // margin-left: 5px; */
-
-    @media (max-width: 1200px) {
-      margin-left: calc(calc(3rem - 20px) / 2);
-      transition: all 300ms ease;
-    }
-  }
 
   .overlay {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     background-size: cover;
-    /* // -webkit-mask-mode: alpha; */
     -webkit-mask-size: 100%;
     mask-size: 100%;
-    /* // mask-mode: alpha; */
   }
 
-  .selected {
-    background: var(--color-secondary);
-  }
-  .unselected {
-    background: var(--color-text-dark);
-  }
-  .selectedtext {
-    color: var(--color-secondary);
-  }
-
-  .cont:hover > .text {
-    color: var(--color-secondary);
-  }
-
-  .cont:hover .smh {
-    background: var(--color-secondary) !important;
-  }
 </style>

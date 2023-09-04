@@ -1,47 +1,52 @@
 <script>
-    import {tweened} from "svelte/motion";
-    import {quartInOut} from "svelte/easing";
+    let visible = true;
+    let absolute = true;
+    let screenWidth = 9999;
 
-    // let screenSize;
-    // let collapsed = screenSize < 1200;
-    //
-    // const getWidth = (collapsed) => {
-    //     // in rem
-    //     return collapsed ? 3 : 17; // hardocded in panel item  !!
-    // };
-    //
-    // const width = tweened(getWidth(collapsed), {
-    //     duration: 300,
-    //     easing: quartInOut,
-    // });
+    function toggleVisibility() {
+        visible = !visible;
+    }
 
-    // onMount(() => {
-    //     const mediaQuery = window.matchMedia("(max-width: 1200px)");
-    //     collapsed = mediaQuery.matches;
-    //     width.set(getWidth(collapsed));
+    let previousWidth = window.innerWidth;
+    $: {
+        if (screenWidth < 1024 && previousWidth >= 1024) {
+            visible = false;
+        }
+        previousWidth = screenWidth;
+    }
 
-    //     mediaQuery.addEventListener("change", function (e) {
-    //         collapsed = mediaQuery.matches;
-    //         width.set(getWidth(collapsed));
-    //     });
-    // });
 </script>
-<!--<svelte:window bind:innerWidth="{screenSize}"/>-->
-<!-- style:width={$width + "rem"} -->
-<!--<div class="panel h-screen max-h-screen -->
-<!--relative bg-primary-500 flex flex-col duration-300  ease-in-out transition-all w-96 sm:w-8">-->
-<!--&lt;!&ndash;    <slot></slot>&ndash;&gt;-->
-<!--</div>-->
 
-<div class="divv w-96 h-96 bg-primary-500"></div>
 <style>
-    /*.panel {*/
-    /*    width: 17rem;*/
-    /*}*/
-     .divv{
-         width: 17rem;
-         height: 17rem;
-     }
+    .animate-width {
+        transition: width 0.3s ease;
+    }
 </style>
 
+<svelte:window bind:innerWidth="{screenWidth}"/>
 
+<div class="relative">
+    <section
+            class="overflow-x-hidden flhttp://localhost:8080/dashboardex flex-col h-screen bg-primary-100 absolute lg:relative animate-width {(visible ? 'w-56' : 'w-0')}"
+    >
+        <button
+                class="p-1 absolute rounded-full transition-all duration-100 bg-secondary-500 right-2 top-4"
+                on:click={toggleVisibility}>
+            <div
+                    class="m-auto bg-contain bg-no-repeat w-4 h-4"
+                    style="background-image: url(/icons/caret-left-fill.svg)"></div>
+        </button>
+        <slot></slot>
+    </section>
+</div>
+{#if !visible}
+    <button
+            class="p-2 absolute rounded-full transition-all duration-100 bg-primary-100 hover:bg-secondary-500 left-4 top-4"
+            on:click={toggleVisibility}
+    >
+        <div
+                class="m-auto bg-contain bg-no-repeat w-4 h-4"
+                style="background-image: url(/icons/dashboard.svg)"
+        ></div>
+    </button>
+{/if}

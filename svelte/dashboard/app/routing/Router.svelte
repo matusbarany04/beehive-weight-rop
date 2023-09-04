@@ -3,11 +3,15 @@
   import Homepage from '../pages/Homepage.svelte';
   import Notfound from '../pages/Notfound.svelte';
   import Help from '../pages/Help.svelte';
+  import Settings from "../pages/Settings.svelte";
+  import DashLayout from "../layouts/DashLayout.svelte";
+  import MainLayout from "../layouts/MainLayout.svelte";
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
 
   route.subscribe(val => {
+    console.log(val)
     switch(val) {
       case BASE_PATH + '/':
       case BASE_PATH + '':
@@ -18,12 +22,18 @@
       case BASE_PATH +  '/help/':
         value = Help;
         break;
+      case BASE_PATH +  '/settings':
+      case BASE_PATH +  '/settings/':
+        value = Settings;
+        break;
       default:
         value = Notfound;
     }
   });
 </script>
 
-<main>
-  <svelte:component this={value}/>
-</main>
+<MainLayout>
+  <DashLayout>
+    <svelte:component this={value}/>
+  </DashLayout>
+</MainLayout>

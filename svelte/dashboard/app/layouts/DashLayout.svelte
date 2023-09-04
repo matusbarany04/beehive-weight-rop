@@ -1,5 +1,6 @@
 <script>
     import Panel from "../../../components/components/dashboard/panel/Panel.svelte";
+    import PanelRoot from "../../../components/components/dashboard/panel/PanelRoot.svelte";
 
 
     export let data;
@@ -9,12 +10,12 @@
 
 </script>
 
-<main class="w-full max-h-screen flex flex-1 box-border">
-    <Panel />
-    <div class="bg-tertiary-100 flex-1 min-h-screen overflow-y-scroll px-8">
+<main class="w-full min-h-screen flex flex-1 box-border ">
+    <Panel></Panel>
+    <div class="bg-tertiary-100  flex-1 min-h-screen overflow-y-scroll px-8">
         <header class="h-16 flex align-middle">
             {#if !loading}
-<!--                <h1 class="text-3xl my-auto font-bold">{$message}</h1>-->
+                <!--                <h1 class="text-3xl my-auto font-bold">{$message}</h1>-->
             {:else}
                 <h1 class="text-3xl my-auto font-bold">Načítavam...</h1>
             {/if}
