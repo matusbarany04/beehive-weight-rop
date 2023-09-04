@@ -1,22 +1,22 @@
-.primary {
-  /* background-color: var(--color-secondary); */
-  @apply bg-secondary-500;
-  --icon-color: black;
-}
+/*.primary {*/
+/*  !* background-color: var(--color-secondary); *!*/
+/*  @apply bg-secondary-500;*/
+/*  --icon-color: black;*/
+/*}*/
 
-.secondary {
-  --icon-color: black;
-  background-color: white;
-  outline: 2px solid #cfd2d6;
-}
+/*.secondary {*/
+/*  --icon-color: black;*/
+/*  background-color: white;*/
+/*  outline: 2px solid #cfd2d6;*/
+/*}*/
 
-.confirm {
-  /* background-color: var(--color-accept); */
-  @apply bg-confirm-600;
-}
+/*.confirm {*/
+/*  !* background-color: var(--color-accept); *!*/
+/*  @apply bg-confirm-600;*/
+/*}*/
 
-.error {
-  --icon-color: white;
-  /* background-color: var(--color-accept); */
-  @apply bg-error-500;
-}
+/*.error {*/
+/*  --icon-color: white;*/
+/*  !* background-color: var(--color-accept); *!*/
+/*  @apply bg-error-500;*/
+/*}*/

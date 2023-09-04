@@ -27,8 +27,7 @@
       navigateWithPrefix(link);
     }
   }}
-  class={"h-8 w-8 aspect-square cursor-pointer flex items-center justify-center rounded-full duration-100 hover:scale-105 active:scale-95 " +
-    type}
+  class="h-8 w-8 aspect-square cursor-pointer flex items-center justify-center rounded-full duration-100 hover:scale-105 active:scale-95 btn-{type}" 
 >
   {#if image}
     <div
@@ -44,4 +43,6 @@
     -webkit-mask-size: 100%;
     mask-size: 100%;
   }
+  
+  
 </style>

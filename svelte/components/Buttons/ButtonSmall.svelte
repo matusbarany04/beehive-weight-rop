@@ -27,14 +27,14 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<span
+<div
   on:click={() => {
     onClick();
     if (link) {
       navigateWithPrefix(link);
     }
   }}
-  class={"root flex rounded-lg px-2 h-min " + type}
+  class="root w-min flex rounded-lg px-2 h-min btn-{type}"
 >
   {#if image}
     <div
@@ -46,7 +46,7 @@
   <p class="text text-ellipsis no_wrap whitespace-nowrap text-sm">
     {text}
   </p>
-</span>
+</div>
 
 <style>
   .image {
@@ -58,16 +58,14 @@
     mask-position: center;
     background-repeat: no-repeat;
     -webkit-mask-size: 100%;
-    mask-size: 100%;
-    /* background: black; */
     background-color: var(--icon-color, black);
   }
 
+
   .text {
-    /* font-size: 1rem; */
-    /* padding: 0; */
-    /* margin: 0; */
+    color: var(--icon-color, black);
   }
+  
   .root:hover {
     transform: scale(1.02);
   }

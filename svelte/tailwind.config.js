@@ -4,6 +4,13 @@ const colors = require("tailwindcss/colors");
 
 export default {
   content: ["./general/**/*.{html,js,svelte,ts}", "./dashboard/**/*.{html,js,svelte,ts}", "./components/**/*.{html,js,svelte,ts}"],
+  safelist: [
+    'btn-primary',
+    'btn-secondary',
+    'btn-tertiary',
+    'btn-confirm',
+    'btn-error',
+  ],
   theme: {
     colors: {
       transparent: "transparent",
@@ -40,13 +47,44 @@ export default {
         500: "#939598",
       },
       confirm: colors.green,
-      error: "#ff0000",
+      error: "#c20b0b",
       // ...
     },
     extend: {},
   },
   plugins: [
-    function ({ addUtilities }) {
+    function ({ addUtilities ,theme}) {
+      const buttonUtilities = {
+        '.btn-primary': {
+          'background-color': theme('colors.primary.500'),
+          '--icon-color': 'white',
+          '--text-color': 'white',
+        },
+        '.btn-secondary': {
+          '--icon-color': 'black',
+          'background-color': theme('colors.secondary.500'),
+          'outline': '2px solid #cfd2d6',
+        },
+        '.btn-tertiary': {
+          '--icon-color': 'black',
+          '--text-color': 'black',
+          'background-color': theme('colors.tertiary.100'),
+          'outline': '1px solid ' + theme('colors.primary.100'),
+          
+        },
+
+        '.btn-confirm': {
+          'background-color': theme('colors.confirm.500'),
+          '--icon-color': 'black',
+        },
+        '.btn-error': {
+          'background-color': theme('colors.error'),
+          '--text-color': 'white',
+          '--icon-color': 'white',
+        },
+      }
+      addUtilities(buttonUtilities);
+      
       const newUtilities = {
         '.isolation-isolate': {
           isolation: 'isolate',
