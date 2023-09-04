@@ -29,7 +29,7 @@ export const generateUUID = () => {
   });
 };
 
-/** nepouzivat priamo toto je len fallback */
+/** nepouzivat priamo toto je len fallback, volana iba z copyTextToClipboard*/
 function fallbackCopyTextToClipboard(text) {
   var textArea = document.createElement("textarea");
   textArea.value = text;
@@ -53,6 +53,7 @@ function fallbackCopyTextToClipboard(text) {
 
   document.body.removeChild(textArea);
 }
+
 /** only after component mount */
 export function copyTextToClipboard(text) {
   if (!navigator.clipboard) {
@@ -79,11 +80,13 @@ export const isValidEmail = (email) => {
     /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
   return EMAIL_REGEX.test(email.trim());
 };
+
 /**
  * Validates a strong password field
  * @file lib/utils/helpers/input.validation.ts
  * @param {string} password - The password to validate
  */
+
 export const isValidPasswordStrong = (password) => {
   const strongRegex = new RegExp(
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})",
@@ -91,6 +94,7 @@ export const isValidPasswordStrong = (password) => {
 
   return strongRegex.test(password.trim());
 };
+
 /**
  * Validates a medium password field
  * @file lib/utils/helpers/input.validation.ts
@@ -104,6 +108,19 @@ export const isValidPasswordMedium = (password) => {
   return mediumRegex.test(password.trim());
 };
 
+/**
+ * Determines if an object (often a form object) is empty.
+ *
+ * @param {Object} obj - Object to check.
+ * @returns {boolean} - True if the object has no properties, false otherwise.
+ *
+ * @example
+ * const formData = {
+ *   name: 'John',
+ *   age: 25
+ * };
+ * console.log(isEmpty(formData));  // Outputs: false
+ */
 export function isEmpty(obj) {
   for (const _i in obj) {
     return false;
