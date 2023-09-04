@@ -1,7 +1,7 @@
 <script>
   import { route } from '../../../components/route.serv';
   import Login from "../../pages/Login.svelte";
-  import Notfound from "../../../dashboard/app/pages/Notfound.svelte";
+  import Notfound from "../../pages/Notfound.svelte";
   import Home from "../../pages/Home.svelte";
   import TestGeneralSite from "../../pages/TestGeneralSite.svelte";
   import Register from "../../pages/Register.svelte";
