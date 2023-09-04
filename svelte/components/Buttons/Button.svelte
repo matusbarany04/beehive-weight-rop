@@ -22,16 +22,19 @@
    */
   export let clickType = "none";
   /**
+   * @param {string} form to determine form
+   */
+  export let formId;
+  /**
    * @param {function} onClick function when the button is clicked
    */
   export let onClick = () => {
     console.log("Button action does not exist!");
   };
 </script>
-
-<!-- svelte-ignore a11y-click-events-have-key-events -->
 <button
         type={clickType}
+        form={formId}
         on:click={() => {
     onClick();
     if (link) {

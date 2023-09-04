@@ -48,7 +48,13 @@
 
     function saveReminder(e) {
         let formData = new FormData(e.target);
-        console.log(data.sessionid);
+        fetch("/dashboardApi/newReminder", {method: "POST", body: formData}).then(r => r.json())
+        .then(response => {
+          newReminder = false;
+          if(response.status === "ok") {
+            console.log(response);
+          }
+        })
     }
 
 </script>
@@ -114,17 +120,12 @@
 </div>
 
 <Modal bind:showModal={newReminder}>
-  <h2 slot="header" class="text-2xl font-bold">
-    {"Nová poznámka/primomienka"}
-  </h2>
+  <h2 slot="header" class="text-2xl font-bold">{"Nová poznámka/primomienka"}</h2>
 
-  <form
-    id="newReminder"
-    on:submit|preventDefault={saveReminder}
-    class="flex flex-col gap-4 my-4"
-  >
-    <Input label="Názov" placeholder="Názov" name="name" value=""/>
-
+  <form id="newReminder" on:submit|preventDefault={saveReminder} class="flex flex-col gap-4 my-4">
+    
+    <Input label="Názov" placeholder="Názov" name="name" value="" required="required"/>
+    
     <Input label="Poznámka" placeholder="Poznámka" name="details" value=""/>
 
     <label for="date">Dátum: </label>
@@ -133,11 +134,7 @@
       type="date"
       id="date"
       name="date"
-      value={new Date(
-        markedItem.getTime() - markedItem.getTimezoneOffset() * 60000,
-      )
-        .toISOString()
-        .split("T")[0]}
+      value={new Date(markedItem.getTime() - markedItem.getTimezoneOffset() * 60000).toISOString().split("T")[0]}
       pattern="[0-2][0-9]:[0-5][0-9]"
     />
 
@@ -161,18 +158,13 @@
         [1, "Email"],
       ]}
     />
-  </form>
-
-  <button form="newReminder">
+  </form>   
     <Button
+      formId="newReminder"
       slot="footer"
       type="confirm"
       autofocus
-      onClick={() => {
-       
-      }}
       clickType="submit"
       text="Uložiť a zatvoriť okno"
     />
-  </button>
 </Modal>
