@@ -7,7 +7,6 @@
   import Modal from "../../Modal.svelte";
   import Input from "../../Inputs/Input.svelte";
   import Button from "../../Buttons/Button.svelte";
-  import { invalidateAll } from "$app/navigation";
   import {
     isEmpty,
   } from "$lib/utils/static";

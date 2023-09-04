@@ -6,6 +6,7 @@
   export let value;
   export let small;
   export let name;
+  export let required;
 
   function typeAction(node) {
     node.type = type;
@@ -35,5 +36,6 @@
     use:typeAction
     {name}
     class="h-8 w-full sm:w-96 pl-4 mt-1 mb-2 rounded-md border-2 border-slate-300"
+    {required}
   />
 </div>

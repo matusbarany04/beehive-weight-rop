@@ -11,7 +11,7 @@
 </script>
 
 <main class="w-full min-h-screen flex flex-1 box-border ">
-    <Panel></Panel>
+  <Panel/>
     <div class="bg-tertiary-100  flex-1 min-h-screen overflow-y-scroll px-8">
         <header class="h-16 flex align-middle">
             {#if !loading}
