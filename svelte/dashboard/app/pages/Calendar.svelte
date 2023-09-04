@@ -26,17 +26,16 @@
     
     function showReminders() {
       for(let reminder of reminders) {
-        console.log(reminder);
-        let dateParts = reminder.date.split('-');
-        console.log(Date.parse(reminder.date).tp());
-        let index = getDayIndex(new Date(dateParts[0], dateParts[1], dateParts[2]));
+        let index = getDayIndex(new Date(reminder.date.replace(' ','T') + 'Z'));
         if(index !== -1) daysOfMonth[index].reminders.push(reminder);
+        console.log(index);
       }
     }
     
     function getDayIndex(day) {
       for(let i = 0; i < daysOfMonth.length; i++) {
-        if(daysOfMonth[i].date === day) return i;
+        console.log(day.getTime(), daysOfMonth[i].date.getTime());
+        if(daysOfMonth[i].date.getTime() === day.getTime()) return i;
       }
       
       return -1;

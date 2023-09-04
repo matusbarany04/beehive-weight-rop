@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -37,9 +38,61 @@ public class UserController {
         return users;
     }
 
+    @GetMapping("/byToken")
+    public String getUserByToken(@CookieValue(name = AuthController.SSID, defaultValue = "") String token) {
+        User user = userRepository.getUserById(UserService.getUserIdByToken(token));
+
+        JSONObject response = new JSONObject();
+        response.put("status", user != null ? "ok" : "ERR_INVALID_TOKEN");
+        if (user != null) response.put("user", user.toJSON());
+        return response.toString();
+    }
+
+    @CrossOrigin
+    @GetMapping(value = {"/verify"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String verifyEmail(@RequestParam("key") String secureKey) {
+        long id = Mailer.getUserId(secureKey);
+        if (id > 0) {
+            userRepository.verifyUser(id);
+            Mailer.invalidateSecureKey(id);
+        }
+
+        JSONObject response = new JSONObject();
+        response.put("status", id > 0 ? "ok" : "ERR_INVALID_USER");
+        response.put("userId", id);
+        return response.toString();
+    }
+
+    @PostMapping(value = "/user/updateSettings", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String updateSettings(@RequestBody Map<String, String> data) {
+        long userId = UserService.getUserIdByToken(data.get("token"));
+        User user = userRepository.getUserById(userId);
+        user.updateSettings(data.get("settings"));
+
+        JSONObject response = new JSONObject();
+        response.put("status", "ok");
+        return response.toString();
+    }
+
+    @GetMapping("/sendMail")
+    public String send() {
+        Mailer.sendVerification("mbelej100@gmail.com", 1152);
+        return "OK";
+    }
+
+    @GetMapping("/createNotification")
+    public String createNotification() {
+        String title = "Slabá batéria v úli číslo 1";
+        Notification notification = new Notification(Type.WARNING, 1352, title, "LOW_BATTERY", 26);
+        notification.sendByMail();
+        //notificationRepository.save(notification);
+        return "OK";
+    }
+
+
+    @Deprecated
     //@RequestMapping(value = "/getUser/token", method = RequestMethod.POST)
     @PostMapping(value = {"/getUser/token"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-
     public String autoLogin(@RequestBody Map<String, String> data) {
         User user = userRepository.getUserById(UserService.getUserIdByToken(data.get("token")));
 //        System.out.println("autoLogin");
@@ -95,17 +148,6 @@ public class UserController {
         return userRepository.getUserById(UserService.getUserIdByToken(token)) != null ? "ok" : "invalid";
     }
 
-
-    @GetMapping("/user/byToken/")
-    public String getUserByToken(@CookieValue(name = AuthController.SSID, defaultValue = "") String token) {
-        User user = userRepository.getUserById(UserService.getUserIdByToken(token));
-
-        JSONObject response = new JSONObject();
-        response.put("status", user != null ? "ok" : "ERR_INVALID_TOKEN");
-        if (user != null) response.put("user", user.toJSON());
-        return response.toString();
-    }
-
     //http://localhost:8080/user/emailExists/admin@admin.com
 
 
@@ -115,46 +157,6 @@ public class UserController {
         return "ok " + id;
     }
 
-    @CrossOrigin
-    @GetMapping(value = {"/verify"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String verifyEmail(@RequestParam("key") String secureKey) {
-        long id = Mailer.getUserId(secureKey);
-        if (id > 0) {
-            userRepository.verifyUser(id);
-            Mailer.invalidateSecureKey(id);
-        }
-
-        JSONObject response = new JSONObject();
-        response.put("status", id > 0 ? "ok" : "ERR_INVALID_USER");
-        response.put("userId", id);
-        return response.toString();
-    }
-
-    @PostMapping(value = "/user/updateSettings", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String updateSettings(@RequestBody Map<String, String> data) {
-        long userId = UserService.getUserIdByToken(data.get("token"));
-        User user = userRepository.getUserById(userId);
-        user.updateSettings(data.get("settings"));
-
-        JSONObject response = new JSONObject();
-        response.put("status", "ok");
-        return response.toString();
-    }
-
-    @GetMapping("/sendMail")
-    public String send() {
-        Mailer.sendVerification("mbelej100@gmail.com", 1152);
-        return "OK";
-    }
-
-    @GetMapping("/createNotification")
-    public String createNotification() {
-        String title = "Slabá batéria v úli číslo 1";
-        Notification notification = new Notification(Type.WARNING, 1352, title, "LOW_BATTERY", 26);
-        notification.sendByMail();
-        //notificationRepository.save(notification);
-        return "OK";
-    }
 
     public String getEmailByUserId(long id) {
         return userRepository.getEmail(id);
