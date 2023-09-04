@@ -53,7 +53,7 @@
           newReminder = false;
           console.log(newReminder)
           if(response.status === "ok") {
-            console.log(response);
+            
           }
         })
     }
@@ -125,7 +125,7 @@
 
   <form id="newReminder" on:submit|preventDefault={saveReminder} class="flex flex-col gap-4 my-4">
     
-    <Input label="Názov" placeholder="Názov" name="name" value="" required="required"/>
+    <Input label="Názov" placeholder="Názov" name="title" value="" required="required"/>
     
     <Input label="Poznámka" placeholder="Poznámka" name="details" value=""/>
 
@@ -144,7 +144,6 @@
       type="time"
       id="time"
       name="time"
-      step="3600"
       min="00:00"
       max="23:59"
       pattern="[0-2][0-9]:[0-5][0-9]"

@@ -22,7 +22,7 @@
 </div> -->
 <div>
   {#if label}
-    <label for="name" class="">{label}</label> <br />
+    <label for={name} class="">{label}</label> <br />
   {/if}
   {#if small}
     <small>{small}</small><br />
