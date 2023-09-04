@@ -1,5 +1,5 @@
 <script>
-    import TW_BREAKPOINTS from "../../../lib/utils/static";
+    import TW_BREAKPOINTS from "../../lib/utils/static";
 
     let visible = true;
     let absolute = true;

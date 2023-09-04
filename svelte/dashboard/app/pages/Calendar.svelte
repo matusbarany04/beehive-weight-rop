@@ -1,61 +1,62 @@
 <script>
-  import { onMount } from "svelte";
+    import { onMount } from "svelte";
 
-  import { message } from "$lib/utils/dashboard";
-  import { API_URL } from "$lib/utils/constants";
-  import { AUTH_POST, POST } from "$lib/utils/database";
-  import DayItem from "../../../../components/calendar/DayItem.svelte";
-  import Button from "../../../components/Buttons/Button.svelte";
-  import Input from "../../../../Inputs/Input.svelte";
-  import DropdownInput from "../../../../Inputs/DropdownInput.svelte";
+    // import { message } from "$lib/utils/dashboard";
+    // import { API_URL } from "$lib/utils/constants";
+    // import { AUTH_POST, POST } from "$lib/utils/database";
+    import DayItem from "../../../components/calendar/DayItem.svelte";
+    import Button from "../../../components/Buttons/Button.svelte";
+    import Modal from "../../../components/Modal.svelte";
+    import Input from "../../../components/Inputs/Input.svelte";
+    import DropdownInput from "../../../components/Inputs/DropdownInput.svelte";
+    
+    
+    export let data;
 
-  export let data;
+    onMount(() => {
+        message.set("Kalendár");
+    });
 
-  onMount(() => {
-    message.set("Kalendár");
-  });
+    let daysOfMonth = [];
+    let now = new Date();
+    now.setHours(0, 0, 0, 0);
+    let markedItem = now;
+    let newReminder = false;
 
-  let daysOfMonth = [];
-  let now = new Date();
-  now.setHours(0, 0, 0, 0);
-  let markedItem = now;
-  let newReminder = false;
-
-  updateCalendar();
-
-  function nextMonth() {
-    now.setMonth(now.getMonth() + 1);
     updateCalendar();
-  }
 
-  function previousMonth() {
-    now.setMonth(now.getMonth() - 1);
-    updateCalendar();
-  }
-
-  function updateCalendar() {
-    now = now;
-    let firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-    let lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-
-    firstDay.setDate(firstDay.getDate() - (firstDay.getDay() || 7) + 1);
-    lastDay.setDate(lastDay.getDate() + 7 - (lastDay.getDay() || 7));
-
-    console.log(firstDay);
-
-    let i, d;
-    for (d = firstDay, i = 0; d <= lastDay; d.setDate(d.getDate() + 1), i++) {
-      daysOfMonth[i] = new Date(d);
+    function nextMonth() {
+        now.setMonth(now.getMonth() + 1);
+        updateCalendar();
     }
 
-    daysOfMonth.splice(i);
-  }
+    function previousMonth() {
+        now.setMonth(now.getMonth() - 1);
+        updateCalendar();
+    }
 
-  function saveReminder(e) {
-    let formData = new FormData(e.target);
-    console.log(data.sessionid);
-    AUTH_POST(API_URL + "dashboard/newReminder", formData, data.sessionid);
-  }
+    function updateCalendar() {
+        now = now;
+        let firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+        let lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+        firstDay.setDate(firstDay.getDate() - (firstDay.getDay() || 7) + 1);
+        lastDay.setDate(lastDay.getDate() + 7 - (lastDay.getDay() || 7));
+
+        console.log(firstDay);
+
+        let i, d;
+        for (d = firstDay, i = 0; d <= lastDay; d.setDate(d.getDate() + 1), i++) {
+            daysOfMonth[i] = new Date(d);
+        }
+
+        daysOfMonth.splice(i);
+    }
+
+    function saveReminder(e) {
+        let formData = new FormData(e.target);
+        console.log(data.sessionid);
+    }
 
 </script>
 
@@ -111,10 +112,10 @@
     {#each daysOfMonth as day}
       <DayItem
         date={day}
-        active={day.getMonth() == now.getMonth()}
-        marked={markedItem.getTime() == day.getTime()}
+        active={day.getMonth() === now.getMonth()}
+        marked={markedItem.getTime() === day.getTime()}
         on:mousedown={() => (markedItem = day)}
-      ></DayItem>
+      />
     {/each}
   </div>
 </div>

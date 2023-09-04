@@ -1,5 +1,5 @@
 <script>
-  import Button from "../Buttons/Button.svelte";
+  import Button from "./Buttons/Button.svelte";
 
   export let showModal; // boolean
 

@@ -1,6 +1,6 @@
 <script>
-    import RouterLink from "../../../RouterLink.svelte";
-    import {route} from "../../../route.serv";
+    import RouterLink from "../../RouterLink.svelte";
+    import {route} from "../../route.serv";
     
     /**
      * Display text for the panel item.
