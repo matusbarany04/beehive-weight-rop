@@ -1,18 +1,92 @@
 <script>
-
-    import MainLayout from "../layouts/MainLayout.svelte";
-    import DashLayout from "../layouts/DashLayout.svelte";
-
-
-
-    // onMount(() => {
-    //     message.set("Upozornenia");
-    // });
-
+    import { message } from "$lib/utils/dashboard";
+    import { onMount } from "svelte";
+    import SettingsHeader from "../../../components/components/settings/SettingsHeader.svelte";
+    import SettingsItem from "../../../components/components/settings/SettingsItem.svelte";
+    import Toggle from "../../../components/components/settings/Toggle.svelte";
+    
+    onMount(() => {
+        message.set("Upozornenia");
+    });
 </script>
+
 <svelte:head>
     <title>Analytika</title>
     <meta name="Analytika" content="Analytika" />
 </svelte:head>
 
-<p>Settings </p>
+<form class="w-full h-full">
+    <SettingsHeader title="Všeobecné" />
+    <SettingsItem
+            title="Email"
+            detail="Email na ktorý sa budú zasielať upozornenia"
+            inputPlaceholder="Váš email"
+    >
+        <input
+                type="text"
+                placeholder="Váš email"
+                class="px-4 w-96 h-8 rounded-md border-2 border-slate-300"
+        />
+    </SettingsItem>
+    <SettingsItem
+            title="Nerušiť medzi"
+            detail="Čas medzi ktorým sa nebudú posielať upozornenia"
+            inputPlaceholder="Váš email"
+    >
+        <div class="">
+            <label for="time">čas od: </label>
+
+            <input
+                    class="px-4 mr-8 w-44 h-8 rounded-md border-2 border-slate-300"
+                    type="time"
+                    id="time-input"
+                    name="time"
+                    step="3600"
+                    min="00:00"
+                    max="23:59"
+                    pattern="[0-2][0-9]:[0-5][0-9]"
+            />
+        </div>
+        <div class="">
+            <label for="time">čas do: </label>
+
+            <input
+                    class="px-4 w-44 h-8 rounded-md border-2 border-slate-300"
+                    type="time"
+                    id="time-input"
+                    name="time"
+                    step="3600"
+                    min="00:00"
+                    max="23:59"
+                    pattern="[0-2][0-9]:[0-5][0-9]"
+            />
+        </div>
+    </SettingsItem>
+
+    <SettingsHeader title="Upozornenia" />
+
+    <SettingsItem
+            title="Vlhkosť vzduchu"
+            detail="Pri zvýšenej vlhkosti Vám príde upozornenie"
+    >
+        <Toggle />
+    </SettingsItem>
+
+    <SettingsItem
+            title="Batéria úľov"
+            detail="Pri nízkej báterií Vám príde upozornenie"
+    >
+        <select
+                class="px-4 mr-4 w-72 h-8 rounded-md border-2 bg-white border-slate-300"
+                name="pets"
+                id="pet-select"
+        >
+            <option value="">--Please choose an option--</option>
+            <option value="50%">50%</option>
+            <option value="20">20%</option>
+            <option value="10%">10%</option>
+            <option value="0%">0%</option>
+        </select>
+        <Toggle />
+    </SettingsItem>
+</form>
