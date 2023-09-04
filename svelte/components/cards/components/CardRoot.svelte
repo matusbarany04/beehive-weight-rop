@@ -357,7 +357,8 @@
     dashboardEditor.saveCardList();
 
     showSettings = false;
-    invalidateAll();
+    
+    // invalidateAll(); //TODO  might come back as bug
 
     applyAction({ type: "success" });
   }

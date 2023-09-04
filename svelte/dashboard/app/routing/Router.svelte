@@ -7,6 +7,8 @@
   import DashLayout from "../layouts/DashLayout.svelte";
   import MainLayout from "../layouts/MainLayout.svelte";
   import Calendar from "../pages/Calendar.svelte";
+  import TestComponent from "../../../components/TestComponent.svelte";
+  import Test from "../pages/Test.svelte";
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
@@ -30,6 +32,10 @@
       case BASE_PATH +  '/calendar':
       case BASE_PATH +  '/calendar/':
         value = Calendar;
+        break;
+      case BASE_PATH +  '/test':
+      case BASE_PATH +  '/test/':
+        value = Test;
         break;
       default:
         value = Notfound;
