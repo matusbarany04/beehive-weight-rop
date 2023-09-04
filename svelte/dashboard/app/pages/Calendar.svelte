@@ -51,6 +51,7 @@
         fetch("/dashboardApi/newReminder", {method: "POST", body: formData}).then(r => r.json())
         .then(response => {
           newReminder = false;
+          console.log(newReminder)
           if(response.status === "ok") {
             console.log(response);
           }
@@ -92,7 +93,7 @@
     <Button
       image="../../icons/add_thin.svg"
       text="Nová poznámka/primomienka"
-      type="primary"
+      type="tertiary"
       onClick={() => (newReminder = true)}
     />
 
@@ -135,8 +136,7 @@
       id="date"
       name="date"
       value={new Date(markedItem.getTime() - markedItem.getTimezoneOffset() * 60000).toISOString().split("T")[0]}
-      pattern="[0-2][0-9]:[0-5][0-9]"
-    />
+      pattern="[0-2][0-9]:[0-5][0-9]"/>
 
     <label for="time">Čas: </label>
     <input

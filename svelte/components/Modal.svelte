@@ -26,10 +26,8 @@
     <hr />
     
     <div class="flex gap-4 mt-4 justify-start">
-      <Button autofocus onClick={() => dialog.close()} text="Zatvoriť okno"
-      ></Button>
-
-        <slot name="footer"/>
+      <Button type="tertiary" autofocus onClick={() => dialog.close()} text="Zatvoriť okno"/>
+      <slot name="footer"/>
     </div> 
   </div>
 </dialog>

@@ -23,6 +23,10 @@
      */
     export let clickType = "none";
     /**
+     * @param {string} formId to determine form
+     */
+    export let formId;
+    /**
      * @param {function} onClick function when the button is clicked
      */
     export let onClick = () => {
@@ -32,6 +36,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <button
+        form={formId}
         type={clickType}
         on:click={() => {
     onClick();
