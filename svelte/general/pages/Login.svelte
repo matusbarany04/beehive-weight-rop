@@ -15,7 +15,7 @@ const invalid = urlParams.get("invalid");
     <div class="p-8 rounded-xl bg-tertiary-100 box-border w-9/12 h-max flex-col space-y-5">
       <h1 class="header font-bold text-6xl">Prihlásiť sa.</h1>
       <p class="alternative">
-        Nemáte účet? Vytvoriť si ho môžete rgfghfghbggb <RouterLink url="/register">tu</RouterLink>
+        Nemáte účet? Vytvoriť si ho môžete <RouterLink url="/register">tu</RouterLink>
       </p>
 
       {#if invalid}

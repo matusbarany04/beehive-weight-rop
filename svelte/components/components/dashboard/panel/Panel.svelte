@@ -71,8 +71,10 @@
             link="/dashboard/calendar"
     />
 
-    <div class="absolute bottom-0">
-        <PanelItem text="odhlásiť sa" link="/logout" />
+    <div class="absolute bottom-2 text-white w-full text-center">
+        <form action="/logoutUser" method="POST">
+          <button type="submit">Odhlásiť sa</button>
+        </form>
     </div>
 </PanelRoot>
 

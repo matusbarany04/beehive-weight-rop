@@ -1,10 +1,12 @@
 package com.buzzybees.master.controllers;
 
+import com.buzzybees.master.users.UserService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -17,13 +19,13 @@ public class FrontendController {
     private final String BUNDLE_PATH = "src/main/resources/bundle/";
 
     @GetMapping("/dashboard/{path:[^.]*}")
-    public String handleDashboardPaths(@PathVariable String path) {
-        return "dashboard";
+    public String handleDashboardPaths(@CookieValue(name = AuthController.SSID, defaultValue = "") String ssid, @PathVariable String path) {
+        return UserService.isTokenValid(ssid) ? "dashboard" : "redirect:/login";
     }
 
     @GetMapping("/dashboard")
-    public String handleDashboardHome() {
-        return "dashboard";
+    public String handleDashboardHome(@CookieValue(name = AuthController.SSID, defaultValue = "") String ssid) {
+        return UserService.isTokenValid(ssid) ? "dashboard" : "redirect:/login";
     }
 
     @GetMapping("bundle/{filename}")

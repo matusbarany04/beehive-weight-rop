@@ -61,18 +61,16 @@ public class AuthController {
         return "redirect:/login?invalid=true";
     }
 
-    @PostMapping(value = "/logoutUser", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> logoutUser(@CookieValue(value = SSID, defaultValue = "") String ssid, HttpServletResponse response) {
+    @PostMapping(value = "/logoutUser")
+    public String logoutUser(@CookieValue(value = SSID, defaultValue = "") String ssid, HttpServletResponse response) {
         Cookie cookie = new Cookie(SSID, null);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
 
-        UserService.logoutUser(SSID);
+        UserService.logoutUser(ssid);
 
-        JSONObject output = new JSONObject();
-        output.put("status", "ok");
-        return ResponseEntity.ok(output.toString());
+        return "redirect:/login";
     }
 
     @PostMapping(value = {"/registerUser"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

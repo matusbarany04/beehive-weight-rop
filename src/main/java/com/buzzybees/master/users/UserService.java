@@ -36,6 +36,10 @@ public class UserService implements ApplicationContextAware {
         return context.getBean(beanClass);
     }
 
+    public static boolean isTokenValid(String token) {
+        return loggedUsers.containsKey(token);
+    }
+
     public static long getUserIdByToken(String token) throws NullPointerException {
         Long user = loggedUsers.get(token);
         return user != null ? user : 0;
