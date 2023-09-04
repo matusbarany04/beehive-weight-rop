@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +60,7 @@ public class UserController {
         return response.toString();
     }
 
-    @PostMapping(value = "/user/updateSettings", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/updateSettings", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateSettings(@RequestBody Map<String, String> data) {
         long userId = UserService.getUserIdByToken(data.get("token"));
         User user = userRepository.getUserById(userId);
@@ -89,7 +86,6 @@ public class UserController {
         return "OK";
     }
 
-
     @Deprecated
     //@RequestMapping(value = "/getUser/token", method = RequestMethod.POST)
     @PostMapping(value = {"/getUser/token"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -103,7 +99,7 @@ public class UserController {
         return response.toString();
     }
 
-    @PostMapping(value = {"user/saveDashboard"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = {"/saveDashboard"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String saveDashboard(@RequestBody Map<String, String> data) { //TODO check validity of data
         String dashboardData = data.get("data");
         String token = data.get("token");
@@ -121,15 +117,11 @@ public class UserController {
         return response.toString();
     }
 
-
-
-
     @Deprecated
     @GetMapping("/getToken")
     public String getToken() {
         return RequestContextHolder.currentRequestAttributes().getSessionId();
     }
-
 
     @Deprecated
     @GetMapping("/addUser")
@@ -150,13 +142,11 @@ public class UserController {
 
     //http://localhost:8080/user/emailExists/admin@admin.com
 
-
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/testing/{id}")
     public String retrieve(@PathVariable String id) {
         return "ok " + id;
     }
-
 
     public String getEmailByUserId(long id) {
         return userRepository.getEmail(id);

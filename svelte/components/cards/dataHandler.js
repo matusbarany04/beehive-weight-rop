@@ -36,7 +36,8 @@ function fromValueToTimestamp(from) {
 export const dataHandler = {
     fetchData: async () => {
         let response = await fetch('/dashboardApi/getData');
-        return response.json();
+        console.log("fetchData", response)
+        beehive_data.set(response.json());
     },
     nowMinusFrom: (from) => {
         return new Date(new Date().getTime() - fromValueToTimestamp(from));

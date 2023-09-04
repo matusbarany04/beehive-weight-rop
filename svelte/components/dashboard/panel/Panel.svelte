@@ -2,9 +2,9 @@
     import PanelItem from "./PanelItem.svelte";
     import PanelHeaderItem from "./PanelHeaderItem.svelte";
     import Logo from "../../Logo.svelte";
-    import { onMount } from "svelte";
-    import { tweened } from "svelte/motion";
-    import { quartInOut } from "svelte/easing";
+    import {onMount} from "svelte";
+    import {tweened} from "svelte/motion";
+    import {quartInOut} from "svelte/easing";
     import PanelRoot from "./PanelRoot.svelte";
 
     let screenSize = 0;
@@ -23,15 +23,15 @@
 
 </script>
 
-<svelte:window bind:innerWidth={screenSize} />
+<svelte:window bind:innerWidth={screenSize}/>
 
 
 <PanelRoot>
-    
-    <Logo {collapsed} />
+
+    <Logo {collapsed}/>
 
     {#if !collapsed}
-        <PanelHeaderItem title="Hlavné" />
+        <PanelHeaderItem title="Hlavné"/>
     {/if}
 
     <PanelItem
@@ -47,10 +47,14 @@
             link="/dashboard/beehives"
     />
     {#if !collapsed}
-        <PanelHeaderItem title="Ostatné" />
+        <PanelHeaderItem title="Ostatné"/>
     {/if}
 
-    <PanelItem {collapsed} text="Pomoc" svg="icons/lightbulb.svg" foreignLink="true" link="/help" />
+    <PanelItem
+            {collapsed}
+            text="Pomoc"
+            svg="icons/lightbulb.svg"
+            link="/dashboard/help"/>
 
     <PanelItem
             {collapsed}
@@ -73,7 +77,7 @@
 
     <div class="absolute bottom-2 text-white w-full text-center">
         <form action="/logoutUser" method="POST">
-          <button type="submit">Odhlásiť sa</button>
+            <button type="submit">Odhlásiť sa</button>
         </form>
     </div>
 </PanelRoot>
