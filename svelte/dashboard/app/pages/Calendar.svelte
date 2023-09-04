@@ -4,9 +4,9 @@
     // import { message } from "$lib/utils/dashboard";
     // import { API_URL } from "$lib/utils/constants";
     // import { AUTH_POST, POST } from "$lib/utils/database";
-    import DayItem from "../../../components/components/calendar/DayItem.svelte";
+    import DayItem from "../../../components/calendar/DayItem.svelte";
     import Button from "../../../components/Buttons/Button.svelte";
-    import Modal from "../../../components/components/Modal.svelte";
+    import Modal from "../../../components/Modal.svelte";
     import Input from "../../../components/Inputs/Input.svelte";
     import DropdownInput from "../../../components/Inputs/DropdownInput.svelte";
     

@@ -1,9 +1,9 @@
 <script>
     import { message } from "$lib/utils/dashboard";
     import { onMount } from "svelte";
-    import SettingsHeader from "../../../components/components/settings/SettingsHeader.svelte";
-    import SettingsItem from "../../../components/components/settings/SettingsItem.svelte";
-    import Toggle from "../../../components/components/settings/Toggle.svelte";
+    import SettingsHeader from "../../../components/settings/SettingsHeader.svelte";
+    import SettingsItem from "../../../components/settings/SettingsItem.svelte";
+    import Toggle from "../../../components/settings/Toggle.svelte";
     
     onMount(() => {
         message.set("Upozornenia");

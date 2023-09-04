@@ -2,7 +2,7 @@
 	import Router from './app/routing/Router.svelte';
 	import Sidenav from './app/component/Sidenav.svelte';
     import {prefix} from "../components/prefix";
-    import Panel from "../components/components/dashboard/panel/Panel.svelte";
+    import Panel from "../components/dashboard/panel/Panel.svelte";
 
     prefix.setPrefix('/dashboard');
 </script>
