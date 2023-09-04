@@ -1,25 +1,45 @@
 <script>
-  //here are exported props
+  /**
+   * @param {string} type - Specifies the type of the input element (e.g., 'text', 'password'). Defaults to 'text'.
+   */
   export let type;
+
+  /**
+   * @param {string} label - Label to display above the input. Optional.
+   */
   export let label;
+
+  /**
+   * @param {string} placeholder - Placeholder text for the input. Optional.
+   */
   export let placeholder;
+
+  /**
+   * @param {string|number} value - Current value of the input.
+   */
   export let value;
+
+  /**
+   * @param {string} small - Small text to display above the input for extra information or description. Optional.
+   */
   export let small;
+
+  /**
+   * @param {string} name - Name attribute for the input. Optional.
+   */
   export let name;
+
+  /**
+   * @param {boolean} required - If set, the input will be required. Optional.
+   */
   export let required;
 
   function typeAction(node) {
     node.type = type;
-  } //this function helps to define type of input
+  }
 </script>
 
-<!-- 
-<div class="myInput">
-  <label class="myLabel"
-    >{label}
-    <input on:input bind:value type="text" {placeholder} use:typeAction />
-  </label>
-</div> -->
+
 <div>
   {#if label}
     <label for={name} class="">{label}</label> <br />

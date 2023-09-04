@@ -1,16 +1,39 @@
 <script>
-  //here are exported props
+  /**
+   * @param {string} type - Type attribute for the select, although not used in the template. Defaults to 'text'.
+   */
   export let type;
+
+  /**
+   * @param {string} label - Label to display above the select dropdown. Optional.
+   */
   export let label;
+
+  /**
+   * @param {string|number} value - The current value of the select dropdown.
+   */
   export let value;
+
+  /**
+   * @param {string} small - Small text to display above the select dropdown for extra information or description. Optional.
+   */
   export let small;
+
+  /**
+   * @param {string} name - Name attribute for the select dropdown. Optional.
+   */
   export let name;
+
+  /**
+   * @param {Array<Array<string|number>>} options - An array of options for the select dropdown. Each option is an array where the first element is the value and the second element is the display text.
+   */
   export let options;
 
   function typeAction(node) {
     node.type = type;
-  } //this function helps to define type of input
+  }
 </script>
+
 
 <div>
   {#if label}
