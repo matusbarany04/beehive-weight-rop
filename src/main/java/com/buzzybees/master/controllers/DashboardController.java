@@ -162,6 +162,7 @@ public class DashboardController {
 
     @PostMapping(value = "/newReminder", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String newReminder(@ModelAttribute Reminder reminder) {
+        System.out.println(reminder.toString());
         JSONObject output = new JSONObject();
 
         if(currentUserId > 0) {

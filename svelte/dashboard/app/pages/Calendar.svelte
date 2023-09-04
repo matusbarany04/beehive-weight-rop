@@ -17,24 +17,27 @@
     let reminders = [];
     
     updateCalendar();
+    updateReminders();
 
-    fetch("/dashboardApi/getReminders").then(r => r.json())
-      .then(response => {
-        reminders = response["reminders"];
-        showReminders();
-      });
+    function updateReminders() {
+      fetch("/dashboardApi/getReminders").then(r => r.json())
+        .then(response => {
+          reminders = response["reminders"];
+          showReminders();
+        });
+    }
     
     function showReminders() {
       for(let reminder of reminders) {
-        let index = getDayIndex(new Date(reminder.date.replace(' ','T') + 'Z'));
+        const date = new Date(reminder.date);
+        const index = getDayIndex(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
         if(index !== -1) daysOfMonth[index].reminders.push(reminder);
-        console.log(index);
+        daysOfMonth = daysOfMonth;
       }
     }
     
     function getDayIndex(day) {
       for(let i = 0; i < daysOfMonth.length; i++) {
-        console.log(day.getTime(), daysOfMonth[i].date.getTime());
         if(daysOfMonth[i].date.getTime() === day.getTime()) return i;
       }
       
@@ -58,17 +61,14 @@
 
         firstDay.setDate(firstDay.getDate() - (firstDay.getDay() || 7) + 1);
         lastDay.setDate(lastDay.getDate() + 7 - (lastDay.getDay() || 7));
-
-        console.log(daysOfMonth);
-
+        
         let i, d;
         daysOfMonth.splice(0);
         
         for (d = firstDay, i = 0; d <= lastDay; d.setDate(d.getDate() + 1), i++) {
             daysOfMonth.push({date: new Date(d), reminders: []});
+            console.log(d);
         }
-        
-      showReminders();
     }
 
     function saveReminder(e) {
@@ -77,7 +77,8 @@
         .then(response => {
           newReminder = false;
           if(response.status === "ok") {
-            
+            updateCalendar();
+            updateReminders();
           }
         })
     }
@@ -117,7 +118,7 @@
     <Button
       image="../../icons/add_thin.svg"
       text="Nová poznámka/primomienka"
-      type="tertiary"
+      type="secondary"
       onClick={() => (newReminder = true)}
     />
 
@@ -164,7 +165,8 @@
       id="date"
       name="date"
       value={new Date(markedItem.getTime() - markedItem.getTimezoneOffset() * 60000).toISOString().split("T")[0]}
-      pattern="[0-2][0-9]:[0-5][0-9]"/>
+      pattern="[0-2][0-9]:[0-5][0-9]"
+      required/>
 
     <label for="time">Čas: </label>
     <input
@@ -175,6 +177,7 @@
       min="00:00"
       max="23:59"
       pattern="[0-2][0-9]:[0-5][0-9]"
+      required
     />
 
     <DropdownInput

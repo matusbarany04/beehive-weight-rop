@@ -14,11 +14,15 @@ public class Reminder {
     @Column(name = "date")
     private String date;
 
+    @Column(name = "time")
+    private String time;
+
     @Column(name = "title")
     private String title;
 
     @Column(name = "details")
     private String details = "";
+
 
     @Column(name = "user_id")
     private long userId;
@@ -26,23 +30,27 @@ public class Reminder {
     @Column(name = "color")
     private String color = "black";
 
-    @Column(name = "notifyBy")
+    @Column(name = "notify_by")
     private int notifyBy = 0;
 
     @Column(name = "action")
     private String action = "";
 
-    public Reminder(String title, String date) {
+    public Reminder(String title, String date, String time) {
         this.title = title;
         this.date = date;
+        this.time = time;
     }
 
-    public Reminder() {}
+    public Reminder() {
+
+    }
 
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id);
         jsonObject.put("date", date);
+        jsonObject.put("time", time);
         jsonObject.put("title", title);
         jsonObject.put("details", details);
         jsonObject.put("color", color);
@@ -55,6 +63,9 @@ public class Reminder {
         this.color = color;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public void setUserId(long id) {
         userId = id;
@@ -70,5 +81,18 @@ public class Reminder {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
