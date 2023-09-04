@@ -1,3 +1,14 @@
+
+const TW_BREAKPOINTS = {
+  "sm": 640,
+  "md": 768,
+  "lg": 1024,
+  "xl": 1280,
+  "2xl": 1536
+};
+
+export default TW_BREAKPOINTS;
+
 export const generateUUID = () => {
   let d = new Date().getTime(),
     d2 =
@@ -14,7 +25,7 @@ export const generateUUID = () => {
       r = (d2 + r) % 16 | 0;
       d2 = Math.floor(d2 / 16);
     }
-    return (c == "x" ? r : (r & 0x7) | 0x8).toString(16);
+    return (c === "x" ? r : (r & 0x7) | 0x8).toString(16);
   });
 };
 
@@ -99,6 +110,7 @@ export function isEmpty(obj) {
   }
   return true;
 }
+
 import pkg from 'file-saver';
 
 const { saveAs } = pkg;
@@ -131,14 +143,12 @@ export const jsonToCsv = function (data) {
   const items = data;
   const replacer = (key, value) => (value === null ? "" : value); // specify how you want to handle null values here
   const header = Object.keys(items[0]);
-  const csv = [
+  return [
     header.join(","), // header row first
     ...items.map((row) =>
-      header
-        .map((fieldName) => JSON.stringify(row[fieldName], replacer))
-        .join(","),
+        header
+            .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+            .join(","),
     ),
   ].join("\r\n");
-
-  return csv;
 };

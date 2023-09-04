@@ -1,4 +1,6 @@
 <script>
+    import TW_BREAKPOINTS from "../../../lib/utils/static";
+
     let visible = true;
     let absolute = true;
     let screenWidth = 9999;
@@ -9,8 +11,13 @@
 
     let previousWidth = window.innerWidth;
     $: {
-        if (screenWidth < 1024 && previousWidth >= 1024) {
+        // If current width is below the threshold and previous width was above it
+        if (screenWidth < TW_BREAKPOINTS.lg && previousWidth >= TW_BREAKPOINTS.lg) {
             visible = false;
+        }
+        // If current width is above the threshold and previous width was below it
+        else if (screenWidth >= TW_BREAKPOINTS.lg && previousWidth < TW_BREAKPOINTS.lg) {
+            visible = true;
         }
         previousWidth = screenWidth;
     }
