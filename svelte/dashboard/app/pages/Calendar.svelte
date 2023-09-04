@@ -7,7 +7,6 @@
     import Input from "../../../components/Inputs/Input.svelte";
     import DropdownInput from "../../../components/Inputs/DropdownInput.svelte";
     
-    
     export let data;
 
     let daysOfMonth = [];
@@ -15,8 +14,33 @@
     now.setHours(0, 0, 0, 0);
     let markedItem = now;
     let newReminder = false;
-
+    let reminders = [];
+    
     updateCalendar();
+
+    fetch("/dashboardApi/getReminders").then(r => r.json())
+      .then(response => {
+        reminders = response["reminders"];
+        showReminders();
+      });
+    
+    function showReminders() {
+      for(let reminder of reminders) {
+        console.log(reminder);
+        let dateParts = reminder.date.split('-');
+        console.log(Date.parse(reminder.date).tp());
+        let index = getDayIndex(new Date(dateParts[0], dateParts[1], dateParts[2]));
+        if(index !== -1) daysOfMonth[index].reminders.push(reminder);
+      }
+    }
+    
+    function getDayIndex(day) {
+      for(let i = 0; i < daysOfMonth.length; i++) {
+        if(daysOfMonth[i].date === day) return i;
+      }
+      
+      return -1;
+    }
 
     function nextMonth() {
         now.setMonth(now.getMonth() + 1);
@@ -36,14 +60,16 @@
         firstDay.setDate(firstDay.getDate() - (firstDay.getDay() || 7) + 1);
         lastDay.setDate(lastDay.getDate() + 7 - (lastDay.getDay() || 7));
 
-        console.log(firstDay);
+        console.log(daysOfMonth);
 
         let i, d;
+        daysOfMonth.splice(0);
+        
         for (d = firstDay, i = 0; d <= lastDay; d.setDate(d.getDate() + 1), i++) {
-            daysOfMonth[i] = new Date(d);
+            daysOfMonth.push({date: new Date(d), reminders: []});
         }
-
-        daysOfMonth.splice(i);
+        
+      showReminders();
     }
 
     function saveReminder(e) {
@@ -51,7 +77,6 @@
         fetch("/dashboardApi/newReminder", {method: "POST", body: formData}).then(r => r.json())
         .then(response => {
           newReminder = false;
-          console.log(newReminder)
           if(response.status === "ok") {
             
           }
@@ -111,11 +136,15 @@
   <div class="grid grid-cols-7 gap-1 auto-rows-fr h-full">
     {#each daysOfMonth as day}
       <DayItem
-        date={day}
-        active={day.getMonth() === now.getMonth()}
-        marked={markedItem.getTime() === day.getTime()}
-        on:mousedown={() => (markedItem = day)}
-      />
+        date={day.date}
+        active={day.date.getMonth() === now.getMonth()}
+        marked={markedItem.getTime() === day.date.getTime()}
+        on:mousedown={() => (markedItem = day.date)}
+      >
+        {#each day.reminders as reminder}
+          <div>{reminder.title}</div>
+        {/each}
+      </DayItem>
     {/each}
   </div>
 </div>

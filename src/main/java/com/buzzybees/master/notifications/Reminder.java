@@ -37,6 +37,8 @@ public class Reminder {
         this.date = date;
     }
 
+    public Reminder() {}
+
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id);

@@ -97,8 +97,13 @@ public class UserController {
 
 
     @GetMapping("/user/byToken/")
-    public JSONObject getUserByToken(@RequestParam("token") String token) {
-        return userRepository.getUserById(UserService.getUserIdByToken(token)).toJSON();
+    public String getUserByToken(@CookieValue(name = AuthController.SSID, defaultValue = "") String token) {
+        User user = userRepository.getUserById(UserService.getUserIdByToken(token));
+
+        JSONObject response = new JSONObject();
+        response.put("status", user != null ? "ok" : "ERR_INVALID_TOKEN");
+        if (user != null) response.put("user", user.toJSON());
+        return response.toString();
     }
 
     //http://localhost:8080/user/emailExists/admin@admin.com
