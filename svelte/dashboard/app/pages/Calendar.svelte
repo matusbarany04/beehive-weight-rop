@@ -1,7 +1,4 @@
 <script>
-    import { onMount } from "svelte";
-
-    // import { message } from "$lib/utils/dashboard";
     // import { API_URL } from "$lib/utils/constants";
     // import { AUTH_POST, POST } from "$lib/utils/database";
     import DayItem from "../../../components/calendar/DayItem.svelte";
@@ -12,10 +9,6 @@
     
     
     export let data;
-
-    onMount(() => {
-        message.set("Kalendár");
-    });
 
     let daysOfMonth = [];
     let now = new Date();
@@ -75,7 +68,7 @@
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <img
         class="cursor-pointer"
-        src="../../icon/arrow-left.svg"
+        src="../../icons/arrow-left.svg"
         alt="previous-month"
         on:click={previousMonth}
       />
@@ -85,17 +78,17 @@
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <img
         class="cursor-pointer"
-        src="../../icon/arrow-right.svg"
+        src="../../icons/arrow-right.svg"
         alt="next-month"
         on:click={nextMonth}
       />
     </div>
     <Button
-      image="../../icon/add_thin.svg"
+      image="../../icons/add_thin.svg"
       text="Nová poznámka/primomienka"
       type="primary"
       onClick={() => (newReminder = true)}
-    ></Button>
+    />
 
     <div class="flex items-center pt-5">
       <h3 class="w-full p-2">PO</h3>
@@ -180,6 +173,6 @@
       }}
       clickType="submit"
       text="Uložiť a zatvoriť okno"
-    ></Button>
+    />
   </button>
 </Modal>

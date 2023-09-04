@@ -38,11 +38,11 @@
       navigateWithPrefix(link);
     }
   }}
-        class={"root " + type}
+        class="p-2 flex rounded-lg {type === 'primary' ? 'bg-secondary-500' : 'bg-tertiary-100'}"
 >
   {#if image}
     <div
-            class="image"
+            class="image mr-2"
             style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "></div>
   {/if}
   <p class="text text-ellipsis no_wrap whitespace-nowrap">
