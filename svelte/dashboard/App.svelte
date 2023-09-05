@@ -12,14 +12,12 @@
       //sets prefix for all route links
       prefix.setPrefix('/dashboard');
       // fetches all dashboard data to dataHandler store
-      await dataHandler.fetchData();
+      dataHandler.fetchData();
       // fetches all shared data between all components and saves them to corresponding stores 
 
-      await shared.initAll();
+      shared.initAll();
       dataLoaded = true;
     }
-
-    loadData();
 
  
     

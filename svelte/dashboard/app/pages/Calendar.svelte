@@ -6,6 +6,7 @@
     import Modal from "../../../components/Modal.svelte";
     import Input from "../../../components/Inputs/Input.svelte";
     import DropdownInput from "../../../components/Inputs/DropdownInput.svelte";
+    import {onDataLoaded} from "../../../components/cards/dataHandler";
 
     export let data;
 
@@ -17,6 +18,10 @@
     let reminders = [];
     
     updateCalendar();
+    
+    onDataLoaded(data => {
+      console.log(data);
+    });
 
     function updateReminders() {
       fetch("/dashboardApi/getReminders").then(r => r.json())
@@ -89,8 +94,7 @@
       if(rgb[0] + rgb[1] * 2  < 380) return "white";
       else return "black";
     }
-
-
+    
 </script>
 
 <div class="flex flex-col h-4/5" on:load={onload} >

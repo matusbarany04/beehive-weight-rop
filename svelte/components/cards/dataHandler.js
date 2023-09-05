@@ -33,11 +33,19 @@ function fromValueToTimestamp(from) {
     }
 }
 
+export const onDataLoaded = data => {
+  
+}
+
 export const dataHandler = {
-    fetchData: async () => {
-        let response = await fetch('/dashboardApi/getData');
-        console.log("fetchData", response)
-        beehive_data.set(response.json());
+    fetchData: () => {
+        fetch('/dashboardApi/getData').then(r => r.json())
+          .then(response => {
+            beehive_data.set(response.json());
+            onDataLoaded(response);
+            console.log("fetchData", response)
+            
+          });
     },
     nowMinusFrom: (from) => {
         return new Date(new Date().getTime() - fromValueToTimestamp(from));
