@@ -1,6 +1,5 @@
 <script>
-    import CardRoot from "./components/CardRoot.svelte";
-    import {modes, getDefaultMode} from "./components/cardConfig";
+    import CardRoot from "./components/CardRoot.svelte"
 
     export let cardStates;
     export let onDragEnd; // function

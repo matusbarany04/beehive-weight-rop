@@ -9,6 +9,8 @@
   import Calendar from "../pages/Calendar.svelte";
   import TestComponent from "../../../components/TestComponent.svelte";
   import Test from "../pages/Test.svelte";
+  import Beehive from "../pages/beehives/Beehive.svelte";
+  import Beehives from "../pages/Beehives.svelte";
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
@@ -36,6 +38,10 @@
       case BASE_PATH +  '/test':
       case BASE_PATH +  '/test/':
         value = Test;
+        break;
+      case BASE_PATH +  '/beehives':
+      case BASE_PATH +  '/beehives/':
+        value = Beehives;
         break;
       default:
         value = Notfound;

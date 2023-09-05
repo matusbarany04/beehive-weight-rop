@@ -5,7 +5,7 @@
   import { dataHandler } from "./dataHandler";
   import ButtonSmall from "../Buttons/ButtonSmall.svelte";
   import DropdownInput from "../Inputs/DropdownInput.svelte";
-
+  
   export let cardStates;
   export let onDragEnd; // function
   export let onDragStart; // function
@@ -62,15 +62,7 @@
         });
       }
     });
-    // console.log(beehiveData); //
-    const labels = [];
-    let temps = [];
-    // for (let i = 0; i < beehiveData.length; i++) {
-    //   const element = beehiveData[i];
-
-    //   temps.push([element.timestamp, element.temperature]);
-    // }
-
+    
     onMount(async () => {
       var options = {
         stroke: {
@@ -133,7 +125,7 @@
 
 <CardRoot
   updateSettings={(formData) => {
-    console.log("apex charts subtmit", formData);
+    console.log("apex charts submit", formData);
 
     // if (isEmpty(formData.get("name"))) {
     //   return { status: "fail"};

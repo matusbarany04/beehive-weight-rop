@@ -1,13 +1,13 @@
 <script>
-    import { message } from "$lib/utils/dashboard";
+  
     import { onMount } from "svelte";
     import SettingsHeader from "../../../components/settings/SettingsHeader.svelte";
     import SettingsItem from "../../../components/settings/SettingsItem.svelte";
     import Toggle from "../../../components/settings/Toggle.svelte";
     
     onMount(() => {
-        console.log("Settings! here")
-        message.set("Upozornenia");
+        // console.log("Settings! here")
+        // message.set("Upozornenia");
     }); 
 </script>
 

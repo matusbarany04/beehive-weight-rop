@@ -1,6 +1,5 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
-  import { modes, getDefaultMode } from "./components/cardConfig";
   import { dataHandler } from "./dataHandler";
 
   export let cardStates;

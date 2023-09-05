@@ -19,10 +19,8 @@ const dashboardConfig =  {
   },
   plugins: [
     postcss({
-      extract: false, // Inline the CSS into the JS
-      plugins: [
-        tailwindcss(),
-      ],
+      extract: false,
+      plugins: [tailwindcss()],
       use: [
         ['sass', { includePaths: ['./src/styles', './node_modules'] }]
       ]

@@ -29,6 +29,18 @@
     
 </script>
 
+<div class="bg-slate-300">
+  {#if dataLoaded}
+    <!-- Uncomment these if you want to include them -->
+    <!-- <Sidenav class="sidenav" />
+    <Panel /> -->
+    <Router />
+  {:else}
+    <Loading></Loading>
+  {/if}
+</div>
+
+
 <style>
   @import url("https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap");
   @import url("https://fonts.googleapis.com/css2?family=Jost&display=swap");
@@ -41,26 +53,26 @@
   @import 'tailwindcss/components';
   @import 'tailwindcss/utilities';
 
-  /*:root {*/
-  /*  padding: 0;*/
-  /*  margin: 0;*/
-  /*  --font-body: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,*/
-  /*  Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;*/
-  /*  --font-mono: "Fira Mono", monospace;*/
-  /*  --color-primary: #161819;*/
-  /*  --color-secondary: #e2a70f;*/
-  /*  !* --color-tertiary: #F7F7F7; *!*/
-  /*  --color-tertiary: #e0e3e8; !*  original one dont delete *!*/
-  /*  --color-text-light: #000000;*/
-  /*  --color-text-dark: #b9beca;*/
-  /*  --color-accept: #52b515;*/
-  /*  --color-delete: #e2360f;*/
-  /*  --color-edit: #e2d00f;*/
-  /*  --color-detail-gray: #8d8888;*/
-  /*  --column-width: 48rem;*/
-  /*  font-family: var(--font-body);*/
-  /*  color: var(--color-text-light);*/
-  /*}*/
+  :root {
+    padding: 0;
+    margin: 0;
+    --font-body: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    --font-mono: "Fira Mono", monospace;
+    --color-primary: #161819;
+    --color-secondary: #e2a70f;
+    /* --color-tertiary: #F7F7F7; */
+    --color-tertiary: #e0e3e8; /*  original one dont delete */
+    --color-text-light: #000000;
+    --color-text-dark: #b9beca;
+    --color-accept: #52b515;
+    --color-delete: #e2360f;
+    --color-edit: #e2d00f;
+    --color-detail-gray: #8d8888;
+    --column-width: 48rem;
+    font-family: var(--font-body);
+    color: var(--color-text-light);
+  }
 
   body {
     min-height: 100vh;
@@ -96,14 +108,3 @@
   }
 
 </style>
-
-<div class="bg-slate-300">
-  {#if dataLoaded}
-    <!-- Uncomment these if you want to include them -->
-    <!-- <Sidenav class="sidenav" />
-    <Panel /> -->
-    <Router />
-  {:else}
-    <Loading></Loading>
-  {/if}
-</div>

@@ -7,6 +7,7 @@
   import Modal from "../../Modal.svelte";
   import Input from "../../Inputs/Input.svelte";
   import Button from "../../Buttons/Button.svelte";
+
   import {
     isEmpty,
   } from "../../lib/utils/static";
@@ -348,7 +349,6 @@
     let output = updateSettings(data);
     if (output.status === "success") {
       cardStates.data = output.data;
-      console.log("cardState s", cardStates);
     } else {
       form.error = "Chyba";
     }
@@ -513,10 +513,6 @@
     height: 100%;
     --length: 5px;
     --width: 40px;
-
-    
- 
-   
   }
 
   .headerIcon {
@@ -557,8 +553,8 @@
     -webkit-mask-size: 100%;
     mask-size: 100%;
     background: var(--color-delete);
-    mask-image: url("/icons/delete.svg");
-    -webkit-mask-image: url("/icons/delete.svg");
+    mask-image: url("icons/delete.svg");
+    -webkit-mask-image: url("icons/delete.svg");
   }
 
   .addBtn {
