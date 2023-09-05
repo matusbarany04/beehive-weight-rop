@@ -3,10 +3,14 @@
 
     // type T = $$Generic<Row>
 
+    import {onDataLoaded} from "../cards/dataHandler";
+
     export let handler; //: DataHandler<T>
     let value = ''
 
-    handler.on('clearSearch', () => value = '')
+    onDataLoaded(() => {
+      handler.on('clearSearch', () => value = '');
+    })
 </script>
 
 <input

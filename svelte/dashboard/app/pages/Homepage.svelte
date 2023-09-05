@@ -8,6 +8,7 @@
 
 
   import shared from "../stores/shared";
+  import {onDataLoaded} from "../../../components/dashboard/cards/dataHandler";
 
 
   const user = shared.getUser()
