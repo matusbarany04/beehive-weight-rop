@@ -3,7 +3,7 @@
 
   import { onMount } from "svelte";
   import PanelRoot from "./PanelRoot.svelte";
-  import * as cardUtils from "../../cards/cardUtils";
+  import * as cardUtils from "../cards/cardUtils";
   export let onDragStart = () => {};
   export let onDragEnd = () => {};
 
@@ -18,32 +18,32 @@
   });
 </script>
 
-<PanelRoot>
-  <Logo />
+<!--<PanelRoot>-->
+<!--  <Logo />-->
   <hr />
   <div
     id="panelGrid"
     style:--row-width={itemSideSize + "px"}
     style:--itemCount={components.length}
   >
-    {#each components as item, index}
-      <svelte:component
-        this={item.component}
-        cardStates={{
-          x: 1,
-          y: index + 1,
-          spanX: 1,
-          spanY: 1,
-          mode: "add",
-          title: item.format, // TODO zmenit na nejaky string z listu, aby bola mozna localizacia 
-          data: [{ type: "dummy", from: "all", to: "now" }], //default type of data in card item
-        }}
-        {onDragStart}
-        {onDragEnd}
-      />
-    {/each}
+    <!--{#each components as item, index}-->
+    <!--  <svelte:component-->
+    <!--    this={item.component}-->
+    <!--    cardStates={{-->
+    <!--      x: 1,-->
+    <!--      y: index + 1,-->
+    <!--      spanX: 1,-->
+    <!--      spanY: 1,-->
+    <!--      mode: "add",-->
+    <!--      title: item.format, // TODO zmenit na nejaky string z listu, aby bola mozna localizacia -->
+    <!--      data: [{ type: "dummy", from: "all", to: "now" }], //default type of data in card item-->
+    <!--    }}-->
+    <!--    {onDragStart}-->
+    <!--    {onDragEnd}-->
+    <!--  />-->
+    <!--{/each}-->
   </div>
-</PanelRoot>
+<!--</PanelRoot>-->
 
 <style lang="scss">
   #panelGrid {

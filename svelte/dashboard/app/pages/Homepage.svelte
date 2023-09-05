@@ -1,15 +1,17 @@
 <script>
   import {onMount, setContext} from "svelte";
 
-  import EditPanel from "../../../components/dashboard/panel/EditPanel.svelte";
-  
   import Button from "../../../components/Buttons/Button.svelte";
-  import {generateUUID} from "../../../components/lib/utils/static";
-  import {dataHandler} from "../../../components/cards/dataHandler";
-  import * as cardUtils from "../../../components/cards/cardUtils";
+  import EditPanel from "../../../components/dashboard/panel/EditPanel.svelte";
+  import * as cardUtils from "../../../components/dashboard/cards/cardUtils";
+  import TW_BREAKPOINTS, {generateUUID} from "../../../components/lib/utils/static";
 
-  //$: ({ user, sessionid } = $page.data);
 
+  import shared from "../stores/shared";
+
+
+  const user = shared.getUser();
+  
   const finalItemCount = 4;
 
   let itemSideSize = 200;
@@ -36,10 +38,10 @@
       let itemY = window.scrollY + element.getBoundingClientRect().top; // Y
 
       if (
-              x > itemX &&
-              x < itemX + itemSideSize &&
-              y > itemY &&
-              y < itemY + itemSideSize
+        x > itemX &&
+        x < itemX + itemSideSize &&
+        y > itemY &&
+        y < itemY + itemSideSize
       ) {
         return {
           exists: true,
@@ -54,9 +56,8 @@
   };
 
   onMount(function () {
-    // message.set(`Dobré ráno, včelár ${user.name}!`);
-
     initCardList();
+    
     let dashboardRoot = document.getElementById("rightPanel");
 
     const updateItemSideSize = () => {
@@ -64,23 +65,23 @@
       smallScreen = false;
       editButton = true;
       itemSideSize =
-              (dashboardRoot.getBoundingClientRect().width - 
-                      gridGap * (varItemCount - 1)) /
-              varItemCount;
+        (dashboardRoot.getBoundingClientRect().width - 
+          gridGap * (varItemCount - 1)) /
+        varItemCount;
 
       if (
-              (window.innerWidth ||
-                      document.documentElement.clientWidth ||
-                      document.body.clientWidth) < 800
+        (window.innerWidth ||
+          document.documentElement.clientWidth ||
+          document.body.clientWidth) < TW_BREAKPOINTS.lg
       ) {
         varItemCount = 1;
         smallScreen = true;
       }
 
       if (
-              (window.innerWidth ||
-                      document.documentElement.clientWidth ||
-                      document.body.clientWidth) < 1200
+        (window.innerWidth ||
+          document.documentElement.clientWidth ||
+          document.body.clientWidth) < TW_BREAKPOINTS.xl
       ) {
         editMode = false;
         editButton = false;
@@ -99,44 +100,38 @@
 
     updateItemSideSize();
     window.addEventListener(
-            "resize",
-            function (event) {
-              updateItemSideSize();
-            },
-            true,
+      "resize",
+      function (event) {
+        updateItemSideSize();
+      },
+      true,
     );
 
     document.addEventListener(
-            "mousemove",
-            (e) => {
-              clientX = e.clientX;
-              clientY = e.clientY;
-              let pos = getPosOfGridItem(e.clientX, e.clientY);
+      "mousemove",
+      (e) => {
+        clientX = e.clientX;
+        clientY = e.clientY;
+        let pos = getPosOfGridItem(e.clientX, e.clientY);
 
-              for (let n = 0; n < finalItemCount * finalItemCount; n++) {
-                itemsActive[n] = false;
-              }
-              if (pos.exists) {
-                itemsActive[(pos.y - 1) * varItemCount + pos.x - 1] = true;
-              }
-              itemsActive = [...itemsActive];
-            },
-            { passive: true },
+        for (let n = 0; n < finalItemCount * finalItemCount; n++) {
+          itemsActive[n] = false;
+        }
+        if (pos.exists) {
+          itemsActive[(pos.y - 1) * varItemCount + pos.x - 1] = true;
+        }
+        itemsActive = [...itemsActive];
+      },
+      { passive: true },
     );
   });
 
   // true means collision false means no collision
   let collidesWith = (item1, item2) => {
-    if (
-            item1.x <= item2.x + (item2.spanX - 1) &&
-            item1.x + (item1.spanX - 1) >= item2.x &&
-            item1.y <= item2.y + (item2.spanY - 1) &&
-            item1.spanY - 1 + item1.y >= item2.y
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    return item1.x <= item2.x + (item2.spanX - 1) &&
+      item1.x + (item1.spanX - 1) >= item2.x &&
+      item1.y <= item2.y + (item2.spanY - 1) &&
+      item1.spanY - 1 + item1.y >= item2.y;
   };
 
   let checkCollision = (node) => {
@@ -154,11 +149,11 @@
 
   const dashboardEditor = {
     deleteCard: (cardID) => {
-      const index = cardList
-              .map(function (e) {
-                return e.id;
-              })
-              .indexOf(cardID);
+      var index = cardList
+        .map(function (e) {
+          return e.id;
+        })
+        .indexOf(cardID);
 
       if (index > -1) {
         cardList.splice(index, 1);
@@ -193,10 +188,10 @@
     },
     updateCardStatesPos: (x, y, cardID) => {
       var index = cardList
-              .map(function (e) {
-                return e.id;
-              })
-              .indexOf(cardID);
+        .map(function (e) {
+          return e.id;
+        })
+        .indexOf(cardID);
 
       if (index > -1) {
         cardList[index].x = x;
@@ -244,12 +239,14 @@
         return { x: item.x, y: item.y };
       }
     },
-    saveCardList: async () => { // TODO TODO TODO TODO TODO TODO 
-      // //TODO check if valid ?
-      // // await db.saveDashBoard(cardList, sessionid);
+    saveCardList: async () => {
+      //TODO check if valid ? ERROR when saving 
+
+      console.error("not implemented!!!!");
+      // await db.saveDashBoard(cardList, sessionid);
       // const output = await POST(
-      //         "",
-      //         JSON.stringify({ data: cardList, token: sessionid }),
+      //   "",
+      //   // JSON.stringify({ data: cardList, token: sessionid }),
       // );
       // console.log("saving... ", output);
       // invalidateAll();
@@ -258,13 +255,11 @@
 
   setContext("dashboardEditor", dashboardEditor);
 
-  let cardList = [];
-  
-  
+  $: cardList = [];
   const initCardList = () => {
-    dataHandler.fetchData().then((output)=>{
-      cardList = output;
-    })
+    if (user.dashboardData) {
+      cardList = JSON.parse(user.dashboardData);
+    }
   };
 
   const resetCardList = () => {
@@ -281,11 +276,11 @@
 {#if editMode}
   <div class="absolute top-0 left-0">
     <EditPanel
-            onDragStart={(x, y, self) => {
+      onDragStart={(x, y, self) => {
         let pos = getPosOfGridItem(clientX, clientY);
         return { marX: 1, marY: 1, cardSize: itemSideSize };
       }}
-            onDragEnd={(endX, endY, self) => {
+      onDragEnd={(endX, endY, self) => {
         let pos = { x: endX, y: endY }; //getPosOfGridItem(clientX, clientY);
         console.log("edit panel pos", pos);
 
@@ -323,9 +318,9 @@
     <div class="flex gap-4">
       {#if editMode}
         <Button
-                text="Zahodiť zmeny"
-                type="secondary"
-                onClick={() => {
+          text="Zahodiť zmeny"
+          type="secondary"
+          onClick={() => {
             editMode = !editMode;
             resetCardList();
           }}
@@ -334,9 +329,9 @@
       <!-- TODO spravit len disabled mozno v buducnosti, 
                 pridat aj popup preco to zmizlo (ked sa zmensi sirka okna) -->
       <Button
-              text={!editMode ? "upraviť" : "uložiť"}
-              type={!editMode ? "primary" : "confirm"}
-              onClick={() => {
+        text={!editMode ? "upraviť" : "uložiť"}
+        type={!editMode ? "primary" : "confirm"}
+        onClick={() => {
           if (editMode) {
             dashboardEditor.saveCardList();
           }
@@ -348,14 +343,14 @@
 </div>
 
 <div
-        class="flex min-h-screen flex-1 justify-center items-center relative w-full"
+  class="flex min-h-screen flex-1 justify-center items-center relative w-full"
 >
   {#if editMode}
     <div
-            class="box-border text-slate-900 w-full h-full absolute grid"
-            style:--side="{itemSideSize}px"
-            style:--grid-gap="{gridGap}px"
-            style:--itemCount={varItemCount}
+      class="box-border text-slate-900 w-full h-full absolute grid"
+      style:--side="{itemSideSize}px"
+      style:--grid-gap="{gridGap}px"
+      style:--itemCount={varItemCount}
     >
       {#each { length: Math.pow(varItemCount, 2) } as _, i}
         <div class={"cell gridItem " + (itemsActive[i] ? "active" : "")} />
@@ -364,16 +359,16 @@
   {/if}
 
   <div
-          class="w-full h-full relative flex-1 grid"
-          id="rightPanel"
-          style:--itemCount={finalItemCount}
-          style:--side="{itemSideSize}px"
-          style:--grid-gap="{gridGap}px"
+    class="w-full h-full relative flex-1 grid"
+    id="rightPanel"
+    style:--itemCount={finalItemCount}
+    style:--side="{itemSideSize}px"
+    style:--grid-gap="{gridGap}px"
   >
     {#each cardList as item, i}
       <svelte:component
-              this={cardUtils.getCardByFormat(item.component)}
-              cardStates={{
+        this={cardUtils.getCardByFormat(item.component)}
+        cardStates={{
           id: item.id,
           x: smallScreen ? 1 : item.x,
           y: smallScreen ? i + 1 : item.y,
@@ -383,7 +378,7 @@
           title: item.title,
           data: item.data ?? [],
         }}
-              onDragStart={(x, y, self) => {
+        onDragStart={(x, y, self) => {
           let itemWidth =
             itemSideSize * item.spanX + gridGap * (item.spanX - 1);
           let itemHeight =
@@ -397,7 +392,7 @@
 
           return { marX: mouseXIndex, marY: mouseYIndex };
         }}
-              onDragEnd={(endX, endY, self) => {
+        onDragEnd={(endX, endY, self) => {
           dashboardEditor.updateCardStatesPos(endX, endY, self.id);
         }}
       />
@@ -405,26 +400,26 @@
   </div>
 </div>
 
+<!-- </div>
+</section> -->
 
 <style lang="scss">
-  
+
 
   .grid {
     display: grid;
     grid-template-columns: repeat(var(--itemCount), var(--side));
     grid-template-rows: repeat(var(--itemCount), var(--side));
-    /* transition: all 100ms linear; */
     align-items: center;
     justify-content: center;
     grid-gap: var(--grid-gap);
     box-sizing: border-box;
 
-    /* grid je posunuty trocha do lava ale som lenivy (pridat gap) */
     @media (max-width: 800px) {
       grid-template-columns: repeat(1, calc(var(--side) * var(--itemCount)));
       grid-template-rows: repeat(
         calc(var(--itemCount) * var(--itemCount)),
-                      calc(var(--side) * var(--itemCount))
+          calc(var(--side) * var(--itemCount))
       );
     }
   }
@@ -434,7 +429,7 @@
     aspect-ratio: 1/1;
   }
   .cell {
-    background-color: hsl(213, 13%, 86%); /* TODO zmenit farbu na nieco pekne */
+    background-color: hsl(213, 13%, 86%);
     width: 100%;
     height: 100%;
     transition: background-color 100ms linear;
@@ -443,7 +438,5 @@
     background-color: hsl(210, 5%, 71%);
   }
 
-  .item {
-    /* outline: 1px black solid ; */
-  }
+ 
 </style>

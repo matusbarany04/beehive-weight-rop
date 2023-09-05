@@ -1,16 +1,17 @@
 <script>
   import { onMount, getContext } from "svelte";
-  import { modes, getDefaultMode } from "./cardConfig";
+  import { modes, getDefaultMode } from "./cardConfiguration";
 
   import { spring } from "svelte/motion";
   import CardError from "../errors/CardError.svelte";
-  import Modal from "../../Modal.svelte";
-  import Input from "../../Inputs/Input.svelte";
-  import Button from "../../Buttons/Button.svelte";
+  import Modal from "../../../Modal.svelte";
+  import Input from "../../../Inputs/Input.svelte";
+  import Button from "../../../Buttons/Button.svelte";
+
   import {
     isEmpty,
-  } from "$lib/utils/static";
-  import { applyAction } from "$app/forms";
+  } from "../../../lib/utils/static";
+  // import { applyAction } from "$app/forms";
 
   //TODO pridat check funkciu ci su tu vsetky premenne
   /**
@@ -348,7 +349,6 @@
     let output = updateSettings(data);
     if (output.status === "success") {
       cardStates.data = output.data;
-      console.log("cardState s", cardStates);
     } else {
       form.error = "Chyba";
     }
@@ -359,8 +359,8 @@
     showSettings = false;
     
     // invalidateAll(); //TODO  might come back as bug
-
-    applyAction({ type: "success" });
+    //might also come as a bug
+    // applyAction({ type: "success" });
   }
 </script>
 
@@ -513,10 +513,6 @@
     height: 100%;
     --length: 5px;
     --width: 40px;
-
-    
- 
-   
   }
 
   .headerIcon {
@@ -557,8 +553,8 @@
     -webkit-mask-size: 100%;
     mask-size: 100%;
     background: var(--color-delete);
-    mask-image: url("/icons/delete.svg");
-    -webkit-mask-image: url("/icons/delete.svg");
+    mask-image: url("icons/delete.svg");
+    -webkit-mask-image: url("icons/delete.svg");
   }
 
   .addBtn {

@@ -5,6 +5,7 @@ import terser  from '@rollup/plugin-terser';
 import css from 'rollup-plugin-css-only';
 import postcss from 'rollup-plugin-postcss'
 import tailwindcss from 'tailwindcss';
+import livereload from 'rollup-plugin-livereload';
 import autoprefixer from "autoprefixer";
 const production = !process.env.ROLLUP_WATCH;
 
@@ -18,10 +19,8 @@ const dashboardConfig =  {
   },
   plugins: [
     postcss({
-      extract: false, // Inline the CSS into the JS
-      plugins: [
-        tailwindcss(),
-      ],
+      extract: false,
+      plugins: [tailwindcss()],
       use: [
         ['sass', { includePaths: ['./src/styles', './node_modules'] }]
       ]
@@ -31,9 +30,11 @@ const dashboardConfig =  {
       dev: !production,
     }),
     // css({ input:"../src/main/resources/static/bundle.css", output: 'bundle.css' }),
-    resolve(),
+    resolve({
+      exportConditions: ['browser']
+    }),
     commonjs(),
-
+    !production && livereload('public'),
     // If we're building for production (npm run build
     // instead of npm run dev), minify
     production && terser()

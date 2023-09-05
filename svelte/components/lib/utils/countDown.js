@@ -9,7 +9,7 @@ export default function (value, options = {}) {
     if (0 >= value - end) {
       interval ?? clearInterval(interval);
       return null;
-    }
+    } 
     end += 1;
     // compute interval between start & end using the date-fns library
     return value - end;

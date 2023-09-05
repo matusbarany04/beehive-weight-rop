@@ -2,7 +2,7 @@
     import CardRoot from "./components/CardRoot.svelte";
 
 
-    import {generateUUID} from "$lib/utils/static";
+    import {generateUUID} from "../../lib/utils/static";
     import {getContext, onMount} from "svelte";
 
     export let cardStates;

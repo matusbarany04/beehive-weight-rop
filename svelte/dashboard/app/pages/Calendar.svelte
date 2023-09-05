@@ -6,7 +6,8 @@
     import Modal from "../../../components/Modal.svelte";
     import Input from "../../../components/Inputs/Input.svelte";
     import DropdownInput from "../../../components/Inputs/DropdownInput.svelte";
-    import {onDataLoaded} from "../../../components/cards/dataHandler";
+    import {onDataLoaded} from "../../../components/dashboard/cards/dataHandler";
+
 
     export let data;
 

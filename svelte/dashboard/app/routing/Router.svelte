@@ -7,20 +7,24 @@
   import DashLayout from "../layouts/DashLayout.svelte";
   import MainLayout from "../layouts/MainLayout.svelte";
   import Calendar from "../pages/Calendar.svelte";
-  import TestComponent from "../../../components/TestComponent.svelte";
   import Test from "../pages/Test.svelte";
+  import Beehive from "../pages/beehives/Beehive.svelte";
+  import Beehives from "../pages/Beehives.svelte";
+  import Notifications from "../pages/Notifications.svelte";
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
+  
+  console.log("routing")
 
   route.subscribe(val => {
     console.log(val)
     switch(val) {
-      // case BASE_PATH + '/':
-      // case BASE_PATH + '':
-      // case BASE_PATH +  '/homepage':
-      //   value = Homepage;
-      //   break;
+      case BASE_PATH + '/':
+      case BASE_PATH + '':
+      case BASE_PATH +  '/homepage':
+        value = Homepage;
+        break;
       case BASE_PATH +  '/help':
       case BASE_PATH +  '/help/':
         value = Help;
@@ -36,6 +40,13 @@
       case BASE_PATH +  '/test':
       case BASE_PATH +  '/test/':
         value = Test;
+        break;
+      case BASE_PATH +  '/beehives':
+        value = Beehives;
+        break;
+      case BASE_PATH +  '/notifications':
+      case BASE_PATH +  '/notifications/':
+        value = Notifications;
         break;
       default:
         value = Notfound;

@@ -33,20 +33,22 @@ function fromValueToTimestamp(from) {
     }
 }
 
-export const onDataLoaded = data => {
-  
+let callbacks = [];
+
+export function onDataLoaded(callback) {
+  callbacks.push(callback);
 }
 
 export const dataHandler = {
     fetchData: () => {
+      console.log("fetch")
         fetch('/dashboardApi/getData').then(r => r.json())
           .then(response => {
-            beehive_data.set(response.json());
-            onDataLoaded(response);
-            console.log("fetchData", response)
-            
+            beehive_data.set(response);
+            callbacks.forEach(callback => callback(response));
           });
     },
+  
     nowMinusFrom: (from) => {
         return new Date(new Date().getTime() - fromValueToTimestamp(from));
     },
@@ -70,6 +72,7 @@ export const dataHandler = {
         // console.log("temperature", dataHandler.getTemperatures("NY17IS0J9RKMRFP3"));
     },
     getAllBeehiveData: () => {
+        console.log("getAllBeehiveData",get(beehive_data))
         return get(beehive_data).data;
     },
     getBeehiveData: (beehive_id) => {

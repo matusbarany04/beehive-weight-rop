@@ -3,12 +3,12 @@
 
     $: ({ user, sessionid } = $page.data);
 
-    import { message } from "$lib/utils/dashboard";
+    // import { message } from "$lib/utils/dashboard";
     import { onMount } from "svelte";
-    import Button from "../../../../../Buttons/Button.svelte";
+    import Button from "../../../../components/Buttons/Button.svelte";
 
     onMount(async () => {
-        message.set("Pridať váhu");
+        // message.set("Pridať váhu");
     });
 </script>
 
