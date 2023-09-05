@@ -8,7 +8,7 @@ export default {
             let response = await fetch("/user/byToken");
             if (response.ok) {
                 const userData = await response.json();
-                user.set(userData);
+                user.set(userData.user);
             } else {
                 console.error('Failed to fetch user:', response.statusText);
             }

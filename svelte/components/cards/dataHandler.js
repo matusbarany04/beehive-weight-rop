@@ -36,8 +36,9 @@ function fromValueToTimestamp(from) {
 export const dataHandler = {
     fetchData: async () => {
         let response = await fetch('/dashboardApi/getData');
-        console.log("fetchData", response)
-        beehive_data.set(response.json());
+        console.log("fetchData", response);
+        let data = await response.json();
+        beehive_data.set(data);
     },
     nowMinusFrom: (from) => {
         return new Date(new Date().getTime() - fromValueToTimestamp(from));
@@ -62,6 +63,7 @@ export const dataHandler = {
         // console.log("temperature", dataHandler.getTemperatures("NY17IS0J9RKMRFP3"));
     },
     getAllBeehiveData: () => {
+        console.log("getAllBeehiveData",get(beehive_data))
         return get(beehive_data).data;
     },
     getBeehiveData: (beehive_id) => {

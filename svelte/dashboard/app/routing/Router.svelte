@@ -16,11 +16,11 @@
   route.subscribe(val => {
     console.log(val)
     switch(val) {
-      // case BASE_PATH + '/':
-      // case BASE_PATH + '':
-      // case BASE_PATH +  '/homepage':
-      //   value = Homepage;
-      //   break;
+      case BASE_PATH + '/':
+      case BASE_PATH + '':
+      case BASE_PATH +  '/homepage':
+        value = Homepage;
+        break;
       case BASE_PATH +  '/help':
       case BASE_PATH +  '/help/':
         value = Help;

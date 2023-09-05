@@ -9,8 +9,8 @@
   import Button from "../../Buttons/Button.svelte";
   import {
     isEmpty,
-  } from "$lib/utils/static";
-  import { applyAction } from "$app/forms";
+  } from "../../lib/utils/static";
+  // import { applyAction } from "$app/forms";
 
   //TODO pridat check funkciu ci su tu vsetky premenne
   /**
@@ -359,8 +359,8 @@
     showSettings = false;
     
     // invalidateAll(); //TODO  might come back as bug
-
-    applyAction({ type: "success" });
+    //might also come as a bug
+    // applyAction({ type: "success" });
   }
 </script>
 

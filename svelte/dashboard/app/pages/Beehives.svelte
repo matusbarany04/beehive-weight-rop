@@ -11,7 +11,7 @@
     import Modal from "../../../../components/Modal.svelte";
     import PercentageCard from "../../../../components/dashboard/cards/PercentageCard.svelte";
     import { onMount } from "svelte";
-    import { jsonToCsv, triggerDownloadCsv } from "$lib/utils/static";
+    import { jsonToCsv, triggerDownloadCsv } from "../../../components/lib/utils/static";
 
     $: ({ user, sessionid } = $page.data);
     import { dataHandler } from "../../../../components/dashboard/cards/dataHandler";

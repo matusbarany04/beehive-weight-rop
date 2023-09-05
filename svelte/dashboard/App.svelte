@@ -4,6 +4,7 @@
     import {dataHandler} from "../components/cards/dataHandler";
     import shared from "./app/stores/shared";
     import Loading from "../components/pages/Loading.svelte";
+    import {onMount} from "svelte";
 
     let dataLoaded = false;
 
@@ -21,7 +22,9 @@
 
     loadData();
 
- 
+  onMount(()=>{
+    console.log("app on Mount!!!");
+  })
     
     
 </script>

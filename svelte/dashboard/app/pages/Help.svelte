@@ -8,4 +8,6 @@
 <h1 class="text-center text-5xl">pomoc !!!</h1>
 <p>{JSON.stringify(shared.getUser())}</p>
 
-<p>{dataHandler.getAllBeehiveData()}</p>
+{#each dataHandler.getAllBeehiveData() as beehive}
+    <p>{JSON.stringify(beehive)}</p>
+{/each}

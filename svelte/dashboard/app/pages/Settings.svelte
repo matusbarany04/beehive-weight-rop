@@ -6,8 +6,9 @@
     import Toggle from "../../../components/settings/Toggle.svelte";
     
     onMount(() => {
+        console.log("Settings! here")
         message.set("Upozornenia");
-    });
+    }); 
 </script>
 
 <svelte:head>
