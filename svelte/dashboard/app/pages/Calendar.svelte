@@ -17,7 +17,6 @@
     let reminders = [];
     
     updateCalendar();
-    updateReminders();
 
     function updateReminders() {
       fetch("/dashboardApi/getReminders").then(r => r.json())
@@ -69,7 +68,8 @@
             daysOfMonth.push({date: new Date(d), reminders: []});
             console.log(d);
         }
-      
+
+        updateReminders();
     }
 
     function saveReminder(e) {
@@ -79,7 +79,6 @@
           newReminder = false;
           if(response.status === "ok") {
             updateCalendar();
-            updateReminders();
           }
         })
     }
@@ -87,16 +86,17 @@
     function calcTextColor(background) {
       const match = background.match(/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
       const rgb = match.slice(1).map(h => parseInt(h, 16));
-      if(rgb[0] + rgb[1] + rgb[2] < 382) return "white";
+      if(rgb[0] + rgb[1] * 2  < 380) return "white";
       else return "black";
     }
 
+
 </script>
 
-<div class="flex flex-col h-4/5">
+<div class="flex flex-col h-4/5" on:load={onload} >
   <div>
     <div class="flex items-center justify-end">
-      <h2 class="w-full">
+      <h2 class="w-full" id="title">
         {markedItem.toLocaleDateString("default", {
           year: "numeric",
           month: "long",
