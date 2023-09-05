@@ -1,13 +1,17 @@
-<script >
+<script>
 
-
+    import {onDataLoaded} from "../cards/dataHandler";
 
     export let handler
     export let orderBy
     export let align =  'left'
 
     const identifier = orderBy?.toString()
-    const sort = handler.getSort()
+    let sort;
+    
+    onDataLoaded(() => {
+      sort = handler.getSort();
+    })
 </script>
 
 <th

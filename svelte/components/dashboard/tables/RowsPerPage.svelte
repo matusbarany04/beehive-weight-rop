@@ -1,7 +1,14 @@
 <script >
  
+    import {onDataLoaded} from "../cards/dataHandler";
+
     export let handler
-    const rowsPerPage = handler.getRowsPerPage()
+    let rowsPerPage;
+    
+    onDataLoaded(() => {
+      rowsPerPage = handler.getRowsPerPage();
+    })
+    
     const options = [5, 10, 20, 50, 100]
 </script>
 

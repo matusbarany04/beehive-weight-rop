@@ -3,7 +3,7 @@
   import {onMount} from "svelte";
   import {jsonToCsv, triggerDownloadCsv} from "../../../components/lib/utils/static";
 
-  import {dataHandler} from "../../../components/dashboard/cards/dataHandler";
+  import {dataHandler, onDataLoaded} from "../../../components/dashboard/cards/dataHandler";
   import {
     DataHandler,
     Th,
@@ -17,15 +17,16 @@
 
   export let data;
 
-  const handler = new DataHandler(dataHandler.dataToTableFormat(), {
-    rowsPerPage: 10,
-  }); 
-  
-  const rows = handler.getRows();
-  
-  const user = shared.getUser()
+  const user = shared.getUser();
+  let rows, handler;
 
-  data = dataHandler.getAllBeehiveData()
+  onDataLoaded(beehiveData => {
+    data = dataHandler.getAllBeehiveData();
+    handler = new DataHandler(dataHandler.dataToTableFormat(), {
+      rowsPerPage: 10,
+    });
+    rows = handler.getRows();
+  });
   
   function exportData() {
     const jsonData = [];

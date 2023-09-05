@@ -14,8 +14,6 @@
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
-  
-  console.log("routing")
 
   route.subscribe(val => {
     console.log(val)
