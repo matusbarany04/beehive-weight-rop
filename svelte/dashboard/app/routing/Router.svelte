@@ -10,6 +10,7 @@
   import Test from "../pages/Test.svelte";
   import Beehive from "../pages/beehives/Beehive.svelte";
   import Beehives from "../pages/Beehives.svelte";
+  import Notifications from "../pages/Notifications.svelte";
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
@@ -39,8 +40,11 @@
         value = Test;
         break;
       case BASE_PATH +  '/beehives':
-      case BASE_PATH +  '/beehives/':
         value = Beehives;
+        break;
+      case BASE_PATH +  '/notifications':
+      case BASE_PATH +  '/notifications/':
+        value = Notifications;
         break;
       default:
         value = Notfound;
