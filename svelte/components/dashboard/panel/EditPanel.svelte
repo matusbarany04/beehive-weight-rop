@@ -3,7 +3,7 @@
 
   import { onMount } from "svelte";
   import PanelRoot from "./PanelRoot.svelte";
-  import * as cardUtils from "../../cards/cardUtils";
+  import * as cardUtils from "../cards/cardUtils";
   export let onDragStart = () => {};
   export let onDragEnd = () => {};
 

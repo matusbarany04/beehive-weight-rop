@@ -3,7 +3,7 @@
 
   import Button from "../../../components/Buttons/Button.svelte";
   import EditPanel from "../../../components/dashboard/panel/EditPanel.svelte";
-  import * as cardUtils from "../../../components/cards/cardUtils";
+  import * as cardUtils from "../../../components/dashboard/cards/cardUtils";
   import TW_BREAKPOINTS, {generateUUID} from "../../../components/lib/utils/static";
 
 

@@ -1,16 +1,16 @@
 <script>
   import { onMount, getContext } from "svelte";
-  import { modes, getDefaultMode } from "./cardConfig";
+  import { modes, getDefaultMode } from "./cardConfiguration";
 
   import { spring } from "svelte/motion";
   import CardError from "../errors/CardError.svelte";
-  import Modal from "../../Modal.svelte";
-  import Input from "../../Inputs/Input.svelte";
-  import Button from "../../Buttons/Button.svelte";
+  import Modal from "../../../Modal.svelte";
+  import Input from "../../../Inputs/Input.svelte";
+  import Button from "../../../Buttons/Button.svelte";
 
   import {
     isEmpty,
-  } from "../../lib/utils/static";
+  } from "../../../lib/utils/static";
   // import { applyAction } from "$app/forms";
 
   //TODO pridat check funkciu ci su tu vsetky premenne

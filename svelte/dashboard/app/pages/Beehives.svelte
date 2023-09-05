@@ -3,7 +3,7 @@
   import {onMount} from "svelte";
   import {jsonToCsv, triggerDownloadCsv} from "../../../components/lib/utils/static";
 
-  import {dataHandler} from "../../../components/cards/dataHandler";
+  import {dataHandler} from "../../../components/dashboard/cards/dataHandler";
   import {
     DataHandler,
     Th,

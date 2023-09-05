@@ -2,15 +2,15 @@
     import { page } from "$app/stores";
     // import { message } from "$lib/utils/dashboard";
     import { onMount } from "svelte";
-    import PercentageCard from "../../../../components/cards/PercentageCard.svelte";
+    import PercentageCard from "../../../../components/dashboard/cards/PercentageCard.svelte";
     import Button from "../../../../components/Buttons/Button.svelte";
-    import MapCard from "../../../../components/cards/MapCard.svelte";
-    import ApexChart from "../../../../components/cards/ApexChart.svelte";
-    import { dataHandler } from "../../../../components/cards/dataHandler";
+    import MapCard from "../../../../components/dashboard/cards/MapCard.svelte";
+    import ApexChart from "../../../../components/dashboard/cards/ApexChart.svelte";
+    import { dataHandler } from "../../../../components/dashboard/cards/dataHandler";
     import Modal from "../../../../components/Modal.svelte";
     import Input from "../../../../components/Inputs/Input.svelte";
     import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-    import WeatherCard from "../../../../components/cards/WeatherCard.svelte";
+    import WeatherCard from "../../../../components/dashboard/cards/WeatherCard.svelte";
 
     export let data;
     $: ({ user, sessionid } = $page.data);

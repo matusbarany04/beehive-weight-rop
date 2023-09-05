@@ -1,10 +1,10 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../lib/utils/static";
+  import { generateUUID } from "../../lib/utils/static";
   import { getContext, onMount } from "svelte";
   import { dataHandler } from "./dataHandler";
-  import ButtonSmall from "../Buttons/ButtonSmall.svelte";
-  import DropdownInput from "../Inputs/DropdownInput.svelte";
+  import ButtonSmall from "../../Buttons/ButtonSmall.svelte";
+  import DropdownInput from "../../Inputs/DropdownInput.svelte";
   
   export let cardStates;
   export let onDragEnd; // function
@@ -36,7 +36,7 @@
     const beehiveData = [];
     cardStates.data.forEach((element) => {
       console.log(element);
-      if (element.type == "dummy") {
+      if (element.type === "dummy") {
         beehiveData.push({
           name: "temperature",
           data: [

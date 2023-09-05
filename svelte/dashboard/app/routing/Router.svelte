@@ -7,7 +7,6 @@
   import DashLayout from "../layouts/DashLayout.svelte";
   import MainLayout from "../layouts/MainLayout.svelte";
   import Calendar from "../pages/Calendar.svelte";
-  import TestComponent from "../../../components/TestComponent.svelte";
   import Test from "../pages/Test.svelte";
   import Beehive from "../pages/beehives/Beehive.svelte";
   import Beehives from "../pages/Beehives.svelte";

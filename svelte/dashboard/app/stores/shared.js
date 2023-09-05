@@ -24,3 +24,5 @@ export default {
         return userValue;
     }
 }
+
+export let message = writable("Loading...");
