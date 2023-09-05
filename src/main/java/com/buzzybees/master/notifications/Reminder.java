@@ -28,7 +28,7 @@ public class Reminder {
     private long userId;
 
     @Column(name = "color")
-    private String color = "black";
+    private String color = "#a1a1a1";
 
     @Column(name = "notify_by")
     private int notifyBy = 0;

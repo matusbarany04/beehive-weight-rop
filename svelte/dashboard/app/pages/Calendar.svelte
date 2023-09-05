@@ -6,7 +6,7 @@
     import Modal from "../../../components/Modal.svelte";
     import Input from "../../../components/Inputs/Input.svelte";
     import DropdownInput from "../../../components/Inputs/DropdownInput.svelte";
-    
+
     export let data;
 
     let daysOfMonth = [];
@@ -69,6 +69,7 @@
             daysOfMonth.push({date: new Date(d), reminders: []});
             console.log(d);
         }
+      
     }
 
     function saveReminder(e) {
@@ -81,6 +82,13 @@
             updateReminders();
           }
         })
+    }
+    
+    function calcTextColor(background) {
+      const match = background.match(/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+      const rgb = match.slice(1).map(h => parseInt(h, 16));
+      if(rgb[0] + rgb[1] + rgb[2] < 382) return "white";
+      else return "black";
     }
 
 </script>
@@ -142,7 +150,10 @@
         on:mousedown={() => (markedItem = day.date)}
       >
         {#each day.reminders as reminder}
-          <div>{reminder.title}</div>
+          <div style="background-color: {reminder.color}" 
+               class="rounded p-1 text-{calcTextColor(reminder.color)}">
+            {reminder.title} - {reminder.time}
+          </div>
         {/each}
       </DayItem>
     {/each}
@@ -157,6 +168,9 @@
     <Input label="Názov" placeholder="Názov" name="title" value="" required="required"/>
     
     <Input label="Poznámka" placeholder="Poznámka" name="details" value=""/>
+
+    <label for="color">Farba: </label>
+    <input type="color" name="color" id="color" value="#0000ff">
 
     <label for="date">Dátum: </label>
     <input
