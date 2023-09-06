@@ -53,24 +53,17 @@ export default {
     extend: {},
   },
   plugins: [
-    function ({ addUtilities ,theme}) {
+    function ({addUtilities, theme}) {
       const buttonUtilities = {
         '.btn-primary': {
-          'background-color': theme('colors.primary.500'),
-          '--icon-color': 'white',
-          '--text-color': 'white',
+          'background-color': theme('colors.secondary.500'),
+          '--icon-color': 'black',
+          '--text-color': 'black',
         },
         '.btn-secondary': {
           '--icon-color': 'black',
-          'background-color': theme('colors.secondary.500'),
+          'background-color': theme('colors.white'),
           'outline': '2px solid #cfd2d6',
-        },
-        '.btn-tertiary': {
-          '--icon-color': 'black',
-          '--text-color': 'black',
-          'background-color': theme('colors.tertiary.100'),
-          'outline': '1px solid ' + theme('colors.primary.100'),
-          
         },
 
         '.btn-confirm': {
@@ -84,7 +77,7 @@ export default {
         },
       }
       addUtilities(buttonUtilities);
-      
+
       const newUtilities = {
         '.isolation-isolate': {
           isolation: 'isolate',
