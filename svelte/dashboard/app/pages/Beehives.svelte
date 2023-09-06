@@ -3,7 +3,6 @@
   import {onMount} from "svelte";
   import {jsonToCsv, triggerDownloadCsv} from "../../../components/lib/utils/static";
 
-  import {dataHandler, beehivesLoaded, onLoad} from "../../../components/dashboard/cards/dataHandler";
   import {
     DataHandler,
     Th,
@@ -13,7 +12,7 @@
   import Search from "../../../components/dashboard/tables/Search.svelte";
   import RowsPerPage from "../../../components/dashboard/tables/RowsPerPage.svelte";
 
-  import shared from "../stores/shared";
+  import shared, {onLoad} from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
 
   export let data;
@@ -21,16 +20,16 @@
   const user = shared.getUser();
   let rows, handler;
 
-  onLoad(["beehives", "statuses"], () => {
-    
+  onLoad(["beehives", "statuses"], beehives => {
+      handler = new DataHandler(beehives, {
+        rowsPerPage: 10,
+      });
   });
 
     /*
   onDataLoaded(beehiveData => {
     data = dataHandler.getAllBeehiveData();
-    handler = new DataHandler(dataHandler.dataToTableFormat(), {
-      rowsPerPage: 10,
-    });
+   
     rows = handler.getRows();
   });*/
   
@@ -112,7 +111,7 @@
     </div> -->
 
   <!-- <div class="cardImage" /> -->
-  {#if beehivesLoaded === true}
+  {#if handler && rows}
   <div class="w-full h-auto flex flex-col bg-white p-8 mt-4 rounded-lg">
     <div
       class="h-36 items-center flex flex-col gap-2 content-between md:flex-row md:gap-0 md:h-8"

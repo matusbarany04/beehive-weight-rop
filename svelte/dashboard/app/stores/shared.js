@@ -34,7 +34,7 @@ export default {
     console.log("fetch")
     fetch('/dashboardApi/getData').then(r => r.json())
       .then(response => {
-        beehive_data.set(response);
+      //  beehive_data.set(response);
         loadData("statuses", response.data);
       });
   },

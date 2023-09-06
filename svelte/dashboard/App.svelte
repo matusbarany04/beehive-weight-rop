@@ -9,12 +9,12 @@
     async function loadData() {
       //sets prefix for all route links
 
-      shared.initAll();
+      
       prefix.setPrefix('/dashboard');
       // fetches all dashboard data to dataHandler store
-
-      dataHandler.fetchBeehives();
-      dataHandler.fetchAllData();
+      shared.fetchUser();
+      shared.fetchBeehives();
+      shared.fetchStatuses();
       // fetches all shared data between all components and saves them to corresponding stores
     }
 
