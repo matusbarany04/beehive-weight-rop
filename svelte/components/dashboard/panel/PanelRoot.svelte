@@ -32,9 +32,9 @@
 
 <svelte:window bind:innerWidth="{screenWidth}"/>
 
-<div class="relative z-50">
+<div class="relative z-10">
     <section
-            class="overflow-x-hidden flex-col h-screen bg-primary-100 absolute lg:relative animate-width {(visible ? 'w-56' : 'w-0')}"
+            class="{visible ? '' : 'overflow-x-hidden'} flex-col h-screen bg-primary-100 absolute lg:relative animate-width {(visible ? 'w-56' : 'w-0')}"
     >
         <button
                 class="p-1 absolute rounded-full transition-all duration-100 bg-secondary-500 right-2 top-4"

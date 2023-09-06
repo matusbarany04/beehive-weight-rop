@@ -36,7 +36,7 @@
     const beehiveData = [];
     cardStates.data.forEach((element) => {
       console.log(element);
-      if (element.type === "dummy") {
+      if (true ) { // ONLY FOR DEBUG BUG BUG element.type ===  "dummy"
         beehiveData.push({
           name: "temperature",
           data: [

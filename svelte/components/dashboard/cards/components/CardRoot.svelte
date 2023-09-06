@@ -53,8 +53,8 @@
   const dashboardEditor = getContext("dashboardEditor");
   // dashboardEditor.deleteCard("some dynamic id");
 
-  if (cardStates.mode == null) getDefaultMode();
-  // export let editing;
+  if (!cardStates.mode) getDefaultMode();
+
   if (cardStates.editing === true) cardStates.mode = "edit";
   if (cardStates.mode === "add") cardStates.editing = true;
 
