@@ -5,9 +5,7 @@
     export let handler
     let rowsPerPage;
     
-    onDataLoaded(() => {
-      rowsPerPage = handler.getRowsPerPage();
-    })
+    rowsPerPage = handler.getRowsPerPage();
     
     const options = [5, 10, 20, 50, 100]
 </script>

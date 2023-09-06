@@ -14,6 +14,7 @@
   import RowsPerPage from "../../../components/dashboard/tables/RowsPerPage.svelte";
 
   import shared from "../stores/shared";
+  import Loading from "../../../components/pages/Loading.svelte";
 
   export let data;
 
@@ -106,6 +107,7 @@
     </div> -->
 
   <!-- <div class="cardImage" /> -->
+  {#if handler && rows}
   <div class="w-full h-auto flex flex-col bg-white p-8 mt-4 rounded-lg">
     <div
       class="h-36 items-center flex flex-col gap-2 content-between md:flex-row md:gap-0 md:h-8"
@@ -226,6 +228,9 @@
       <Pagination {handler}/>
     </footer>
   </div>
+    {:else}
+      <Loading/>
+    {/if}
 </div>
 
 <style lang="scss">
