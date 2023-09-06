@@ -1,5 +1,6 @@
 import {get, writable} from "svelte/store";
 import {getContext} from "svelte";
+import {isEmpty} from "../../lib/utils/static";
 
 let beehive_data = writable([]);
 
@@ -32,6 +33,18 @@ function fromValueToTimestamp(from) {
             break;
     }
 }
+let callbacks = [];
+
+export function onDataLoaded(callback) {
+  callbacks.push(callback);
+  let bee_data  = dataHandler.getRawBeehiveData();
+  
+  if (!isEmpty(bee_data)) {
+    callback(bee_data);
+  } else {
+    callbacks.push(callback);
+  }
+}
 
 export const dataHandler = {
     fetchData: async () => {
@@ -63,8 +76,10 @@ export const dataHandler = {
         // console.log("temperature", dataHandler.getTemperatures("NY17IS0J9RKMRFP3"));
     },
     getAllBeehiveData: () => {
-        console.log("getAllBeehiveData",get(beehive_data))
-        return get(beehive_data).data;
+        return dataHandler.getRawBeehiveData().data;
+    },
+    getRawBeehiveData: () => {
+        return get(beehive_data);
     },
     getBeehiveData: (beehive_id) => {
         let bee_data = dataHandler.getAllBeehiveData();
