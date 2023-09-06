@@ -48,64 +48,14 @@ export function onDataLoaded(callback) {
   }
 }
 
-let savedData = {};
-let callbacks = [];
 
-export function onLoad(dataTypes, callback) {
-  let loadedData = getLoadedData(dataTypes);
-  if(loadedData != null) callback(...loadedData);
-  else {
-    let newCallback = {dataTypes: dataTypes, func: callback};
-    callbacks.push(newCallback);
-  }
-  
-  console.log(callbacks);
-}
-
-function getLoadedData(dataTypes) {
-  let results = [];
-  for(let dataType of dataTypes) {
-    if(savedData[dataType] === undefined) return null;
-    else results.push(savedData[dataType]);
-  }
-  
-  return results;
-}
-
-function loadData(dataType, data) {
-  savedData[dataType] = data;
-  console.log(savedData);
-  for(let callback of callbacks) {
-    if(callback.dataTypes.includes(dataType)) {
-      let loadedData = getLoadedData(callback.dataTypes);
-      if(loadedData != null) callback.func(...loadedData);
-    }
-  }
-}
 
 
 
 
 export const dataHandler = {
   
-    fetchBeehives: async () => {
-      console.log("fetch")
-      let promise = await fetch('/dashboardApi/getBeehives');
-      let response = await promise.json();
-      console.log(response)
-      if(response.status === "ok") {
-        loadData("beehives", response["beehives"]);
-      }
-    },
-  
-    fetchAllData: () => {
-      console.log("fetch")
-        fetch('/dashboardApi/getData').then(r => r.json())
-          .then(response => {
-            beehive_data.set(response);
-            loadData("statuses", response.data);
-          });
-    },
+
   
     nowMinusFrom: (from) => {
         return new Date(new Date().getTime() - fromValueToTimestamp(from));
