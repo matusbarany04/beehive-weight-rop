@@ -1,7 +1,7 @@
 <script>
     import { page } from "$app/stores";
 
-    $: ({ user, sessionid } = $page.data);
+    // $: ({ user, sessionid } = $page.data);
 
     // import { message } from "$lib/utils/dashboard";
     import { onMount } from "svelte";
