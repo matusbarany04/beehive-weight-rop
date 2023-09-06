@@ -131,7 +131,7 @@
     <Button
       image="../../icons/add_thin.svg"
       text="Nová poznámka/primomienka"
-      type="secondary"
+      type="primary"
       onClick={() => (newReminder = true)}
     />
 

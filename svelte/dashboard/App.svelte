@@ -4,8 +4,6 @@
   import {dataHandler, onDataLoaded} from "../components/dashboard/cards/dataHandler";
     import shared from "./app/stores/shared";
     import Loading from "../components/pages/Loading.svelte";
-
-  let dataLoaded = false;
     
     // Initiate all fetch operations in an async function
     async function loadData() {
@@ -14,24 +12,20 @@
       shared.initAll();
       prefix.setPrefix('/dashboard');
       // fetches all dashboard data to dataHandler store
-      dataHandler.fetchData();
-      // fetches all shared data between all components and saves them to corresponding stores 
 
-      dataLoaded = true;
+      dataHandler.fetchBeehives();
+      dataHandler.fetchAllData();
+      // fetches all shared data between all components and saves them to corresponding stores
     }
 
     loadData();
 </script>
 
 <div class="bg-slate-300">
-  {#if dataLoaded}
     <!-- Uncomment these if you want to include them -->
     <!-- <Sidenav class="sidenav" />
     <Panel /> -->
     <Router />
-  {:else}
-    <Loading/>
-  {/if}
 </div>
 
 <style>
