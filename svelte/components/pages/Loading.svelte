@@ -2,8 +2,9 @@
 
 </script>
 
-<main class="w-screen h-screen flex flex-1 box-border bg-slate-100">
+<main class="w-screen h-screen flex flex-1 box-border">
 
+  <img class="h-20 w-20" src="/img/loading.gif">
     <!-- loading -->
     <div class="flex-1  flex items-center justify-center">
         <div class="lds-grid">

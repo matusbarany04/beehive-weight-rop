@@ -3,7 +3,6 @@
   import {onMount} from "svelte";
   import {jsonToCsv, triggerDownloadCsv} from "../../../components/lib/utils/static";
 
-  import {dataHandler, onDataLoaded} from "../../../components/dashboard/cards/dataHandler";
   import {
     DataHandler,
     Th,
@@ -13,21 +12,34 @@
   import Search from "../../../components/dashboard/tables/Search.svelte";
   import RowsPerPage from "../../../components/dashboard/tables/RowsPerPage.svelte";
 
-  import shared from "../stores/shared";
+  import shared, {onLoad} from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
 
   export let data;
 
   const user = shared.getUser();
-  let rows, handler;
+  let rows, handler, statuses;
 
-  onDataLoaded(beehiveData => {
-    data = dataHandler.getAllBeehiveData();
-    handler = new DataHandler(dataHandler.dataToTableFormat(), {
+  onLoad("beehives", beehives => {
+      handler = new DataHandler(beehives, {
+        rowsPerPage: 10,
+      });
+    rows = handler.getRows();
+  });
+
+  onLoad("statuses", statuses => {
+    statuses = new DataHandler(statuses, {
       rowsPerPage: 10,
     });
     rows = handler.getRows();
   });
+
+    /*
+  onDataLoaded(beehiveData => {
+    data = dataHandler.getAllBeehiveData();
+   
+    rows = handler.getRows();
+  });*/
   
   function exportData() {
     const jsonData = [];
@@ -186,10 +198,10 @@
                       ? 'text-confirm-600'
                       : 'text-error-500'}"
                 >
-                  {#if row.status}
+                  {#if statuses}
                     {row.status}
                   {:else}
-                    Chyba
+                    <img class="w-8 h-8" src="../../img/loading.gif">
                   {/if}
                 </p>
               </div>

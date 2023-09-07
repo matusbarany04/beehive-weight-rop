@@ -65,6 +65,24 @@ public class DashboardController {
         currentUserId = 0;
     }
 
+    @GetMapping("/getBeehives")
+    public String getBeehives() {
+        JSONObject response = new JSONObject();
+        String status = "ERR_NO_PERMISSION";
+
+        if(currentUserId > 0) {
+            JSONArray array = new JSONArray();
+            Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
+            for (Beehive beehive : beehives) array.put(beehive.toJSON());
+
+            response.put("beehives", array);
+            status = "ok";
+        }
+
+        response.put("status", status);
+        return response.toString();
+    }
+
     @GetMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getData(@RequestParam(value = "fromDate", defaultValue = "all") String date) {
 
@@ -82,9 +100,7 @@ public class DashboardController {
 
                 for (Beehive beehive : beehives) {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("name", beehive.getName());
                     jsonObject.put("beehive", beehive.toJSON());
-                    jsonObject.put("token", beehive.getToken());
 
                     Status[] statuses = statusRepository.getAllStatusesSince(beehive.getToken(), timestamp); // statusRepository.getLastStatus( //,timestamp ;
                     jsonObject.put("statuses", Beehive.mergeStatuses(statuses));

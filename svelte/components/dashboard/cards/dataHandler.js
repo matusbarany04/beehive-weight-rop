@@ -13,6 +13,7 @@ export let topValues = ["now"];
  * @param {*} token
  */
 export let timeframeFrom = [];
+export let beehivesLoaded = false;
 
 function fromValueToTimestamp(from) {
     switch (from) {
@@ -34,7 +35,7 @@ function fromValueToTimestamp(from) {
     }
 }
 
-let callbacks = [];
+let beehives;
 
 export function onDataLoaded(callback) {
   callbacks.push(callback);
@@ -47,15 +48,14 @@ export function onDataLoaded(callback) {
   }
 }
 
+
+
+
+
+
 export const dataHandler = {
-    fetchData: () => {
-      console.log("fetch")
-        fetch('/dashboardApi/getData').then(r => r.json())
-          .then(response => {
-            beehive_data.set(response);
-            callbacks.forEach(callback => callback(response));
-          });
-    },
+  
+
   
     nowMinusFrom: (from) => {
         return new Date(new Date().getTime() - fromValueToTimestamp(from));
