@@ -31,7 +31,7 @@
     statuses = new DataHandler(statuses, {
       rowsPerPage: 10,
     });
-    rows = handler.getRows();
+    rows = statuses.getRows();
   });
   
   
@@ -153,7 +153,7 @@
 
       <RowsPerPage {handler}/>
     </div>
-    <div class="h-[1px] w-full bg-slate-200 mt-3"/>
+    <div class="h-[1px] w-full bg-slate-200 mt-3"></div>
     <div class="flex-1 w-full overflow-x-scroll  max-h-[48rem] flex">
       <table class="flex-1">
         <thead class="bg-white">
@@ -195,13 +195,17 @@
                   {#if statuses}
                     {row.status}
                   {:else}
-                    <img class="w-8 h-8" src="../../img/loading.gif">
+                    <img class="w-8 h-8" src="../../img/loading.gif" alt="loading...">
                   {/if}
                 </p>
               </div>
             </td>
             <td>
-              {new Date(row.timestamp).toLocaleString()}
+              {#if statuses}
+                {new Date(row.timestamp).toLocaleString()}
+              {:else}
+                <img class="w-8 h-8" src="../../img/loading.gif" alt="loading...">
+              {/if}
               <!-- {#if row.statuses.length > 0}
               {new Date(row.statuses[0].timestamp).toLocaleString()}
             {:else}
@@ -209,10 +213,14 @@
             {/if} -->
             </td>
             <td class="font-bold">
-              {#if row.weight}
-                {row.weight}kg
+              {#if statuses}
+                {#if row.weight}
+                  {row.weight}kg
+                {:else}
+                  Nedostatok dát
+                {/if}
               {:else}
-                Nedostatok dát
+                <img class="w-8 h-8" src="../../img/loading.gif" alt="loading...">
               {/if}
             </td>
             <td
