@@ -1,0 +1,54 @@
+name: Deploy to Tomcat
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # Change to your desired Node.js version
+
+      - name: Install dependencies for Svelte app
+        run: |
+          cd /svelte/
+          npm install
+        working-directory: /svelte/
+
+      - name: Build Svelte app
+        run: |
+          cd /svelte/
+          npm run build
+        working-directory: /svelte/
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17' # Change to Java 17
+
+      - name: Build Spring Boot project
+        run: |
+          ./mvnw clean package -DskipTests
+        working-directory: path/to/your/spring-boot-app
+
+      - name: Deploy to Tomcat
+        run: |
+          # Replace these values with your Tomcat server details
+          TOMCAT_USER=username
+          TOMCAT_PASS=password
+          TOMCAT_URL=http://tomcat-server-url:8080/manager/text
+          
+          # Deploy the WAR file to Tomcat
+          curl --upload-file path/to/your/spring-boot-app/target/your-app.war "$TOMCAT_URL" -u "$TOMCAT_USER:$TOMCAT_PASS"
+        env:
+          TOMCAT_USER: ${{ secrets.TOMCAT_USER }}
+          TOMCAT_PASS: ${{ secrets.TOMCAT_PASS }}
