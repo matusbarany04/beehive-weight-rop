@@ -18,12 +18,19 @@
   export let data;
 
   const user = shared.getUser();
-  let rows, handler;
+  let rows, handler, statuses;
 
   onLoad("beehives", beehives => {
       handler = new DataHandler(beehives, {
         rowsPerPage: 10,
       });
+    rows = handler.getRows();
+  });
+
+  onLoad("statuses", statuses => {
+    statuses = new DataHandler(statuses, {
+      rowsPerPage: 10,
+    });
     rows = handler.getRows();
   });
 
@@ -191,10 +198,10 @@
                       ? 'text-confirm-600'
                       : 'text-error-500'}"
                 >
-                  {#if row.status}
+                  {#if statuses}
                     {row.status}
                   {:else}
-                    Chyba
+                    <img class="w-8 h-8" src="../../img/loading.gif">
                   {/if}
                 </p>
               </div>
