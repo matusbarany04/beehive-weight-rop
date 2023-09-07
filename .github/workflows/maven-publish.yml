@@ -15,15 +15,15 @@ jobs:
 
       - name: Install dependencies for Svelte app
         run: |
-          cd /svelte/
+          cd svelte/
           npm install
-        working-directory: /svelte/
+        working-directory: svelte/
 
       - name: Build Svelte app
         run: |
-          cd /svelte/
+          cd svelte/
           npm run build
-        working-directory: /svelte/
+        working-directory: svelte/
 
       - name: Set up JDK
         uses: actions/setup-java@v2
