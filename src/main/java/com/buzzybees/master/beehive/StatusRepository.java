@@ -15,7 +15,7 @@ public interface StatusRepository extends CrudRepository<Status, String> {
     @Query("SELECT s FROM Status s WHERE s.beehive LIKE :beehiveId AND s.timestamp > :timestamp")
     Status[] getAllStatusesSince(String beehiveId, long timestamp);
 
-    @Query("SELECT s FROM Status s where s.beehive in (:beehives) AND s.timestamp > :timestamp")
+    @Query("SELECT s FROM Status s WHERE s.beehive in (:beehives) AND s.timestamp > :timestamp ORDER BY s.timestamp")
     Status[] getAllStatusesSince(String[] beehives, long timestamp);
 
     @Query("SELECT s FROM Status s WHERE s.beehive LIKE :beehiveId ORDER BY s.timestamp DESC LIMIT 1")
