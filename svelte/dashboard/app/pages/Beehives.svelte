@@ -33,13 +33,7 @@
     });
     rows = handler.getRows();
   });
-
-    /*
-  onDataLoaded(beehiveData => {
-    data = dataHandler.getAllBeehiveData();
-   
-    rows = handler.getRows();
-  });*/
+  
   
   function exportData() {
     const jsonData = [];
