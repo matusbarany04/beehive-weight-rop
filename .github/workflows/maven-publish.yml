@@ -8,11 +8,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: self-hosted
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
@@ -38,17 +33,13 @@ jobs:
       - name: Build Spring Boot project
         run: |
           ./mvnw clean package -DskipTests
-        working-directory: path/to/your/spring-boot-app
+        # working-directory: path/to/your/spring-boot-app
 
       - name: Deploy to Tomcat
-        run: |
-          # Replace these values with your Tomcat server details
-          TOMCAT_USER=username
-          TOMCAT_PASS=password
-          TOMCAT_URL=http://tomcat-server-url:8080/manager/text
-          
-          # Deploy the WAR file to Tomcat
-          curl --upload-file path/to/your/spring-boot-app/target/your-app.war "$TOMCAT_URL" -u "$TOMCAT_USER:$TOMCAT_PASS"
-        env:
-          TOMCAT_USER: ${{ secrets.TOMCAT_USER }}
-          TOMCAT_PASS: ${{ secrets.TOMCAT_PASS }}
+    - name: Move WAR to Tomcat webapps
+  run: |
+    mkdir /opt/tomcat/webapps/beehive
+  run: |
+    mv ./target/master-0.0.1-SNAPSHOT.war /opt/tomcat/webapps/beehive/
+
+
