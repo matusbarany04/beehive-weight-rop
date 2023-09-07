@@ -19,6 +19,9 @@ public class Status {
     @Column(name = "beehive")
     private String beehive;
 
+    @Column(name = "battery")
+    private int battery;
+
     @Column(name = "status")
     private String status;
 
@@ -30,9 +33,6 @@ public class Status {
 
     @Column(name = "humidity")
     private float humidity;
-
-    @Column(name = "battery")
-    private float battery;
 
     public Status(JSONObject jsonObject) {
         beehive = jsonObject.getString("beehive");
@@ -74,6 +74,10 @@ public class Status {
 
     public float getHumidity() {
         return humidity;
+    }
+
+    public int getBattery() {
+        return battery;
     }
 
     public void setBeehive(String beehive) {

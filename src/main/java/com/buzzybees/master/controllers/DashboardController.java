@@ -19,8 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.JobStateReasons;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -86,37 +88,47 @@ public class DashboardController {
     @GetMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getData(@RequestParam(value = "fromDate", defaultValue = "all") String date) {
 
-        //TODO nejaky taky parameter prosim, aby mi dalo poslednych 100 napr alebo nejaky date routa napr
-        // pridaj mi token alebo id alebo nieco cim si mozem odlisit vahy
         JSONObject response = new JSONObject();
-        String status = "ERR_NO_PERMISSION";
+        String responseStatus = "ERR_NO_PERMISSION";
         try {
             System.out.println(date);
             long timestamp = date.equals("all") ? 0 : dateToTimestamp(date);
 
             if (currentUserId > 0) {
-                JSONArray array = new JSONArray();
-                Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
+                JSONObject jsonObject = new JSONObject();
+                String[] beehives = beehiveRepository.getBeehiveTokens(currentUserId);
+                Status[] statuses = statusRepository.getAllStatusesSince(beehives, timestamp);
 
-                for (Beehive beehive : beehives) {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("beehive", beehive.toJSON());
-
-                    Status[] statuses = statusRepository.getAllStatusesSince(beehive.getToken(), timestamp); // statusRepository.getLastStatus( //,timestamp ;
-                    jsonObject.put("statuses", Beehive.mergeStatuses(statuses));
-                    array.put(jsonObject);
-                    status = "ok";
+                for(String token : beehives) {
+                    JSONObject beehive = new JSONObject();
+                    beehive.put("timestamps", new JSONArray());
+                    beehive.put("batteries", new JSONArray());
+                    beehive.put("weights", new JSONArray());
+                    beehive.put("humids", new JSONArray());
+                    beehive.put("temps", new JSONArray());
+                    jsonObject.put(token, beehive);
                 }
 
-                response.put("data", array);
+                for(Status status : statuses) {
+                    JSONObject beehive = jsonObject.getJSONObject(status.getBeehive());
+                    beehive.getJSONArray("timestamps").put(status.getTimestamp());
+                    beehive.getJSONArray("batteries").put(status.getBattery());
+                    beehive.getJSONArray("weights").put(status.getWeight());
+                    beehive.getJSONArray("humids").put(status.getHumidity());
+                    beehive.getJSONArray("temps").put(status.getTemperature());
+                }
+
+                responseStatus = "ok";
+
+                response.put("data", jsonObject);
             }
 
         } catch (ParseException e) {
             e.printStackTrace();
-            status = "ERR_WRONG_DATE";
+            responseStatus = "ERR_WRONG_DATE";
         }
 
-        response.put("status", status);
+        response.put("status", responseStatus);
         return response.toString();
     }
 
@@ -322,10 +334,5 @@ public class DashboardController {
         response.put("status", currentUserId > 0 ? "ok" : "ERR_NO_PERMISSION");
 
         return response.toString();
-    }
-
-    @PostMapping("/test")
-    public String test() {
-        return "TEST OK";
     }
 }

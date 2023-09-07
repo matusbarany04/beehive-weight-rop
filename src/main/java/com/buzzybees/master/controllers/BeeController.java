@@ -11,8 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -33,5 +32,13 @@ public class BeeController {
         Status status = new Status(new JSONObject(data));
         statusRepo.save(status);
         return "DATA HAS BEEN SAVED";
+    }
+
+    @GetMapping("/testStatuses")
+    public String test() {
+        String[] beehives = {"ZOEU3GXLC0CQPQ0X", "9XUKIB685I5VMHF6"};
+        Status[] statuses = statusRepo.getAllStatusesSince(beehives, 2147483645);
+        System.out.println("sql test");
+        return Arrays.toString(statuses);
     }
 }

@@ -19,10 +19,6 @@
     let reminders = [];
     
     updateCalendar();
-    
-    onDataLoaded(data => {
-      console.log(data);
-    });
 
     function updateReminders() {
       fetch("/dashboardApi/getReminders").then(r => r.json())
