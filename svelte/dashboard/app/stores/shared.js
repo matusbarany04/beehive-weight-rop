@@ -52,14 +52,14 @@ let savedData = {};
 let callbacks = [];
 
 export function onLoad(dataTypes, callback) {
+  if(!Array.isArray(dataTypes)) dataTypes = [dataTypes];
+  
   let loadedData = getLoadedData(dataTypes);
   if (loadedData != null) callback(...loadedData);
   else {
     let newCallback = {dataTypes: dataTypes, func: callback};
     callbacks.push(newCallback);
   }
-
-  console.log(callbacks);
 }
 
 function getLoadedData(dataTypes) {

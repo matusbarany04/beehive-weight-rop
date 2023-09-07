@@ -20,10 +20,11 @@
   const user = shared.getUser();
   let rows, handler;
 
-  onLoad(["beehives", "statuses"], beehives => {
+  onLoad("beehives", beehives => {
       handler = new DataHandler(beehives, {
         rowsPerPage: 10,
       });
+    rows = handler.getRows();
   });
 
     /*
