@@ -27,13 +27,11 @@
     rows = handler.getRows();
   });
 
-  onLoad("statuses", statuses => {
-    statuses = new DataHandler(statuses, {
-      rowsPerPage: 10,
-    });
-    rows = statuses.getRows();
+
+
+  onLoad("statuses", data => {
+    statuses = data;
   });
-  
   
   function exportData() {
     const jsonData = [];
@@ -164,7 +162,7 @@
           <Th {handler}>Status</Th>
           <Th {handler} orderBy="timestamp">Dátum pridania</Th>
           <Th {handler} orderBy="weight">Váha</Th>
-          <Th {handler}></Th>
+          <Th {handler}/>
         </tr>
         </thead>
         <tbody>
@@ -172,8 +170,7 @@
           <tr class="h-20">
             <td class="">
               <div
-                class="bg-secondary-500 aspect-square rounded-full h-2 w-2"
-              />
+                class="bg-secondary-500 aspect-square rounded-full h-2 w-2"></div>
             </td>
 
             <td class="font-normal">{row.name}</td>
@@ -192,6 +189,7 @@
                       ? 'text-confirm-600'
                       : 'text-error-500'}"
                 >
+                  
                   {#if statuses}
                     {row.status}
                   {:else}
@@ -228,7 +226,7 @@
               <Button
                 type="secondary"
                 text="Detail"
-                link={`/auth/dashboard/beehives/${row.token}`}
+                link={`/dashboard/beehives/${row.token}`}
                 onClick={() => {}}
               />
             </td>
