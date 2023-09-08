@@ -46,6 +46,19 @@ export default {
     })();
     return userValue;
   },
+
+  getTemperatures: (beehive_id) => {
+    return savedData["statuses"][beehive_id]["temps"];
+  },
+  getWeights: (beehive_id) => {
+      return savedData["statuses"][beehive_id]["weights"];
+  },
+  getHumidities: (beehive_id) => {
+    return savedData["statuses"][beehive_id]["humids"];
+  },
+  getBatteries: (beehive_id) => {
+    return savedData["statuses"][beehive_id]["batteries"];
+  },
 }
 
 let savedData = {};

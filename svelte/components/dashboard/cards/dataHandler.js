@@ -129,32 +129,5 @@ export const dataHandler = {
             }
         });
     },
-    getTemperatures: (beehive_id) => {
-        let beehive = dataHandler.getBeehiveData(beehive_id);
-
-        return beehive?.statuses.map(function (e) {
-            return e.temperature;
-        });
-    },
-    getWeights: (beehive_id) => {
-        let beehive = dataHandler.getBeehiveData(beehive_id);
-
-        return beehive?.statuses.map(function (e) {
-            return e.weight;
-        });
-    },
-    getHumidities: (beehive_id) => {
-        let beehive = dataHandler.getBeehiveData(beehive_id);
-
-        return beehive?.statuses.map(function (e) {
-            return e.humidity;
-        });
-    },
-    getBatteries: (beehive_id) => {
-        let beehive = dataHandler.getBeehiveData(beehive_id);
-
-        return beehive?.statuses.map(function (e) {
-            return e.battery;
-        });
-    },
+  
 };
