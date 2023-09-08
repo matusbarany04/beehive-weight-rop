@@ -103,4 +103,12 @@ public class Beehive {
         jsonObject.put("token", token);
         return jsonObject;
     }
+
+    public static Beehive findByToken(Beehive[] beehives, String token) {
+        for(Beehive beehive : beehives) {
+            if(beehive.getToken().equals(token)) return beehive;
+        }
+
+        return null;
+    }
 }

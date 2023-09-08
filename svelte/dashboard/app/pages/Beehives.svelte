@@ -14,6 +14,7 @@
 
   import shared, {onLoad} from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
+  import RouterLink from "../../../components/RouterLink.svelte";
 
   export let data;
 
@@ -33,35 +34,7 @@
     statuses = data;
   });
   
-  function exportData() {
-    const jsonData = [];
-
-    for (let i = 0; i <   data.length; i++) {
-      const row =   data[i];
-      if (row.statuses.length > 0) {
-        jsonData.push({
-          name: row.name,
-          battery: row.statuses[0].battery,
-          status: row.statuses[0].status,
-          token: row.token,
-          weight: row.statuses[0].weight,
-        });
-      } else {
-        jsonData.push({
-          name: row.name,
-          battery: "--",
-          status: "chyba",
-          token: row.token,
-          weight: "--",
-        });
-      }
-    }
-
-    const csvdata = jsonToCsv(jsonData);
-
-    triggerDownloadCsv(csvdata, "table");
-  }
-
+  
   let showModal = false;
 </script>
 
@@ -127,17 +100,18 @@
       <div
         class="w-full items-center justify-center flex flex-1 gap-4 md:justify-end"
       >
-        <Button
-          image="icons/export.svg"
-          text="Exportovať"
-          type="secondary"
-          onClick={exportData}
-        />
+        <RouterLink url="../../dashboardApi/downloadCSV" reload="true"> 
+          <Button
+            image="icons/export.svg"
+            text="Exportovať"
+            type="secondary"/>
+        </RouterLink>
+       
         <Button
           image="icons/add_thin.svg"
           text="Pridať nový úľ"
           type="primary"
-          link="/auth/dashboard/beehives/add"
+          link="/beehives/add"
         />
       </div>
     </div>

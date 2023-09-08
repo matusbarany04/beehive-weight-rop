@@ -16,10 +16,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.JobStateReasons;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -72,7 +78,7 @@ public class DashboardController {
         JSONObject response = new JSONObject();
         String status = "ERR_NO_PERMISSION";
 
-        if(currentUserId > 0) {
+        if (currentUserId > 0) {
             JSONArray array = new JSONArray();
             Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
             for (Beehive beehive : beehives) array.put(beehive.toJSON());
@@ -99,7 +105,7 @@ public class DashboardController {
                 String[] beehives = beehiveRepository.getBeehiveTokens(currentUserId);
                 Status[] statuses = statusRepository.getAllStatusesSince(beehives, timestamp);
 
-                for(String token : beehives) {
+                for (String token : beehives) {
                     JSONObject beehive = new JSONObject();
                     beehive.put("timestamps", new JSONArray());
                     beehive.put("batteries", new JSONArray());
@@ -109,7 +115,7 @@ public class DashboardController {
                     jsonObject.put(token, beehive);
                 }
 
-                for(Status status : statuses) {
+                for (Status status : statuses) {
                     JSONObject beehive = jsonObject.getJSONObject(status.getBeehive());
                     beehive.getJSONArray("timestamps").put(status.getTimestamp());
                     beehive.getJSONArray("batteries").put(status.getBattery());
@@ -131,6 +137,30 @@ public class DashboardController {
 
         response.put("status", responseStatus);
         return response.toString();
+    }
+
+    @GetMapping(value = "/downloadCSV")
+    public ResponseEntity<Resource> downloadCSV() {
+        if (currentUserId > 0) {
+            Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
+            String[] tokens = beehiveRepository.getBeehiveTokens(currentUserId);
+            Status[] lastStatuses = statusRepository.getLastStatuses(Arrays.asList(tokens));
+
+            StringBuilder csv = new StringBuilder("Ul;Stav;Hmotnost;Bateria;Teplota;Vlhkost;Posledna aktualizacia;\n");
+            for(Status status : lastStatuses) {
+                Beehive beehive = Beehive.findByToken(beehives, status.getBeehive());
+                assert beehive != null;
+                csv.append(beehive.getName()).append(";").append(status.toCSV()).append("\n");
+            }
+
+            ByteArrayResource resource = new ByteArrayResource(csv.toString().getBytes(StandardCharsets.UTF_8));
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=ule.csv");
+            headers.set(HttpHeaders.CONTENT_TYPE, "text/csv");
+            return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+        }
+        else return null;
     }
 
     @GetMapping(value = "/getAllBeehiveData", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -194,7 +224,7 @@ public class DashboardController {
         System.out.println(reminder.toString());
         JSONObject output = new JSONObject();
 
-        if(currentUserId > 0) {
+        if (currentUserId > 0) {
             reminder.setUserId(currentUserId);
             reminderRepository.save(reminder);
             output.put("reminder", reminder.toJSON());
@@ -312,7 +342,7 @@ public class DashboardController {
     public String updateSettings(@RequestBody Map<String, String> data) {
         JSONObject response = new JSONObject();
 
-        if(currentUserId > 0) {
+        if (currentUserId > 0) {
             User user = userRepository.getUserById(currentUserId);
             user.updateSettings(data.get("settings"));
             userRepository.save(user);
@@ -327,7 +357,7 @@ public class DashboardController {
     public String getSettings() {
         JSONObject response = new JSONObject();
 
-        if(currentUserId > 0) {
+        if (currentUserId > 0) {
             User user = userRepository.getUserById(currentUserId);
             response.put("settings", user.getSettings());
         }

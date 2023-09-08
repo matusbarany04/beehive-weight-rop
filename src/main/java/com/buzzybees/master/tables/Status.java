@@ -3,6 +3,9 @@ package com.buzzybees.master.tables;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 @Entity
 @Table(name = "status")
@@ -93,5 +96,11 @@ public class Status {
         jsonObject.put("humidity", humidity);
         jsonObject.put("battery", battery);
         return jsonObject;
+    }
+
+    public String toCSV() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd. MM. yyyy HH:mm:ss");
+        String date = simpleDateFormat.format(new Date(timestamp));
+        return String.format("%s;%.1f;%d;%.1f;%.1f;%s;", status, weight, battery, temperature, humidity, date);
     }
 }

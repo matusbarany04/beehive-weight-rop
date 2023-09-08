@@ -37,8 +37,8 @@ public class BeeController {
     @GetMapping("/testStatuses")
     public String test() {
         String[] beehives = {"ZOEU3GXLC0CQPQ0X", "9XUKIB685I5VMHF6"};
-        Status[] statuses = statusRepo.getAllStatusesSince(beehives, 2147483645);
+        Status[] lastStatuses = statusRepo.getLastStatuses(Arrays.asList(beehives));
         System.out.println("sql test");
-        return Arrays.toString(statuses);
+        return Arrays.toString(lastStatuses);
     }
 }
