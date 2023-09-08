@@ -116,6 +116,7 @@ public class DashboardController {
                     beehive.getJSONArray("weights").put(status.getWeight());
                     beehive.getJSONArray("humids").put(status.getHumidity());
                     beehive.getJSONArray("temps").put(status.getTemperature());
+                    beehive.put("currentStatus", status.getStatus());
                 }
 
                 responseStatus = "ok";

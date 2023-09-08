@@ -59,6 +59,20 @@ export default {
   getBatteries: (beehive_id) => {
     return savedData["statuses"][beehive_id]["batteries"];
   },
+
+  getWeight: (beehive_id) => {
+    let weights = savedData["statuses"][beehive_id]["weights"];
+    return weights[weights.length - 1];
+  },
+  getLastUpdateTime: (beehive_id) => {
+    let timestamps = savedData["statuses"][beehive_id]["timestamps"];
+    return timestamps[timestamps.length - 1];
+  },
+
+  getBattery: (beehive_id) => {
+    let batteries = savedData["statuses"][beehive_id]["batteries"];
+    return batteries[batteries.length - 1];
+  },
 }
 
 let savedData = {};

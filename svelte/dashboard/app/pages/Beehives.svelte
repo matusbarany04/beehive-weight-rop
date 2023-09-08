@@ -160,8 +160,8 @@
           <Th {handler} orderBy="name">Názov váhy</Th>
           <Th {handler} orderBy="battery">Batéria</Th>
           <Th {handler}>Status</Th>
-          <Th {handler} orderBy="timestamp">Dátum pridania</Th>
-          <Th {handler} orderBy="weight">Váha</Th>
+          <Th {handler} orderBy="timestamp">Posledná aktualizácia</Th>
+          <Th {handler} orderBy="weight">Hmotnosť</Th>
           <Th {handler}/>
         </tr>
         </thead>
@@ -174,7 +174,13 @@
             </td>
 
             <td class="font-normal">{row.name}</td>
-            <td> {-1 + index} %</td>
+            <td>
+              {#if statuses}
+              {shared.getBattery(row.token)}%
+              {:else}
+                <img class="w-8 h-8" src="../../img/loading.gif" alt="loading...">
+              {/if}
+            </td>
             <td
             >
               <div
@@ -191,7 +197,7 @@
                 >
                   
                   {#if statuses}
-                    {row.status}
+                    {statuses[row.token]["currentStatus"]}
                   {:else}
                     <img class="w-8 h-8" src="../../img/loading.gif" alt="loading...">
                   {/if}
@@ -200,7 +206,7 @@
             </td>
             <td>
               {#if statuses}
-                {new Date(row.timestamp).toLocaleString()}
+                {new Date(shared.getLastUpdateTime(row.token)).toLocaleString()}
               {:else}
                 <img class="w-8 h-8" src="../../img/loading.gif" alt="loading...">
               {/if}
@@ -212,8 +218,8 @@
             </td>
             <td class="font-bold">
               {#if statuses}
-                {#if row.weight}
-                  {row.weight}kg
+                {#if shared.getWeight(row.token)}
+                  {shared.getWeight(row.token)}kg
                 {:else}
                   Nedostatok dát
                 {/if}
