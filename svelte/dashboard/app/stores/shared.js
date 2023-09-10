@@ -47,6 +47,10 @@ export default {
     return userValue;
   },
 
+  getBeehiveIdsWithNames: () =>  {
+    return savedData["beehives"];
+  },
+
   getTemperatures: (beehive_id) => {
     return savedData["statuses"][beehive_id]["temps"];
   },
@@ -72,6 +76,10 @@ export default {
   getBattery: (beehive_id) => {
     let batteries = savedData["statuses"][beehive_id]["batteries"];
     return batteries[batteries.length - 1];
+  },
+
+  nowMinusFrom: (from) => {
+    return new Date(new Date().getTime() - fromValueToTimestamp(from));
   },
 }
 
@@ -107,5 +115,25 @@ function loadData(dataType, data) {
       let loadedData = getLoadedData(callback.dataTypes);
       if (loadedData != null) callback.func(...loadedData);
     }
+  }
+}
+
+function fromValueToTimestamp(from) {
+  switch (from) {
+    case "all":
+      return 0;
+    case "hour":
+      return 1000 * 60 * 60;
+    case "day":
+      return 1000 * 60 * 60 * 24;
+    case "week":
+      return 1000 * 60 * 60 * 24 * 7;
+    case "month":
+      return 1000 * 60 * 60 * 24 * 30;
+    case "year":
+      return 1000 * 60 * 60 * 24 * 365;
+    default:
+      console.error("Unknown from value: " + from);
+      break;
   }
 }

@@ -5,18 +5,16 @@
     import EditPanel from "../../../components/dashboard/panel/EditPanel.svelte";
     import * as cardUtils from "../../../components/dashboard/cards/cardUtilities";
     import {generateUUID} from "../../../components/lib/utils/static";
-    import shared from "../stores/shared";
-    import {onDataLoaded} from "../../../components/dashboard/cards/dataHandler";
-
-
-    const user = shared.getUser();
-    console.log("homepage user", user)
+    import shared, {onLoad} from "../stores/shared";
+    import Loading from "../../../components/pages/Loading.svelte";
+    
     const finalItemCount = 4;
 
     let itemSideSize = 200;
     let varItemCount = finalItemCount;
     let gridGap = 10;
     let itemsActive = [];
+    let cardList = [];
     for (let n = 0; n < varItemCount * varItemCount; n++) {
         itemsActive[n] = false;
     }
@@ -26,6 +24,19 @@
     let smallScreen = false;
     let editButton = true;
     let renderCards = false;
+
+    const initCardList = user => {
+
+      console.log(user);
+      if (user["dashboardData"]) {
+        cardList = JSON.parse(user["dashboardData"]);
+      }
+    };
+
+    const resetCardList = () => {
+      cardList = [];
+      initCardList();
+    };
 
     const getPosOfGridItem = (x, y) => {
         let items = document.getElementsByClassName("gridItem");
@@ -54,77 +65,81 @@
         }
         return {exists: false, x: -1, y: -1};
     };
+    
+    onLoad(["user"], user => initCardList(user));
 
     onMount(function () {
         // message.set(`Dobré ráno, včelár ${user.name}!`);
 
-        initCardList();
+      onLoad(["beehives", "statuses"], () => {
+
         let dashboardRoot = document.getElementById("rightPanel");
 
         const updateItemSideSize = () => {
-            varItemCount = finalItemCount;
-            smallScreen = false;
-            editButton = true;
-            itemSideSize =
-                (dashboardRoot.getBoundingClientRect().width -
-                    gridGap * (varItemCount - 1)) /
-                varItemCount;
+          varItemCount = finalItemCount;
+          smallScreen = false;
+          editButton = true;
+          itemSideSize =
+            (dashboardRoot.getBoundingClientRect().width -
+              gridGap * (varItemCount - 1)) /
+            varItemCount;
 
-            if (
-                (window.innerWidth ||
-                    document.documentElement.clientWidth ||
-                    document.body.clientWidth) < 800
-            ) {
-                varItemCount = 1;
-                smallScreen = true;
-            }
+          if (
+            (window.innerWidth ||
+              document.documentElement.clientWidth ||
+              document.body.clientWidth) < 800
+          ) {
+            varItemCount = 1;
+            smallScreen = true;
+          }
 
-            if (
-                (window.innerWidth ||
-                    document.documentElement.clientWidth ||
-                    document.body.clientWidth) < 1200
-            ) {
-                editMode = false;
-                editButton = false;
-            }
+          if (
+            (window.innerWidth ||
+              document.documentElement.clientWidth ||
+              document.body.clientWidth) < 1200
+          ) {
+            editMode = false;
+            editButton = false;
+          }
         };
 
         /* tuto funkciu som pridal lebo bocny panel sa zmensi a karticky sa neupdatnu*/
         const asyncLoop = () => {
-            // drz to na pamati mozno to bude zrat pamat
-            setTimeout(function () {
-                updateItemSideSize();
-                asyncLoop();
-            }, 250);
+          // drz to na pamati mozno to bude zrat pamat
+          setTimeout(function () {
+            updateItemSideSize();
+            asyncLoop();
+          }, 250);
         };
         asyncLoop();
 
         updateItemSideSize();
         window.addEventListener(
-            "resize",
-            function (event) {
-                updateItemSideSize();
-            },
-            true,
+          "resize",
+          function (event) {
+            updateItemSideSize();
+          },
+          true,
         );
 
         document.addEventListener(
-            "mousemove",
-            (e) => {
-                clientX = e.clientX;
-                clientY = e.clientY;
-                let pos = getPosOfGridItem(e.clientX, e.clientY);
+          "mousemove",
+          (e) => {
+            clientX = e.clientX;
+            clientY = e.clientY;
+            let pos = getPosOfGridItem(e.clientX, e.clientY);
 
-                for (let n = 0; n < finalItemCount * finalItemCount; n++) {
-                    itemsActive[n] = false;
-                }
-                if (pos.exists) {
-                    itemsActive[(pos.y - 1) * varItemCount + pos.x - 1] = true;
-                }
-                itemsActive = [...itemsActive];
-            },
-            {passive: true},
+            for (let n = 0; n < finalItemCount * finalItemCount; n++) {
+              itemsActive[n] = false;
+            }
+            if (pos.exists) {
+              itemsActive[(pos.y - 1) * varItemCount + pos.x - 1] = true;
+            }
+            itemsActive = [...itemsActive];
+          },
+          {passive: true},
         );
+      });
     });
 
     // true means collision false means no collision
@@ -269,21 +284,8 @@
     };
 
     setContext("dashboardEditor", dashboardEditor);
-
-    $: cardList = [];
-    const initCardList = () => {
-
-        if (user.dashboardData) {
-            cardList = JSON.parse(user.dashboardData);
-        }
-    };
-
-    const resetCardList = () => {
-        cardList = [];
-        initCardList();
-    };
     
-    onDataLoaded(()=>{
+    onLoad(["beehives", "statuses"], () => {
         renderCards = true;
     })
 </script>
@@ -418,6 +420,8 @@ class="flex min-h-screen flex-1 justify-center items-center relative w-full"
                     }}
                 />
             {/each}
+          {:else }
+          <Loading/>
         {/if}
     </div>
 </div>

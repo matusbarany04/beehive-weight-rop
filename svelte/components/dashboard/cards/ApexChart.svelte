@@ -2,9 +2,9 @@
   import CardRoot from "./components/CardRoot.svelte";
   import { generateUUID } from "../../lib/utils/static";
   import { getContext, onMount } from "svelte";
-  import { dataHandler } from "./dataHandler";
   import ButtonSmall from "../../Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../Inputs/DropdownInput.svelte";
+  import shared  from "../../../dashboard/app/stores/shared";
   
   export let cardStates;
   export let onDragEnd; // function
@@ -22,9 +22,10 @@
     ["month", "1M"],
     ["year", "1R"],
   ];
+
   function changeZoom(value) {
     chart.zoomX(
-      dataHandler.nowMinusFrom(value).getTime(),
+      shared.nowMinusFrom(value).getTime(),
       new Date().getTime(),
     );
   }
@@ -167,7 +168,7 @@
             headerSelected = item[0];
             changeZoom(item[0]);
           }}
-        ></ButtonSmall>
+        />
       {/each}
     {/if}
   </div>
@@ -192,7 +193,7 @@
         ["weight", "Váha"],
         ["humidity", "Vlhkosť"],
       ]}
-    ></DropdownInput>
+    />
 
     <DropdownInput
       label="Úsek načítaných dát"
@@ -204,14 +205,14 @@
         ["month", "Posledný mesiac"],
         ["year", "Posledný rok"],
       ]}
-    ></DropdownInput>
+    />
 
     <DropdownInput
       label="Váha"
       name="beehive_id"
       value={cardStates.data[0].beehive_id ?? "all"}
       small={"Váha pre ktorú sa budú zobrazovať dáta"}
-      options={[["all", "all"], ...dataHandler.getBeehiveIdsWithNames()]}
-    ></DropdownInput>
+      options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
+    />
   </div>
 </CardRoot>

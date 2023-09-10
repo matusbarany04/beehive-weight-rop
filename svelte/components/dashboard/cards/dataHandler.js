@@ -15,51 +15,11 @@ export let topValues = ["now"];
 export let timeframeFrom = [];
 export let beehivesLoaded = false;
 
-function fromValueToTimestamp(from) {
-    switch (from) {
-        case "all":
-            return 0;
-        case "hour":
-            return 1000 * 1 * 60 * 60;
-        case "day":
-            return 1000 * 1 * 60 * 60 * 24;
-        case "week":
-            return 1000 * 1 * 60 * 60 * 24 * 7;
-        case "month":
-            return 1000 * 1 * 60 * 60 * 24 * 30;
-        case "year":
-            return 1000 * 1 * 60 * 60 * 24 * 365;
-        default:
-            console.error("Unknown from value: " + from);
-            break;
-    }
-}
-
-let beehives;
-
-export function onDataLoaded(callback) {
-  callbacks.push(callback);
-  let bee_data  = dataHandler.getRawBeehiveData();
-  
-  if (!isEmpty(bee_data)) {
-    callback(bee_data);
-  } else {
-    callbacks.push(callback);
-  }
-}
-
-
-
-
 
 
 export const dataHandler = {
   
-
   
-    nowMinusFrom: (from) => {
-        return new Date(new Date().getTime() - fromValueToTimestamp(from));
-    },
     dataToTableFormat: () => {
         let bee_data = dataHandler.getAllBeehiveData();
         let output = [];
@@ -100,13 +60,7 @@ export const dataHandler = {
 
         return bee_data[index];
     },
-    getBeehiveIdsWithNames: function () {
-        let bee_data = dataHandler.getAllBeehiveData();
-
-        return bee_data.map(function (e) {
-            return [e.token, e.name];
-        });
-    },
+    
     getDataByType: (type, beehive_id, with_timestamp, from, to) => {
         let beehive = dataHandler.getBeehiveData(beehive_id);
         console.log(beehive);
