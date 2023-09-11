@@ -12,23 +12,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Generate build number
-      id: buildnumber
-      uses: onyxmueller/build-tag-number@v1
-      with:
-        token: ${{secrets.DEFAULT}}   
-
-    - name: Print new build number
-      run: echo "Build number is ${{ steps.buildnumber.outputs.BUILD_NUMBER }}" # Assuming the output variable is BUILD_NUMBER
-      
+        
     - name: Build with Maven
       run: mvn clean package
 
     - name: Generate Changelog
       run: echo "# Release notes for this version" > ${{ github.workspace }}/CHANGELOG.txt
-
-    - name: Set Release Tag
-      run: echo "RELEASE_TAG=release-${{ steps.buildnumber.outputs.BUILD_NUMBER }}" >> $GITHUB_ENV
 
 
     - name: Create Release and Upload WAR
