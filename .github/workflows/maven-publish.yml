@@ -20,9 +20,14 @@ jobs:
       run: echo "# Release notes for this version" > ${{ github.workspace }}/CHANGELOG.txt
 
 
-    - name: Create Release and Upload WAR
-      uses: softprops/action-gh-release@v1
+    #https://github.com/marvinpinto/action-automatic-releases
+    - name: Release
+      uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        body_path: ${{ github.workspace }}/CHANGELOG.txt
-        files: target/*.war
-        token: ${{ secrets.DEFAULT }}
+          repo_token: "${{ secrets.DEFAULT }}"
+          prerelease: false
+          automatic_release_tag: "latest"
+          title: "1.0.0"
+          files: |
+            target/*.war
+
