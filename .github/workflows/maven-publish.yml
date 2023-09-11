@@ -21,9 +21,13 @@ jobs:
     - name: Build with Maven
       run: mvn clean package
 
+    - name: Determine version
+      id: versioning
+      run: |
+        echo "::set-output name=version::v$(git rev-list --count HEAD)_$(git rev-parse --short HEAD)"
+    
     - name: Generate Changelog
-      run: echo "# Release notes for this version" > ${{ github.workspace }}/CHANGELOG.txt
-
+      run: echo "# Release notes for version ${{ steps.versioning.outputs.version }}" > ${{ github.workspace }}/CHANGELOG.txt
 
     #https://github.com/marvinpinto/action-automatic-releases
     - name: Release
@@ -31,8 +35,8 @@ jobs:
       with:
           repo_token: "${{ secrets.DEFAULT }}"
           prerelease: false
-          automatic_release_tag: "latest"
-          title: "1.0.0"
+          automatic_release_tag: "${{ steps.versioning.outputs.version }}"
+          title: "${{ steps.versioning.outputs.version }}"
           files: |
             target/*.war
 
