@@ -23,13 +23,6 @@ jobs:
     - name: Build with Maven
       run: mvn clean package
 
-    - name: Create Release and Upload WAR
-      run: |
-        gh release create v${{ steps.buildnumber.outputs.BUILD_NUMBER }} target/*.war --title "Release v${{ steps.buildnumber.outputs.BUILD_NUMBER }}" --notes "Release notes for v${{ steps.buildnumber.outputs.BUILD_NUMBER }}"
-      env:
-        GH_TOKEN: ${{secrets.github_token}}
-
-
     - name: Generate Changelog
       run: echo "# Release notes for this version" > ${{ github.workspace }}/CHANGELOG.txt
 
