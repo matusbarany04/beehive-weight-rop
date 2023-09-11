@@ -13,12 +13,12 @@ jobs:
       uses: actions/checkout@v2
       
 
-    - name: Generate build number
-      uses: onyxmueller/build-tag-number@v1
-      with:
-        token: ${{secrets.DEFAULT}}        
-    - name: Print new build number
-      run: echo "Build number is $BUILD_NUMBER"
+    # - name: Generate build number
+    #   uses: onyxmueller/build-tag-number@v1
+    #   with:
+    #     token: ${{secrets.DEFAULT}}        
+    # - name: Print new build number
+    #   run: echo "Build number is $BUILD_NUMBER"
       
     - name: Build with Maven
       run: mvn clean package
