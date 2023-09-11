@@ -4,8 +4,22 @@
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
   import { fade, fly } from "svelte/transition";
   import {dataHandler} from "../../../components/dashboard/cards/dataHandler";
+  import SockJS from "./../../../components/stock-min";
+  import {Stomp} from "../../../components/stomp-min";
+/*
+  var stompClient = null;
 
+  var socket = new SockJS('/ws');
+  stompClient = Stomp.over(socket);
+  stompClient.connect({}, function(frame) {
+    console.log(frame);
+    stompClient.subscribe('/all/messages', function(result) {
+      show(JSON.parse(result.body));
+    });
+  });*/
 
+  
+  
   let messages = [];
 
   fetch("/dashboardApi/getNotifications")
@@ -51,7 +65,7 @@
   };
 
   const remove = (id) => {
-    var index = messages
+    const index = messages
       .map(function (e) {
         return e.id;
       })
@@ -71,6 +85,142 @@
     }
     messages = [...messages];
   };
+/*
+  let socket = new SockJS('/ws')
+  let privateStompClient = Stomp.over(socket)
+  privateStompClient.connect({}, function (frame) {
+    console.log(frame)
+    privateStompClient.subscribe('/user/specific', function (result) {
+      console.log(result.body)
+      console.log("message");
+    //  show(JSON.parse(result.body))
+    });
+  })
+
+  socket = new SockJS('/ws');
+  let stompClient = Stomp.over(socket);
+  stompClient.connect({}, function(frame) {
+    console.log(frame);
+    stompClient.subscribe('/all/messages', function(result) {
+      
+    });
+    setTimeout(() => sendPrivateMessage(), 3000);
+  });
+
+  function sendPrivateMessage() {
+    stompClient.send("/app/application", {},
+      JSON.stringify({text:"hello", to:"test"}));
+  }*/
+  
+  function registerServiceWorker() {
+    console.log("register...")
+    return navigator.serviceWorker
+      .register('../bundle/service-worker.js?token=' + getCookie("sessionid"))
+      .then(function (registration) {
+        console.log('Service worker successfully registered.');
+        return registration;
+      })
+      .catch(function (err) {
+        console.error('Unable to register service worker.', err);
+      });
+  }
+
+  function askPermission() {
+    return new Promise(function (resolve, reject) {
+      const permissionResult = Notification.requestPermission(function (result) {
+        resolve(result);
+      });
+
+      if (permissionResult) {
+        permissionResult.then(resolve, reject);
+      }
+    }).then(function (permissionResult) {
+      if (permissionResult !== 'granted') {
+        throw new Error("We weren't granted permission.");
+      } else  {
+       // registerServiceWorker();
+        //const notification = new Notification("Test", {body: "this is body", data: {}, icon: "/img/beeman.png"});
+      }
+    });
+  }
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  }
+  
+  askPermission();
+  
+  onMount(() => {
+    registerServiceWorker();
+  })
+
+  function initialiseState() {
+    // Are Notifications supported in the service worker?
+    if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
+      console.warn('Notifications aren\'t supported.');
+      return;
+    }
+
+    // Check the current Notification permission.
+    // If its denied, it's a permanent block until the
+    // user changes the permission
+    if (Notification.permission === 'denied') {
+      console.warn('The user has blocked notifications.');
+      return;
+    }
+
+    // Check if push messaging is supported
+    if (!('PushManager' in window)) {
+      console.warn('Push messaging isn\'t supported.');
+      return;
+    }
+
+    // We need the service worker registration to check for a subscription
+    navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+      // Do we already have a push message subscription?
+      serviceWorkerRegistration.pushManager.getSubscription()
+        .then(function(subscription) {
+          // Enable any UI which subscribes / unsubscribes from
+          // push messages.
+          
+          if (!subscription) {
+            // We aren't subscribed to push, so set UI
+            // to allow the user to enable push
+            return;
+          }
+
+          // Keep your server in sync with the latest subscriptionId
+          sendSubscriptionToServer(subscription);
+
+          // Set your UI to show they have subscribed for
+          // push messages
+        })
+        .catch(function(err) {
+          console.warn('Error during getSubscription()', err);
+        });
+    });
+
+    self.addEventListener('push', function(event) {
+      console.log('Received a push message', event);
+
+      const title = 'Yay a message.';
+      const body = 'We have received a push message.';
+      const icon = '/images/icon-192x192.png';
+      const tag = 'simple-push-demo-notification-tag';
+
+      event.waitUntil(
+        self.registration.showNotification(title, {
+          body: body,
+          icon: icon,
+          tag: tag
+        })
+      );
+    });
+  }
+
 </script>
 
 <div
@@ -153,8 +303,7 @@
     class="mt-4 h-24 lg:w-5/6 m-auto flex flex-row items-center justify-center"
   >
     <div
-      class="h-20 w-20 bg-[url('/icons/bell.svg')] bg-no-repeat bg-cover opacity-50"
-    />
+      class="h-20 w-20 bg-[url('/icons/bell.svg')] bg-no-repeat bg-cover opacity-50"></div>
   </div>
   <h1 class="text-center my-4 text-slate-600 text-4xl font-bold">
     Zatiaľ žiadne upozornenia!
