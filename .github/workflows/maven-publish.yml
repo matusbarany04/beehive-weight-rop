@@ -23,13 +23,10 @@ jobs:
     - name: Build with Maven
       run: mvn clean package
 
-    - name: Generate Changelog
-      run: echo "# Release notes for this version" > ${{ github.workspace }}/CHANGELOG.txt
 
     - name: Create Release and Upload WAR
       uses: softprops/action-gh-release@v1
       with:
-        body_path: ${{ github.workspace }}/CHANGELOG.txt
         files: target/*.war
         token: ${{ secrets.DEFAULT }}
 
