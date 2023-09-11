@@ -47,7 +47,7 @@ export default {
         500: "#939598",
       },
       confirm: colors.green,
-      error: "#c20b0b",
+      error: colors.red,
       // ...
     },
     extend: {},

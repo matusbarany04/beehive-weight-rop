@@ -1,4 +1,4 @@
-name: Deploy to Tomcat
+name: Build and Release
 
 on:
   push:
@@ -6,40 +6,37 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
+  build-and-release:
     runs-on: self-hosted
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14' # Change to your desired Node.js version
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Build Svelte Frontend
+      working-directory: svelte/
+      run: |
+        npm install
+        npm run java
+        
+    - name: Build with Maven
+      run: mvn clean package
 
-      - name: Install dependencies for Svelte app
-        run: |
-          cd svelte/
-          npm install
-        working-directory: svelte/
+    - name: Determine version
+      id: versioning
+      run: |
+        echo "::set-output name=version::v$(git rev-list --count HEAD)_$(git rev-parse --short HEAD)"
+    
+    - name: Generate Changelog
+      run: echo "# Release notes for version ${{ steps.versioning.outputs.version }}" > ${{ github.workspace }}/CHANGELOG.txt
 
-      - name: Build Svelte app
-        run: |
-          cd svelte/
-          npm run build
-        working-directory: svelte/
-
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17' # Change to Java 17
-
-      - name: Build Spring Boot project
-        run: |
-          ./mvnw clean package -DskipTests
-        # working-directory: path/to/your/spring-boot-app
-
-      - name: Deploy to Tomcat
-    - name: Move WAR to Tomcat webapps
-  run: |
-    mkdir /opt/tomcat/webapps/beehive
-  run: |
-    mv ./target/master-0.0.1-SNAPSHOT.war /opt/tomcat/webapps/beehive/
-
+    #https://github.com/marvinpinto/action-automatic-releases
+    - name: Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+          repo_token: "${{ secrets.DEFAULT }}"
+          prerelease: false
+          automatic_release_tag: "${{ steps.versioning.outputs.version }}"
+          title: "${{ steps.versioning.outputs.version }}"
+          files: |
+            target/*.war
 
