@@ -4,7 +4,12 @@ import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.notifications.Notification.Type;
 import com.buzzybees.master.notifications.NotificationRepository;
 import com.buzzybees.master.tables.User;
-import com.buzzybees.master.security.PasswordUtils;
+import com.buzzybees.master.users.Message;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import com.buzzybees.master.users.Mailer;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.users.UserService;
@@ -150,5 +155,34 @@ public class UserController {
 
     public String getEmailByUserId(long id) {
         return userRepository.getEmail(id);
+    }
+
+    @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
+
+    @MessageMapping("/application")
+    @SendTo("/all/messages")
+    public Message send(final Message message) throws Exception {
+        return message;
+    }
+
+    // Mapped as /app/private
+    @MessageMapping("/private")
+    public void sendToSpecificUser(@Payload Message message) {
+        System.out.println(message);
+     //   simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/specific", message);
+    }
+
+    @GetMapping("/messageTest")
+    public void messageTest() {
+        String token = UserService.getTokenByUserId(1);
+        simpMessagingTemplate.convertAndSend("/specific/" + token, "message test");
+        System.out.println(simpMessagingTemplate.getMessageChannel());
+    }
+
+    @GetMapping("/sendMessage")
+    @SendTo("/all/messages")
+    public Message test() throws Exception {
+        return new Message("test", "user");
     }
 }

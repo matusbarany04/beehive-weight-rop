@@ -7,13 +7,13 @@ import org.springframework.core.io.ClassPathResource;
 
 import javax.mail.*;
 
+import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.*;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;

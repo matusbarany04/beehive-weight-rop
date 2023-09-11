@@ -2,17 +2,13 @@ package com.buzzybees.master.users;
 
 import com.buzzybees.master.tables.User;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements ApplicationContextAware {
@@ -45,6 +41,10 @@ public class UserService implements ApplicationContextAware {
         return user != null ? user : 0;
     }
 
+    public static String getTokenByUserId(long userId) throws NullPointerException {
+       return getKeyByValue(loggedUsers, userId);
+    }
+
     public static String loginUser(User user) {
         String ssid = RequestContextHolder.currentRequestAttributes().getSessionId();
         loggedUsers.put(ssid, user.id);
@@ -64,4 +64,12 @@ public class UserService implements ApplicationContextAware {
         return users;
     }
 
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
 }
