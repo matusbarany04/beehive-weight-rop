@@ -335,6 +335,7 @@
     </div>
 {/if}
 
+
 <div class="absolute right-0 top-0 w-min flex justify-end gap-3 p-4 ">
     {#if editButton}
         <div class="flex gap-4">
@@ -367,6 +368,7 @@
 <div
 class="flex min-h-screen flex-1 justify-center items-center relative w-full"
 >
+  
     {#if editMode}
         <div
                 class="box-border text-slate-900 w-full h-full absolute grid"
@@ -380,14 +382,17 @@ class="flex min-h-screen flex-1 justify-center items-center relative w-full"
         </div>
     {/if}
 
+
+
     <div
-            class="w-full h-full relative flex-1 grid"
+            class="w-full h-full relative flex-1 {renderCards ? 'grid' : ''}"
             id="rightPanel"
             style:--itemCount={finalItemCount}
             style:--side="{itemSideSize}px"
             style:--grid-gap="{gridGap}px"
     >
-        {#if renderCards}
+      {#if renderCards}
+
             {#each cardList as item, i}
                 <svelte:component
                     this={cardUtils.getCardByFormat(item.component)}
@@ -420,10 +425,11 @@ class="flex min-h-screen flex-1 justify-center items-center relative w-full"
                     }}
                 />
             {/each}
-          {:else }
-          <Loading/>
-        {/if}
+      {:else }
+        <Loading/>
+      {/if}
     </div>
+
 </div>
 
 
