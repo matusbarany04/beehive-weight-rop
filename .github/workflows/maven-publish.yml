@@ -1,4 +1,4 @@
-name: Deploy to Tomcat
+name: Build and Release
 
 on:
   push:
@@ -6,40 +6,26 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
-    runs-on: self-hosted
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14' # Change to your desired Node.js version
+  build_and_release:
+    runs_on: self-hosted
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Generate build number
+      id: buildnumber
+      uses: onyxmueller/build-tag-number@v1
+      with:
+        token: ${{secrets.github_token}}
 
-      - name: Install dependencies for Svelte app
-        run: |
-          cd svelte/
-          npm install
-        working-directory: svelte/
+    - name: Print new build number
+      run: echo "Build number is ${{ steps.buildnumber.outputs.BUILD_NUMBER }}"
 
-      - name: Build Svelte app
-        run: |
-          cd svelte/
-          npm run build
-        working-directory: svelte/
+    - name: Build with Maven
+      run: mvn clean package
 
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17' # Change to Java 17
-
-      - name: Build Spring Boot project
-        run: |
-          ./mvnw clean package -DskipTests
-        # working-directory: path/to/your/spring-boot-app
-
-      - name: Deploy to Tomcat
-    - name: Move WAR to Tomcat webapps
-  run: |
-    mkdir /opt/tomcat/webapps/beehive
-  run: |
-    mv ./target/master-0.0.1-SNAPSHOT.war /opt/tomcat/webapps/beehive/
-
-
+    - name: Create Release and Upload WAR
+      run: |
+        gh release create v${{ steps.buildnumber.outputs.BUILD_NUMBER }} target/*.war --title "Release v${{ steps.buildnumber.outputs.BUILD_NUMBER }}" --notes "Release notes for v${{ steps.buildnumber.outputs.BUILD_NUMBER }}"
+      env:
+        GH_TOKEN: ${{secrets.github_token}}
