@@ -8,6 +8,8 @@ import com.buzzybees.master.security.PasswordUtils;
 import com.buzzybees.master.users.Mailer;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.users.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,6 +28,22 @@ public class UserController {
 
     @Autowired
     NotificationRepository notificationRepository;
+
+    long currentUserId = 0;
+    @ModelAttribute("user")
+    public void getCookies(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(AuthController.SSID)) {
+                    currentUserId = UserService.getUserIdByToken(cookie.getValue());
+                    return;
+                }
+            }
+        }
+
+        currentUserId = 0;
+    }
 
     // toto robi pekny json, skus takto davat api
     @GetMapping("/getUsers")
@@ -62,13 +80,18 @@ public class UserController {
 
     @PostMapping(value = "/updateSettings", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateSettings(@RequestBody Map<String, String> data) {
-        long userId = UserService.getUserIdByToken(data.get("token"));
-        User user = userRepository.getUserById(userId);
-        user.updateSettings(data.get("settings"));
 
-        JSONObject response = new JSONObject();
-        response.put("status", "ok");
-        return response.toString();
+        if (currentUserId > 0) {
+            User user = userRepository.getUserById(currentUserId);
+            user.updateSettings(data.get("settings"));
+
+            JSONObject response = new JSONObject();
+            response.put("status", "ok");
+            return response.toString();
+        }
+        JSONObject error = new JSONObject();
+        error.put("status", "error");
+        return error.toString();
     }
 
     @GetMapping("/sendMail")
@@ -87,29 +110,36 @@ public class UserController {
     }
 
     @Deprecated
-    //@RequestMapping(value = "/getUser/token", method = RequestMethod.POST)
     @PostMapping(value = {"/getUser/token"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String autoLogin(@RequestBody Map<String, String> data) {
-        User user = userRepository.getUserById(UserService.getUserIdByToken(data.get("token")));
-//        System.out.println("autoLogin");
-//        System.out.println(data.get("token"));
-        JSONObject response = new JSONObject();
-        response.put("status", user != null ? "ok" : "ERR_INVALID_TOKEN");
-        if (user != null) response.put("user", user.toJSON());
-        return response.toString();
+
+        if (currentUserId > 0) {
+            User user = userRepository.getUserById(currentUserId);
+            JSONObject response = new JSONObject();
+            response.put("status", user != null ? "ok" : "ERR_INVALID_TOKEN");
+            if (user != null) response.put("user", user.toJSON());
+            return response.toString();
+        }
+
+        JSONObject error = new JSONObject();
+        error.put("status", "ERR_INVALID_TOKEN");
+        return error.toString();
     }
 
     @PostMapping(value = {"/saveDashboard"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String saveDashboard(@RequestBody Map<String, String> data) { //TODO check validity of data
+    public String saveDashboard(@RequestBody Map<String, String> data) {
         String dashboardData = data.get("data");
-        String token = data.get("token");
 
         JSONObject response = new JSONObject();
 
-        User user = userRepository.getUserById(UserService.getUserIdByToken(token));
-        if (user != null) {
-            userRepository.saveDashboard(user.id, dashboardData);
-            response.put("status", "ok");
+        if (currentUserId > 0) {
+            User user = userRepository.getUserById(currentUserId);
+            if (user != null) {
+                userRepository.saveDashboard(user.id, dashboardData);
+                response.put("status", "ok");
+            } else {
+                response.put("status", "ERR_INVALID_USER_ID");
+            }
         } else {
             response.put("status", "ERR_INVALID_TOKEN");
         }
@@ -140,9 +170,7 @@ public class UserController {
         return userRepository.getUserById(UserService.getUserIdByToken(token)) != null ? "ok" : "invalid";
     }
 
-    //http://localhost:8080/user/emailExists/admin@admin.com
 
-    @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/testing/{id}")
     public String retrieve(@PathVariable String id) {
         return "ok " + id;
