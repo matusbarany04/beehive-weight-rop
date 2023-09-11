@@ -115,7 +115,7 @@
   function registerServiceWorker() {
     console.log("register...")
     return navigator.serviceWorker
-      .register('../bundle/service-worker.js?token=' + getCookie("sessionid"))
+      .register('../js/service-worker.js?token=' + getCookie("sessionid"))
       .then(function (registration) {
         console.log('Service worker successfully registered.');
         return registration;
