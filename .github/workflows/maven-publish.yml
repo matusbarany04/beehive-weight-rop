@@ -16,7 +16,7 @@ jobs:
     - name: Generate build number
       uses: onyxmueller/build-tag-number@v1
       with:
-        token: ${{secrets.github_token}}        
+        token: ${{secrets.DEFAULT}}        
     - name: Print new build number
       run: echo "Build number is $BUILD_NUMBER"
       
