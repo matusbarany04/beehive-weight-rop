@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  build_and_release:
-    runs_on: self-hosted
+  build-and-release:
+    runs-on: self-hosted
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
