@@ -11,19 +11,17 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
-    - name: Build Svelte Frontend
-      # working-directory: svelte/
-      # run: |
-      #   npm install
-      #   npm run java
-      working-directory: svelte/
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+
+    - name: Setup Node.js 15
+      uses: actions/setup-node@v3
       with:
-        node-version: 18
-    - run: npm install
-    - run: npm run java
+        node-version: '15'
+
+    - name: Build Svelte Frontend
+      working-directory: svelte/
+      run: |
+        npm install
+        npm run java
         
     - name: Build with Maven
       run: mvn clean package
@@ -46,4 +44,3 @@ jobs:
           title: "${{ steps.versioning.outputs.version }}"
           files: |
             target/*.war
-
