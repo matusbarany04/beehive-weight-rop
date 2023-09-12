@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-
+        
     - name: Build Svelte Frontend
       working-directory: svelte/
       run: |
@@ -36,7 +36,7 @@ jobs:
 
     #https://github.com/marvinpinto/action-automatic-releases
     - name: Release
-      uses: "marvinpinto/action-automatic-releases@latest"
+      uses: "marvinpinto/action-automatic-releases@v1.2.1"
       with:
           repo_token: "${{ secrets.DEFAULT }}"
           prerelease: false
