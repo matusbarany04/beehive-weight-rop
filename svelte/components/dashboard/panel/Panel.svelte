@@ -6,19 +6,11 @@
     import {tweened} from "svelte/motion";
     import {quartInOut} from "svelte/easing";
     import PanelRoot from "./PanelRoot.svelte";
+    import TW_BREAKPOINTS from "../../lib/utils/static";
 
     let screenSize = 0;
-    $: collapsed = screenSize < 400;
-
-    const getWidth = (collapsed) => {
-        // in rem
-        return collapsed ? 3 : 17; // hardocded in panel item  !!
-    };
-
-    const width = tweened(getWidth(collapsed), {
-        duration: 300,
-        easing: quartInOut,
-    });
+    $: collapsed = screenSize < TW_BREAKPOINTS.xl;
+    
 
 
 </script>
