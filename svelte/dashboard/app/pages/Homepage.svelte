@@ -1,5 +1,5 @@
 <script>
-    import {onMount, setContext} from "svelte";
+    import {onMount, setContext, tick} from "svelte";
 
     import Button from "../../../components/Buttons/Button.svelte";
     import EditPanel from "../../../components/dashboard/panel/EditPanel.svelte";
@@ -7,7 +7,7 @@
     import {generateUUID} from "../../../components/lib/utils/static";
     import shared, {onLoad} from "../stores/shared";
     import Loading from "../../../components/pages/Loading.svelte";
-    
+
     const finalItemCount = 4;
 
     let itemSideSize = 200;
@@ -27,7 +27,6 @@
 
     const initCardList = user => {
 
-      console.log(user);
       if (user["dashboardData"]) {
         cardList = JSON.parse(user["dashboardData"]);
       }
@@ -143,17 +142,11 @@
     });
 
     // true means collision false means no collision
-    let collidesWith = (item1, item2) => {
-        if (
-            item1.x <= item2.x + (item2.spanX - 1) &&
+    export let collidesWith = (item1, item2) => {
+        return item1.x <= item2.x + (item2.spanX - 1) &&
             item1.x + (item1.spanX - 1) >= item2.x &&
             item1.y <= item2.y + (item2.spanY - 1) &&
-            item1.spanY - 1 + item1.y >= item2.y
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+            item1.spanY - 1 + item1.y >= item2.y;
     };
 
     let checkCollision = (node) => {
@@ -171,16 +164,7 @@
 
     const dashboardEditor = {
         deleteCard: (cardID) => {
-            var index = cardList
-                .map(function (e) {
-                    return e.id;
-                })
-                .indexOf(cardID);
-
-            if (index > -1) {
-                cardList.splice(index, 1);
-            }
-
+            cardList = cardList.filter((card) => card.id !== cardID);
             cardList = [...cardList];
         },
         mouseAsCordinates: () => {
@@ -226,7 +210,7 @@
         figureEndPosition: (marX, marY, item) => {
             // marX  a marY su relativne pozicie karty na ktorej je myska
             let pos = getPosOfGridItem(clientX, clientY);
-            console.log("poss", pos, item);
+            // console.log("poss", pos, item);
             let copy = JSON.parse(JSON.stringify(item));
             /* pos.exists je len pre 1x1 kartu */
             if (pos.exists) {
@@ -251,7 +235,7 @@
                     copy.y = pos.y - marY;
                 }
             }
-            console.log("copy poss", copy.x, copy.y);
+            // console.log("copy poss", copy.x, copy.y);
 
             if (!checkCollision(copy)) {
                 // item.x = copy.x;
@@ -393,7 +377,7 @@ class="flex min-h-screen flex-1 justify-center items-center relative w-full"
     >
       {#if renderCards}
 
-            {#each cardList as item, i}
+            {#each cardList as item , i (item.id)}
                 <svelte:component
                     this={cardUtils.getCardByFormat(item.component)}
                     cardStates={{

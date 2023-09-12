@@ -354,7 +354,7 @@
     }
 
     dashboardEditor.updateCardStates(cardStates.id, cardStates);
-    dashboardEditor.saveCardList();
+    await dashboardEditor.saveCardList();
 
     showSettings = false;
     
