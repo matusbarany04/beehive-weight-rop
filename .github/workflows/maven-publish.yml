@@ -37,7 +37,7 @@ jobs:
 
     #https://github.com/marvinpinto/action-automatic-releases
     - name: Release
-      uses: "marvinpinto/action-automatic-releases@v1"
+      uses: "marvinpinto/action-automatic-releases@v1.2.1"
       with:
           repo_token: "${{ secrets.DEFAULT }}"
           prerelease: false
