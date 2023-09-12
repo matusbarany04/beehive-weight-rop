@@ -36,9 +36,9 @@ public class UserService implements ApplicationContextAware {
             FileInputStream fis = new FileInputStream(USER_CACHE_FILENAME);
             String content = new String(fis.readAllBytes());
             System.out.println(content);
-
             JSONObject jsonObject = new JSONObject(content);
-            for(String key : jsonObject.keySet()) {
+            for (Iterator<String> it = jsonObject.keys(); it.hasNext();) {
+                String key = it.next();
                 loggedUsers.put(key, jsonObject.getLong(key));
             }
 
