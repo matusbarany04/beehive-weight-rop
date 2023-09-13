@@ -114,15 +114,17 @@
   
   function registerServiceWorker() {
     console.log("register...")
-    return navigator.serviceWorker
-      .register('../js/service-worker.js?token=' + getCookie("sessionid"))
-      .then(function (registration) {
-        console.log('Service worker successfully registered.');
-        return registration;
-      })
-      .catch(function (err) {
-        console.error('Unable to register service worker.', err);
-      });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('../js/service-worker.js?token=' + getCookie("sessionid"))
+        .then(function (registration) {
+          console.log('Service worker successfully registered.');
+          return registration;
+        })
+        .catch(function (err) {
+          console.error('Unable to register service worker.', err);
+        });
+    } else console.log("Your browser does not support service workers.");
   }
 
   function askPermission() {

@@ -31,9 +31,9 @@
 
   onLoad("statuses", data => {
     statuses = data;
-   handler =new DataHandler(statuses, {
+   /*handler =new DataHandler(statuses, {
      rowsPerPage: 10,
-   });
+   });*/
   });
 
 
@@ -137,7 +137,7 @@
             <Th {handler} orderBy="battery">Batéria</Th>
             <Th {handler}>Status</Th>
             <Th {handler} orderBy="timestamp">Posledná aktualizácia</Th>
-            <Th {statusHandler} orderBy="weight">Hmotnosť</Th>
+            <Th {handler} orderBy="weight">Hmotnosť</Th>
             <Th {handler}/>
           </tr>
           </thead>
