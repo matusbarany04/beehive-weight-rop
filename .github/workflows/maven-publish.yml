@@ -47,8 +47,9 @@ jobs:
 
     - name: Remove existing ROOT.war and ROOT/ directory
       run: |
-        rm -f /opt/tomcat/apache-tomcat-10.1.13/webapps/ROOT.war
-        rm -rf /opt/tomcat/apache-tomcat-10.1.13/webapps/ROOT/
+        echo "github" | sudo -S rm -f /opt/tomcat/apache-tomcat-10.1.13/webapps/ROOT.war
+        echo "github" | sudo -S rm -rf /opt/tomcat/apache-tomcat-10.1.13/webapps/ROOT/
+
 
     - name: Rename .war to ROOT.war
       run: mv target/*.war target/ROOT.war
