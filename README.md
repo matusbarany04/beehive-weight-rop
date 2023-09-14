@@ -2,8 +2,6 @@
 
 An application/tool designed to monitor the weight of beehives.
 
-![Project Banner or Screenshot](path/to/image)  *(If you have any)*
-
 ## Table of Contents
 1. [Features](#features)
 2. [Installation](#installation)
