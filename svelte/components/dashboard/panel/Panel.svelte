@@ -63,7 +63,7 @@
     link="/dashboard/calendar"
   />
 
-  <div class="absolute bottom-2 text-white w-full text-center">
+  <div class="absolute bottom-2 w-full text-center text-white">
     <form action="/logoutUser" method="POST">
       <button type="submit">Odhlásiť sa</button>
     </form>

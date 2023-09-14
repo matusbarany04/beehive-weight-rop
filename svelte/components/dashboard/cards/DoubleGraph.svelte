@@ -8,7 +8,7 @@
 </script>
 
 <CardRoot {onDragStart} {onDragEnd} {cardStates} {component} {error}>
-  <div class="relative w-full h-full">
+  <div class="relative h-full w-full">
     <div class="dividerH" />
     <div class="grapCont">
       <div class="graph">

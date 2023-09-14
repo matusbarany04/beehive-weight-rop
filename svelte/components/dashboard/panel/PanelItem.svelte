@@ -56,15 +56,15 @@
 </script>
 
 <RouterLink baseRoute="true" url={link} reload={foreignLink}>
-  <div class=" w-full h-12 relative flex items-center cursor-pointer">
+  <div class=" relative flex h-12 w-full cursor-pointer items-center">
     {#if isLinkActive}
-      <div class="w-4 absolute -left-2 h-4/6 bg-secondary-500 rounded-full" />
+      <div class="absolute -left-2 h-4/6 w-4 rounded-full bg-secondary-500" />
     {/if}
     <div
-      class="hover:bg-primary-900 flex-1 flex gap-4 m-4 items-center justify-items-center p-1.5 border-box rounded-xl"
+      class="border-box m-4 flex flex-1 items-center justify-items-center gap-4 rounded-xl p-1.5 hover:bg-primary-900"
     >
       <div
-        class="transition-all duration-300 ease-in relative ml-2 w-4 h-4 isolation-isolate"
+        class="relative ml-2 h-4 w-4 transition-all duration-300 ease-in isolation-isolate"
       >
         <div
           class={(isLinkActive ? "bg-secondary-500" : "bg-tertiary-100") +
@@ -74,7 +74,7 @@
       </div>
 
       <p
-        class={"font-normal delay-200 visible opacity-100 transition-opacity group-hover:text-secondary-500 " +
+        class={"visible font-normal opacity-100 transition-opacity delay-200 group-hover:text-secondary-500 " +
           (isLinkActive ? " text-secondary-500" : "text-tertiary-100")}
       >
         {text}

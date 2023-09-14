@@ -40,7 +40,7 @@
   <!-- TODO ked myska dragguje nad mapou mapa sa hybe -->
   {#if L}
     <div
-      class="z-10 rounded-md w-full h-full box-border"
+      class="z-10 box-border h-full w-full rounded-md"
       use:mapAction
       on:resize={resizeMap}
     />

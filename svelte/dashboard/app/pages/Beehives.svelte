@@ -34,7 +34,7 @@
   <meta name="Úle" content="Úle" />
 </svelte:head>
 
-<div class="w-full h-full box-border">
+<div class="box-border h-full w-full">
   <!-- <div class="grid gap-4 grid-cols-1 md:grid-cols-4">
         <LineGraph
             cardStates={{
@@ -76,20 +76,20 @@
 
   <!-- <div class="cardImage" /> -->
   {#if handler && rows}
-    <div class="w-full h-auto flex flex-col bg-white p-8 mt-4 rounded-lg">
+    <div class="mt-4 flex h-auto w-full flex-col rounded-lg bg-white p-8">
       <div
-        class="h-36 items-center flex flex-col gap-2 content-between md:flex-row md:gap-0 md:h-8"
+        class="flex h-36 flex-col content-between items-center gap-2 md:h-8 md:flex-row md:gap-0"
       >
-        <div class="flex-1 flex flex-col gap-4 md:flex-row items-center">
+        <div class="flex flex-1 flex-col items-center gap-4 md:flex-row">
           <h1
-            class="font-extrabold whitespace-nowrap text-ellipsis no_wrap text-2xl"
+            class="no_wrap text-ellipsis whitespace-nowrap text-2xl font-extrabold"
           >
             Moje úle
           </h1>
         </div>
 
         <div
-          class="w-full items-center justify-center flex flex-1 gap-4 md:justify-end"
+          class="flex w-full flex-1 items-center justify-center gap-4 md:justify-end"
         >
           <RouterLink url="../../dashboardApi/downloadCSV" reload="true">
             <Button
@@ -108,17 +108,17 @@
         </div>
       </div>
       <div
-        class="flex justify-between items-center md:h-8 mt-4 flex-col md:flex-row"
+        class="mt-4 flex flex-col items-center justify-between md:h-8 md:flex-row"
       >
         <Search
-          class="flex-1 h-8 w-full max-w-sm  pl-4 mt-1 mb-2 rounded-md border-2 border-slate-300"
+          class="mb-2 mt-1 h-8 w-full  max-w-sm flex-1 rounded-md border-2 border-slate-300 pl-4"
           {handler}
         />
 
         <RowsPerPage {handler} />
       </div>
-      <div class="h-[1px] w-full bg-slate-200 mt-3"></div>
-      <div class="flex-1 w-full overflow-x-scroll max-h-[48rem] flex">
+      <div class="mt-3 h-[1px] w-full bg-slate-200"></div>
+      <div class="flex max-h-[48rem] w-full flex-1 overflow-x-scroll">
         <table class="flex-1">
           <thead class="bg-white">
             <tr class="h-12">
@@ -136,7 +136,7 @@
               <tr class="h-20">
                 <td class="">
                   <div
-                    class="bg-secondary-500 aspect-square rounded-full h-2 w-2"
+                    class="aspect-square h-2 w-2 rounded-full bg-secondary-500"
                   ></div>
                 </td>
 
@@ -146,7 +146,7 @@
                     {shared.getBattery(row.token)}%
                   {:else}
                     <img
-                      class="w-8 h-8"
+                      class="h-8 w-8"
                       src="../../img/loading.gif"
                       alt="loading..."
                     />
@@ -155,14 +155,14 @@
                 <td>
                   {#if statuses}
                     <div
-                      class="h-8 w-20 px-1 box-content flex items-center justify-center rounded-full {statuses[
+                      class="box-content flex h-8 w-20 items-center justify-center rounded-full px-1 {statuses[
                         row.token
                       ]['currentStatus'] === 'ok'
                         ? 'bg-confirm-200'
                         : 'bg-error-200'}"
                     >
                       <p
-                        class="text-ellipsis no_wrap font-semibold whitespace-nowrap {statuses[
+                        class="no_wrap text-ellipsis whitespace-nowrap font-semibold {statuses[
                           row.token
                         ]['currentStatus'] === 'ok'
                           ? 'text-confirm-600'
@@ -175,7 +175,7 @@
                     </div>
                   {:else}
                     <img
-                      class="w-8 h-8"
+                      class="h-8 w-8"
                       src="../../img/loading.gif"
                       alt="loading..."
                     />
@@ -188,7 +188,7 @@
                     ).toLocaleString()}
                   {:else}
                     <img
-                      class="w-8 h-8"
+                      class="h-8 w-8"
                       src="../../img/loading.gif"
                       alt="loading..."
                     />
@@ -208,7 +208,7 @@
                     {/if}
                   {:else}
                     <img
-                      class="w-8 h-8"
+                      class="h-8 w-8"
                       src="../../img/loading.gif"
                       alt="loading..."
                     />
@@ -228,7 +228,7 @@
         </table>
       </div>
       <footer
-        class="flex flex-col items-center justify-between md:flex-row pt-4"
+        class="flex flex-col items-center justify-between pt-4 md:flex-row"
       >
         <RowCount {handler} />
         <Pagination {handler} />

@@ -279,7 +279,7 @@
 </svelte:head>
 
 {#if editMode}
-  <div class="absolute top-0 left-0">
+  <div class="absolute left-0 top-0">
     <EditPanel
       onDragStart={(x, y, self) => {
         let pos = getPosOfGridItem(clientX, clientY);
@@ -317,7 +317,7 @@
   </div>
 {/if}
 
-<div class="absolute right-0 top-0 w-min flex justify-end gap-3 p-4 z-50">
+<div class="absolute right-0 top-0 z-50 flex w-min justify-end gap-3 p-4">
   {#if editButton}
     <div class="flex gap-4">
       {#if editMode}
@@ -347,11 +347,11 @@
 </div>
 
 <div
-  class="flex min-h-screen flex-1 justify-center items-center relative w-full"
+  class="relative flex min-h-screen w-full flex-1 items-center justify-center"
 >
   {#if editMode}
     <div
-      class="box-border text-slate-900 w-full h-full absolute grid"
+      class="absolute box-border grid h-full w-full text-slate-900"
       style:--side="{itemSideSize}px"
       style:--grid-gap="{gridGap}px"
       style:--itemCount={varItemCount}
@@ -363,7 +363,7 @@
   {/if}
 
   <div
-    class="w-full h-full relative flex-1 {renderCards ? 'grid' : ''}"
+    class="relative h-full w-full flex-1 {renderCards ? 'grid' : ''}"
     id="rightPanel"
     style:--itemCount={finalItemCount}
     style:--side="{itemSideSize}px"

@@ -5,7 +5,7 @@
 </script>
 
 <div
-  class="flex-col mb-4 p-4 mx-auto h-48 flex justify-between bg-white rounded-lg lg:w-5/6 lg:h-24 lg:flex-row lg:justify-center"
+  class="mx-auto mb-4 flex h-48 flex-col justify-between rounded-lg bg-white p-4 lg:h-24 lg:w-5/6 lg:flex-row lg:justify-center"
 >
   <!-- title -->
   <div class="flex-1 justify-center lg:justify-normal">
@@ -14,7 +14,7 @@
       {detail}
     </h4>
   </div>
-  <div class=" flex-1 flex items-center lg:justify-end max-w-sm">
+  <div class=" flex max-w-sm flex-1 items-center lg:justify-end">
     <slot><h1>práve pripravujeme!</h1></slot>
   </div>
 </div>

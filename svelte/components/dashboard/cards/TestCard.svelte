@@ -8,7 +8,7 @@
 </script>
 
 <CardRoot {component} {cardStates} {onDragStart} {onDragEnd}>
-  <h1 class="align-middle border-1 border-l-secondary-300 border-solid">
+  <h1 class="border-1 border-solid border-l-secondary-300 align-middle">
     Test card
   </h1>
 </CardRoot>

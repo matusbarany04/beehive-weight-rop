@@ -11,7 +11,7 @@
   Show
   <select
     bind:value={$rowsPerPage}
-    class="pl-4 mt-1 mb-2 rounded-md border-2 bg-white border-slate-300"
+    class="mb-2 mt-1 rounded-md border-2 border-slate-300 bg-white pl-4"
   >
     {#each options as option}
       <option value={option}>

@@ -157,7 +157,7 @@
 >
   <div
     slot="header"
-    class="w-full max-w-[15rem] flex justify-around items-center"
+    class="flex w-full max-w-[15rem] items-center justify-around"
   >
     {#if chart}
       {#each miniButtons as item}
@@ -172,9 +172,9 @@
       {/each}
     {/if}
   </div>
-  <div class="w-full max-h-full flex relative">
+  <div class="relative flex max-h-full w-full">
     <!-- {#if chartRef} -->
-    <div {id} class="w-full h-full" />
+    <div {id} class="h-full w-full" />
     <!-- {/if} -->
     <!-- {#if chartRef} -->
     <!-- <Line bind:chart={chartRef} {options} {data} /> -->

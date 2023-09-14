@@ -62,16 +62,16 @@
 <!-- theme="dashed" -->
 <CardRoot {error} {component} {cardStates} {onDragStart} {onDragEnd}>
   <div
-    class="w-full h-full flex-1 flex items-center justify-center"
+    class="flex h-full w-full flex-1 items-center justify-center"
     bind:clientWidth={w}
     bind:clientHeight={h}
   >
     <div
-      class="font-bold flex items-center justify-center mb-4"
+      class="mb-4 flex items-center justify-center font-bold"
       style="width: {w}px"
     >
       <h1
-        class="text-center whitespace-nowrap text-ellipsis overflow-hidden"
+        class="overflow-hidden text-ellipsis whitespace-nowrap text-center"
         style="font-size: {(size * 5) / 6}px"
       >
         {value}
@@ -81,14 +81,14 @@
   <!-- style="font-size: {size / 8}px" -->
   {#if !isNaN(parseFloat(comparisonPerc))}
     <div
-      class="absolute bottom-4 w-full flex items-center justify-center box-border"
+      class="absolute bottom-4 box-border flex w-full items-center justify-center"
       style="gap: {Math.min(w / 40, 20)}px; padding-left: {w / 40}px"
     >
       <div
-        class="w-5 h-5 image {comparisonPerc > 0 ? 'positive' : 'negative'}"
+        class="image h-5 w-5 {comparisonPerc > 0 ? 'positive' : 'negative'}"
       />
       <p class="percent no_wrap whitespace-nowrap text-sm">{comparisonPerc}%</p>
-      <small class="whitespace-nowrap text-ellipsis overflow-hidden">
+      <small class="overflow-hidden text-ellipsis whitespace-nowrap">
         <!-- style="font-size: {size / 8}px" -->
         od posledného týždňa
       </small>

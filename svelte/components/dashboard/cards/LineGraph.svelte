@@ -96,7 +96,7 @@
   {onDragStart}
   {onDragEnd}
 >
-  <div class="w-full max-h-full flex relative">
-    <canvas {id} class="w-full h-full" />
+  <div class="relative flex max-h-full w-full">
+    <canvas {id} class="h-full w-full" />
   </div>
 </CardRoot>

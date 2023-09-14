@@ -11,7 +11,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
   bind:this={dialog}
-  class="rounded-md max-w-lg bg-[white] overflow-visible"
+  class="max-w-lg overflow-visible rounded-md bg-[white]"
   on:close={() => (showModal = false)}
   on:click|self={() => dialog.close()}
 >
@@ -24,7 +24,7 @@
 
     <hr />
 
-    <div class="flex gap-4 mt-4 justify-start">
+    <div class="mt-4 flex justify-start gap-4">
       <Button
         type="secondary"
         autofocus

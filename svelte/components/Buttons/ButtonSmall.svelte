@@ -27,7 +27,7 @@
 </script>
 
 <button
-  class="root w-min flex rounded-lg px-2 h-min btn-{type}"
+  class="root flex h-min w-min rounded-lg px-2 btn-{type}"
   on:click={() => {
     onClick();
     if (link) {
@@ -42,7 +42,7 @@
     />
   {/if}
 
-  <p class="text text-ellipsis no_wrap whitespace-nowrap text-sm">
+  <p class="text no_wrap text-ellipsis whitespace-nowrap text-sm">
     {text}
   </p>
 </button>

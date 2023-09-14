@@ -12,6 +12,6 @@
 >
 
 <p>That's why we need to use a tag</p>
-<a class="underline text-error-600" href="/dashboard"
+<a class="text-error-600 underline" href="/dashboard"
   >Dashboard Home trough anchor tag</a
 >

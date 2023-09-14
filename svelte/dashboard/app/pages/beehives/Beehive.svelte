@@ -32,9 +32,9 @@
 <!-- {JSON.stringify(beeData)} -->
 <!-- <div class="pt-2 p-4" /> -->
 
-<div class="w-full h-full box-border">
+<div class="box-border h-full w-full">
   <div
-    class="mb-4 p-4 md:h-16 flex-col md:flex-row mx-auto flex justify-between bg-white rounded-lg lg:w-5/6"
+    class="mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
   >
     <h1 class=" text-2xl font-semibold">Váha {beeName}</h1>
     <div class="mt-4 md:mt-0">
@@ -47,7 +47,7 @@
     </div>
   </div>
   <div
-    class="mb-4 mx-auto justify-between lg:w-5/6 grid gap-4 grid-cols-2 md:grid-cols-4"
+    class="mx-auto mb-4 grid grid-cols-2 justify-between gap-4 md:grid-cols-4 lg:w-5/6"
   >
     <PercentageCard
       cardStates={{
@@ -127,7 +127,7 @@
     />
   </div>
 
-  <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:w-5/6 mx-auto">
+  <div class="mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:w-5/6">
     <ApexChart
       cardStates={{
         id: "",
@@ -231,7 +231,7 @@
     id="changeBeehiveSettings"
     action="?/saveSettings"
     method="POST"
-    class="flex flex-col gap-4 my-4"
+    class="my-4 flex flex-col gap-4"
   >
     <Input label="Názov váhy" placeholder="Názov" name="name" value={beeName} />
     <input

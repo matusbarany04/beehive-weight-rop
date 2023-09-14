@@ -3,11 +3,11 @@
 </script>
 
 <a
-  class="px-4 box-border flex items-center h-12 w-full font-bree-serif"
+  class="font-bree-serif box-border flex h-12 w-full items-center px-4"
   href="/"
 >
   <div
-    class="w-8 h-8 mr-4 bg-center bg-no-repeat bg-contain"
+    class="mr-4 h-8 w-8 bg-contain bg-center bg-no-repeat"
     style="background-image: url('/img/beeman.png');"
   ></div>
   {#if !collapsed}

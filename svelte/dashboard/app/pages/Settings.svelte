@@ -15,7 +15,7 @@
   <meta name="Analytika" content="Analytika" />
 </svelte:head>
 
-<form class="w-full h-full">
+<form class="h-full w-full">
   <SettingsHeader title="Všeobecné" />
   <SettingsItem
     title="Email"
@@ -25,7 +25,7 @@
     <input
       type="text"
       placeholder="Váš email"
-      class="px-4 w-96 h-8 rounded-md border-2 border-slate-300"
+      class="h-8 w-96 rounded-md border-2 border-slate-300 px-4"
     />
   </SettingsItem>
   <SettingsItem
@@ -37,7 +37,7 @@
       <label for="time">čas od: </label>
 
       <input
-        class="px-4 mr-8 w-44 h-8 rounded-md border-2 border-slate-300"
+        class="mr-8 h-8 w-44 rounded-md border-2 border-slate-300 px-4"
         type="time"
         id="time-input"
         name="time"
@@ -51,7 +51,7 @@
       <label for="time">čas do: </label>
 
       <input
-        class="px-4 w-44 h-8 rounded-md border-2 border-slate-300"
+        class="h-8 w-44 rounded-md border-2 border-slate-300 px-4"
         type="time"
         id="time-input"
         name="time"
@@ -77,7 +77,7 @@
     detail="Pri nízkej báterií Vám príde upozornenie"
   >
     <select
-      class="px-4 mr-4 w-72 h-8 rounded-md border-2 bg-white border-slate-300"
+      class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
       name="pets"
       id="pet-select"
     >

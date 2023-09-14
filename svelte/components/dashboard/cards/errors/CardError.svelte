@@ -7,6 +7,6 @@
   export let error;
 </script>
 
-<div class="w-full h-full flex items-center justify-center">
+<div class="flex h-full w-full items-center justify-center">
   <h1 class="text-center text-error-400">{getErrorMessageByType(error)}</h1>
 </div>

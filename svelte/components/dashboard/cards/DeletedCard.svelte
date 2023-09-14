@@ -8,5 +8,5 @@
 </script>
 
 <CardRoot {component} {cardStates} {onDragStart} {onDragEnd}>
-  <h1 class="w-full text-center text-error-500 text-3xl">DELETED</h1>
+  <h1 class="w-full text-center text-3xl text-error-500">DELETED</h1>
 </CardRoot>

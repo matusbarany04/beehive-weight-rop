@@ -5,14 +5,14 @@
   let loading = false;
 </script>
 
-<main class="w-full min-h-screen flex flex-1 box-border">
+<main class="box-border flex min-h-screen w-full flex-1">
   <Panel />
-  <div class="bg-tertiary-100 flex-1 h-screen overflow-y-scroll px-8">
-    <header class="h-16 flex align-middle">
+  <div class="h-screen flex-1 overflow-y-scroll bg-tertiary-100 px-8">
+    <header class="flex h-16 align-middle">
       {#if !loading}
         <!--                <h1 class="text-3xl my-auto font-bold">{$message}</h1>-->
       {:else}
-        <h1 class="text-3xl my-auto font-bold">Načítavam...</h1>
+        <h1 class="my-auto text-3xl font-bold">Načítavam...</h1>
       {/if}
     </header>
     <!-- class={loading ? "hidden" : " "} -->
@@ -20,7 +20,7 @@
       <slot />
     {:else}
       <!-- loading -->
-      <div class="flex-1 h-5/6 flex items-center justify-center">
+      <div class="flex h-5/6 flex-1 items-center justify-center">
         <div class="lds-grid">
           <div></div>
           <div></div>

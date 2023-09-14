@@ -54,7 +54,7 @@
     {placeholder}
     use:typeAction
     {name}
-    class="h-8 w-full sm:w-96 pl-4 mt-1 mb-2 rounded-md border-2 border-slate-300"
+    class="mb-2 mt-1 h-8 w-full rounded-md border-2 border-slate-300 pl-4 sm:w-96"
     {required}
   />
 </div>

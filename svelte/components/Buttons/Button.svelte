@@ -51,7 +51,7 @@
       navigateWithPrefix(link);
     }
   }}
-  class="p-2 flex rounded-lg btn-{type}"
+  class="flex rounded-lg p-2 btn-{type}"
 >
   {#if image && imagePosition === "left"}
     <div
@@ -59,7 +59,7 @@
       style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "
     ></div>
   {/if}
-  <p class="text text-ellipsis no_wrap whitespace-nowrap">
+  <p class="text no_wrap text-ellipsis whitespace-nowrap">
     {text}
   </p>
   {#if image && imagePosition === "right"}

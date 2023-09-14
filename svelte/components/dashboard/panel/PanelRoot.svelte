@@ -32,16 +32,16 @@
   <section
     class="{visible
       ? ''
-      : 'overflow-x-hidden'} flex-col h-screen bg-primary-100 absolute lg:relative animate-width {visible
+      : 'overflow-x-hidden'} animate-width absolute h-screen flex-col bg-primary-100 lg:relative {visible
       ? 'w-56'
       : 'w-0'}"
   >
     <button
-      class="p-1 absolute rounded-full transition-all duration-100 bg-secondary-500 right-2 top-4"
+      class="absolute right-2 top-4 rounded-full bg-secondary-500 p-1 transition-all duration-100"
       on:click={toggleVisibility}
     >
       <div
-        class="m-auto bg-contain bg-no-repeat w-4 h-4"
+        class="m-auto h-4 w-4 bg-contain bg-no-repeat"
         style="background-image: url(/icons/caret-left-fill.svg)"
       ></div>
     </button>
@@ -50,11 +50,11 @@
 </div>
 {#if !visible}
   <button
-    class="p-2 absolute rounded-full transition-all duration-100 bg-primary-100 hover:bg-secondary-500 left-4 top-4"
+    class="absolute left-4 top-4 rounded-full bg-primary-100 p-2 transition-all duration-100 hover:bg-secondary-500"
     on:click={toggleVisibility}
   >
     <div
-      class="m-auto bg-contain bg-no-repeat w-4 h-4"
+      class="m-auto h-4 w-4 bg-contain bg-no-repeat"
       style="background-image: url(/icons/dashboard.svg)"
     ></div>
   </button>

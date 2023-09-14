@@ -93,7 +93,7 @@
   }
 </script>
 
-<div class="flex flex-col h-4/5" on:load={onload}>
+<div class="flex h-4/5 flex-col" on:load={onload}>
   <div>
     <div class="flex items-center justify-end">
       <h2 class="w-full" id="title">
@@ -135,7 +135,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-7 gap-1 auto-rows-fr h-full">
+  <div class="grid h-full auto-rows-fr grid-cols-7 gap-1">
     {#each daysOfMonth as day}
       <DayItem
         date={day.date}
@@ -164,7 +164,7 @@
   <form
     id="newReminder"
     on:submit|preventDefault={saveReminder}
-    class="flex flex-col gap-4 my-4"
+    class="my-4 flex flex-col gap-4"
   >
     <Input
       label="Názov"
@@ -181,7 +181,7 @@
 
     <label for="date">Dátum: </label>
     <input
-      class="px-4 w-44 h-8 rounded-md border-2 border-slate-300"
+      class="h-8 w-44 rounded-md border-2 border-slate-300 px-4"
       type="date"
       id="date"
       name="date"
@@ -196,7 +196,7 @@
 
     <label for="time">Čas: </label>
     <input
-      class="px-4 w-44 h-8 rounded-md border-2 border-slate-300"
+      class="h-8 w-44 rounded-md border-2 border-slate-300 px-4"
       type="time"
       id="time"
       name="time"

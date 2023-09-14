@@ -17,9 +17,9 @@
   <meta name="Pridať úl" content="Úle" />
 </svelte:head>
 <div
-  class="flex-col mb-4 p-10 mx-auto flex justify-between bg-white gap-4 rounded-lg lg:w-5/6 lg:flex-row lg:justify-center"
+  class="mx-auto mb-4 flex flex-col justify-between gap-4 rounded-lg bg-white p-10 lg:w-5/6 lg:flex-row lg:justify-center"
 >
-  <div class="flex-1 md:pr-2 md:border-0 md:border-r-2 md:border-slate-300">
+  <div class="flex-1 md:border-0 md:border-r-2 md:border-slate-300 md:pr-2">
     <h1 class="text-4xl">Pridať nové zariadenie</h1>
     <p>
       Registrujte Vaše zariadenie do platformy BuzzyBees s následovanými údajmi.
@@ -27,14 +27,14 @@
     </p>
   </div>
 
-  <div class="flex-1 flex items-center md:justify-center">
-    <form method="POST" class="flex-1 flex flex-col md:items-center">
+  <div class="flex flex-1 items-center md:justify-center">
+    <form method="POST" class="flex flex-1 flex-col md:items-center">
       <div>
         <label for="name" class="">Názov</label> <br />
         <input
           type="text"
           name="name"
-          class="h-8 w-full sm:w-96 pl-4 mt-1 mb-2 rounded-md border-2 border-slate-300"
+          class="mb-2 mt-1 h-8 w-full rounded-md border-2 border-slate-300 pl-4 sm:w-96"
         />
       </div>
       <br />
@@ -43,7 +43,7 @@
         <input
           type="text"
           name="beehive_id"
-          class="h-8 w-full sm:w-96 pl-4 mt-1 mb-2 rounded-md border-2 border-slate-300"
+          class="mb-2 mt-1 h-8 w-full rounded-md border-2 border-slate-300 pl-4 sm:w-96"
         />
       </div>
       <br />
@@ -52,7 +52,7 @@
         <input
           type="text"
           name="interval"
-          class="h-8 w-full sm:w-96 pl-4 mt-1 mb-2 rounded-md border-2 border-slate-300"
+          class="mb-2 mt-1 h-8 w-full rounded-md border-2 border-slate-300 pl-4 sm:w-96"
         />
         <br />
         <button type="submit" class="mt-4">
