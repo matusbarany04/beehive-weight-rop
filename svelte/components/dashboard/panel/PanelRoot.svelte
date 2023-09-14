@@ -32,7 +32,7 @@
 
 <svelte:window bind:innerWidth="{screenWidth}"/>
 
-<div class="relative z-10">
+<div class="relative z-50">
   <section
     class="{visible ? '' : 'overflow-x-hidden'} flex-col h-screen bg-primary-100 absolute lg:relative animate-width {(visible ? 'w-56' : 'w-0')}"
   >
