@@ -1,6 +1,5 @@
 <script>
     import {getErrorMessageByType, getErrorTypes} from "./errors";
-    import CardRoot from "../components/CardRoot.svelte";
 
     /**
      * @param {String} error type of an error message from errors.js

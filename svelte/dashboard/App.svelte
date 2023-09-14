@@ -1,38 +1,38 @@
 <script>
-	import Router from './app/routing/Router.svelte';
-    import {prefix} from "../components/prefix";
-  import {dataHandler, onDataLoaded} from "../components/dashboard/cards/dataHandler";
-    import shared from "./app/stores/shared";
-    import Loading from "../components/pages/Loading.svelte";
-    
-    // Initiate all fetch operations in an async function
-    async function loadData() {
-      //sets prefix for all route links
+  import Router from './app/routing/Router.svelte';
+  import {prefix} from "../components/prefix";
+  import shared from "./app/stores/shared";
+  import Loading from "../components/pages/Loading.svelte";
 
-      
-      prefix.setPrefix('/dashboard');
-      // fetches all dashboard data to dataHandler store
-      shared.fetchUser();
-      shared.fetchBeehives();
-      shared.fetchStatuses();
-      // fetches all shared data between all components and saves them to corresponding stores
-    }
+  // Initiate all fetch operations in an async function
+  async function loadData() {
+    //sets prefix for all route links
 
-    loadData();
+
+    prefix.setPrefix('/dashboard');
+    // fetches all dashboard data to dataHandler store
+    shared.fetchUser();
+    shared.fetchBeehives();
+    shared.fetchStatuses();
+    // fetches all shared data between all components and saves them to corresponding stores
+  }
+
+  loadData();
 </script>
 
 <div class="bg-slate-300">
-    <!-- Uncomment these if you want to include them -->
-    <!-- <Sidenav class="sidenav" />
-    <Panel /> -->
-    <Router />
+  <!-- Uncomment these if you want to include them -->
+  <!-- <Sidenav class="sidenav" />
+  <Panel /> -->
+  <Router/>
 </div>
 
 <style>
   @import url("https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap");
   @import url("https://fonts.googleapis.com/css2?family=Jost&display=swap");
   @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Open+Sans:wght@300;400;600;700&display=swap");
-  @import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); /*  futuristicke */
+  @import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+  /*  futuristicke */
 
   @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 

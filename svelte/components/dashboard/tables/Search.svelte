@@ -1,11 +1,6 @@
 <script>
-  // import type { DataHandler, Row } from '@vincjo/datatables'
 
-  // type T = $$Generic<Row>
-
-  import {onDataLoaded} from "../cards/dataHandler";
-
-  export let handler; //: DataHandler<T>
+  export let handler;
   let value = ''
 
   handler.on('clearSearch', () => value = '');

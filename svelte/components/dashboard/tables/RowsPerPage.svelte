@@ -1,7 +1,4 @@
 <script >
- 
-    import {onDataLoaded} from "../cards/dataHandler";
-
     export let handler
     let rowsPerPage;
     

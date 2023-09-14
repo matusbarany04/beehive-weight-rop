@@ -128,7 +128,7 @@
             clientY = e.clientY;
             let pos = getPosOfGridItem(e.clientX, e.clientY);
 
-            for (let n = 0; n < finalItemCount * finalItemCount; n++) {
+            for (let n = 0; n < finalItemCount * finalItemCount; n++) { 
               itemsActive[n] = false;
             }
             if (pos.exists) {

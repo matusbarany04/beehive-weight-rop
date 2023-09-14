@@ -11,7 +11,7 @@
   import {
     isEmpty,
   } from "../../../lib/utils/static";
-  // import { applyAction } from "$app/forms";
+
 
   //TODO pridat check funkciu ci su tu vsetky premenne
   /**

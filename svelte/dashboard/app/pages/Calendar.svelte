@@ -1,16 +1,10 @@
 <script>
-    // import { API_URL } from "$lib/utils/constants";
-    // import { AUTH_POST, POST } from "$lib/utils/database";
     import DayItem from "../../../components/calendar/DayItem.svelte";
     import Button from "../../../components/Buttons/Button.svelte";
     import Modal from "../../../components/Modal.svelte";
     import Input from "../../../components/Inputs/Input.svelte";
     import DropdownInput from "../../../components/Inputs/DropdownInput.svelte";
-    import {onDataLoaded} from "../../../components/dashboard/cards/dataHandler";
-
-
-    export let data;
-
+    
     let daysOfMonth = [];
     let now = new Date();
     now.setHours(0, 0, 0, 0);
@@ -106,23 +100,18 @@
         })}
       </h2>
 
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <img
-        class="cursor-pointer"
-        src="../../icons/arrow-left.svg"
-        alt="previous-month"
-        on:click={previousMonth}
-      />
+
+      <button on:click={previousMonth} class="cursor-pointer">
+        <img alt="previous-month" src="../../icons/arrow-left.svg" />
+      </button>
+
       <h2 class="w-48 text-center">
         {now.toLocaleString("default", { month: "long", year: "numeric" })}
       </h2>
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <img
-        class="cursor-pointer"
-        src="../../icons/arrow-right.svg"
-        alt="next-month"
-        on:click={nextMonth}
-      />
+
+      <button on:click={nextMonth} class="cursor-pointer">
+        <img alt="previous-month" src="../../icons/arrow-right.svg" />
+      </button>
     </div>
     <Button
       image="../../icons/add_thin.svg"
