@@ -8,10 +8,7 @@
   import Input from "../../../Inputs/Input.svelte";
   import Button from "../../../Buttons/Button.svelte";
 
-  import {
-    isEmpty,
-  } from "../../../lib/utils/static";
-
+  import { isEmpty } from "../../../lib/utils/static";
 
   //TODO pridat check funkciu ci su tu vsetky premenne
   /**
@@ -357,7 +354,7 @@
     await dashboardEditor.saveCardList();
 
     showSettings = false;
-    
+
     // invalidateAll(); //TODO  might come back as bug
     //might also come as a bug
     // applyAction({ type: "success" });
@@ -504,8 +501,7 @@
     height: var(--width);
     margin-left: 0;
   }
-  
-  
+
   .editHandles {
     position: absolute;
     width: 100%;

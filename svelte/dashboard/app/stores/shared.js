@@ -1,4 +1,4 @@
-import {writable} from "svelte/store";
+import { writable } from "svelte/store";
 
 const user = writable({});
 export let message = writable("Loading...");
@@ -12,42 +12,42 @@ export default {
         loadData("user", userData.user);
         user.set(userData.user);
       } else {
-        console.error('Failed to fetch user:', response.statusText);
+        console.error("Failed to fetch user:", response.statusText);
       }
     } catch (error) {
-      console.error('Error fetching user:', error);
+      console.error("Error fetching user:", error);
     }
   },
 
-
   fetchBeehives: async () => {
-    console.log("fetch")
-    let promise = await fetch('/dashboardApi/getBeehives');
+    console.log("fetch");
+    let promise = await fetch("/dashboardApi/getBeehives");
     let response = await promise.json();
-    console.log(response)
+    console.log(response);
     if (response.status === "ok") {
       loadData("beehives", response["beehives"]);
     }
   },
 
   fetchStatuses: () => {
-    console.log("fetch")
-    fetch('/dashboardApi/getData').then(r => r.json())
-      .then(response => {
-      //  beehive_data.set(response);
+    console.log("fetch");
+    fetch("/dashboardApi/getData")
+      .then((r) => r.json())
+      .then((response) => {
+        //  beehive_data.set(response);
         loadData("statuses", response.data);
       });
   },
 
   getUser() {
     let userValue;
-    user.subscribe(value => {
+    user.subscribe((value) => {
       userValue = value;
     })();
     return userValue;
   },
 
-  getBeehiveIdsWithNames: () =>  {
+  getBeehiveIdsWithNames: () => {
     return savedData["beehives"];
   },
 
@@ -55,7 +55,7 @@ export default {
     return savedData["statuses"][beehive_id]["temps"];
   },
   getWeights: (beehive_id) => {
-      return savedData["statuses"][beehive_id]["weights"];
+    return savedData["statuses"][beehive_id]["weights"];
   },
   getHumidities: (beehive_id) => {
     return savedData["statuses"][beehive_id]["humids"];
@@ -81,18 +81,18 @@ export default {
   nowMinusFrom: (from) => {
     return new Date(new Date().getTime() - fromValueToTimestamp(from));
   },
-}
+};
 
 let savedData = {};
 let callbacks = [];
 
 export function onLoad(dataTypes, callback) {
-  if(!Array.isArray(dataTypes)) dataTypes = [dataTypes];
-  
+  if (!Array.isArray(dataTypes)) dataTypes = [dataTypes];
+
   let loadedData = getLoadedData(dataTypes);
   if (loadedData != null) callback(...loadedData);
   else {
-    let newCallback = {dataTypes: dataTypes, func: callback};
+    let newCallback = { dataTypes: dataTypes, func: callback };
     callbacks.push(newCallback);
   }
 }

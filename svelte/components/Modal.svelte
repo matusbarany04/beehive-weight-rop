@@ -3,7 +3,6 @@
 
   export let showModal; // boolean
 
-
   let dialog; // HTMLDialogElement
 
   $: if (dialog) showModal ? dialog.showModal() : dialog.close();
@@ -24,11 +23,16 @@
     <slot />
 
     <hr />
-    
+
     <div class="flex gap-4 mt-4 justify-start">
-      <Button type="secondary" autofocus onClick={() => dialog.close()} text="Zatvoriť okno"/>
-      <slot name="footer"/>
-    </div> 
+      <Button
+        type="secondary"
+        autofocus
+        onClick={() => dialog.close()}
+        text="Zatvoriť okno"
+      />
+      <slot name="footer" />
+    </div>
   </div>
 </dialog>
 
@@ -59,5 +63,4 @@
       opacity: 1;
     }
   }
-
 </style>

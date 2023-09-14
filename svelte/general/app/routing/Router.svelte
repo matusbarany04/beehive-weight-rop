@@ -1,5 +1,5 @@
 <script>
-  import { route } from '../../../components/route.serv';
+  import { route } from "../../../components/route.serv";
   import Login from "../../pages/Login.svelte";
   import Notfound from "../../pages/Notfound.svelte";
   import Home from "../../pages/Home.svelte";
@@ -8,21 +8,21 @@
   import AccountCreated from "../../pages/AccountCreated.svelte";
   let value = Notfound;
 
-  route.subscribe(val => {
-    switch(val) {
-      case '/':
+  route.subscribe((val) => {
+    switch (val) {
+      case "/":
         value = Home;
         break;
-      case '/login':
+      case "/login":
         value = Login;
         break;
-      case '/register':
+      case "/register":
         value = Register;
         break;
-      case '/accountCreated':
+      case "/accountCreated":
         value = AccountCreated;
         break;
-      case '/test':
+      case "/test":
         value = TestGeneralSite;
         break;
       default:
@@ -32,5 +32,5 @@
 </script>
 
 <main>
-  <svelte:component this={value}/>
+  <svelte:component this={value} />
 </main>

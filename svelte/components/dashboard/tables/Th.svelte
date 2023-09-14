@@ -1,32 +1,37 @@
 <script>
+  import { onDataLoaded } from "../cards/dataHandler";
 
-  import {onDataLoaded} from "../cards/dataHandler";
+  export let handler;
+  export let orderBy;
+  export let align = "left";
 
-  export let handler
-  export let orderBy
-  export let align = 'left'
-
-  const identifier = orderBy?.toString()
+  const identifier = orderBy?.toString();
   let sort;
 
   sort = handler.getSort();
-    
 </script>
 
 <th
   on:click={() => handler.sort(orderBy)}
   class:sortable={orderBy}
   class:active={$sort.identifier === identifier}
-  class={$$props.class ?? ''}
+  class={$$props.class ?? ""}
 >
   <div
     class="flex"
-    style:justify-content={align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center'}
+    style:justify-content={align === "left"
+      ? "flex-start"
+      : align === "right"
+      ? "flex-end"
+      : "center"}
   >
     <strong>
-      <slot/>
+      <slot />
     </strong>
-    <span class:asc={$sort.direction === 'asc'} class:desc={$sort.direction === 'desc'}/>
+    <span
+      class:asc={$sort.direction === "asc"}
+      class:desc={$sort.direction === "desc"}
+    />
   </div>
 </th>
 
@@ -64,7 +69,7 @@
   th.sortable span:before,
   th.sortable span:after {
     border: 4px solid transparent;
-    content: '';
+    content: "";
     display: block;
     height: 0;
     width: 0;

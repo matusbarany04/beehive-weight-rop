@@ -1,6 +1,5 @@
 <script>
   import {
-
     Search,
     RowsPerPage,
     RowCount,

@@ -1,10 +1,9 @@
-
 const TW_BREAKPOINTS = {
-  "sm": 640,
-  "md": 768,
-  "lg": 1024,
-  "xl": 1280,
-  "2xl": 1536
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+  "2xl": 1536,
 };
 
 export default TW_BREAKPOINTS;
@@ -128,7 +127,7 @@ export function isEmpty(obj) {
   return true;
 }
 
-import pkg from 'file-saver';
+import pkg from "file-saver";
 
 const { saveAs } = pkg;
 export const triggerDownloadCsv = function (data, filename) {
@@ -163,9 +162,9 @@ export const jsonToCsv = function (data) {
   return [
     header.join(","), // header row first
     ...items.map((row) =>
-        header
-            .map((fieldName) => JSON.stringify(row[fieldName], replacer))
-            .join(","),
+      header
+        .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+        .join(","),
     ),
   ].join("\r\n");
 };

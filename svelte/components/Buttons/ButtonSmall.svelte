@@ -1,6 +1,6 @@
 <script>
-  import {navigateWithPrefix} from "../route.serv";
-  import 'style.css';
+  import { navigateWithPrefix } from "../route.serv";
+  import "style.css";
 
   /**
    * @param {string} text text of the button
@@ -25,7 +25,6 @@
     console.log("Button action does not exist!");
   };
 </script>
-
 
 <button
   class="root w-min flex rounded-lg px-2 h-min btn-{type}"
@@ -60,7 +59,6 @@
     -webkit-mask-size: 100%;
     background-color: var(--icon-color, black);
   }
-
 
   .text {
     color: var(--icon-color, black);

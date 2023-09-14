@@ -1,30 +1,30 @@
 <script>
-    import { page } from "$app/stores";
-    // import { message } from "$lib/utils/dashboard";
-    import { onMount } from "svelte";
-    import PercentageCard from "../../../../components/dashboard/cards/PercentageCard.svelte";
-    import Button from "../../../../components/Buttons/Button.svelte";
-    import MapCard from "../../../../components/dashboard/cards/MapCard.svelte";
-    import ApexChart from "../../../../components/dashboard/cards/ApexChart.svelte";
-    import { dataHandler } from "../../../../components/dashboard/cards/dataHandler";
-    import Modal from "../../../../components/Modal.svelte";
-    import Input from "../../../../components/Inputs/Input.svelte";
-    import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-    import WeatherCard from "../../../../components/dashboard/cards/WeatherCard.svelte";
+  import { page } from "$app/stores";
+  // import { message } from "$lib/utils/dashboard";
+  import { onMount } from "svelte";
+  import PercentageCard from "../../../../components/dashboard/cards/PercentageCard.svelte";
+  import Button from "../../../../components/Buttons/Button.svelte";
+  import MapCard from "../../../../components/dashboard/cards/MapCard.svelte";
+  import ApexChart from "../../../../components/dashboard/cards/ApexChart.svelte";
+  import { dataHandler } from "../../../../components/dashboard/cards/dataHandler";
+  import Modal from "../../../../components/Modal.svelte";
+  import Input from "../../../../components/Inputs/Input.svelte";
+  import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
+  import WeatherCard from "../../../../components/dashboard/cards/WeatherCard.svelte";
 
-    export let data;
-    $: ({ user, sessionid } = $page.data);
-    let showSettings = false;
+  export let data;
+  $: ({ user, sessionid } = $page.data);
+  let showSettings = false;
 
-    onMount(async () => {
-        message.set("Detail váhy");
-    });
+  onMount(async () => {
+    message.set("Detail váhy");
+  });
 
-    // let temperatures = [];
+  // let temperatures = [];
 
-    let beeData = dataHandler.getBeehiveData(data.beehive_id);
-    let beeName = beeData.name;
-    // let temperatures = dataHandler.getTemperatures(data.beehive_id)
+  let beeData = dataHandler.getBeehiveData(data.beehive_id);
+  let beeName = beeData.name;
+  // let temperatures = dataHandler.getTemperatures(data.beehive_id)
 </script>
 
 <div id="chart" />
@@ -33,24 +33,24 @@
 <!-- <div class="pt-2 p-4" /> -->
 
 <div class="w-full h-full box-border">
-    <div
-            class="mb-4 p-4 md:h-16 flex-col md:flex-row mx-auto flex justify-between bg-white rounded-lg lg:w-5/6"
-    >
-        <h1 class=" text-2xl font-semibold">Váha {beeName}</h1>
-        <div class="mt-4 md:mt-0">
-            <Button
-                    text="Upraviť"
-                    onClick={() => {
+  <div
+    class="mb-4 p-4 md:h-16 flex-col md:flex-row mx-auto flex justify-between bg-white rounded-lg lg:w-5/6"
+  >
+    <h1 class=" text-2xl font-semibold">Váha {beeName}</h1>
+    <div class="mt-4 md:mt-0">
+      <Button
+        text="Upraviť"
+        onClick={() => {
           showSettings = true;
         }}
-            />
-        </div>
+      />
     </div>
-    <div
-            class="mb-4 mx-auto justify-between lg:w-5/6 grid gap-4 grid-cols-2 md:grid-cols-4"
-    >
-        <PercentageCard
-                cardStates={{
+  </div>
+  <div
+    class="mb-4 mx-auto justify-between lg:w-5/6 grid gap-4 grid-cols-2 md:grid-cols-4"
+  >
+    <PercentageCard
+      cardStates={{
         id: "",
         mode: "static",
         title: "Vnútorná teplota váhy",
@@ -69,10 +69,10 @@
             beehive_id: data.beehive_id,
           },
         ],
-      }} 
-        />
-        <PercentageCard
-                cardStates={{
+      }}
+    />
+    <PercentageCard
+      cardStates={{
         id: "",
         mode: "static",
         title: "Váha váhy",
@@ -88,9 +88,9 @@
           },
         ],
       }}
-        />
-        <PercentageCard
-                cardStates={{
+    />
+    <PercentageCard
+      cardStates={{
         title: "Vnútorná vlhkosť váhy",
         id: "",
         mode: "static",
@@ -106,9 +106,9 @@
           },
         ],
       }}
-        />
-        <PercentageCard
-                cardStates={{
+    />
+    <PercentageCard
+      cardStates={{
         id: "",
         mode: "static",
         title: "Stav batérie",
@@ -124,12 +124,12 @@
           },
         ],
       }}
-        />
-    </div>
+    />
+  </div>
 
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:w-5/6 mx-auto">
-        <ApexChart
-                cardStates={{
+  <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:w-5/6 mx-auto">
+    <ApexChart
+      cardStates={{
         id: "",
         spanX: 1,
         mode: "static",
@@ -144,10 +144,10 @@
           },
         ],
       }}
-        />
+    />
 
-        <ApexChart
-                cardStates={{
+    <ApexChart
+      cardStates={{
         id: "",
         spanX: 1,
         mode: "static",
@@ -162,9 +162,9 @@
           },
         ],
       }}
-        />
-        <ApexChart
-                cardStates={{
+    />
+    <ApexChart
+      cardStates={{
         id: "",
         spanX: 1,
         mode: "static",
@@ -179,9 +179,9 @@
           },
         ],
       }}
-        />
-        <ApexChart
-                cardStates={{
+    />
+    <ApexChart
+      cardStates={{
         id: "",
         spanX: 1,
         mode: "static",
@@ -196,10 +196,10 @@
           },
         ],
       }}
-        />
+    />
 
-        <MapCard
-                cardStates={{
+    <MapCard
+      cardStates={{
         id: "",
         spanX: 1,
         spanY: 1,
@@ -207,10 +207,10 @@
         title: "Mapa",
         mode: "static",
       }}
-        />
+    />
 
-        <WeatherCard
-                cardStates={{
+    <WeatherCard
+      cardStates={{
         id: "",
         spanX: 1,
         spanY: 1,
@@ -218,62 +218,62 @@
         title: "Počasie",
         mode: "static",
       }}
-        />
-    </div>
+    />
+  </div>
 </div>
 
 <Modal bind:showModal={showSettings}>
-    <h2 slot="header" class="text-2xl font-bold">
-        {"Upraviť nastavenia váhy"}
-    </h2>
+  <h2 slot="header" class="text-2xl font-bold">
+    {"Upraviť nastavenia váhy"}
+  </h2>
 
-    <form
-            id="changeBeehiveSettings"
-            action="?/saveSettings"
-            method="POST"
-            class="flex flex-col gap-4 my-4"
-    >
-        <Input label="Názov váhy" placeholder="Názov" name="name" value={beeName} />
-        <input
-                type="text"
-                name="beehive_id"
-                class="hidden"
-                value={data.beehive_id}
-        />
+  <form
+    id="changeBeehiveSettings"
+    action="?/saveSettings"
+    method="POST"
+    class="flex flex-col gap-4 my-4"
+  >
+    <Input label="Názov váhy" placeholder="Názov" name="name" value={beeName} />
+    <input
+      type="text"
+      name="beehive_id"
+      class="hidden"
+      value={data.beehive_id}
+    />
 
-        <Input
-                label="Poloha váhy"
-                placeholder="Mesto"
-                name="city"
-                value={beeData.beehive.location}
-        />
+    <Input
+      label="Poloha váhy"
+      placeholder="Mesto"
+      name="city"
+      value={beeData.beehive.location}
+    />
 
-        <DropdownInput
-                label="Interval merania"
-                name="interval"
-                value={beeData.beehive.interval + ""}
-                small={"Upozornenie: Časté merania môžu výrazne skrátiť výdrž batérie."}
-                options={[
+    <DropdownInput
+      label="Interval merania"
+      name="interval"
+      value={beeData.beehive.interval + ""}
+      small={"Upozornenie: Časté merania môžu výrazne skrátiť výdrž batérie."}
+      options={[
         ["10", "10 minút"], //TODO opravit hodnoty
         ["60", "1 hodinu"],
         ["240", "4 hodiny"],
         ["480", "8 hodín"],
         ["1440", "1 deň"],
       ]}
-        />
-    </form>
+    />
+  </form>
 
-    <button slot="footer" type="submit" form="changeBeehiveSettings">
-        <Button
-                slot="footer"
-                type="confirm"
-                autofocus
-                onClick={() => {
+  <button slot="footer" type="submit" form="changeBeehiveSettings">
+    <Button
+      slot="footer"
+      type="confirm"
+      autofocus
+      onClick={() => {
         // saveSettings();
         // dialog.close();
       }}
-                clickType="submit"
-                text="Uložiť a zatvoriť okno"
-        ></Button>
-    </button>
+      clickType="submit"
+      text="Uložiť a zatvoriť okno"
+    ></Button>
+  </button>
 </Modal>

@@ -1,6 +1,6 @@
 <script>
-  import Router from './app/routing/Router.svelte';
-  import {prefix} from "../components/prefix";
+  import Router from "./app/routing/Router.svelte";
+  import { prefix } from "../components/prefix";
   import shared from "./app/stores/shared";
   import Loading from "../components/pages/Loading.svelte";
 
@@ -8,8 +8,7 @@
   async function loadData() {
     //sets prefix for all route links
 
-
-    prefix.setPrefix('/dashboard');
+    prefix.setPrefix("/dashboard");
     // fetches all dashboard data to dataHandler store
     shared.fetchUser();
     shared.fetchBeehives();
@@ -24,7 +23,7 @@
   <!-- Uncomment these if you want to include them -->
   <!-- <Sidenav class="sidenav" />
   <Panel /> -->
-  <Router/>
+  <Router />
 </div>
 
 <style>
@@ -36,15 +35,15 @@
 
   @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-  @import 'tailwindcss/base';
-  @import 'tailwindcss/components';
-  @import 'tailwindcss/utilities';
+  @import "tailwindcss/base";
+  @import "tailwindcss/components";
+  @import "tailwindcss/utilities";
 
   :root {
     padding: 0;
     margin: 0;
     --font-body: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     --font-mono: "Fira Mono", monospace;
     --color-primary: #161819;
     --color-secondary: #e2a70f;
@@ -60,7 +59,6 @@
     font-family: var(--font-body);
     color: var(--color-text-light);
   }
-
 
   .shadow {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -87,5 +85,4 @@
       scrollbar-color: #1e202a;
     }
   }
-
 </style>

@@ -1,6 +1,6 @@
 <script>
-  import {navigateWithPrefix} from "../route.serv";
-  import 'style.css';
+  import { navigateWithPrefix } from "../route.serv";
+  import "style.css";
 
   export let type = "secondary";
 
@@ -44,6 +44,4 @@
     -webkit-mask-size: 100%;
     mask-size: 100%;
   }
-
-
 </style>

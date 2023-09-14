@@ -16,34 +16,36 @@
       visible = false;
     }
     // If current width is above the threshold and previous width was below it
-    else if (screenWidth >= TW_BREAKPOINTS.lg && previousWidth < TW_BREAKPOINTS.lg) {
+    else if (
+      screenWidth >= TW_BREAKPOINTS.lg &&
+      previousWidth < TW_BREAKPOINTS.lg
+    ) {
       visible = true;
     }
     previousWidth = screenWidth;
   }
-
 </script>
 
-<style>
-  .animate-width {
-    transition: width 0.3s ease;
-  }
-</style>
-
-<svelte:window bind:innerWidth="{screenWidth}"/>
+<svelte:window bind:innerWidth={screenWidth} />
 
 <div class="relative z-50">
   <section
-    class="{visible ? '' : 'overflow-x-hidden'} flex-col h-screen bg-primary-100 absolute lg:relative animate-width {(visible ? 'w-56' : 'w-0')}"
+    class="{visible
+      ? ''
+      : 'overflow-x-hidden'} flex-col h-screen bg-primary-100 absolute lg:relative animate-width {visible
+      ? 'w-56'
+      : 'w-0'}"
   >
     <button
       class="p-1 absolute rounded-full transition-all duration-100 bg-secondary-500 right-2 top-4"
-      on:click={toggleVisibility}>
+      on:click={toggleVisibility}
+    >
       <div
         class="m-auto bg-contain bg-no-repeat w-4 h-4"
-        style="background-image: url(/icons/caret-left-fill.svg)"></div>
+        style="background-image: url(/icons/caret-left-fill.svg)"
+      ></div>
     </button>
-    <slot></slot>
+    <slot />
   </section>
 </div>
 {#if !visible}
@@ -57,3 +59,9 @@
     ></div>
   </button>
 {/if}
+
+<style>
+  .animate-width {
+    transition: width 0.3s ease;
+  }
+</style>

@@ -2,27 +2,23 @@
   import PanelItem from "./PanelItem.svelte";
   import PanelHeaderItem from "./PanelHeaderItem.svelte";
   import Logo from "../../Logo.svelte";
-  import {onMount} from "svelte";
-  import {tweened} from "svelte/motion";
-  import {quartInOut} from "svelte/easing";
+  import { onMount } from "svelte";
+  import { tweened } from "svelte/motion";
+  import { quartInOut } from "svelte/easing";
   import PanelRoot from "./PanelRoot.svelte";
   import TW_BREAKPOINTS from "../../lib/utils/static";
 
   let screenSize = 0;
   $: collapsed = screenSize < TW_BREAKPOINTS.xl;
-
-
 </script>
 
-<svelte:window bind:innerWidth={screenSize}/>
-
+<svelte:window bind:innerWidth={screenSize} />
 
 <PanelRoot>
-
-  <Logo {collapsed}/>
+  <Logo {collapsed} />
 
   {#if !collapsed}
-    <PanelHeaderItem title="Hlavné"/>
+    <PanelHeaderItem title="Hlavné" />
   {/if}
 
   <PanelItem
@@ -38,14 +34,15 @@
     link="/dashboard/beehives"
   />
   {#if !collapsed}
-    <PanelHeaderItem title="Ostatné"/>
+    <PanelHeaderItem title="Ostatné" />
   {/if}
 
   <PanelItem
     {collapsed}
     text="Pomoc"
     svg="icons/lightbulb.svg"
-    link="/dashboard/help"/>
+    link="/dashboard/help"
+  />
 
   <PanelItem
     {collapsed}
@@ -72,4 +69,3 @@
     </form>
   </div>
 </PanelRoot>
-

@@ -1,46 +1,37 @@
 <script>
   import Button from "../../../components/Buttons/Button.svelte";
 
-  import {
-    DataHandler,
-    Th,
-    RowCount,
-    Pagination,
-  } from "@vincjo/datatables";
+  import { DataHandler, Th, RowCount, Pagination } from "@vincjo/datatables";
   import Search from "../../../components/dashboard/tables/Search.svelte";
   import RowsPerPage from "../../../components/dashboard/tables/RowsPerPage.svelte";
 
-  import shared, {onLoad} from "../stores/shared";
+  import shared, { onLoad } from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
   import RouterLink from "../../../components/RouterLink.svelte";
-
-
 
   const user = shared.getUser();
   let rows, handler, statuses;
 
-  onLoad("beehives", beehives => {
+  onLoad("beehives", (beehives) => {
     handler = new DataHandler(beehives, {
       rowsPerPage: 10,
     });
     rows = handler.getRows();
   });
 
-
-  onLoad("statuses", data => {
+  onLoad("statuses", (data) => {
     statuses = data;
-   /*handler =new DataHandler(statuses, {
+    /*handler =new DataHandler(statuses, {
      rowsPerPage: 10,
    });*/
   });
-
 
   let showModal = false;
 </script>
 
 <svelte:head>
   <title>Úle</title>
-  <meta name="Úle" content="Úle"/>
+  <meta name="Úle" content="Úle" />
 </svelte:head>
 
 <div class="w-full h-full box-border">
@@ -104,7 +95,8 @@
             <Button
               image="icons/export.svg"
               text="Exportovať"
-              type="secondary"/>
+              type="secondary"
+            />
           </RouterLink>
 
           <Button
@@ -123,107 +115,127 @@
           {handler}
         />
 
-        <RowsPerPage {handler}/>
+        <RowsPerPage {handler} />
       </div>
       <div class="h-[1px] w-full bg-slate-200 mt-3"></div>
-      <div class="flex-1 w-full overflow-x-scroll  max-h-[48rem] flex">
+      <div class="flex-1 w-full overflow-x-scroll max-h-[48rem] flex">
         <table class="flex-1">
           <thead class="bg-white">
-          <tr class="h-12">
-            <th class="text-slate-500"></th>
-            <Th {handler} orderBy="name">Názov váhy</Th>
-            <Th {handler} orderBy="battery">Batéria</Th>
-            <Th {handler}>Status</Th>
-            <Th {handler} orderBy="timestamp">Posledná aktualizácia</Th>
-            <Th {handler} orderBy="weight">Hmotnosť</Th>
-            <Th {handler}/>
-          </tr>
+            <tr class="h-12">
+              <th class="text-slate-500"></th>
+              <Th {handler} orderBy="name">Názov váhy</Th>
+              <Th {handler} orderBy="battery">Batéria</Th>
+              <Th {handler}>Status</Th>
+              <Th {handler} orderBy="timestamp">Posledná aktualizácia</Th>
+              <Th {handler} orderBy="weight">Hmotnosť</Th>
+              <Th {handler} />
+            </tr>
           </thead>
           <tbody>
-          {#each $rows as row, index}
-            <tr class="h-20">
-              <td class="">
-                <div
-                  class="bg-secondary-500 aspect-square rounded-full h-2 w-2"></div>
-              </td>
-
-              <td class="font-normal">{row.name}</td>
-              <td>
-                {#if statuses}
-                  {shared.getBattery(row.token)}%
-                {:else}
-                  <img class="w-8 h-8" src="../../img/loading.gif" alt="loading...">
-                {/if}
-              </td>
-              <td
-              >
-                {#if statuses}
+            {#each $rows as row, index}
+              <tr class="h-20">
+                <td class="">
                   <div
-                    class="h-8 w-20 px-1 box-content flex items-center justify-center rounded-full {statuses[row.token]['currentStatus'] ===
-                  'ok'
-                    ? 'bg-confirm-200'
-                    : 'bg-error-200'}"
-                  >
-                    <p
-                      class="text-ellipsis no_wrap font-semibold whitespace-nowrap { statuses[row.token]['currentStatus'] ===
-                    'ok'
-                      ? 'text-confirm-600'
-                      : 'text-error-500'}"
-                    >{
-                      statuses[row.token]['currentStatus'] ===
-                      'ok'
-                        ? 'ok'
-                        : 'error' }
-                    </p>
-                  </div>
-                {:else}
-                  <img class="w-8 h-8" src="../../img/loading.gif" alt="loading...">
-                {/if}
-              </td>
-              <td>
-                {#if statuses}
-                  {new Date(shared.getLastUpdateTime(row.token)).toLocaleString()}
-                {:else}
-                  <img class="w-8 h-8" src="../../img/loading.gif" alt="loading...">
-                {/if}
-                <!-- {#if row.statuses.length > 0}
+                    class="bg-secondary-500 aspect-square rounded-full h-2 w-2"
+                  ></div>
+                </td>
+
+                <td class="font-normal">{row.name}</td>
+                <td>
+                  {#if statuses}
+                    {shared.getBattery(row.token)}%
+                  {:else}
+                    <img
+                      class="w-8 h-8"
+                      src="../../img/loading.gif"
+                      alt="loading..."
+                    />
+                  {/if}
+                </td>
+                <td>
+                  {#if statuses}
+                    <div
+                      class="h-8 w-20 px-1 box-content flex items-center justify-center rounded-full {statuses[
+                        row.token
+                      ]['currentStatus'] === 'ok'
+                        ? 'bg-confirm-200'
+                        : 'bg-error-200'}"
+                    >
+                      <p
+                        class="text-ellipsis no_wrap font-semibold whitespace-nowrap {statuses[
+                          row.token
+                        ]['currentStatus'] === 'ok'
+                          ? 'text-confirm-600'
+                          : 'text-error-500'}"
+                      >
+                        {statuses[row.token]["currentStatus"] === "ok"
+                          ? "ok"
+                          : "error"}
+                      </p>
+                    </div>
+                  {:else}
+                    <img
+                      class="w-8 h-8"
+                      src="../../img/loading.gif"
+                      alt="loading..."
+                    />
+                  {/if}
+                </td>
+                <td>
+                  {#if statuses}
+                    {new Date(
+                      shared.getLastUpdateTime(row.token),
+                    ).toLocaleString()}
+                  {:else}
+                    <img
+                      class="w-8 h-8"
+                      src="../../img/loading.gif"
+                      alt="loading..."
+                    />
+                  {/if}
+                  <!-- {#if row.statuses.length > 0}
                 {new Date(row.statuses[0].timestamp).toLocaleString()}
               {:else}
                 Nedostatok dát
               {/if} -->
-              </td>
-              <td class="font-bold">
-                {#if statuses}
-                  {#if shared.getWeight(row.token)}
-                    {shared.getWeight(row.token)}kg
+                </td>
+                <td class="font-bold">
+                  {#if statuses}
+                    {#if shared.getWeight(row.token)}
+                      {shared.getWeight(row.token)}kg
+                    {:else}
+                      Nedostatok dát
+                    {/if}
                   {:else}
-                    Nedostatok dát
+                    <img
+                      class="w-8 h-8"
+                      src="../../img/loading.gif"
+                      alt="loading..."
+                    />
                   {/if}
-                {:else}
-                  <img class="w-8 h-8" src="../../img/loading.gif" alt="loading...">
-                {/if}
-              </td>
-              <td
-              >
-                <Button
-                  type="secondary"
-                  text="Detail"
-                  link={`/dashboard/beehives/${row.token}`}
-                  onClick={() => {}}
-                />
-              </td>
-            </tr>
-          {/each}
+                </td>
+                <td>
+                  <Button
+                    type="secondary"
+                    text="Detail"
+                    link={`/dashboard/beehives/${row.token}`}
+                    onClick={() => {}}
+                  />
+                </td>
+              </tr>
+            {/each}
           </tbody>
         </table>
       </div>
-      <footer class="flex flex-col items-center justify-between md:flex-row pt-4">
-        <RowCount {handler}/>
-        <Pagination {handler}/>
+      <footer
+        class="flex flex-col items-center justify-between md:flex-row pt-4"
+      >
+        <RowCount {handler} />
+        <Pagination {handler} />
       </footer>
     </div>
   {:else}
-    <Loading/>
+    <Loading />
   {/if}
 </div>
 

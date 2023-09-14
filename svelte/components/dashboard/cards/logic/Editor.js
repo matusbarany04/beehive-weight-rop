@@ -1,4 +1,3 @@
-class Editor{
-  constructor() {
-  }
+class Editor {
+  constructor() {}
 }

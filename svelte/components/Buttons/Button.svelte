@@ -1,6 +1,6 @@
 <script>
-  import {navigateWithPrefix} from "../route.serv";
-  import 'style.css';
+  import { navigateWithPrefix } from "../route.serv";
+  import "style.css";
 
   /**
    * @param {string} text text of the button
@@ -14,12 +14,12 @@
    * @param {string} image  optional, if specified image will be displayed left to the text, image path + name located in folder static
    */
   export let image;
-  
+
   /**
    * @param {string} image  optional, if specified image will be displayed left or right to the text, left is default
    * Type left, right
    */
-  export let imagePosition = "left"; 
+  export let imagePosition = "left";
 
   /**
    * @param {string} link optional, if specified button will redirect before action
@@ -56,7 +56,8 @@
   {#if image && imagePosition === "left"}
     <div
       class="image mr-2 self-center"
-      style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "></div>
+      style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "
+    ></div>
   {/if}
   <p class="text text-ellipsis no_wrap whitespace-nowrap">
     {text}
@@ -64,7 +65,8 @@
   {#if image && imagePosition === "right"}
     <div
       class="image self-center"
-      style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "></div>
+      style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "
+    ></div>
   {/if}
 </button>
 
@@ -97,5 +99,4 @@
   .text {
     color: var(--icon-color, black);
   }
-
 </style>

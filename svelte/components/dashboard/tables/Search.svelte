@@ -1,13 +1,12 @@
 <script>
-
   export let handler;
-  let value = ''
+  let value = "";
 
-  handler.on('clearSearch', () => value = '');
+  handler.on("clearSearch", () => (value = ""));
 </script>
 
 <input
-  class={$$props.class ?? ''}
+  class={$$props.class ?? ""}
   bind:value
   placeholder={"Hľadať..."}
   spellcheck="false"

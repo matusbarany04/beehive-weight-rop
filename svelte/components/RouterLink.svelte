@@ -1,6 +1,6 @@
 <script>
-  import { prefix } from './prefix.js';
-  import { navigate } from './route.serv';
+  import { prefix } from "./prefix.js";
+  import { navigate } from "./route.serv";
 
   /**
    * The URL or path to which the link should point within the SPA (Single Page Application).
@@ -21,7 +21,6 @@
    */
   export let reload = false;
 
-
   /**
    * Determines if the dynamic prefix should be bypassed.
    * When set to true, the dynamic prefix stored in the prefix store is ignored.
@@ -31,23 +30,26 @@
    */
   export let baseRoute = false;
 
-  let currentPrefix = '';
-  
-  prefix.subscribe(value => {
-    console.log(value)
-    currentPrefix = value || '';
+  let currentPrefix = "";
+
+  prefix.subscribe((value) => {
+    console.log(value);
+    currentPrefix = value || "";
   });
-  
-  
+
   function changeRoute(event) {
-    if(!reload){
-      navigate(event.currentTarget.getAttribute('href'));
-    }else {
-      window.location.href = event.currentTarget.getAttribute('href');
+    if (!reload) {
+      navigate(event.currentTarget.getAttribute("href"));
+    } else {
+      window.location.href = event.currentTarget.getAttribute("href");
     }
   }
-  
 </script>
-<a class="text-slate-500" href="{!baseRoute ? currentPrefix : ''}{url}" on:click|preventDefault={changeRoute}>
-  <slot></slot>
+
+<a
+  class="text-slate-500"
+  href="{!baseRoute ? currentPrefix : ''}{url}"
+  on:click|preventDefault={changeRoute}
+>
+  <slot />
 </a>

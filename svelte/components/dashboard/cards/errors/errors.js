@@ -12,7 +12,7 @@ export function getErrorTypes() {
 
 /**
  * Returns message if error type exists
- * @function 
+ * @function
  * @param {string} type type of error message
  */
 export function getErrorMessageByType(type) {
