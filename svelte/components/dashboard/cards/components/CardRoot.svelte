@@ -395,8 +395,7 @@
         ></button>
       {/if}
       {#if cardStates.editing && cardStates.mode !== "add"}
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <div
+        <button
           class="headerIcon removeImage"
           on:click={() => {
             dashboardEditor.deleteCard(cardStates.id);

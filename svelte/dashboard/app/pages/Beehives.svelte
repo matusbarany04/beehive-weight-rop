@@ -1,7 +1,5 @@
 <script>
   import Button from "../../../components/Buttons/Button.svelte";
-  import {onMount} from "svelte";
-  import {jsonToCsv, triggerDownloadCsv} from "../../../components/lib/utils/static";
 
   import {
     DataHandler,
@@ -16,7 +14,7 @@
   import Loading from "../../../components/pages/Loading.svelte";
   import RouterLink from "../../../components/RouterLink.svelte";
 
-  export let data;
+
 
   const user = shared.getUser();
   let rows, handler, statuses;

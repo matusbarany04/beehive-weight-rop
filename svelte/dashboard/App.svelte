@@ -61,12 +61,6 @@
     color: var(--color-text-light);
   }
 
-  body {
-    min-height: 100vh;
-    margin: 0;
-    background-attachment: fixed;
-    background-size: 100vw 100vh;
-  }
 
   .shadow {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

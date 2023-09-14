@@ -1,7 +1,7 @@
 <script>
     import Panel from "../../../components/dashboard/panel/Panel.svelte";
     import PanelRoot from "../../../components/dashboard/panel/PanelRoot.svelte";
-    export let data;
+ 
     
     let loading = false; 
 

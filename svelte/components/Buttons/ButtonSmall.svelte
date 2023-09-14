@@ -26,15 +26,15 @@
   };
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div
+
+<button
+  class="root w-min flex rounded-lg px-2 h-min btn-{type}"
   on:click={() => {
     onClick();
     if (link) {
       navigateWithPrefix(link);
     }
   }}
-  class="root w-min flex rounded-lg px-2 h-min btn-{type}"
 >
   {#if image}
     <div
@@ -46,7 +46,7 @@
   <p class="text text-ellipsis no_wrap whitespace-nowrap text-sm">
     {text}
   </p>
-</div>
+</button>
 
 <style>
   .image {
@@ -65,10 +65,11 @@
   .text {
     color: var(--icon-color, black);
   }
-  
+
   .root:hover {
     transform: scale(1.02);
   }
+
   .root:active {
     transform: scale(0.98);
   }

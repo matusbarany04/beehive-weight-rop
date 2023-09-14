@@ -3,7 +3,7 @@
 
   export let showModal; // boolean
 
-  export let type;
+
   let dialog; // HTMLDialogElement
 
   $: if (dialog) showModal ? dialog.showModal() : dialog.close();
@@ -59,7 +59,5 @@
       opacity: 1;
     }
   }
-  button {
-    display: block;
-  }
+
 </style>
