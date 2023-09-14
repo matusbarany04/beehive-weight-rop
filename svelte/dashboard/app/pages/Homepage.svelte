@@ -320,7 +320,7 @@
 {/if}
 
 
-<div class="absolute right-0 top-0 w-min flex justify-end gap-3 p-4 ">
+<div class="absolute right-0 top-0 w-min flex justify-end gap-3 p-4 z-50 ">
     {#if editButton}
         <div class="flex gap-4">
             {#if editMode}

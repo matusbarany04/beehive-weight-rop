@@ -377,7 +377,7 @@
   style:--sy={cardStates.spanY}
 >
   <div class="relative h-full flex flex-col w-full">
-    <div class="w-full h-8 flex px-3 py-1 box-border z-50 my-1">
+    <div class="w-full h-8 flex px-3 py-1 box-border z-20 my-1">
       <h1
         class="flex-1 text-base text-slate-500 text-ellipsis no_wrap whitespace-nowrap"
       >
