@@ -14,6 +14,13 @@
    * @param {string} image  optional, if specified image will be displayed left to the text, image path + name located in folder static
    */
   export let image;
+  
+  /**
+   * @param {string} image  optional, if specified image will be displayed left or right to the text, left is default
+   * Type left, right
+   */
+  export let imagePosition = "left"; 
+
   /**
    * @param {string} link optional, if specified button will redirect before action
    */
@@ -46,15 +53,19 @@
   }}
   class="p-2 flex rounded-lg btn-{type}"
 >
-  {#if image}
+  {#if image && imagePosition === "left"}
     <div
-      class="image mr-2"
+      class="image mr-2 self-center"
       style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "></div>
   {/if}
   <p class="text text-ellipsis no_wrap whitespace-nowrap">
     {text}
   </p>
-
+  {#if image && imagePosition === "right"}
+    <div
+      class="image self-center"
+      style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "></div>
+  {/if}
 </button>
 
 <style>

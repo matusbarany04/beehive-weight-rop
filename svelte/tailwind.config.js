@@ -10,6 +10,7 @@ export default {
     'btn-tertiary',
     'btn-confirm',
     'btn-error',
+    'btn-transparent',
   ],
   theme: {
     colors: {
@@ -72,6 +73,11 @@ export default {
         },
         '.btn-error': {
           'background-color': theme('colors.error'),
+          '--text-color': 'white',
+          '--icon-color': 'white',
+        },
+        '.btn-transparent': {
+          
           '--text-color': 'white',
           '--icon-color': 'white',
         },
