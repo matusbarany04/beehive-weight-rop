@@ -254,7 +254,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({data: cardList}) // TOKEN needed , token: sessionid
+                    body: JSON.stringify({data: JSON.stringify(cardList)}) // TOKEN needed , token: sessionid
                 });
                 const output = await response.json();
                 console.log("saving... ", output);
