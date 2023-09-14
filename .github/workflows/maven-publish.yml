@@ -56,3 +56,11 @@ jobs:
 
     - name: Deploy to local Tomcat
       run: cp target/ROOT.war /opt/tomcat/apache-tomcat-10.1.13/webapps/
+
+    - name: Restart Tomcat server
+      run: |
+        echo "github" | sudo -S /opt/tomcat/apache-tomcat-10.1.13/bin/shutdown.sh
+        sleep 2
+        echo "github" | sudo -S /opt/tomcat/apache-tomcat-10.1.13/bin/startup.sh
+
+      
