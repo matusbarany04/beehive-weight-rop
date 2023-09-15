@@ -4,7 +4,9 @@ importScripts("https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js")
 const token = new URL(location).searchParams.get('token');
 console.log(token);
 
-const socket = new WebSocket("wss://" + location.host + "/ws/304/hqsmdkat/websocket");
+let host = location.host.split(':')[0] + ":8080";
+
+const socket = new WebSocket("ws://" + host + "/ws/304/hqsmdkat/websocket");
 
 socket.addEventListener('open', function (event) {
     // WebSocket connection is open
@@ -16,7 +18,7 @@ socket.addEventListener('open', function (event) {
 
 });
 
-const privateSocket = new WebSocket("wss://" + location.host + "/ws/private/" + token + "/websocket");
+const privateSocket = new WebSocket("ws://" + host + "/ws/private/" + token + "/websocket");
 
 privateSocket.addEventListener('open', function (event) {
     // WebSocket connection is open
