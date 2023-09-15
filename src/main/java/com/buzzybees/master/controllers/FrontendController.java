@@ -24,7 +24,7 @@ public class FrontendController {
 
     private final String BUNDLE_PATH_LOCALHOST = "src/main/resources/bundle/";
 
-    @GetMapping("/dashboard/{path:[^.]*}")
+    @GetMapping("/dashboard/**/{path:[^\\.]*}")
     public String handleDashboardPaths(@CookieValue(name = AuthController.SSID, defaultValue = "") String ssid, @PathVariable String path) {
         return UserService.isTokenValid(ssid) ? "dashboard" : "redirect:/login";
     }
