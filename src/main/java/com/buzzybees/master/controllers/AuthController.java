@@ -49,6 +49,7 @@ public class AuthController {
 
                 if (user != null) {
                     String token = UserService.loginUser(user);
+                    if(token == null) return "redirect:/login";
                     response.addCookie(new Cookie(SSID, token));
                     return "redirect:/dashboard";
                 }

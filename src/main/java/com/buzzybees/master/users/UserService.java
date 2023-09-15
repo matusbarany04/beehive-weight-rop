@@ -87,6 +87,7 @@ public class UserService implements ApplicationContextAware {
     }
 
     public static String loginUser(User user) {
+        if (user.id == null) return null;
         String ssid = RequestContextHolder.currentRequestAttributes().getSessionId();
         loggedUsers.put(ssid, user.id);
         return ssid;
