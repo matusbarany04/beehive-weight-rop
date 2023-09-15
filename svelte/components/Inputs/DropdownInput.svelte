@@ -34,7 +34,6 @@
   }
 </script>
 
-
 <div>
   {#if label}
     <label for={name} class="">{label}</label> <br />
@@ -43,9 +42,9 @@
     <small>{small}</small><br />
   {/if}
   <select
-    class="px-4 mr-4 w-72 h-8 rounded-md border-2 bg-white border-slate-300"
+    class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
     {name}
-    value="{value}"
+    {value}
     id="pet-select"
   >
     {#each options as option}

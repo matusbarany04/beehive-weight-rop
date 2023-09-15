@@ -36,4 +36,3 @@ export function getCardByFormat(format) {
   }
   return output.component;
 }
-

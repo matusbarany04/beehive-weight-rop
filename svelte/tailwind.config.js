@@ -3,13 +3,18 @@
 const colors = require("tailwindcss/colors");
 
 export default {
-  content: ["./general/**/*.{html,js,svelte,ts}", "./dashboard/**/*.{html,js,svelte,ts}", "./components/**/*.{html,js,svelte,ts}"],
+  content: [
+    "./general/**/*.{html,js,svelte,ts}",
+    "./dashboard/**/*.{html,js,svelte,ts}",
+    "./components/**/*.{html,js,svelte,ts}",
+  ],
   safelist: [
-    'btn-primary',
-    'btn-secondary',
-    'btn-tertiary',
-    'btn-confirm',
-    'btn-error',
+    "btn-primary",
+    "btn-secondary",
+    "btn-tertiary",
+    "btn-confirm",
+    "btn-error",
+    "btn-transparent",
   ],
   theme: {
     colors: {
@@ -53,37 +58,41 @@ export default {
     extend: {},
   },
   plugins: [
-    function ({addUtilities, theme}) {
+    function ({ addUtilities, theme }) {
       const buttonUtilities = {
-        '.btn-primary': {
-          'background-color': theme('colors.secondary.500'),
-          '--icon-color': 'black',
-          '--text-color': 'black',
+        ".btn-primary": {
+          "background-color": theme("colors.secondary.500"),
+          "--icon-color": "black",
+          "--text-color": "black",
         },
-        '.btn-secondary': {
-          '--icon-color': 'black',
-          'background-color': theme('colors.white'),
-          'outline': '2px solid #cfd2d6',
+        ".btn-secondary": {
+          "--icon-color": "black",
+          "background-color": theme("colors.white"),
+          outline: "2px solid #cfd2d6",
         },
 
-        '.btn-confirm': {
-          'background-color': theme('colors.confirm.500'),
-          '--icon-color': 'black',
+        ".btn-confirm": {
+          "background-color": theme("colors.confirm.500"),
+          "--icon-color": "black",
         },
-        '.btn-error': {
-          'background-color': theme('colors.error'),
-          '--text-color': 'white',
-          '--icon-color': 'white',
+        ".btn-error": {
+          "background-color": theme("colors.error"),
+          "--text-color": "white",
+          "--icon-color": "white",
         },
-      }
+        ".btn-transparent": {
+          "--text-color": "white",
+          "--icon-color": "white",
+        },
+      };
       addUtilities(buttonUtilities);
 
       const newUtilities = {
-        '.isolation-isolate': {
-          isolation: 'isolate',
+        ".isolation-isolate": {
+          isolation: "isolate",
         },
       };
-      addUtilities(newUtilities, ['responsive', 'hover']);
+      addUtilities(newUtilities, ["responsive", "hover"]);
     },
   ],
 };

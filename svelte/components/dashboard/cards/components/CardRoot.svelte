@@ -8,10 +8,7 @@
   import Input from "../../../Inputs/Input.svelte";
   import Button from "../../../Buttons/Button.svelte";
 
-  import {
-    isEmpty,
-  } from "../../../lib/utils/static";
-  // import { applyAction } from "$app/forms";
+  import { isEmpty } from "../../../lib/utils/static";
 
   //TODO pridat check funkciu ci su tu vsetky premenne
   /**
@@ -357,7 +354,7 @@
     await dashboardEditor.saveCardList();
 
     showSettings = false;
-    
+
     // invalidateAll(); //TODO  might come back as bug
     //might also come as a bug
     // applyAction({ type: "success" });
@@ -366,7 +363,7 @@
 
 <div
   use:dragMe
-  class={"root overflow-hidden flex justify-center align-middle rounded-lg w-full h-full aspect-square " +
+  class={"root flex aspect-square h-full w-full justify-center overflow-hidden rounded-lg align-middle " +
     "root_" +
     theme}
   style:left={$coords.x + "px"}
@@ -376,10 +373,10 @@
   style:--sx={cardStates.spanX}
   style:--sy={cardStates.spanY}
 >
-  <div class="relative h-full flex flex-col w-full">
-    <div class="w-full h-8 flex px-3 py-1 box-border z-50 my-1">
+  <div class="relative flex h-full w-full flex-col">
+    <div class="z-20 my-1 box-border flex h-8 w-full px-3 py-1">
       <h1
-        class="flex-1 text-base text-slate-500 text-ellipsis no_wrap whitespace-nowrap"
+        class="no_wrap flex-1 text-ellipsis whitespace-nowrap text-base text-slate-500"
       >
         {cardStates?.title || ""}
       </h1>
@@ -395,8 +392,7 @@
         ></button>
       {/if}
       {#if cardStates.editing && cardStates.mode !== "add"}
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <div
+        <button
           class="headerIcon removeImage"
           on:click={() => {
             dashboardEditor.deleteCard(cardStates.id);
@@ -418,7 +414,7 @@
       </div>
     {/if}
 
-    <div id="customContent" class="flex w-full h-[calc(100%-2rem)]">
+    <div id="customContent" class="flex h-[calc(100%-2rem)] w-full">
       {#if !error}
         <slot />
       {:else}
@@ -438,7 +434,7 @@
     id="cardRootForm"
     action="?/saveSettings"
     method="POST"
-    class="flex flex-col gap-4 my-4"
+    class="my-4 flex flex-col gap-4"
   >
     <Input
       label="Názov karty"
@@ -505,8 +501,7 @@
     height: var(--width);
     margin-left: 0;
   }
-  
-  
+
   .editHandles {
     position: absolute;
     width: 100%;

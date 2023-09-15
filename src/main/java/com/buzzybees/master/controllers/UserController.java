@@ -5,6 +5,7 @@ import com.buzzybees.master.notifications.Notification.Type;
 import com.buzzybees.master.notifications.NotificationRepository;
 import com.buzzybees.master.tables.User;
 import com.buzzybees.master.users.Message;
+import org.hibernate.query.results.complete.ModelPartReference;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -133,6 +134,7 @@ public class UserController {
 
     @PostMapping(value = {"/saveDashboard"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String saveDashboard(@RequestBody Map<String, String> data) {
+
         String dashboardData = data.get("data");
 
         JSONObject response = new JSONObject();

@@ -4,8 +4,8 @@
   import { getContext, onMount } from "svelte";
   import ButtonSmall from "../../Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../Inputs/DropdownInput.svelte";
-  import shared  from "../../../dashboard/app/stores/shared";
-  
+  import shared from "../../../dashboard/app/stores/shared";
+
   export let cardStates;
   export let onDragEnd; // function
   export let onDragStart; // function
@@ -24,10 +24,7 @@
   ];
 
   function changeZoom(value) {
-    chart.zoomX(
-      shared.nowMinusFrom(value).getTime(),
-      new Date().getTime(),
-    );
+    chart.zoomX(shared.nowMinusFrom(value).getTime(), new Date().getTime());
   }
 
   if (cardStates?.data == null) {
@@ -37,7 +34,8 @@
     const beehiveData = [];
     cardStates.data.forEach((element) => {
       console.log(element);
-      if (true ) { // ONLY FOR DEBUG BUG BUG element.type ===  "dummy"
+      if (true) {
+        // ONLY FOR DEBUG BUG BUG element.type ===  "dummy"
         beehiveData.push({
           name: "temperature",
           data: [
@@ -63,7 +61,7 @@
         });
       }
     });
-    
+
     onMount(async () => {
       var options = {
         stroke: {
@@ -140,13 +138,15 @@
 
     return {
       status: "success",
-   
-      data: [{
-        timespan: formData.get("timespan"),
-        name: formData.get("data_type"), // TODO make translatable 
-        type: formData.get("data_type"),
-        beehive_id: formData.get("beehive_id"),
-      }],
+
+      data: [
+        {
+          timespan: formData.get("timespan"),
+          name: formData.get("data_type"), // TODO make translatable
+          type: formData.get("data_type"),
+          beehive_id: formData.get("beehive_id"),
+        },
+      ],
     };
   }}
   {component}
@@ -157,7 +157,7 @@
 >
   <div
     slot="header"
-    class="w-full max-w-[15rem] flex justify-around items-center"
+    class="flex w-full max-w-[15rem] items-center justify-around"
   >
     {#if chart}
       {#each miniButtons as item}
@@ -172,9 +172,9 @@
       {/each}
     {/if}
   </div>
-  <div class="w-full max-h-full flex relative">
+  <div class="relative flex max-h-full w-full">
     <!-- {#if chartRef} -->
-    <div {id} class="w-full h-full" />
+    <div {id} class="h-full w-full" />
     <!-- {/if} -->
     <!-- {#if chartRef} -->
     <!-- <Line bind:chart={chartRef} {options} {data} /> -->
@@ -186,7 +186,7 @@
     <DropdownInput
       label="Typ dát"
       name="data_type"
-      value={ cardStates.data[0].type ??"dummy"}
+      value={cardStates.data[0].type ?? "dummy"}
       options={[
         ["dummy", "ukážkové dáta"],
         ["temperature", "Teplota"],
@@ -198,7 +198,7 @@
     <DropdownInput
       label="Úsek načítaných dát"
       name="timespan"
-      value={ cardStates.data[0].timespan ?? "week"}
+      value={cardStates.data[0].timespan ?? "week"}
       small={"Upozornenie: väčšieho množstva dát môže spôsobiť dlhšie načítanie stránky a problémy v systémoch s obmedzenými zdrojmi. Prosím, zvážte to pri výbere obdobia."}
       options={[
         ["week", "Posledný týždeň"],

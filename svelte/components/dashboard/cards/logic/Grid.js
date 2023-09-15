@@ -1,6 +1,3 @@
 class Grid {
-  constructor() {
-    
-  }
-
+  constructor() {}
 }

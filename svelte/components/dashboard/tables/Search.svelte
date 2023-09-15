@@ -1,18 +1,12 @@
 <script>
-  // import type { DataHandler, Row } from '@vincjo/datatables'
+  export let handler;
+  let value = "";
 
-  // type T = $$Generic<Row>
-
-  import {onDataLoaded} from "../cards/dataHandler";
-
-  export let handler; //: DataHandler<T>
-  let value = ''
-
-  handler.on('clearSearch', () => value = '');
+  handler.on("clearSearch", () => (value = ""));
 </script>
 
 <input
-  class={$$props.class ?? ''}
+  class={$$props.class ?? ""}
   bind:value
   placeholder={"Hľadať..."}
   spellcheck="false"

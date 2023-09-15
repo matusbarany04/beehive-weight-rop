@@ -1,6 +1,6 @@
 <script>
-  import {navigateWithPrefix} from "../route.serv";
-  import 'style.css';
+  import { navigateWithPrefix } from "../route.serv";
+  import "style.css";
 
   /**
    * @param {string} text text of the button
@@ -26,15 +26,14 @@
   };
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div
+<button
+  class="root flex h-min w-min rounded-lg px-2 btn-{type}"
   on:click={() => {
     onClick();
     if (link) {
       navigateWithPrefix(link);
     }
   }}
-  class="root w-min flex rounded-lg px-2 h-min btn-{type}"
 >
   {#if image}
     <div
@@ -43,10 +42,10 @@
     />
   {/if}
 
-  <p class="text text-ellipsis no_wrap whitespace-nowrap text-sm">
+  <p class="text no_wrap text-ellipsis whitespace-nowrap text-sm">
     {text}
   </p>
-</div>
+</button>
 
 <style>
   .image {
@@ -61,14 +60,14 @@
     background-color: var(--icon-color, black);
   }
 
-
   .text {
     color: var(--icon-color, black);
   }
-  
+
   .root:hover {
     transform: scale(1.02);
   }
+
   .root:active {
     transform: scale(0.98);
   }

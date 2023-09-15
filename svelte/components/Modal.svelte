@@ -3,7 +3,6 @@
 
   export let showModal; // boolean
 
-  export let type;
   let dialog; // HTMLDialogElement
 
   $: if (dialog) showModal ? dialog.showModal() : dialog.close();
@@ -12,7 +11,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
   bind:this={dialog}
-  class="rounded-md max-w-lg bg-[white] overflow-visible"
+  class="max-w-lg overflow-visible rounded-md bg-[white]"
   on:close={() => (showModal = false)}
   on:click|self={() => dialog.close()}
 >
@@ -24,11 +23,16 @@
     <slot />
 
     <hr />
-    
-    <div class="flex gap-4 mt-4 justify-start">
-      <Button type="secondary" autofocus onClick={() => dialog.close()} text="Zatvoriť okno"/>
-      <slot name="footer"/>
-    </div> 
+
+    <div class="mt-4 flex justify-start gap-4">
+      <Button
+        type="secondary"
+        autofocus
+        onClick={() => dialog.close()}
+        text="Zatvoriť okno"
+      />
+      <slot name="footer" />
+    </div>
   </div>
 </dialog>
 
@@ -58,8 +62,5 @@
     to {
       opacity: 1;
     }
-  }
-  button {
-    display: block;
   }
 </style>

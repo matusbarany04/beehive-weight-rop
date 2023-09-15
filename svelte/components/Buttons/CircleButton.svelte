@@ -1,6 +1,7 @@
 <script>
-  import {navigateWithPrefix} from "../route.serv";
-  import 'style.css';
+  import { navigateWithPrefix } from "../route.serv";
+  import "style.css";
+
   export let type = "secondary";
 
   /**
@@ -20,22 +21,22 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div
+<button
   on:click={() => {
     onClick();
     if (link) {
       navigateWithPrefix(link);
     }
   }}
-  class="h-8 w-8 aspect-square cursor-pointer flex items-center justify-center rounded-full duration-100 hover:scale-105 active:scale-95 btn-{type}" 
+  class="flex aspect-square h-8 w-8 cursor-pointer items-center justify-center rounded-full duration-100 hover:scale-105 active:scale-95 btn-{type}"
 >
   {#if image}
     <div
-      class="h-4 aspect-square bg-contain bg-no-repeat bg-[#000] bg-[var(--icon-color)] image"
+      class="image aspect-square h-4 bg-[#000] bg-[var(--icon-color)] bg-contain bg-no-repeat"
       style="mask-image: url(/{image}); -webkit-mask-image: url(/{image}); "
     />
   {/if}
-</div>
+</button>
 
 <style>
   .image {
@@ -43,6 +44,4 @@
     -webkit-mask-size: 100%;
     mask-size: 100%;
   }
-  
-  
 </style>
