@@ -1,6 +1,4 @@
 <script>
-  import { onDataLoaded } from "../cards/dataHandler";
-
   export let handler;
   export let orderBy;
   export let align = "left";

@@ -1,12 +1,11 @@
 import { get, writable } from "svelte/store";
 import { getContext } from "svelte";
-import { isEmpty } from "../../lib/utils/static";
-
-let beehive_data = writable([]);
+import shared from "../../../dashboard/app/stores/shared";
 
 export let dataTypes = ["temperature", "humidity", "weight"];
 export let fromValues = ["all", "hour", "day", "week", "month", "year"];
 export let topValues = ["now"];
+
 /**
  * load data
  * Only usable on server side
@@ -16,6 +15,7 @@ export let timeframeFrom = [];
 export let beehivesLoaded = false;
 
 export const dataHandler = {
+  //@Deprecated
   dataToTableFormat: () => {
     let bee_data = dataHandler.getAllBeehiveData();
     let output = [];
@@ -31,16 +31,24 @@ export const dataHandler = {
     });
     return output;
   },
+  //@Deprecated
   loadData: async () => {
     beehive_data.set(getContext("beehive_data") ?? []);
     // console.log("temperature", dataHandler.getTemperatures("NY17IS0J9RKMRFP3"));
   },
+  //@Deprecated
   getAllBeehiveData: () => {
-    return dataHandler.getRawBeehiveData().data;
+    return dataHandler.getRawBeehiveStatusData();
   },
+  //@Deprecated
+  getRawBeehiveStatusData: () => {
+    return shared.getStatuses();
+  },
+  //@Deprecated
   getRawBeehiveData: () => {
-    return get(beehive_data);
+    return shared.getBeehives();
   },
+  //@Deprecated
   getBeehiveData: (beehive_id) => {
     let bee_data = dataHandler.getAllBeehiveData();
 
@@ -56,7 +64,7 @@ export const dataHandler = {
 
     return bee_data[index];
   },
-
+  //@Deprecated
   getDataByType: (type, beehive_id, with_timestamp, from, to) => {
     let beehive = dataHandler.getBeehiveData(beehive_id);
     console.log(beehive);

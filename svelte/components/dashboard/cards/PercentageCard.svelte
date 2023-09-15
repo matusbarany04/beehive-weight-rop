@@ -1,6 +1,7 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
   import { dataHandler } from "./dataHandler";
+  import shared from "../../../dashboard/app/stores/shared";
 
   export let cardStates;
   export let onDragEnd; // function
@@ -23,16 +24,13 @@
         value = "*";
       } else {
         value = 16;
-
-        let beeData = dataHandler.getDataByType(
+        console.log("getStatusByType", element.type, element.beehive_id);
+        let beeData = shared.getStatusesByType(
           element.type,
           element.beehive_id,
-          true,
-          element.from,
-          element.to,
         );
         if (beeData.length > 0) {
-          value = beeData[0][1] ?? "error";
+          value = beeData[beeData.length - 1] ?? "error";
 
           let lastVal = beeData[beeData.length - 1][1];
           comparisonPerc = Number(
@@ -104,6 +102,7 @@
     background-size: contain;
     background-image: url("/icons/add.svg");
   }
+
   .positive {
     background-image: url("/icons/graph_positive.svg");
   }

@@ -107,21 +107,21 @@ public class DashboardController {
 
                 for (String token : beehives) {
                     JSONObject beehive = new JSONObject();
-                    beehive.put("timestamps", new JSONArray());
-                    beehive.put("batteries", new JSONArray());
-                    beehive.put("weights", new JSONArray());
-                    beehive.put("humids", new JSONArray());
-                    beehive.put("temps", new JSONArray());
+                    beehive.put("timestamp", new JSONArray());
+                    beehive.put("battery", new JSONArray());
+                    beehive.put("weight", new JSONArray());
+                    beehive.put("humidity", new JSONArray());
+                    beehive.put("temperature", new JSONArray());
                     jsonObject.put(token, beehive);
                 }
 
                 for (Status status : statuses) {
                     JSONObject beehive = jsonObject.getJSONObject(status.getBeehive());
-                    beehive.getJSONArray("timestamps").put(status.getTimestamp());
-                    beehive.getJSONArray("batteries").put(status.getBattery());
-                    beehive.getJSONArray("weights").put(status.getWeight());
-                    beehive.getJSONArray("humids").put(status.getHumidity());
-                    beehive.getJSONArray("temps").put(status.getTemperature());
+                    beehive.getJSONArray("timestamp").put(status.getTimestamp());
+                    beehive.getJSONArray("battery").put(status.getBattery());
+                    beehive.getJSONArray("weight").put(status.getWeight());
+                    beehive.getJSONArray("humidity").put(status.getHumidity());
+                    beehive.getJSONArray("temperature").put(status.getTemperature());
                     beehive.put("currentStatus", status.getStatus());
                 }
 
