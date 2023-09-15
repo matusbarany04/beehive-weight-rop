@@ -119,8 +119,7 @@ export default {
         return savedData["statuses"][beehive_id]["timestamp"]
     },
     getBattery: function (beehive_id) {
-        let batteries = this.getBatteries();
-        return batteries[batteries.length - 1];
+        return savedData["statuses"][beehive_id]["battery"][savedData["statuses"][beehive_id]["battery"].length - 1]
     },
 
     nowMinusFrom: function (from) {
