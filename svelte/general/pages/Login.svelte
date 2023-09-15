@@ -1,19 +1,13 @@
 <script>
   import RouterLink from "../../components/RouterLink.svelte";
+  import Background from "../app/components/auth/Background.svelte";
 
   const urlParams = new URLSearchParams(window.location.search);
   const invalid = urlParams.get("invalid");
 </script>
 
 <div class="bg-primary v-screen relative h-screen bg-primary-500">
-  <div class="absolute h-screen w-full">
-    <img alt="grass" class="absolute bottom-0" src="../img/grass.svg" />
-    <img
-      alt="beehive"
-      class="absolute sm:bottom-20 sm:left-[10%] max-h-[80vh] sm:w-1/3 w-2/3 p-5 bottom-0  align-bottom"
-      src="../img/beehive2.svg"
-    />
-  </div>
+  <Background></Background>
   <div
     class="absolute right-0 flex h-screen w-full items-center p-1 sm:w-1/2 sm:min-w-[40rem] sm:justify-center"
   >
@@ -24,9 +18,8 @@
       <p class="alternative">
         Nemáte účet? Vytvoriť si ho môžete
         <RouterLink url="/register"
-          ><span class="inline font-bold italic text-secondary-800">tu</span
-          ></RouterLink
-        >
+          ><span class="inline font-bold italic text-secondary-800">tu</span>
+        </RouterLink>
       </p>
 
       {#if invalid}
