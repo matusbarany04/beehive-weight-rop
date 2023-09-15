@@ -6,6 +6,7 @@ target/
 src/main/resources/public/bundle.js
 src/main/resources/public/indexBundle.js
 src/main/resources/bundle/*
+users.json
 
 ### STS ###
 .apt_generated
