@@ -5,6 +5,7 @@
   import ButtonSmall from "../../Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../Inputs/DropdownInput.svelte";
   import shared from "../../../dashboard/app/stores/shared";
+  import {dataHandler} from "./dataHandler";
 
   export let cardStates;
   export let onDragEnd; // function
@@ -34,7 +35,7 @@
     const beehiveData = [];
     cardStates.data.forEach((element) => {
       console.log(element);
-      if (true) {
+      if (element.type ===  "dummy") {
         // ONLY FOR DEBUG BUG BUG element.type ===  "dummy"
         beehiveData.push({
           name: "temperature",
@@ -53,12 +54,18 @@
       } else {
         beehiveData.push({
           name: element.name,
-          data: dataHandler.getDataByType(
+          data: shared.getDataByType(
             element.type,
             element.beehive_id,
             true,
           ),
         });
+
+        console.log("beehiveData", shared.getDataByType(
+                element.type,
+                element.beehive_id,
+                true,
+        ))
       }
     });
 
