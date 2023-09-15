@@ -30,7 +30,7 @@
         <!-- Mobile menu button-->
         <button
           type="button"
-          class="text-gray-400 hover:bg-gray-700 relative inline-flex items-center justify-center rounded-md p-2 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+          class="relative inline-flex items-center justify-center rounded-md p-2 text-slate-300 hover:bg-primary-900 hover:text-white focus:text-slate-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
           aria-controls="mobile-menu"
           aria-expanded="false"
           on:click={() => {
@@ -69,7 +69,7 @@
             {#each pages as page}
               <a
                 href={page.link}
-                class="bg-gray-900 rounded-md px-3 py-2 text-sm font-medium text-white"
+                class=" rounded-md px-3 py-2 text-sm font-medium text-slate-300"
                 >{page.name}</a
               >
             {/each}
@@ -82,7 +82,7 @@
         <button type="button" class="bg-gray-800 relative rounded-full p-1">
           <RouterLink url="/login"
             ><span
-              class="text-gray-400 focus:ring-offset-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+              class="focus:ring-offset-gray-800 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
               >Prihlásiť sa</span
             >
           </RouterLink>
@@ -98,7 +98,7 @@
         {#each pages as page}
           <a
             href={page.link}
-            class="text-gray-300 hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium hover:text-white"
+            class="hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium text-slate-300 hover:text-white"
             >{page.name}</a
           >
         {/each}
