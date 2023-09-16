@@ -1,7 +1,5 @@
 <script>
   import {
-    getCurrentProps,
-    regexRoute,
     route,
   } from "../../../components/route.serv";
   import Homepage from "../pages/Homepage.svelte";
@@ -15,52 +13,37 @@
   import Beehive from "../pages/beehives/Beehive.svelte";
   import Beehives from "../pages/Beehives.svelte";
   import Notifications from "../pages/Notifications.svelte";
+  import {RouterObj} from "../../../components/router/routerObj";
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
 
   let props = {};
 
-  route.subscribe((val) => {
-    console.log(val);
-    switch (val) {
-      case BASE_PATH + "/":
-      case BASE_PATH + "":
-      case BASE_PATH + "/homepage":
-        value = Homepage;
-        break;
-      case BASE_PATH + "/help":
-      case BASE_PATH + "/help/":
-        value = Help;
-        break;
-      case BASE_PATH + "/settings":
-      case BASE_PATH + "/settings/":
-        value = Settings;
-        break;
-      case BASE_PATH + "/calendar":
-      case BASE_PATH + "/calendar/":
-        value = Calendar;
-        break;
-      case BASE_PATH + "/test":
-      case BASE_PATH + "/test/":
-        value = Test;
-        break;
-      case BASE_PATH + "/beehives":
-        value = Beehives;
-        break;
-      case BASE_PATH + "/notifications":
-      case BASE_PATH + "/notifications/":
-        value = Notifications;
-        break;
-      default:
-        if (regexRoute(val, BASE_PATH + "/beehive/{id}")) {
-          props = getCurrentProps(BASE_PATH + "/beehive/{id}");
-          value = Beehive;
-          break;
-        }
+  route.subscribe((currentRoute) => {
 
-        value = Notfound;
-    }
+    const routes = new RouterObj();
+
+    routes.group(BASE_PATH, (root) => {
+      root.get('/', Homepage);
+      root.get('/homepage', Homepage);
+      root.get('/help', Help);
+      root.get('/settings', Settings);
+      root.get('/calendar', Calendar);
+      root.get('/test', "Test");
+      root.get('/notifications', Notifications);
+
+      root.group('/beehives', (beehivesGroup) => {
+        beehivesGroup.get('/', Beehives);
+        beehivesGroup.get('/{id}', Beehive); // Dynamic route
+      });
+     
+    });
+    
+    value = routes.resolve(currentRoute, Notfound )
+
+    props = routes.resolveProps(currentRoute)
+    
   });
 </script>
 
