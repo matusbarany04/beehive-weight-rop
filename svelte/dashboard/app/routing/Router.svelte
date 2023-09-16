@@ -15,6 +15,8 @@
   import Beehive from "../pages/beehives/Beehive.svelte";
   import Beehives from "../pages/Beehives.svelte";
   import Notifications from "../pages/Notifications.svelte";
+  import BeehiveAdd from "../pages/beehives/BeehiveAdd.svelte";
+  import BeehiveToken from "../pages/beehives/BeehiveToken.svelte";
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
@@ -51,6 +53,16 @@
       case BASE_PATH + "/notifications":
       case BASE_PATH + "/notifications/":
         value = Notifications;
+        break;
+
+      case BASE_PATH + "/beehives/add/":
+      case BASE_PATH + "/beehives/add":
+        value = BeehiveAdd;
+        break;
+
+      case BASE_PATH + "/beehives/add/token":
+      case BASE_PATH + "/beehives/add/token/":
+        value = BeehiveTokenn;
         break;
       default:
         if (regexRoute(val, BASE_PATH + "/beehive/{id}")) {
