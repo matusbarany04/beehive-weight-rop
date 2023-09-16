@@ -19,13 +19,13 @@
   });
 </script>
 
-<PanelRoot>
-  <div class="box-border h-screen max-w-full overflow-y-scroll">
+<PanelRoot retracable={false}>
+  <div class="no-scrollbar box-border h-screen max-w-full overflow-y-scroll">
     <Logo />
     <hr />
     <div
       id="panelGrid"
-      class="box-border grid flex-1 gap-2 overflow-y-scroll px-2.5"
+      class="no-scrollbar box-border grid flex-1 gap-2 overflow-y-scroll px-2.5"
       style:--row-width={itemSideSize + "px"}
       style:--itemCount={components.length}
     >
