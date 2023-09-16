@@ -216,7 +216,7 @@
                   <Button
                     type="secondary"
                     text="Detail"
-                    link={`/beehive/${row.token}`}
+                    link={`/beehives/${row.token}`}
                     onClick={() => {}}
                   />
                 </td>
