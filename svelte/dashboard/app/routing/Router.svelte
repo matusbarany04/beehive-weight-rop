@@ -14,6 +14,9 @@
   import Beehives from "../pages/Beehives.svelte";
   import Notifications from "../pages/Notifications.svelte";
   import {RouterObj} from "../../../components/router/routerObj";
+  import BeehiveAdd from "../pages/beehives/BeehiveAdd.svelte";
+  import BeehiveToken from "../pages/beehives/BeehiveToken.svelte";
+
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
@@ -36,6 +39,8 @@
       root.group('/beehives', (beehivesGroup) => {
         beehivesGroup.get('/', Beehives);
         beehivesGroup.get('/{id}', Beehive); // Dynamic route
+        beehivesGroup.get('/add', BeehiveAdd);
+        beehivesGroup.get('/token', BeehiveToken);
       });
      
     });
