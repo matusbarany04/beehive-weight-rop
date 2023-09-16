@@ -81,9 +81,7 @@
         class="flex h-36 flex-col content-between items-center gap-2 md:h-8 md:flex-row md:gap-0"
       >
         <div class="flex flex-1 flex-col items-center gap-4 md:flex-row">
-          <h1
-            class="no_wrap text-ellipsis whitespace-nowrap text-2xl font-extrabold"
-          >
+          <h1 class="no_wrap text-ellipsis whitespace-nowrap text-2xl font-extrabold">
             Moje úle
           </h1>
         </div>
