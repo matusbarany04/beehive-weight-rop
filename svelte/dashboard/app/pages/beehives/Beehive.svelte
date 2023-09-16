@@ -159,77 +159,77 @@
       />
 
       <ApexChart
-              cardStates={{
-              id: "",
-              spanX: 1,
-              mode: "static",
-              spanY: 1,
-              editing: false,
-              title: "Vnútorná vlhkosť váhy",
-              data: [
-                {
-                  type: "humidity",
-                  timespan: "week",
-                  beehive_id: props.id,
-                },
-              ],
-            }}
+        cardStates={{
+          id: "",
+          spanX: 1,
+          mode: "static",
+          spanY: 1,
+          editing: false,
+          title: "Vnútorná vlhkosť váhy",
+          data: [
+            {
+              type: "humidity",
+              timespan: "week",
+              beehive_id: props.id,
+            },
+          ],
+        }}
       />
       <ApexChart
-              cardStates={{
-              id: "",
-              spanX: 1,
-              mode: "static",
-              spanY: 1,
-              editing: false,
-              title: "Váha váhy",
-              data: [
-                {
-                  type: "weight",
-                  timespan: "week",
-                  beehive_id: props.id,
-                },
-              ],
-            }}
+        cardStates={{
+          id: "",
+          spanX: 1,
+          mode: "static",
+          spanY: 1,
+          editing: false,
+          title: "Váha váhy",
+          data: [
+            {
+              type: "weight",
+              timespan: "week",
+              beehive_id: props.id,
+            },
+          ],
+        }}
       />
       <ApexChart
-              cardStates={{
-              id: "",
-              spanX: 1,
-              mode: "static",
-              spanY: 1,
-              editing: false,
-              title: "Stav Batérie",
-              data: [
-                {
-                  type: "battery",
-                  timespan: "week",
-                  beehive_id:props.id,
-                },
-              ],
-            }}
+        cardStates={{
+          id: "",
+          spanX: 1,
+          mode: "static",
+          spanY: 1,
+          editing: false,
+          title: "Stav Batérie",
+          data: [
+            {
+              type: "battery",
+              timespan: "week",
+              beehive_id: props.id,
+            },
+          ],
+        }}
       />
 
       <MapCard
-              cardStates={{
-              id: "",
-              spanX: 1,
-              spanY: 1,
-              editing: false,
-              title: "Mapa",
-              mode: "static",
-            }}
+        cardStates={{
+          id: "",
+          spanX: 1,
+          spanY: 1,
+          editing: false,
+          title: "Mapa",
+          mode: "static",
+        }}
       />
 
       <WeatherCard
-              cardStates={{
-              id: "",
-              spanX: 1,
-              spanY: 1,
-              editing: false,
-              title: "Počasie",
-              mode: "static",
-            }}
+        cardStates={{
+          id: "",
+          spanX: 1,
+          spanY: 1,
+          editing: false,
+          title: "Počasie",
+          mode: "static",
+        }}
       />
     </div>
   {/if}
