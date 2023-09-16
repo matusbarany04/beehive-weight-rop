@@ -9,7 +9,7 @@
   import TW_BREAKPOINTS from "../../lib/utils/static";
 
   let screenSize = 0;
-  $: collapsed = screenSize < TW_BREAKPOINTS.xl;
+  $: collapsed = false;
 </script>
 
 <svelte:window bind:innerWidth={screenSize} />

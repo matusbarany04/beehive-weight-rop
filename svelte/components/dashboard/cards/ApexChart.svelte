@@ -5,7 +5,7 @@
   import ButtonSmall from "../../Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../Inputs/DropdownInput.svelte";
   import shared from "../../../dashboard/app/stores/shared";
-  import {dataHandler} from "./dataHandler";
+  import { dataHandler } from "./dataHandler";
 
   export let cardStates;
   export let onDragEnd; // function
@@ -28,14 +28,14 @@
     chart.zoomX(shared.nowMinusFrom(value).getTime(), new Date().getTime());
   }
 
-  if (cardStates?.data == null) {
+  if (cardStates.data == null) {
     console.log("CardStates", cardStates);
     error = "NoDataError";
   } else {
     const beehiveData = [];
     cardStates.data.forEach((element) => {
       console.log(element);
-      if (element.type ===  "dummy") {
+      if (element.type === "dummy") {
         // ONLY FOR DEBUG BUG BUG element.type ===  "dummy"
         beehiveData.push({
           name: "temperature",
@@ -54,18 +54,13 @@
       } else {
         beehiveData.push({
           name: element.name,
-          data: shared.getDataByType(
-            element.type,
-            element.beehive_id,
-            true,
-          ),
+          data: shared.getDataByType(element.type, element.beehive_id, true),
         });
 
-        console.log("beehiveData", shared.getDataByType(
-                element.type,
-                element.beehive_id,
-                true,
-        ))
+        console.log(
+          "beehiveData",
+          shared.getDataByType(element.type, element.beehive_id, true),
+        );
       }
     });
 
@@ -170,7 +165,7 @@
       {#each miniButtons as item}
         <ButtonSmall
           text={item[1]}
-          type={headerSelected == item[0] ? "primary" : "secondary"}
+          type={headerSelected === item[0] ? "primary" : "secondary"}
           onClick={() => {
             headerSelected = item[0];
             changeZoom(item[0]);

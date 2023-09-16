@@ -15,6 +15,7 @@ export default {
     "btn-confirm",
     "btn-error",
     "btn-transparent",
+    "no-scrollbar",
   ],
   theme: {
     colors: {
@@ -83,6 +84,13 @@ export default {
         ".btn-transparent": {
           "--text-color": "white",
           "--icon-color": "white",
+        },
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
+        },
+        ".no-scrollbar": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
         },
       };
       addUtilities(buttonUtilities);

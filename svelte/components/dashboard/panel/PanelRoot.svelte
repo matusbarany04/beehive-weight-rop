@@ -1,6 +1,8 @@
 <script>
   import TW_BREAKPOINTS from "../../lib/utils/static";
 
+  export let retracable = true;
+
   let visible = true;
   let absolute = true;
   let screenWidth = 9999;
@@ -28,27 +30,29 @@
 
 <svelte:window bind:innerWidth={screenWidth} />
 
-<div class="relative z-50">
+<div class="relative z-50 no-scrollbar">
   <section
     class="{visible
       ? ''
-      : 'overflow-x-hidden'} animate-width absolute h-screen flex-col bg-primary-100 lg:relative {visible
+      : 'overflow-x-hidden'} animate-width absolute h-screen flex-col bg-primary-100 no-scrollbar lg:relative {visible
       ? 'w-56'
       : 'w-0'}"
   >
-    <button
-      class="absolute right-2 top-4 rounded-full bg-secondary-500 p-1 transition-all duration-100"
-      on:click={toggleVisibility}
-    >
-      <div
-        class="m-auto h-4 w-4 bg-contain bg-no-repeat"
-        style="background-image: url(/icons/caret-left-fill.svg)"
-      ></div>
-    </button>
+    {#if retracable}
+      <button
+        class="absolute right-2 top-4 rounded-full bg-secondary-500 p-1 transition-all duration-100"
+        on:click={toggleVisibility}
+      >
+        <div
+          class="m-auto h-4 w-4 bg-contain bg-no-repeat"
+          style="background-image: url(/icons/caret-left-fill.svg)"
+        ></div>
+      </button>
+    {/if}
     <slot />
   </section>
 </div>
-{#if !visible}
+{#if !visible && retracable}
   <button
     class="absolute left-4 top-4 rounded-full bg-primary-100 p-2 transition-all duration-100 hover:bg-secondary-500"
     on:click={toggleVisibility}
