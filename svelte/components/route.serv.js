@@ -19,7 +19,6 @@ prefix.subscribe((value) => {
   currentPrefix = value || "";
 });
 
-
 /**
  * An event listener that updates the `route` store when the browser's back/forward buttons are used.
  */

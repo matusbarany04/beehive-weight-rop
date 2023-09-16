@@ -12,21 +12,20 @@ export default {
   /**
     nacita pouzivatelove data zo servera
    */
-    fetchUser: async function () {
-        try {
-            let response = await fetch("/user/byToken");
-            if (response.ok) {
-                const userData = await response.json();
-                loadData("user", userData.user);
-                user.set(userData.user);
-            } else {
-                console.error("Failed to fetch user:", response.statusText);
-            }
-        } catch (error) {
-            console.error("Error fetching user:", error);
-        }
-    },
-
+  fetchUser: async function () {
+    try {
+      let response = await fetch("/user/byToken");
+      if (response.ok) {
+        const userData = await response.json();
+        loadData("user", userData.user);
+        user.set(userData.user);
+      } else {
+        console.error("Failed to fetch user:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  },
 
   fetchBeehives: async function () {
     let promise = await fetch("/dashboardApi/getBeehives");
@@ -75,8 +74,8 @@ export default {
   },
 
   getBeehiveIdsWithNames: function () {
-    return savedData["beehives"].map((object) =>{
-       return [object.token, object.name]
+    return savedData["beehives"].map((object) => {
+      return [object.token, object.name];
     });
   },
 
@@ -140,7 +139,7 @@ let callbacks = [];
 /**
  * callback po nacitani vybratych dat
  * @param dataTypes vyber dat (array)
- * @param callback funkcia po nacitani (argumenty v poradi ako vyber dat) 
+ * @param callback funkcia po nacitani (argumenty v poradi ako vyber dat)
  */
 export function onLoad(dataTypes, callback) {
   if (!Array.isArray(dataTypes)) dataTypes = [dataTypes];

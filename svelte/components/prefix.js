@@ -14,7 +14,3 @@ const createPrefixStore = () => {
 };
 
 export const prefix = createPrefixStore();
-
-
-
-

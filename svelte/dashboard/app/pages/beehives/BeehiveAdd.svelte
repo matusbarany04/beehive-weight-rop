@@ -20,22 +20,17 @@
 <div
   class="mx-auto mb-4 justify-between gap-4 rounded-lg lg:w-5/6 lg:flex-row lg:justify-center"
 >
-  <div class="md:border-0 mb-5 rounded-lg md:border-r-2 md:border-slate-300 md:pr-2 bg-white p-5">
+  <div
+    class="mb-5 rounded-lg bg-white p-5 md:border-0 md:border-r-2 md:border-slate-300 md:pr-2"
+  >
     <h1 class="text-4xl">Pridať nové zariadenie</h1>
   </div>
-  
-  
-  <Option url="/token">
-    Mám identifikačné číslo váhy
-  </Option>
 
-  <Option url="/usb">
-    Použiť USB kábel
-  </Option>
+  <Option url="/token">Mám identifikačné číslo váhy</Option>
 
-  <Option url="/bluetooth">
-    Pripojiť váhu pomocou Bluetooth
-  </Option>
+  <Option url="/usb">Použiť USB kábel</Option>
+
+  <Option url="/bluetooth">Pripojiť váhu pomocou Bluetooth</Option>
 
   <Option url="/app">
     Stianuť aplikáciu pre pripojenie z mobilného telefónu
@@ -77,4 +72,3 @@
     </form>
   </div>-->
 </div>
-
