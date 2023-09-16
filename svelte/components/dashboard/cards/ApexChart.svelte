@@ -28,7 +28,7 @@
     chart.zoomX(shared.nowMinusFrom(value).getTime(), new Date().getTime());
   }
 
-  if (cardStates?.data == null) {
+  if (cardStates.data == null) {
     console.log("CardStates", cardStates);
     error = "NoDataError";
   } else {
@@ -165,7 +165,7 @@
       {#each miniButtons as item}
         <ButtonSmall
           text={item[1]}
-          type={headerSelected == item[0] ? "primary" : "secondary"}
+          type={headerSelected === item[0] ? "primary" : "secondary"}
           onClick={() => {
             headerSelected = item[0];
             changeZoom(item[0]);

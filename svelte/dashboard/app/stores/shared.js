@@ -71,7 +71,9 @@ export default {
   },
 
   getBeehiveIdsWithNames: function () {
-    return savedData["beehives"];
+    return savedData["beehives"].map((object) =>{
+       return [object.token, object.name]
+    });
   },
 
   getDataByType: function (type, beehive_id, with_timestamp, from) {
