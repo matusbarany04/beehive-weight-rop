@@ -36,11 +36,15 @@
       root.get('/test', "Test");
       root.get('/notifications', Notifications);
 
-      root.group('/beehives', (beehivesGroup) => {
-        beehivesGroup.get('/', Beehives);
-        beehivesGroup.get('/{id}', Beehive); // Dynamic route
-        beehivesGroup.get('/add', BeehiveAdd);
-        beehivesGroup.get('/token', BeehiveToken);
+      root.group('/beehives', (beeGroup) => {
+        beeGroup.get('/', Beehives);
+        
+        beeGroup.group('/add', (addGroup)=>{
+          addGroup.get('', BeehiveAdd);
+          addGroup.get('/token', BeehiveToken);
+        });
+        
+        beeGroup.get('/{id}', Beehive); // Dynamic route
       });
      
     });
