@@ -59,7 +59,7 @@ export default {
     extend: {},
   },
   plugins: [
-    function ({addUtilities, theme}) {
+    function ({ addUtilities, theme }) {
       const buttonUtilities = {
         ".btn-primary": {
           "background-color": theme("colors.secondary.500"),
@@ -85,14 +85,13 @@ export default {
           "--text-color": "white",
           "--icon-color": "white",
         },
-        '.no-scrollbar::-webkit-scrollbar': {
-          'display': 'none',
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
         },
-        '.no-scrollbar': {
-          '-ms-overflow-style': 'none',
-          'scrollbar-width': 'none',
+        ".no-scrollbar": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
         },
-
       };
       addUtilities(buttonUtilities);
 

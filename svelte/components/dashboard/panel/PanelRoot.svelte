@@ -2,7 +2,7 @@
   import TW_BREAKPOINTS from "../../lib/utils/static";
 
   export let retracable = true;
-  
+
   let visible = true;
   let absolute = true;
   let screenWidth = 9999;
@@ -34,21 +34,21 @@
   <section
     class="{visible
       ? ''
-      : 'overflow-x-hidden'} no-scrollbar animate-width absolute h-screen flex-col bg-primary-100 lg:relative {visible
+      : 'overflow-x-hidden'} animate-width absolute h-screen flex-col bg-primary-100 no-scrollbar lg:relative {visible
       ? 'w-56'
       : 'w-0'}"
   >
     {#if retracable}
-    <button
-      class="absolute right-2 top-4 rounded-full bg-secondary-500 p-1 transition-all duration-100"
-      on:click={toggleVisibility}
-    >
-      <div
-        class="m-auto h-4 w-4 bg-contain bg-no-repeat"
-        style="background-image: url(/icons/caret-left-fill.svg)"
-      ></div>
-    </button>
-      {/if}
+      <button
+        class="absolute right-2 top-4 rounded-full bg-secondary-500 p-1 transition-all duration-100"
+        on:click={toggleVisibility}
+      >
+        <div
+          class="m-auto h-4 w-4 bg-contain bg-no-repeat"
+          style="background-image: url(/icons/caret-left-fill.svg)"
+        ></div>
+      </button>
+    {/if}
     <slot />
   </section>
 </div>
