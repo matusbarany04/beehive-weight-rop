@@ -6,6 +6,7 @@
   // import { message } from "$lib/utils/dashboard";
   import { onMount } from "svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
+  import Option from "../../../../components/Option.svelte";
 
   onMount(async () => {
     // message.set("Pridať váhu");
@@ -17,17 +18,31 @@
   <meta name="Pridať úl" content="Úle" />
 </svelte:head>
 <div
-  class="mx-auto mb-4 flex flex-col justify-between gap-4 rounded-lg bg-white p-10 lg:w-5/6 lg:flex-row lg:justify-center"
+  class="mx-auto mb-4 justify-between gap-4 rounded-lg lg:w-5/6 lg:flex-row lg:justify-center"
 >
-  <div class="flex-1 md:border-0 md:border-r-2 md:border-slate-300 md:pr-2">
+  <div class="md:border-0 mb-5 rounded-lg md:border-r-2 md:border-slate-300 md:pr-2 bg-white p-5">
     <h1 class="text-4xl">Pridať nové zariadenie</h1>
-    <p>
-      Registrujte Vaše zariadenie do platformy BuzzyBees s následovanými údajmi.
-      Identifikačný kód zariadenia nájdete na obale.
-    </p>
   </div>
+  
+  
+  <Option url="/token">
+    Mám identifikačné číslo váhy
+  </Option>
 
-  <div class="flex flex-1 items-center md:justify-center">
+  <Option url="/usb">
+    Použiť USB kábel
+  </Option>
+
+  <Option url="/bluetooth">
+    Pripojiť váhu pomocou Bluetooth
+  </Option>
+
+  <Option url="/app">
+    Stianuť aplikáciu pre pripojenie z mobilného telefónu
+  </Option>
+
+  <!--
+  <div class="items-center md:justify-center">
     <form method="POST" class="flex flex-1 flex-col md:items-center">
       <div>
         <label for="name" class="">Názov</label> <br />
@@ -60,5 +75,6 @@
         </button>
       </div>
     </form>
-  </div>
+  </div>-->
 </div>
+

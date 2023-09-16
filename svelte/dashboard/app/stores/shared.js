@@ -9,6 +9,9 @@ export let fromValues = ["all", "hour", "day", "week", "month", "year"];
 export let topValues = ["now"];
 
 export default {
+  /**
+    nacita pouzivatelove data zo servera
+   */
     fetchUser: async function () {
         try {
             let response = await fetch("/user/byToken");
@@ -130,6 +133,11 @@ export default {
 let savedData = {};
 let callbacks = [];
 
+/**
+ * callback po nacitani vybratych dat
+ * @param dataTypes vyber dat (array)
+ * @param callback funkcia po nacitani (argumenty v poradi ako vyber dat) 
+ */
 export function onLoad(dataTypes, callback) {
     if (!Array.isArray(dataTypes)) dataTypes = [dataTypes];
 
