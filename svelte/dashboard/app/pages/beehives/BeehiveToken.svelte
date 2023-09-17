@@ -7,16 +7,19 @@
   const token = urlParams.get("token");
 
   if (token) {
-    setInterval(async () => {
-      const response = await fetch(
-        "/dashboardApi/checkConnectionStatus?token=" + token,
-      );
-      const status = await response.json();
-      console.log(status["status"]);
-      if (status["status"] === "connected") {
-        navigate("/beehive/" + token + "/edit");
-      }
-    }, 1000);
+    let response = await fetch("/dashboardApi/newPairing", {method: "POST", body: token});
+    let status = await response.json();
+    
+    if (status["status"] === "ok") {
+      setInterval(async () => {
+        response = await fetch("/dashboardApi/checkPairingStatus?token=" + token);
+        status = await response.json();
+        console.log(status["status"]);
+        if (status["status"] === "PAIRED") {
+          navigate("/beehive/" + token + "/edit");
+        }
+      }, 1000);
+    }
   }
 </script>
 

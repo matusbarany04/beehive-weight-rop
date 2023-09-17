@@ -1,16 +1,13 @@
 package com.buzzybees.master.controllers;
 
-import com.buzzybees.master.beehive.StatusRepository;
-import com.buzzybees.master.notifications.NotificationRepository;
+import com.buzzybees.master.beehives.PairingManager;
+import com.buzzybees.master.beehives.StatusRepository;
 import com.buzzybees.master.tables.Status;
-import com.buzzybees.master.users.UserRepository;
-import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -40,5 +37,23 @@ public class BeeController {
         Status[] lastStatuses = statusRepo.getLastStatuses(Arrays.asList(beehives));
         System.out.println("sql test");
         return Arrays.toString(lastStatuses);
+    }
+
+    @PostMapping("/requestPair")
+    public String requestConnect(@RequestBody String data) {
+        JSONObject json = new JSONObject(data);
+        String beehive = json.getString("beehive");
+
+        if(PairingManager.isExpired(beehive)) return "ERROR_TIMEOUT";
+
+        int status = PairingManager.requestPair(beehive);
+
+        return switch (status) {
+            case PairingManager.PAIRING_SUCCESSFUL -> "SUCCESS";
+            case PairingManager.NOT_PAIRING_MODE -> "NOT_PAIRING_MODE";
+            case PairingManager.BEEHIVE_EXIST -> "ERROR_ALREADY_PAIRED";
+
+            default -> "ERROR";
+        };
     }
 }
