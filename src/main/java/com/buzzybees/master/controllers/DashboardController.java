@@ -2,6 +2,7 @@ package com.buzzybees.master.controllers;
 
 import com.buzzybees.master.beehives.Beehive;
 import com.buzzybees.master.beehives.BeehiveRepository;
+import com.buzzybees.master.beehives.PairingManager;
 import com.buzzybees.master.beehives.StatusRepository;
 import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.notifications.NotificationRepository;
@@ -366,8 +367,27 @@ public class DashboardController {
         return response.toString();
     }
 
-    @GetMapping("/checkConnectionStatus")
-    public String checkStatus() {
+    @GetMapping("/checkPairingStatus")
+    public String checkStatus(@RequestParam("token") String beehive) {
+        JSONObject json = new JSONObject();
 
+        String status;
+        if(PairingManager.isExpired(beehive)) status = "TIMEOUT";
+        else status = PairingManager.isPaired(beehive) ? "PAIRED" : "PENDING";
+
+        json.put("status", status);
+        return json.toString();
+    }
+
+    @PostMapping("/newPairing")
+    public String newPairing(@RequestBody String beehive) {
+        JSONObject json = new JSONObject();
+        if(currentUserId > 0) {
+            PairingManager.init(beehive, currentUserId);
+            json.put("status", "ok");
+
+        } else json.put("status", "ERR_NO_PERMISSION");
+
+        return json.toString();
     }
 }

@@ -13,4 +13,7 @@ public interface BeehiveRepository extends CrudRepository<Beehive, Long> {
 
     @Query("SELECT b FROM Beehive b WHERE b.token = :token")
     Beehive getBeehiveByToken(String token);
+
+    @Query("SELECT true FROM Beehive b WHERE b.token = :token")
+    boolean beehiveExist(String token);
 }

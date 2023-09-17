@@ -1,5 +1,6 @@
 package com.buzzybees.master.controllers;
 
+import com.buzzybees.master.beehives.PairingManager;
 import com.buzzybees.master.beehives.StatusRepository;
 import com.buzzybees.master.tables.Status;
 import org.json.JSONObject;
@@ -38,11 +39,21 @@ public class BeeController {
         return Arrays.toString(lastStatuses);
     }
 
-    @PostMapping("/requestConnect")
+    @PostMapping("/requestPair")
     public String requestConnect(@RequestBody String data) {
         JSONObject json = new JSONObject(data);
         String beehive = json.getString("beehive");
-        System.out.println(beehive);
-        return "ok";
+
+        if(PairingManager.isExpired(beehive)) return "ERROR_TIMEOUT";
+
+        int status = PairingManager.requestPair(beehive);
+
+        return switch (status) {
+            case PairingManager.PAIRING_SUCCESSFUL -> "SUCCESS";
+            case PairingManager.NOT_PAIRING_MODE -> "NOT_PAIRING_MODE";
+            case PairingManager.BEEHIVE_EXIST -> "ERROR_ALREADY_PAIRED";
+
+            default -> "ERROR";
+        };
     }
 }

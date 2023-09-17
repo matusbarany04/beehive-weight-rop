@@ -36,6 +36,8 @@ public class Beehive {
     @Column(name = "interval_min")
     private int interval;
 
+    private boolean isPaired;
+
     public void setLocation(String location) {
         this.location = location;
     }
