@@ -2,6 +2,7 @@ import { writable } from "svelte/store";
 import { dataHandler } from "../component/cards/dataHandler";
 
 const user = writable({});
+
 export let message = writable("Loading...");
 
 export let dataTypes = ["temperature", "humidity", "weight"];

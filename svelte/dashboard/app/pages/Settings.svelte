@@ -1,8 +1,8 @@
 <script>
   import { onMount } from "svelte";
-  import SettingsHeader from "../../../components/settings/SettingsHeader.svelte";
-  import SettingsItem from "../../../components/settings/SettingsItem.svelte";
-  import Toggle from "../../../components/settings/Toggle.svelte";
+  import SettingsHeader from "../component/settings/SettingsHeader.svelte";
+  import SettingsItem from "../component/settings/SettingsItem.svelte";
+  import Toggle from "../component/settings/Toggle.svelte";
 
   onMount(() => {
     // console.log("Settings! here")

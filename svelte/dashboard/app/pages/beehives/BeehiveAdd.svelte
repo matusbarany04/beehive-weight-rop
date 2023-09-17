@@ -1,6 +1,4 @@
 <script>
-  import { page } from "$app/stores";
-
   // $: ({ user, sessionid } = $page.data);
 
   // import { message } from "$lib/utils/dashboard";

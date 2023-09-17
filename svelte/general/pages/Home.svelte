@@ -12,7 +12,7 @@
         <h1 class="text-4xl font-bold text-slate-100">
           Moderné úľové váhy pre monitorovanie
         </h1>
-        
+
         <h5 class="text-xl text-slate-100">
           BuzzyBees váhový systém včelieho úľa je monitorovací systém, ktorý
           okamžite informuje včelára o akýchkoľvek väčších zmenách v úli - váhe,
@@ -24,6 +24,7 @@
             image="icons/arrow-right.svg"
             imagePosition="right"
           />
+
 
           <Button
             type="transparent"

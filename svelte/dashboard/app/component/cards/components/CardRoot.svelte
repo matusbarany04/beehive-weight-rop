@@ -8,7 +8,10 @@
   import Input from "../../../../../components/Inputs/Input.svelte";
   import Button from "../../../../../components/Buttons/Button.svelte";
 
-  import { generateUUID, isEmpty } from "../../../../../components/lib/utils/static";
+  import {
+    generateUUID,
+    isEmpty,
+  } from "../../../../../components/lib/utils/static";
 
   //TODO pridat check funkciu ci su tu vsetky premenne
   /**

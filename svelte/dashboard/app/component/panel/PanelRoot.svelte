@@ -1,28 +1,34 @@
 <script>
   import TW_BREAKPOINTS from "../../../../components/lib/utils/static";
+  import { writable } from "svelte/store";
+  import panelState from "./panelState";
 
   export let retracable = true;
 
-  let visible = true;
+  let visible = panelState.isOpened();
+  panelState.getOpenedRef().subscribe((visibility) => {
+    visible = visibility;
+  });
+
   let absolute = true;
   let screenWidth = 9999;
 
   function toggleVisibility() {
-    visible = !visible;
+    panelState.toggleOpened();
   }
 
   let previousWidth = window.innerWidth;
   $: {
     // If current width is below the threshold and previous width was above it
     if (screenWidth < TW_BREAKPOINTS.lg && previousWidth >= TW_BREAKPOINTS.lg) {
-      visible = false;
+      panelState.setOpened(false);
     }
     // If current width is above the threshold and previous width was below it
     else if (
       screenWidth >= TW_BREAKPOINTS.lg &&
       previousWidth < TW_BREAKPOINTS.lg
     ) {
-      visible = true;
+      panelState.setOpened(true);
     }
     previousWidth = screenWidth;
   }

@@ -30,6 +30,13 @@
    */
   export let baseRoute = false;
 
+  /**
+   * Action that is run before redirect to url address
+   * @type {function}
+   * @default empty function
+   */
+  export let action = function () {};
+
   let currentPrefix = "";
 
   prefix.subscribe((value) => {
@@ -38,6 +45,7 @@
   });
 
   function changeRoute(event) {
+    action();
     if (!reload) {
       navigate(event.currentTarget.getAttribute("href"));
     } else {
