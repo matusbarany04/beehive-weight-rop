@@ -41,4 +41,12 @@ public class BeeController {
         System.out.println("sql test");
         return Arrays.toString(lastStatuses);
     }
+
+    @PostMapping("/requestConnect")
+    public String requestConnect(@RequestBody String data) {
+        JSONObject json = new JSONObject(data);
+        String beehive = json.getString("beehive");
+        System.out.println(beehive);
+        return "ok";
+    }
 }
