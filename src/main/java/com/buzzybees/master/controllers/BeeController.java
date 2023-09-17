@@ -56,4 +56,5 @@ public class BeeController {
             default -> "ERROR";
         };
     }
+
 }
