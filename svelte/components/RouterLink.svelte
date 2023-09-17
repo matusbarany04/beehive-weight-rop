@@ -1,6 +1,6 @@
 <script>
-  import { prefix } from "./prefix.js";
-  import { navigate } from "./route.serv";
+  import { prefix } from "./router/prefix.js";
+  import { navigate } from "./router/route.serv";
 
   /**
    * The URL or path to which the link should point within the SPA (Single Page Application).

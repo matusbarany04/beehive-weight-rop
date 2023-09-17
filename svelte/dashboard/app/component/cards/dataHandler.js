@@ -1,6 +1,6 @@
 import { get, writable } from "svelte/store";
 import { getContext } from "svelte";
-import shared from "../../../dashboard/app/stores/shared";
+import shared from "../../stores/shared";
 
 export let dataTypes = ["temperature", "humidity", "weight"];
 export let fromValues = ["all", "hour", "day", "week", "month", "year"];

@@ -1,8 +1,7 @@
 <script>
-  import RouterLink from "./RouterLink.svelte";
+  import RouterLink from "../../../../components/RouterLink.svelte";
   export let url;
 </script>
-
 <RouterLink url="/beehives/add{url}">
   <div
     class="mt-2 flex items-center rounded-lg bg-white p-5 duration-200 hover:bg-slate-300"

@@ -1,8 +1,8 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
   import { dataHandler } from "./dataHandler";
-  import shared from "../../../dashboard/app/stores/shared";
-  import DropdownInput from "../../Inputs/DropdownInput.svelte";
+  import shared from "../../stores/shared";
+  import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
 
   export let cardStates;
   export let onDragEnd; // function

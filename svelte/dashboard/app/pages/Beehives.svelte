@@ -2,8 +2,8 @@
   import Button from "../../../components/Buttons/Button.svelte";
 
   import { DataHandler, Th, RowCount, Pagination } from "@vincjo/datatables";
-  import Search from "../../../components/dashboard/tables/Search.svelte";
-  import RowsPerPage from "../../../components/dashboard/tables/RowsPerPage.svelte";
+  import Search from "../component/tables/Search.svelte";
+  import RowsPerPage from "../component/tables/RowsPerPage.svelte";
 
   import shared, { onLoad } from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";

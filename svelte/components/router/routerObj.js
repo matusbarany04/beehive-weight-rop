@@ -28,22 +28,26 @@ export class RouterObj {
    * @param {string} route route to check againsts
    * @returns {boolean}
    */
-  regexRoute(siteRoute, route) {
+  static regexRoute(siteRoute, route) {
     const siteRouteParts = siteRoute.split("/").filter(Boolean); // filter(Boolean) is used to remove any empty strings
     const routeParts = route.split("/").filter(Boolean);
 
-    if (routeParts.length !== siteRouteParts.length) {
+    if (routeParts.length !== siteRouteParts.length && !route.includes("**")) {
       return false;
     }
 
     const regex = new RegExp("{.*}");
     for (let i = 0; i < routeParts.length; i++) {
+      if(routeParts[i] === "**"){
+        return true
+      }
       if (
         !(routeParts[i] === "*" || regex.test(routeParts[i])) &&
         routeParts[i] !== siteRouteParts[i]
       ) {
         return false;
       }
+     
     }
 
     return true;
@@ -128,7 +132,7 @@ export class RouterObj {
     const collapsedRoutes = this.collapse(this.routes);
 
     for (let route of collapsedRoutes) {
-      if (this.regexRoute(siteRoute, route.route)) {
+      if (RouterObj.regexRoute(siteRoute, route.route)) {
         resolvedRoute = route.route;
         break;
       }
@@ -153,7 +157,7 @@ export class RouterObj {
     const collapsedRoutes = this.collapse(this.routes);
     console.log("collapsed ", collapsedRoutes);
     for (let route of collapsedRoutes) {
-      if (this.regexRoute(siteRoute, route.route)) {
+      if (RouterObj.regexRoute(siteRoute, route.route)) {
         resolvedRoute = route.page;
         break;
       }

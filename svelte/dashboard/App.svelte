@@ -1,6 +1,6 @@
 <script>
   import Router from "./app/routing/Router.svelte";
-  import { prefix } from "../components/prefix";
+  import { prefix } from "../components/router/prefix";
   import shared from "./app/stores/shared";
   import Loading from "../components/pages/Loading.svelte";
 

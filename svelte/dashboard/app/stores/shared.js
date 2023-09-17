@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { dataHandler } from "../../../components/dashboard/cards/dataHandler";
+import { dataHandler } from "../component/cards/dataHandler";
 
 const user = writable({});
 export let message = writable("Loading...");

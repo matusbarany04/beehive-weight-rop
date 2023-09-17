@@ -1,6 +1,7 @@
 <script>
-  import RouterLink from "../../RouterLink.svelte";
-  import { route } from "../../route.serv";
+  import RouterLink from "../../../../components/RouterLink.svelte";
+  import { route } from "../../../../components/router/route.serv";
+  import {RouterObj} from "../../../../components/router/routerObj";
 
   /**
    * Display text for the panel item.
@@ -46,11 +47,18 @@
    */
   export let collapsed = false;
 
+  /**
+   * If page has subpages /** will be appended to end of link to stay selected in subpages
+   * Warning! This option might trigger multiple navbar links to be selected 
+   * @type {Boolean}
+   */
+  export let hasSubpages = false;
+
   let isLinkActive = false;
 
   route.subscribe((val) => {
     if (selected != null) {
-      isLinkActive = val === link;
+      isLinkActive = RouterObj.regexRoute(val, link + (hasSubpages ? "/**" : '')) ||  RouterObj.regexRoute(val, link) ;
     }
   });
 </script>
