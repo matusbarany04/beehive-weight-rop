@@ -35,12 +35,12 @@
       root.group("/beehives", (beeGroup) => {
         beeGroup.get("/", Beehives);
 
+        beeGroup.get("/{id}", Beehive); // Dynamic route
         beeGroup.group("/add", (addGroup) => {
           addGroup.get("", BeehiveAdd);
           addGroup.get("/token", BeehiveToken);
         });
 
-        beeGroup.get("/{id}", Beehive); // Dynamic route
       });
     });
 
