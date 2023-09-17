@@ -3,6 +3,7 @@
   import { route } from "../../../../components/router/route.serv";
   import { RouterObj } from "../../../../components/router/routerObj";
   import panelState from "./panelState";
+  import TW_BREAKPOINTS from "../../../../components/lib/utils/static";
 
   /**
    * Display text for the panel item.
@@ -70,7 +71,7 @@
   baseRoute="true"
   url={link}
   reload={foreignLink}
-  action={() => panelState.setOpened(false)}
+  action={() =>{ if(TW_BREAKPOINTS.lg > window.innerWidth) panelState.setOpened(false)}}
 >
   <div class=" relative flex h-12 w-full cursor-pointer items-center">
     {#if isLinkActive}
