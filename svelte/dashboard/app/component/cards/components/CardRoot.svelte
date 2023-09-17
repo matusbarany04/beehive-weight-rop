@@ -336,7 +336,7 @@
 
   let form;
 
-  console.log("new card ", cardStates);
+  // console.log("new card ", cardStates);
 
   async function handleSubmit(event) {
     // we get form data

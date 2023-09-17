@@ -6,7 +6,7 @@
   // import { message } from "$lib/utils/dashboard";
   import { onMount } from "svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
-  import Option from "../../../../components/Option.svelte";
+  import Option from "../../component/beehives/Option.svelte";
 
   onMount(async () => {
     // message.set("Pridať váhu");

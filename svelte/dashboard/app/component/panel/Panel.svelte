@@ -32,6 +32,7 @@
     text="Úle"
     svg="icons/beehive.svg"
     link="/dashboard/beehives"
+    hasSubpages={true}
   />
   {#if !collapsed}
     <PanelHeaderItem title="Ostatné" />
