@@ -1,10 +1,10 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../lib/utils/static";
+  import { generateUUID } from "../../../../components/lib/utils/static";
   import { getContext, onMount } from "svelte";
-  import ButtonSmall from "../../Buttons/ButtonSmall.svelte";
-  import DropdownInput from "../../Inputs/DropdownInput.svelte";
-  import shared from "../../../dashboard/app/stores/shared";
+  import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
+  import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
+  import shared from "../../stores/shared";
   import { dataHandler } from "./dataHandler";
 
   export let cardStates;

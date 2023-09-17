@@ -4,11 +4,11 @@
 
   import { spring } from "svelte/motion";
   import CardError from "../errors/CardError.svelte";
-  import Modal from "../../../Modal.svelte";
-  import Input from "../../../Inputs/Input.svelte";
-  import Button from "../../../Buttons/Button.svelte";
+  import Modal from "../../../../../components/Modal.svelte";
+  import Input from "../../../../../components/Inputs/Input.svelte";
+  import Button from "../../../../../components/Buttons/Button.svelte";
 
-  import { generateUUID, isEmpty } from "../../../lib/utils/static";
+  import { generateUUID, isEmpty } from "../../../../../components/lib/utils/static";
 
   //TODO pridat check funkciu ci su tu vsetky premenne
   /**

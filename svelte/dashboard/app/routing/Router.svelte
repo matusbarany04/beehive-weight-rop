@@ -1,5 +1,5 @@
 <script>
-  import { route } from "../../../components/route.serv";
+  import { route } from "../../../components/router/route.serv";
   import Homepage from "../pages/Homepage.svelte";
   import Notfound from "../pages/Notfound.svelte";
   import Help from "../pages/Help.svelte";
