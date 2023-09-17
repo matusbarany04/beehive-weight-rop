@@ -38,8 +38,8 @@ export class RouterObj {
 
     const regex = new RegExp("{.*}");
     for (let i = 0; i < routeParts.length; i++) {
-      if(routeParts[i] === "**"){
-        return true
+      if (routeParts[i] === "**") {
+        return true;
       }
       if (
         !(routeParts[i] === "*" || regex.test(routeParts[i])) &&
@@ -47,7 +47,6 @@ export class RouterObj {
       ) {
         return false;
       }
-     
     }
 
     return true;

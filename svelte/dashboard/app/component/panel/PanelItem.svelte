@@ -1,7 +1,7 @@
 <script>
   import RouterLink from "../../../../components/RouterLink.svelte";
   import { route } from "../../../../components/router/route.serv";
-  import {RouterObj} from "../../../../components/router/routerObj";
+  import { RouterObj } from "../../../../components/router/routerObj";
   import panelState from "./panelState";
 
   /**
@@ -50,7 +50,7 @@
 
   /**
    * If page has subpages /** will be appended to end of link to stay selected in subpages
-   * Warning! This option might trigger multiple navbar links to be selected 
+   * Warning! This option might trigger multiple navbar links to be selected
    * @type {Boolean}
    */
   export let hasSubpages = false;
@@ -59,12 +59,19 @@
 
   route.subscribe((val) => {
     if (selected != null) {
-      isLinkActive = RouterObj.regexRoute(val, link + (hasSubpages ? "/**" : '')) ||  RouterObj.regexRoute(val, link) ;
+      isLinkActive =
+        RouterObj.regexRoute(val, link + (hasSubpages ? "/**" : "")) ||
+        RouterObj.regexRoute(val, link);
     }
   });
 </script>
 
-<RouterLink baseRoute="true" url={link} reload={foreignLink} action={()=>panelState.setOpened(false)}>
+<RouterLink
+  baseRoute="true"
+  url={link}
+  reload={foreignLink}
+  action={() => panelState.setOpened(false)}
+>
   <div class=" relative flex h-12 w-full cursor-pointer items-center">
     {#if isLinkActive}
       <div class="absolute -left-2 h-4/6 w-4 rounded-full bg-secondary-500" />

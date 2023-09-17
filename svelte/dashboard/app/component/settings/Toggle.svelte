@@ -1,5 +1,5 @@
 <script>
-  import { generateUUID } from "../lib/utils/static";
+  import { generateUUID } from "../../../../components/lib/utils/static";
 
   let checked = true;
   const id = generateUUID();

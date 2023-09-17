@@ -45,7 +45,7 @@
   });
 
   function changeRoute(event) {
-    action()
+    action();
     if (!reload) {
       navigate(event.currentTarget.getAttribute("href"));
     } else {
