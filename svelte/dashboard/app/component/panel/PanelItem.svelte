@@ -2,6 +2,7 @@
   import RouterLink from "../../../../components/RouterLink.svelte";
   import { route } from "../../../../components/router/route.serv";
   import {RouterObj} from "../../../../components/router/routerObj";
+  import panelState from "./panelState";
 
   /**
    * Display text for the panel item.
@@ -63,7 +64,7 @@
   });
 </script>
 
-<RouterLink baseRoute="true" url={link} reload={foreignLink}>
+<RouterLink baseRoute="true" url={link} reload={foreignLink} action={()=>panelState.setOpened(false)}>
   <div class=" relative flex h-12 w-full cursor-pointer items-center">
     {#if isLinkActive}
       <div class="absolute -left-2 h-4/6 w-4 rounded-full bg-secondary-500" />
