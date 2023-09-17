@@ -1,8 +1,8 @@
 package com.buzzybees.master.controllers;
 
-import com.buzzybees.master.beehive.Beehive;
-import com.buzzybees.master.beehive.BeehiveRepository;
-import com.buzzybees.master.beehive.StatusRepository;
+import com.buzzybees.master.beehives.Beehive;
+import com.buzzybees.master.beehives.BeehiveRepository;
+import com.buzzybees.master.beehives.StatusRepository;
 import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.notifications.NotificationRepository;
 import com.buzzybees.master.notifications.Reminder;
@@ -24,7 +24,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.JobStateReasons;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -365,5 +364,10 @@ public class DashboardController {
         response.put("status", currentUserId > 0 ? "ok" : "ERR_NO_PERMISSION");
 
         return response.toString();
+    }
+
+    @GetMapping("/checkConnectionStatus")
+    public String checkStatus() {
+
     }
 }

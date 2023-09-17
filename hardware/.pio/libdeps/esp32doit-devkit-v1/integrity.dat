@@ -1,0 +1,5 @@
+adafruit/DHT sensor library@^1.4.4
+robtillaart/HX711@^0.3.8
+plerup/EspSoftwareSerial@^8.1.0
+adafruit/Adafruit Unified Sensor@^1.1.11
+bblanchon/ArduinoJson@^6.21.2
