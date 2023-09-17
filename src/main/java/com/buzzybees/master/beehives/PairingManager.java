@@ -46,7 +46,7 @@ public class PairingManager {
     }
 
     public static boolean isPaired(String beehive) {
-        return beehivesInPairingMode.containsKey(beehive);
+        return !beehivesInPairingMode.containsKey(beehive);
     }
 
     public static boolean isExpired(String beehive) {
