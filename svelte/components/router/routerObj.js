@@ -94,10 +94,34 @@ export class RouterObj {
    * Flattens a nested route structure into an array of routes.
    *
    * @param {Object} routes - Nested routes object with paths as keys and values as page names or nested routes.
+   * @returns {Array} Array of flattened routes with properties: `route` (full path) and `page` (associated page/component).
+   */
+  collapse(routes) {
+    let collapsedRoutes = this.collapseRec(routes);
+
+    // to make all routes with variable at the end
+    let outputRoutes = []
+    for (const route of collapsedRoutes) {
+      let fullPath = route.route;
+      //if is to check whether path has {id} variable if so we put on the end
+      if (fullPath.includes("{") || fullPath.includes("}") ) {
+        outputRoutes.push(route);
+      } else {
+        outputRoutes.unshift(route);
+      }
+    }
+    return outputRoutes;
+  }
+  
+  
+  /**
+   * Recursive part of collapse function, it flattens a nested route structure into an array of routes.
+   *
+   * @param {Object} routes - Nested routes object with paths as keys and values as page names or nested routes.
    * @param {string} [parent=''] - Current base path for nested routes.
    * @returns {Array} Array of flattened routes with properties: `route` (full path) and `page` (associated page/component).
    */
-  collapse(routes, parent = "") {
+  collapseRec(routes, parent = "") {
     let collapsedRoutes = [];
 
     for (const [route, value] of Object.entries(routes)) {
@@ -107,12 +131,15 @@ export class RouterObj {
         // If the value is an object, it means it's a nested route.
         // So, we recursively call collapse() to flatten the nested route.
         collapsedRoutes = collapsedRoutes.concat(
-          this.collapse(value, fullPath),
-        );
+          this.collapseRec(value, fullPath),
+        )
+
+
       } else {
         // If the value is a string, it means it's a leaf route.
         // We can directly add it to the result list.
-        collapsedRoutes.push({ route: fullPath, page: value });
+        collapsedRoutes.push({route: fullPath, page: value});
+
       }
     }
 
