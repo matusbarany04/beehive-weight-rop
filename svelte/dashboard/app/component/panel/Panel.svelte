@@ -1,12 +1,12 @@
 <script>
   import PanelItem from "./PanelItem.svelte";
   import PanelHeaderItem from "./PanelHeaderItem.svelte";
-  import Logo from "../../Logo.svelte";
+  import Logo from "../../../../components/Logo.svelte";
   import { onMount } from "svelte";
   import { tweened } from "svelte/motion";
   import { quartInOut } from "svelte/easing";
   import PanelRoot from "./PanelRoot.svelte";
-  import TW_BREAKPOINTS from "../../lib/utils/static";
+  import TW_BREAKPOINTS from "../../../../components/lib/utils/static";
 
   let screenSize = 0;
   $: collapsed = false;

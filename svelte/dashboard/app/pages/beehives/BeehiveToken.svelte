@@ -1,7 +1,7 @@
 <script>
   import Button from "../../../../components/Buttons/Button.svelte";
   import Loading from "../../../../components/pages/Loading.svelte";
-  import { navigate } from "../../../../components/route.serv";
+  import { navigate } from "../../../../components/router/route.serv";
 
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");

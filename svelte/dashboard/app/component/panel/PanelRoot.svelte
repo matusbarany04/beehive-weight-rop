@@ -1,5 +1,5 @@
 <script>
-  import TW_BREAKPOINTS from "../../lib/utils/static";
+  import TW_BREAKPOINTS from "../../../../components/lib/utils/static";
 
   export let retracable = true;
 

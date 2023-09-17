@@ -1,15 +1,15 @@
 <script>
   // import { message } from "$lib/utils/dashboard";
   import { onMount } from "svelte";
-  import PercentageCard from "../../../../components/dashboard/cards/PercentageCard.svelte";
+  import PercentageCard from "../../component/cards/PercentageCard.svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
-  import MapCard from "../../../../components/dashboard/cards/MapCard.svelte";
-  import ApexChart from "../../../../components/dashboard/cards/ApexChart.svelte";
-  import { dataHandler } from "../../../../components/dashboard/cards/dataHandler";
+  import MapCard from "../../component/cards/MapCard.svelte";
+  import ApexChart from "../../component/cards/ApexChart.svelte";
+  import { dataHandler } from "../../component/cards/dataHandler";
   import Modal from "../../../../components/Modal.svelte";
   import Input from "../../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import WeatherCard from "../../../../components/dashboard/cards/WeatherCard.svelte";
+  import WeatherCard from "../../component/cards/WeatherCard.svelte";
   import shared, { onLoad } from "../../stores/shared";
   import { DataHandler } from "@vincjo/datatables";
 

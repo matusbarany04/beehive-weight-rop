@@ -1,6 +1,6 @@
 <script>
-  import Panel from "../../../components/dashboard/panel/Panel.svelte";
-  import PanelRoot from "../../../components/dashboard/panel/PanelRoot.svelte";
+  import Panel from "../component/panel/Panel.svelte";
+  import PanelRoot from "../component/panel/PanelRoot.svelte";
 
   let loading = false;
 </script>

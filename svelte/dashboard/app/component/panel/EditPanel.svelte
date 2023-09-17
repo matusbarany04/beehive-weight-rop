@@ -1,5 +1,5 @@
 <script>
-  import Logo from "../../Logo.svelte";
+  import Logo from "../../../../components/Logo.svelte";
 
   import { onMount } from "svelte";
   import PanelRoot from "./PanelRoot.svelte";
