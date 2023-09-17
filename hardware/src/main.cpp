@@ -31,7 +31,7 @@ void setup()
   networkManager.setContentType("application/json");
 
   button.setAction([]() {
-    networkManager.POST(String(SERVER_URL) + "/requestConnect", "{\"beehive\": \"" + String(BEEHIVE_ID) + "\"}");
+    networkManager.POST(String(SERVER_URL) + "/requestPair", "{\"beehive\": \"" + String(BEEHIVE_ID) + "\"}");
     Serial.println(networkManager.getRequestResult());
   });
 
