@@ -27,7 +27,7 @@ public class Beehive {
     private long userId;
 
     @Column(name = "other_users")
-    private String otherUsers;
+    private String otherUsers = "{}";
 
 
     @Column(name = "token")
