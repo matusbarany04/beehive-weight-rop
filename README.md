@@ -38,3 +38,15 @@ Before pushing to the repository run prettier
 cd svelte/
 npm run prettier:format
 ```
+
+
+## Generating Svelte Docs
+From time to time you can build new docs 
+```bash
+# Run this to parse .svelte files to parseble form
+cd svelte/
+npm run docs:prepare
+
+# After that you can build .md file
+npm run docs:build
+```
