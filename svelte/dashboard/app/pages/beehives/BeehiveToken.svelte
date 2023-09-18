@@ -7,21 +7,23 @@
   const token = urlParams.get("token");
 
   if (token) {
-    fetch("/dashboardApi/newPairing", {method: "POST", body: token})
-      .then(r => r.json()).then(status => {
-        
-      if (status["status"] === "ok") {
-        const interval = setInterval(async () => {
-          const response = await fetch("/dashboardApi/checkPairingStatus?token=" + token);
-          status = await response.json();
-          console.log(status["status"]);
-          if (status["status"] === "PAIRED") {
-            navigate("/beehive/" + token + "/edit");
-            clearInterval(interval);
-          }
-        }, 1000);
-      }
-    });
+    fetch("/dashboardApi/newPairing", { method: "POST", body: token })
+      .then((r) => r.json())
+      .then((status) => {
+        if (status["status"] === "ok") {
+          const interval = setInterval(async () => {
+            const response = await fetch(
+              "/dashboardApi/checkPairingStatus?token=" + token,
+            );
+            status = await response.json();
+            console.log(status["status"]);
+            if (status["status"] === "PAIRED") {
+              navigate("/beehive/" + token + "/edit");
+              clearInterval(interval);
+            }
+          }, 1000);
+        }
+      });
   }
 </script>
 

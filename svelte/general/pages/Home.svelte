@@ -6,7 +6,7 @@
 
 <main class="min-h-screen w-screen overflow-y-scroll bg-primary-100">
   <section id="home" class="flex h-screen flex-col">
-    <NavigationBar/>
+    <NavigationBar />
     <div class="flex w-full flex-1 flex-row">
       <div class="left flex flex-1 flex-col justify-center p-8">
         <h1 class="text-4xl font-bold text-slate-100">
@@ -24,7 +24,6 @@
             image="icons/arrow-right.svg"
             imagePosition="right"
           />
-
 
           <Button
             type="transparent"
@@ -86,7 +85,7 @@
       vzrušujúci bzukot!
     </p>
 
-    <Button type="primary" text="Kúpiť váhu"/>
+    <Button type="primary" text="Kúpiť váhu" />
   </section>
   <section id="spacer" class="h-64"></section>
   <section id="qna" class="min-h-screen w-full">

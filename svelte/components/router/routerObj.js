@@ -100,11 +100,11 @@ export class RouterObj {
     let collapsedRoutes = this.collapseRec(routes);
 
     // to make all routes with variable at the end
-    let outputRoutes = []
+    let outputRoutes = [];
     for (const route of collapsedRoutes) {
       let fullPath = route.route;
       //if is to check whether path has {id} variable if so we put on the end
-      if (fullPath.includes("{") || fullPath.includes("}") ) {
+      if (fullPath.includes("{") || fullPath.includes("}")) {
         outputRoutes.push(route);
       } else {
         outputRoutes.unshift(route);
@@ -112,8 +112,7 @@ export class RouterObj {
     }
     return outputRoutes;
   }
-  
-  
+
   /**
    * Recursive part of collapse function, it flattens a nested route structure into an array of routes.
    *
@@ -132,14 +131,11 @@ export class RouterObj {
         // So, we recursively call collapse() to flatten the nested route.
         collapsedRoutes = collapsedRoutes.concat(
           this.collapseRec(value, fullPath),
-        )
-
-
+        );
       } else {
         // If the value is a string, it means it's a leaf route.
         // We can directly add it to the result list.
-        collapsedRoutes.push({route: fullPath, page: value});
-
+        collapsedRoutes.push({ route: fullPath, page: value });
       }
     }
 
