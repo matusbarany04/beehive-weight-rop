@@ -12,12 +12,13 @@
 
   let pages = [
     { name: "Domov", link: "/", selected: true },
-    { name: "Panel", link: "/panel", selected: false },
-    { name: "Kontakt", link: "/kontakt", selected: false },
-    { name: "Doprava", link: "/doprava", selected: false },
-    { name: "O nás", link: "/o-nas", selected: false },
-    { name: "Obchod", link: "/obchod", selected: false },
-    { name: "Dokumentácia", link: "/dokumentacia", selected: false },
+    { name: "Dev Docs", link: "/test", selected: false },
+    // { name: "Panel", link: "/panel", selected: false },
+    // { name: "Kontakt", link: "/kontakt", selected: false },
+    // { name: "Doprava", link: "/doprava", selected: false },
+    // { name: "O nás", link: "/o-nas", selected: false },
+    // { name: "Obchod", link: "/obchod", selected: false },
+    // { name: "Dokumentácia", link: "/dokumentacia", selected: false },
   ];
 </script>
 

@@ -4,7 +4,7 @@
   import shared from "./app/stores/shared";
   import Loading from "../components/pages/Loading.svelte";
   import { SvelteToast } from "@zerodevx/svelte-toast";
-  import "../components/Toast/toastStyles.css"
+  import "../components/Toast/toastStyles.css";
   // Initiate all fetch operations in an async function
   async function loadData() {
     //sets prefix for all route links
@@ -40,7 +40,7 @@
   @import "tailwindcss/base";
   @import "tailwindcss/components";
   @import "tailwindcss/utilities";
-  
+
   .shadow {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
