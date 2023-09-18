@@ -12,6 +12,7 @@
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
   import shared, { onLoad } from "../../stores/shared";
   import { DataHandler } from "@vincjo/datatables";
+  import RouterLink from "../../../../components/RouterLink.svelte";
 
   export let props;
 
@@ -49,12 +50,9 @@
       Váha {beehive?.name ? beehive?.name : "Loading..."}
     </h1>
     <div class="mt-4 md:mt-0">
-      <Button
-        text="Upraviť"
-        onClick={() => {
-          showSettings = true;
-        }}
-      />
+      <RouterLink url="/edit">
+        <Button text="Upraviť"/>
+      </RouterLink> 
     </div>
   </div>
   {#if beeData}

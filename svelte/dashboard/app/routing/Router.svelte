@@ -42,7 +42,7 @@
         });
 
         beeGroup.group("/{id}", idGroup => {
-          idGroup.get("", BeehiveToken);
+          idGroup.get("", Beehive);
           idGroup.get("/edit", BeehiveEdit);
         }); // Dynamic route
       });
