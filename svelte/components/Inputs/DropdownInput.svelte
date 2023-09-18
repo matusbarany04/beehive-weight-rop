@@ -25,24 +25,29 @@
   export let name;
 
   /**
-   * @param {Array<Array<string|number>>} options - An array of options for the select dropdown. Each option is an array where the first element is the value and the second element is the display text.
+   * @param {Array<Array<number|key>>} options - An array of options for the select dropdown. Each option is an array where the first element is the value and the second element is the display text.
    */
   export let options;
+
+  /**
+   * @param {boolean} inline - If set, the label will be on the left and the input on the right. Optional.
+   */
+  export let inline = false;
 
   function typeAction(node) {
     node.type = type;
   }
 </script>
 
-<div>
+<div class={inline ? 'flex items-center gap-2' : ''}>
   {#if label}
-    <label for={name} class="">{label}</label> <br />
+    <label for={name} class={inline ? 'w-1/3' : ''}>{label}</label> <br />
   {/if}
   {#if small}
     <small>{small}</small><br />
   {/if}
   <select
-    class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
+    class="h-8 w-full rounded-md border-2 border-slate-300 bg-white px-4"
     {name}
     {value}
     id="pet-select"

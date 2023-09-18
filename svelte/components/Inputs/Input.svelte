@@ -34,14 +34,19 @@
    */
   export let required;
 
+  /**
+   * @param {boolean} inline - If set, the label will be on the left and the input on the right. Optional.
+   */
+  export let inline = false;
+
   function typeAction(node) {
     node.type = type;
   }
 </script>
 
-<div>
+<div class={inline ? 'flex items-center gap-2' : ''}>
   {#if label}
-    <label for={name} class="">{label}</label> <br />
+    <label for={name} class={inline ? 'w-1/3' : ''}>{label}</label> <br />
   {/if}
   {#if small}
     <small>{small}</small><br />
@@ -50,11 +55,12 @@
   <input
     on:input
     {value}
+    id="{name}"
     type="text"
     {placeholder}
     use:typeAction
     {name}
-    class="mb-2 mt-1 h-8 w-full rounded-md border-2 border-slate-300 pl-4 sm:w-96"
+    class="mb-2 mt-1 h-8 w-full rounded-md border-2 border-slate-300 pl-4"
     {required}
   />
 </div>
