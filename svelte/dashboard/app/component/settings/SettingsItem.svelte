@@ -5,7 +5,7 @@
 </script>
 
 <div
-  class="mx-auto mb-4 flex h-48 flex-col justify-between rounded-lg bg-white p-4 lg:h-24 lg:w-5/6 lg:flex-row lg:justify-center"
+  class="mx-auto mb-4 flex min-h-48 flex-col justify-between rounded-lg bg-white p-4 md:min-h-24 lg:w-5/6 md:flex-row md:justify-center"
 >
   <!-- title -->
   <div class="flex-1 justify-center lg:justify-normal">

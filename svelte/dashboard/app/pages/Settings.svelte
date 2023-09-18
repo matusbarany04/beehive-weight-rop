@@ -33,33 +33,37 @@
     detail="Čas medzi ktorým sa nebudú posielať upozornenia"
     inputPlaceholder="Váš email"
   >
-    <div class="">
-      <label for="time">čas od: </label>
+    <div class="flex flex-col md:flex-row">
 
-      <input
-        class="mr-8 h-8 w-44 rounded-md border-2 border-slate-300 px-4"
-        type="time"
-        id="time-input"
-        name="time"
-        step="3600"
-        min="00:00"
-        max="23:59"
-        pattern="[0-2][0-9]:[0-5][0-9]"
-      />
-    </div>
-    <div class="">
-      <label for="time">čas do: </label>
+      <div class="flex flex-col">
+        <label for="time">čas od: </label>
 
-      <input
-        class="h-8 w-44 rounded-md border-2 border-slate-300 px-4"
-        type="time"
-        id="time-input"
-        name="time"
-        step="3600"
-        min="00:00"
-        max="23:59"
-        pattern="[0-2][0-9]:[0-5][0-9]"
-      />
+        <input
+          class="mr-8 h-8 w-44 rounded-md border-2 border-slate-300 px-4"
+          type="time"
+          id="time-input"
+          name="time"
+          step="3600"
+          min="00:00"
+          max="23:59"
+          pattern="[0-2][0-9]:[0-5][0-9]"
+        />
+      </div>
+      
+      <div class="flex flex-col">
+        <label for="time">čas do: </label>
+
+        <input
+          class="h-8 w-44 rounded-md border-2 border-slate-300 px-4"
+          type="time"
+          id="time-input"
+          name="time"
+          step="3600"
+          min="00:00"
+          max="23:59"
+          pattern="[0-2][0-9]:[0-5][0-9]"
+        />
+      </div>
     </div>
   </SettingsItem>
 
