@@ -33,10 +33,11 @@
     detail="Čas medzi ktorým sa nebudú posielať upozornenia"
     inputPlaceholder="Váš email"
   >
-    <div class="block sm:flex">
+
+    <div class="flex flex-col md:flex-row">
+
       <div class="flex flex-col">
         <label for="time">čas od: </label>
-
         <input
           class="mr-8 h-8 w-44 rounded-md border-2 border-slate-300 px-4"
           type="time"

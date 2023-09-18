@@ -31,7 +31,7 @@ public class PairingManager {
 
     public static int requestPair(String beehiveToken) {
 
-        if(beehiveRepository.beehiveExist(beehiveToken)) return BEEHIVE_EXIST;
+        if(beehiveRepository.getBeehiveByToken(beehiveToken) != null) return BEEHIVE_EXIST;
         Long userId = beehivesInPairingMode.get(beehiveToken);
 
         if(userId == null) return NOT_PAIRING_MODE;
