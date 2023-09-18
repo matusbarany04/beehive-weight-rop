@@ -59,7 +59,7 @@ export default {
     extend: {},
   },
   plugins: [
-    function ({ addUtilities, theme }) {
+    function ({addUtilities, theme}) {
       const buttonUtilities = {
         ".btn-primary": {
           "background-color": theme("colors.secondary.500"),
