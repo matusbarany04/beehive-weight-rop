@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-function printFolderTree(startPath, indent = '') {
+const fs = require("fs");
+const path = require("path");
+function printFolderTree(startPath, indent = "") {
   const files = fs.readdirSync(startPath);
 
   for (let i = 0; i < files.length; i++) {
@@ -11,12 +11,12 @@ function printFolderTree(startPath, indent = '') {
     console.log(indent + file);
 
     if (stats.isDirectory()) {
-      printFolderTree(fullPath, indent + '   ');
+      printFolderTree(fullPath, indent + "   ");
     }
   }
 }
 
-function traverse(sourcePath, destPath, indent = '') {
+function traverse(sourcePath, destPath, indent = "") {
   const files = fs.readdirSync(sourcePath);
 
   for (let i = 0; i < files.length; i++) {
@@ -31,21 +31,21 @@ function traverse(sourcePath, destPath, indent = '') {
       if (!fs.existsSync(fullDestPath)) {
         fs.mkdirSync(fullDestPath);
       }
-      traverse(fullSourcePath, fullDestPath, indent + '└──');
+      traverse(fullSourcePath, fullDestPath, indent + "└──");
     } else {
-      if (path.extname(file) === '.svelte') {
-        let fileContents = fs.readFileSync(fullSourcePath, 'utf8');
+      if (path.extname(file) === ".svelte") {
+        let fileContents = fs.readFileSync(fullSourcePath, "utf8");
         let originalLength = fileContents.length;
-        
+
         // Remove everything after </script>
-        fileContents = fileContents.replace('<script>', '');
+        fileContents = fileContents.replace("<script>", "");
 
         // Remove everything after </script> including the </script> tag
-        fileContents = fileContents.replace(/<\/script>[\s\S]*$/, '');
+        fileContents = fileContents.replace(/<\/script>[\s\S]*$/, "");
 
-        if(originalLength < fileContents.length){
-          fs.writeFileSync(fullDestPath + ".js", fileContents, 'utf8');
-        }else {
+        if (originalLength < fileContents.length) {
+          fs.writeFileSync(fullDestPath + ".js", fileContents, "utf8");
+        } else {
           // there is nothing to document
         }
       } else {
@@ -56,16 +56,16 @@ function traverse(sourcePath, destPath, indent = '') {
   }
 }
 
-function strip(paths){
-  const destDir = path.join(__dirname, 'temp');
-  fs.rmdirSync(destDir, { recursive: true })
+function strip(paths) {
+  const destDir = path.join(__dirname, "temp");
+  fs.rmdirSync(destDir, { recursive: true });
   if (!fs.existsSync(destDir)) {
     fs.mkdirSync(destDir);
   }
 
-  for (let router_path of paths){
-    const startPath = path.join(__dirname, '../'+ router_path);
-    const destDir = path.join(__dirname, 'temp/' + router_path);
+  for (let router_path of paths) {
+    const startPath = path.join(__dirname, "../" + router_path);
+    const destDir = path.join(__dirname, "temp/" + router_path);
     if (!fs.existsSync(destDir)) {
       fs.mkdirSync(destDir);
     }
@@ -73,4 +73,4 @@ function strip(paths){
   }
 }
 
-strip(["general", "dashboard", "components"])
+strip(["general", "dashboard", "components"]);
