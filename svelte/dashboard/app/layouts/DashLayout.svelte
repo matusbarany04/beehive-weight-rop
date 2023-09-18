@@ -1,6 +1,13 @@
 <script>
   import Panel from "../component/panel/Panel.svelte";
   import PanelRoot from "../component/panel/PanelRoot.svelte";
+  import message from "../stores/message";
+
+  let headerMessage = message.getMessage();
+
+  message.getMessageRef().subscribe((message) => {
+    headerMessage = message;
+  });
 
   let loading = false;
 </script>
@@ -10,7 +17,7 @@
   <div class="h-screen flex-1 overflow-y-scroll bg-tertiary-100 px-8">
     <header class="flex h-16 align-middle">
       {#if !loading}
-        <!--                <h1 class="text-3xl my-auto font-bold">{$message}</h1>-->
+        <h1 class="my-auto text-3xl font-bold">{headerMessage}</h1>
       {:else}
         <h1 class="my-auto text-3xl font-bold">Načítavam...</h1>
       {/if}
@@ -48,6 +55,7 @@
     width: 80px;
     height: 80px;
   }
+
   .lds-grid div {
     position: absolute;
     width: 16px;
@@ -56,51 +64,61 @@
     background: #000000;
     animation: lds-grid 1.2s linear infinite;
   }
+
   .lds-grid div:nth-child(1) {
     top: 8px;
     left: 8px;
     animation-delay: 0s;
   }
+
   .lds-grid div:nth-child(2) {
     top: 8px;
     left: 32px;
     animation-delay: -0.4s;
   }
+
   .lds-grid div:nth-child(3) {
     top: 8px;
     left: 56px;
     animation-delay: -0.8s;
   }
+
   .lds-grid div:nth-child(4) {
     top: 32px;
     left: 8px;
     animation-delay: -0.4s;
   }
+
   .lds-grid div:nth-child(5) {
     top: 32px;
     left: 32px;
     animation-delay: -0.8s;
   }
+
   .lds-grid div:nth-child(6) {
     top: 32px;
     left: 56px;
     animation-delay: -1.2s;
   }
+
   .lds-grid div:nth-child(7) {
     top: 56px;
     left: 8px;
     animation-delay: -0.8s;
   }
+
   .lds-grid div:nth-child(8) {
     top: 56px;
     left: 32px;
     animation-delay: -1.2s;
   }
+
   .lds-grid div:nth-child(9) {
     top: 56px;
     left: 56px;
     animation-delay: -1.6s;
   }
+
   @keyframes lds-grid {
     0%,
     100% {

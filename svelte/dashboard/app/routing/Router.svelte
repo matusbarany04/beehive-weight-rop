@@ -40,7 +40,7 @@
           addGroup.get("/token", BeehiveToken);
         });
 
-        beeGroup.groupGet("/{id}", Beehive, idGroup => {
+        beeGroup.groupGet("/{id}", Beehive, (idGroup) => {
           idGroup.get("/edit", BeehiveEdit);
         }); // Dynamic route
       });

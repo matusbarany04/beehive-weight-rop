@@ -22,7 +22,6 @@ onLoad(["beehives"], () => {
 })
 
 
-
 </script>
 
 {#if beehive}
