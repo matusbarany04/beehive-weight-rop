@@ -71,7 +71,9 @@
   baseRoute="true"
   url={link}
   reload={foreignLink}
-  action={() =>{ if(TW_BREAKPOINTS.lg > window.innerWidth) panelState.setOpened(false)}}
+  action={() => {
+    if (TW_BREAKPOINTS.lg > window.innerWidth) panelState.setOpened(false);
+  }}
 >
   <div class=" relative flex h-12 w-full cursor-pointer items-center">
     {#if isLinkActive}

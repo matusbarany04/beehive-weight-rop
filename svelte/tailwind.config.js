@@ -85,6 +85,11 @@ export default {
           "--text-color": "white",
           "--icon-color": "white",
         },
+      };
+
+      addUtilities(buttonUtilities);
+
+      const scrollbar = {
         ".no-scrollbar::-webkit-scrollbar": {
           display: "none",
         },
@@ -93,7 +98,7 @@ export default {
           "scrollbar-width": "none",
         },
       };
-      addUtilities(buttonUtilities);
+      addUtilities(scrollbar);
 
       const newUtilities = {
         ".isolation-isolate": {

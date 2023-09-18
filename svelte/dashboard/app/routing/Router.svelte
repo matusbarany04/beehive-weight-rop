@@ -40,7 +40,6 @@
           addGroup.get("", BeehiveAdd);
           addGroup.get("/token", BeehiveToken);
         });
-
       });
     });
 

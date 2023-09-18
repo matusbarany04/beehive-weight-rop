@@ -2,6 +2,8 @@
   import { chart } from "svelte-apexcharts";
   import HelpDropdown from "../component/help/HelpDropdown.svelte";
   import SettingsHeader from "../component/settings/SettingsHeader.svelte";
+  import Button from "../../../components/Buttons/Button.svelte";
+  import toast from "../../../components/Toast/toast";
 </script>
 
 <!--  <div class="flex flex-col items-center">-->

@@ -3,6 +3,8 @@
   import { prefix } from "../components/router/prefix";
   import shared from "./app/stores/shared";
   import Loading from "../components/pages/Loading.svelte";
+  import { SvelteToast } from "@zerodevx/svelte-toast";
+  import "../components/Toast/toastStyles.css";
 
   // Initiate all fetch operations in an async function
   async function loadData() {
@@ -19,6 +21,7 @@
   loadData();
 </script>
 
+<SvelteToast />
 <div class="bg-slate-300">
   <!-- Uncomment these if you want to include them -->
   <!-- <Sidenav class="sidenav" />

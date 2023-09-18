@@ -1,0 +1,18 @@
+:global(.toast-item) {
+  --toastPadding: 1rem;
+  @apply text-xs font-bold;
+}
+
+.toast-default {
+}
+
+.toast-special {
+  --toastBackground: #4299e1;
+  --toastBarBackground: #2b6cb0;
+}
+
+.toast-error {
+  --tw-bg-opacity: 1;
+  --toastBackground: rgb(220 38 38 / var(--tw-bg-opacity));
+  --toastBarBackground: rgb(153 27 27 / var(--tw-bg-opacity));
+}
