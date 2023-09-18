@@ -21,7 +21,6 @@
       >Dashboard Home trough anchor tag</a
     >
 
-
     <pre
       class="my-4 overflow-x-scroll rounded-md bg-slate-300 outline outline-1 outline-primary-100">
     <code class="text-black">

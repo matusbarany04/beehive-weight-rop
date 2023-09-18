@@ -1,8 +1,4 @@
 <script>
-  
 </script>
 
-<h1>
-  Upraviť váhu
-</h1>
-
+<h1>Upraviť váhu</h1>

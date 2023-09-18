@@ -1,9 +1,7 @@
-import { writable } from "svelte/store";
+import { writable, get } from "svelte/store";
 import { dataHandler } from "../component/cards/dataHandler";
 
 const user = writable({});
-
-export let message = writable("Loading...");
 
 export let dataTypes = ["temperature", "humidity", "weight"];
 export let fromValues = ["all", "hour", "day", "week", "month", "year"];
@@ -11,7 +9,7 @@ export let topValues = ["now"];
 
 export default {
   /**
-    nacita pouzivatelove data zo servera
+   nacita pouzivatelove data zo servera
    */
   fetchUser: async function () {
     try {

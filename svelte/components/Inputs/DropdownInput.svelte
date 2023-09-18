@@ -29,7 +29,7 @@
    *  @param {Array<Array<string|number>>} options - An array of options for the select dropdown. Each option is an array where the first element is the value and the second element is the display text.
    *  @example
    * options={[
-   *         ["10", "10 minút"], 
+   *         ["10", "10 minút"],
    *         ["60", "1 hodinu"],
    *         ["240", "4 hodiny"],
    *         ["480", "8 hodín"],
