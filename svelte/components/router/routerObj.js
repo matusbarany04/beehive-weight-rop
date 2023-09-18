@@ -21,6 +21,21 @@ export class RouterObj {
   }
 
   /**
+   * Function sets a prefix for all other nested routes
+   * prefix: /dashboard -> all other routes are ->  dashboard/something
+   * @param {string} prefix prefix of all other nested routes
+   * @param {SvelteComponent} component component to be on a "" route
+   * @param {function} callback another nested routes belongs here
+   * @returns {boolean}
+   */
+  groupGet(prefix, component, callback) {
+    const groupRouter = new RouterObj();
+    callback(groupRouter);
+    groupRouter.get("", component);
+    this.routes[prefix] = groupRouter.routes;
+  }
+
+  /**
    * Function checks route against siteRoute and handles its special form
    * Example:
    * siteRoute: /dashboard/E8YRO897AS, route dashboard/*
