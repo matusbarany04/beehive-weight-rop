@@ -31,7 +31,7 @@ function traverse(sourcePath, destPath, indent = '') {
       if (!fs.existsSync(fullDestPath)) {
         fs.mkdirSync(fullDestPath);
       }
-      traverse(fullSourcePath, fullDestPath, indent + '   ');
+      traverse(fullSourcePath, fullDestPath, indent + '└──');
     } else {
       if (path.extname(file) === '.svelte') {
         let fileContents = fs.readFileSync(fullSourcePath, 'utf8');
