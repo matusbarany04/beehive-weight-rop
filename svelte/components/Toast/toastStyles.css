@@ -1,18 +1,26 @@
-:global(.toast-item) {
-  --toastPadding: 1rem;
-  @apply text-xs font-bold;
+.toast{
+  @apply rounded-md 
 }
 
 .toast-default {
+  --toastBarBackground: theme("colors.secondary.500");
+  
 }
 
 .toast-special {
-  --toastBackground: #4299e1;
-  --toastBarBackground: #2b6cb0;
+  --toastBackground: theme("colors.secondary.500");
+  --toastBarBackground: theme("colors.secondary.800");
 }
 
-.toast-error {
+.toast-error{
   --tw-bg-opacity: 1;
-  --toastBackground: rgb(220 38 38 / var(--tw-bg-opacity));
-  --toastBarBackground: rgb(153 27 27 / var(--tw-bg-opacity));
+  --toastBackground: theme("colors.error.500");
+  --toastBarBackground: theme("colors.error.800");
+}
+
+
+.toast-confirm{
+  --tw-bg-opacity: 1;
+  --toastBackground: theme("colors.confirm.500");
+  --toastBarBackground: theme("colors.confirm.800");
 }

@@ -40,3 +40,8 @@
     answer="Rozhodne. Prioritou je súkromie používateľa a bezpečnosť dát. Všetky prenášané dáta sú šifrované a nikdy nepredávame vaše dáta tretím stranám."
   />
 </div>
+
+<Button onClick={()=>toast.push("Testik", "special")} text="special"></Button>
+<Button onClick={()=>toast.push("Testik")} text="default"></Button>
+<Button onClick={()=>toast.push("Testik", "error")} text="error"></Button>
+<Button onClick={()=>toast.push("Testik", "confirm")} text="confirm"></Button>

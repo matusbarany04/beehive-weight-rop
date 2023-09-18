@@ -1,7 +1,7 @@
 import { toast } from "@zerodevx/svelte-toast";
 
 export default {
-  push: function (type = "default") {
-    toast.push("Styled with custom class", { classes: ["toast-" + type] });
+  push: function (message, type = "default") {
+    toast.push(message, {  duration: 4000,  classes: ["toast-" + type] });
   },
 };

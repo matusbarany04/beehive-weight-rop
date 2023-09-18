@@ -4,8 +4,7 @@
   import shared from "./app/stores/shared";
   import Loading from "../components/pages/Loading.svelte";
   import { SvelteToast } from "@zerodevx/svelte-toast";
-  import "../components/Toast/toastStyles.css";
-
+  import "../components/Toast/toastStyles.css"
   // Initiate all fetch operations in an async function
   async function loadData() {
     //sets prefix for all route links
@@ -41,28 +40,7 @@
   @import "tailwindcss/base";
   @import "tailwindcss/components";
   @import "tailwindcss/utilities";
-
-  :root {
-    padding: 0;
-    margin: 0;
-    --font-body: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    --font-mono: "Fira Mono", monospace;
-    --color-primary: #161819;
-    --color-secondary: #e2a70f;
-    /* --color-tertiary: #F7F7F7; */
-    --color-tertiary: #e0e3e8; /*  original one dont delete */
-    --color-text-light: #000000;
-    --color-text-dark: #b9beca;
-    --color-accept: #52b515;
-    --color-delete: #e2360f;
-    --color-edit: #e2d00f;
-    --color-detail-gray: #8d8888;
-    --column-width: 48rem;
-    font-family: var(--font-body);
-    color: var(--color-text-light);
-  }
-
+  
   .shadow {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
@@ -73,7 +51,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: #1e202a;
+    background-color: theme("colors.primary.100");
     outline: 1px solid #1e202a;
     border-radius: 50px;
   }
