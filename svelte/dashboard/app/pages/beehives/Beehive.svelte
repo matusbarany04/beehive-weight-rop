@@ -37,7 +37,7 @@
   // let temperatures = dataHandler.getTemperatures(data.beehive_id)
 </script>
 
-<div id="chart" />
+<div id="chart"></div>
 
 <!-- {JSON.stringify(beeData)} -->
 <!-- <div class="pt-2 p-4" /> -->
@@ -50,7 +50,7 @@
       Váha {beehive?.name ? beehive?.name : "Loading..."}
     </h1>
     <div class="mt-4 md:mt-0">
-      <RouterLink url="/edit">
+      <RouterLink url="/edit" append>
         <Button text="Upraviť"/>
       </RouterLink> 
     </div>

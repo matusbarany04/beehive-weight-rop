@@ -36,6 +36,8 @@
    * @default empty function
    */
   export let action = function () {};
+  
+  export let append = false;
 
   let currentPrefix = "";
 
@@ -56,7 +58,7 @@
 
 <a
   class="text-slate-500"
-  href="{!baseRoute ? currentPrefix : ''}{url}"
+  href="{!baseRoute && !append ? currentPrefix : ''}{append ? location.pathname : ''}{url}"
   on:click|preventDefault={changeRoute}
 >
   <slot />

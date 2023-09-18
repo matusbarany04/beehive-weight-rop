@@ -1,7 +1,6 @@
 <script>
   export let detail;
   export let title;
-  export let inputPlaceholder;
 </script>
 
 <div
