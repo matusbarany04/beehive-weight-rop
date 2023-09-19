@@ -115,7 +115,7 @@
           },
         },
       };
-      const ApexCharts = (await import("apexcharts")).default;
+      // const ApexCharts = (await import("apexcharts")).default;
       chart = new ApexCharts(document.getElementById(id), options);
       chart.render();
       headerSelected = cardStates.data[0].timespan ?? "week";

@@ -1,19 +1,15 @@
 {
   "source": {
-    "include": [
-      "./docs/temp/"
-    ],
+    "include": ["./docs/temp/"],
     "includePattern": ".+\\.js(doc|x)?$"
   },
-  "plugins": [
-    "plugins/markdown"
-  ],
+  "plugins": ["plugins/markdown"],
   "templates": {
     "cleverLinks": false,
     "monospaceLinks": false
   },
   "tags": {
-    "allowUnknownTags": ["component"] 
+    "allowUnknownTags": ["component"]
   },
   "opts": {
     "template": "node_modules/better-docs",

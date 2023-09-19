@@ -1,5 +1,4 @@
 <script>
-
   /**
    * @param {string} name - Title of the option.
    */

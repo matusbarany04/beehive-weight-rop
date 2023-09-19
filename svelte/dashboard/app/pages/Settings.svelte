@@ -9,9 +9,7 @@
   import Toggle from "../component/settings/Toggle.svelte";
   import message from "../stores/message";
 
-
   message.setMessage("Nastavenia");
-
 
   onMount(() => {
     message.set("Nastavenia");

@@ -1,5 +1,4 @@
 <script>
-
   /**
    * @fileoverview This page shows edit options for a particular beehive
    * @module BeehiveEdit
@@ -21,7 +20,6 @@
 
   export let props;
 
-
   let intervals = [
     [10, "10min"],
     [30, "30min"],
@@ -37,7 +35,6 @@
   });
 
   message.setMessage("Nastavenia zariadenia");
-
 </script>
 
 {#if beehive}

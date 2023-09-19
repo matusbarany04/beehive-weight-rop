@@ -3,7 +3,7 @@
    * @fileoverview This page shows a list of all beekepers beehives
    * @module Beehives
    */
-  
+
   import Button from "../../../components/Buttons/Button.svelte";
 
   import { DataHandler, Th, RowCount, Pagination } from "@vincjo/datatables";

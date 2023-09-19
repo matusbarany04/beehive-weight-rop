@@ -166,7 +166,7 @@
     });
   }
 
-  /** 
+  /**
    * Gets a cookie by name
    * @param name
    */

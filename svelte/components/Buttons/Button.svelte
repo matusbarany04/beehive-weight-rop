@@ -3,9 +3,8 @@
    * @fileoverview This is a button component for creating standardised buttons
    * @module Button
    */
-  
+
   import { navigateWithPrefix } from "../router/route.serv";
-  import "style.css";
 
   /**
    * @param {string} text text of the button

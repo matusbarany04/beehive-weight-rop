@@ -1,818 +1,370 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Global</title>
 
-<head>
-  
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Global</title>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css"
+    />
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css" />
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css" />
+    <link type="text/css" rel="stylesheet" href="" />
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </head>
 
-  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="./build/entry.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
-  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
-  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
-  <link type="text/css" rel="stylesheet" href="">
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-
-  
-</head>
-
-
-
-<body class="layout small-header">
+  <body class="layout small-header">
     <div id="stickyNavbarOverlay"></div>
-    
 
-<div class="top-nav">
-    <div class="inner">
-        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-        <div class="logo">
-            
-            
-        </div>
-        <div class="menu">
-            
-            <div class="navigation">
-                <a
-                    href="index.html"
-                    class="link"
-                >
-                    Documentation
-                </a>
-                
-                
-                
-            </div>
-        </div>
-    </div>
-</div>
-    <div id="main">
-        <div
-            class="sidebar "
-            id="sidebarNav"
+    <div class="top-nav">
+      <div class="inner">
+        <a
+          id="hamburger"
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
         >
-            
-            <nav>
-                
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#askPermission">askPermission</a></li><li><a href="global.html#getCookie">getCookie</a></li><li><a href="global.html#registerServiceWorker">registerServiceWorker</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#setRead">setRead</a></li></ul></div>
-                
-            </nav>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+        <div class="logo"></div>
+        <div class="menu">
+          <div class="navigation">
+            <a href="index.html" class="link"> Documentation </a>
+          </div>
         </div>
-        <div class="core" id="main-content-wrapper">
-            <div class="content">
-                <header class="page-title">
-                    <p></p>
-                    <h1>Global</h1>
-                </header>
-                
-
-
-
-
-<section>
-
-<header>
-    
-        <h2></h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
+      </div>
     </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <div class='vertical-section'>
-            <h1>Methods</h1>
-            <div class="members">
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="askPermission">
-        <a class="href-link" href="#askPermission">#</a>
-        
-        <span class="code-name">
-            
-                askPermission<span class="signature">()</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Asks for permission to send notifications trough browser
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="Notifications.svelte.js.html" class="button">View Source</a>
-            <span>
-                <a href="Notifications.svelte.js.html">Notifications.svelte.js</a>, <a href="Notifications.svelte.js.html#line152">line 152</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="getCookie">
-        <a class="href-link" href="#getCookie">#</a>
-        
-        <span class="code-name">
-            
-                getCookie<span class="signature">(name)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Gets a cookie by name
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>name</code></td>
-  
-
-  <td class="type">
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"></td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="Notifications.svelte.js.html" class="button">View Source</a>
-            <span>
-                <a href="Notifications.svelte.js.html">Notifications.svelte.js</a>, <a href="Notifications.svelte.js.html#line177">line 177</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="registerServiceWorker">
-        <a class="href-link" href="#registerServiceWorker">#</a>
-        
-        <span class="code-name">
-            
-                registerServiceWorker<span class="signature">()</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Registers a service worker that tries to send continuous notifications even when page is closed
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="Notifications.svelte.js.html" class="button">View Source</a>
-            <span>
-                <a href="Notifications.svelte.js.html">Notifications.svelte.js</a>, <a href="Notifications.svelte.js.html#line134">line 134</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="remove">
-        <a class="href-link" href="#remove">#</a>
-        
-        <span class="code-name">
-            
-                remove<span class="signature">(id)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Deletes notification from database and removes it from page
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>id</code></td>
-  
-
-  <td class="type">
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">id of the notification</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="Notifications.svelte.js.html" class="button">View Source</a>
-            <span>
-                <a href="Notifications.svelte.js.html">Notifications.svelte.js</a>, <a href="Notifications.svelte.js.html#line81">line 81</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="setRead">
-        <a class="href-link" href="#setRead">#</a>
-        
-        <span class="code-name">
-            
-                setRead<span class="signature">(id)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Sets notification to state 'read'
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>id</code></td>
-  
-
-  <td class="type">
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">id of the notification</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="Notifications.svelte.js.html" class="button">View Source</a>
-            <span>
-                <a href="Notifications.svelte.js.html">Notifications.svelte.js</a>, <a href="Notifications.svelte.js.html#line53">line 53</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-            </div>
-        </div>
-    
-
-    
-
-    
-</article>
-
-</section>
-
-
-
-
-            </div>
-            
-            <footer class="footer">
-                <div class="content has-text-centered">
-                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
-                    <p class="sidebar-created-by">
-                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
-                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
-                    </p>
+    <div id="main">
+      <div class="sidebar" id="sidebarNav">
+        <nav>
+          <h2><a href="index.html">Documentation</a></h2>
+          <div class="category">
+            <h3>Global</h3>
+            <ul>
+              <li><a href="global.html#askPermission">askPermission</a></li>
+              <li><a href="global.html#getCookie">getCookie</a></li>
+              <li>
+                <a href="global.html#registerServiceWorker"
+                  >registerServiceWorker</a
+                >
+              </li>
+              <li><a href="global.html#remove">remove</a></li>
+              <li><a href="global.html#setRead">setRead</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="core" id="main-content-wrapper">
+        <div class="content">
+          <header class="page-title">
+            <p></p>
+            <h1>Global</h1>
+          </header>
+
+          <section>
+            <header>
+              <h2></h2>
+            </header>
+
+            <article>
+              <div class="container-overview">
+                <dl class="details"></dl>
+              </div>
+
+              <div class="vertical-section">
+                <h1>Methods</h1>
+                <div class="members">
+                  <div class="member">
+                    <h4 class="name" id="askPermission">
+                      <a class="href-link" href="#askPermission">#</a>
+
+                      <span class="code-name">
+                        askPermission<span class="signature">()</span
+                        ><span class="type-signature"></span>
+                      </span>
+                    </h4>
+
+                    <div class="description">
+                      Asks for permission to send notifications trough browser
+                    </div>
+
+                    <dl class="details">
+                      <p class="tag-source">
+                        <a href="Notifications.svelte.js.html" class="button"
+                          >View Source</a
+                        >
+                        <span>
+                          <a href="Notifications.svelte.js.html"
+                            >Notifications.svelte.js</a
+                          >,
+                          <a href="Notifications.svelte.js.html#line152"
+                            >line 152</a
+                          >
+                        </span>
+                      </p>
+                    </dl>
+                  </div>
+
+                  <div class="member">
+                    <h4 class="name" id="getCookie">
+                      <a class="href-link" href="#getCookie">#</a>
+
+                      <span class="code-name">
+                        getCookie<span class="signature">(name)</span
+                        ><span class="type-signature"></span>
+                      </span>
+                    </h4>
+
+                    <div class="description">Gets a cookie by name</div>
+
+                    <h5>Parameters:</h5>
+
+                    <div class="table-container">
+                      <table class="params table">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+
+                            <th>Type</th>
+
+                            <th class="last">Description</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr class="deep-level-0">
+                            <td class="name"><code>name</code></td>
+
+                            <td class="type"></td>
+
+                            <td class="description last"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <dl class="details">
+                      <p class="tag-source">
+                        <a href="Notifications.svelte.js.html" class="button"
+                          >View Source</a
+                        >
+                        <span>
+                          <a href="Notifications.svelte.js.html"
+                            >Notifications.svelte.js</a
+                          >,
+                          <a href="Notifications.svelte.js.html#line177"
+                            >line 177</a
+                          >
+                        </span>
+                      </p>
+                    </dl>
+                  </div>
+
+                  <div class="member">
+                    <h4 class="name" id="registerServiceWorker">
+                      <a class="href-link" href="#registerServiceWorker">#</a>
+
+                      <span class="code-name">
+                        registerServiceWorker<span class="signature">()</span
+                        ><span class="type-signature"></span>
+                      </span>
+                    </h4>
+
+                    <div class="description">
+                      Registers a service worker that tries to send continuous
+                      notifications even when page is closed
+                    </div>
+
+                    <dl class="details">
+                      <p class="tag-source">
+                        <a href="Notifications.svelte.js.html" class="button"
+                          >View Source</a
+                        >
+                        <span>
+                          <a href="Notifications.svelte.js.html"
+                            >Notifications.svelte.js</a
+                          >,
+                          <a href="Notifications.svelte.js.html#line134"
+                            >line 134</a
+                          >
+                        </span>
+                      </p>
+                    </dl>
+                  </div>
+
+                  <div class="member">
+                    <h4 class="name" id="remove">
+                      <a class="href-link" href="#remove">#</a>
+
+                      <span class="code-name">
+                        remove<span class="signature">(id)</span
+                        ><span class="type-signature"></span>
+                      </span>
+                    </h4>
+
+                    <div class="description">
+                      Deletes notification from database and removes it from
+                      page
+                    </div>
+
+                    <h5>Parameters:</h5>
+
+                    <div class="table-container">
+                      <table class="params table">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+
+                            <th>Type</th>
+
+                            <th class="last">Description</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr class="deep-level-0">
+                            <td class="name"><code>id</code></td>
+
+                            <td class="type"></td>
+
+                            <td class="description last">
+                              id of the notification
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <dl class="details">
+                      <p class="tag-source">
+                        <a href="Notifications.svelte.js.html" class="button"
+                          >View Source</a
+                        >
+                        <span>
+                          <a href="Notifications.svelte.js.html"
+                            >Notifications.svelte.js</a
+                          >,
+                          <a href="Notifications.svelte.js.html#line81"
+                            >line 81</a
+                          >
+                        </span>
+                      </p>
+                    </dl>
+                  </div>
+
+                  <div class="member">
+                    <h4 class="name" id="setRead">
+                      <a class="href-link" href="#setRead">#</a>
+
+                      <span class="code-name">
+                        setRead<span class="signature">(id)</span
+                        ><span class="type-signature"></span>
+                      </span>
+                    </h4>
+
+                    <div class="description">
+                      Sets notification to state 'read'
+                    </div>
+
+                    <h5>Parameters:</h5>
+
+                    <div class="table-container">
+                      <table class="params table">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+
+                            <th>Type</th>
+
+                            <th class="last">Description</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr class="deep-level-0">
+                            <td class="name"><code>id</code></td>
+
+                            <td class="type"></td>
+
+                            <td class="description last">
+                              id of the notification
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <dl class="details">
+                      <p class="tag-source">
+                        <a href="Notifications.svelte.js.html" class="button"
+                          >View Source</a
+                        >
+                        <span>
+                          <a href="Notifications.svelte.js.html"
+                            >Notifications.svelte.js</a
+                          >,
+                          <a href="Notifications.svelte.js.html#line53"
+                            >line 53</a
+                          >
+                        </span>
+                      </p>
+                    </dl>
+                  </div>
                 </div>
-            </footer>
-            
+              </div>
+            </article>
+          </section>
         </div>
-        <div id="side-nav" class="side-nav">
-        </div>
+
+        <footer class="footer">
+          <div class="content has-text-centered">
+            <p>
+              Documentation generated by
+              <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a>
+            </p>
+            <p class="sidebar-created-by">
+              <a
+                href="https://github.com/SoftwareBrothers/better-docs"
+                target="_blank"
+                >BetterDocs theme</a
+              >
+              provided with <i class="fas fa-heart"></i> by
+              <a href="http://softwarebrothers.co" target="_blank"
+                >SoftwareBrothers - JavaScript Development Agency</a
+              >
+            </p>
+          </div>
+        </footer>
+      </div>
+      <div id="side-nav" class="side-nav"></div>
     </div>
-<script src="scripts/app.min.js"></script>
-<script>PR.prettyPrint();</script>
-<script src="scripts/linenumber.js"> </script>
-
-
-</body>
+    <script src="scripts/app.min.js"></script>
+    <script>
+      PR.prettyPrint();
+    </script>
+    <script src="scripts/linenumber.js"></script>
+  </body>
 </html>

@@ -19,9 +19,9 @@
   let options;
   let data;
   onMount(async () => {
-    const { default: zoomPlugin } = await import("chartjs-plugin-zoom");
+    // const { default: zoomPlugin } = await import("chartjs-plugin-zoom");
 
-    Chart.register(zoomPlugin);
+    // Chart.register(zoomPlugin);
 
     const zoomOptions = {
       pan: {

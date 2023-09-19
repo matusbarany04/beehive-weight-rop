@@ -3,7 +3,7 @@
    * @fileoverview This page allows beekeper to add new beehives to their account with multiple options
    * @module BeehiveAdd
    */
-  
+
   import { onMount } from "svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
   import Option from "../../component/beehives/Option.svelte";

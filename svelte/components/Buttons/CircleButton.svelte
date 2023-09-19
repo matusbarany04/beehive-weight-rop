@@ -1,6 +1,5 @@
 <script>
   import { navigateWithPrefix } from "../router/route.serv";
-  import "style.css";
 
   export let type = "secondary";
 
