@@ -1,12 +1,8 @@
 <script>
   /**
-   *
-   * This page is for resolving user related problem and providing explanations
-   *
-   * @class Help
-   * @constructor
+   * @fileoverview This page is for resolving user related problem and providing explanations
+   * @module Help
    */
-  
   import HelpDropdown from "../component/help/HelpDropdown.svelte";
   import SettingsHeader from "../component/settings/SettingsHeader.svelte";
 </script>

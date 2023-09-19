@@ -1,11 +1,8 @@
 <script>
   /**
-   *
-   * This page displays notifications from beehives
-   *
-   * @lends Notification
+   * @fileoverview This page displays notifications from beehives
+   * @module Notification
    */
-  
   import { onMount } from "svelte";
   import Button from "../../../components/Buttons/Button.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";

@@ -1,10 +1,7 @@
 <script>
   /**
-   *
-   * This page allows beekeper to add new beehives to their account with multiple options
-   *
-   * @class BeehiveAdd
-   * @constructor
+   * @fileoverview This page allows beekeper to add new beehives to their account with multiple options
+   * @module BeehiveAdd
    */
   
   import { onMount } from "svelte";

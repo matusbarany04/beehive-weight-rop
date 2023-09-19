@@ -1,10 +1,7 @@
 <script>
   /**
-   *
-   * Provides testing ground for new components
-   *
-   * @class Test
-   * @constructor
+   * @fileoverview Provides testing ground for new components
+   * @module Test
    */
 
   import Button from "../../../components/Buttons/Button.svelte";

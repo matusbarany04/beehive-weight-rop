@@ -1,10 +1,7 @@
 <script>
   /**
-   *
-   * This page shows a list of all beekepers beehives
-   *
-   * @class Beehives
-   * @constructor
+   * @fileoverview This page shows a list of all beekepers beehives
+   * @module Beehives
    */
   
   import Button from "../../../components/Buttons/Button.svelte";

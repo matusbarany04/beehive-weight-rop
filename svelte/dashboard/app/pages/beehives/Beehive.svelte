@@ -1,12 +1,8 @@
 <script>
   /**
-   *
-   * This page shows one beehive with its corresponding data
-   *
-   * @class Beehive
-   * @constructor
+   * @fileoverview This page shows one beehive with its corresponding data
+   * @module Beehive
    */
-  
   import PercentageCard from "../../component/cards/PercentageCard.svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
   import MapCard from "../../component/cards/MapCard.svelte";

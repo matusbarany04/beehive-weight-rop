@@ -31,147 +31,148 @@
     *   [regexRoute][27]
         *   [Parameters][28]
 *   [writable][29]
-*   [error][30]
-    *   [Parameters][31]
-*   [error][32]
-    *   [Parameters][33]
-*   [text][34]
-    *   [Parameters][35]
-*   [text][36]
-    *   [Parameters][37]
-*   [text][38]
-*   [message][39]
-    *   [getMessage][40]
-    *   [setMessage][41]
-        *   [Parameters][42]
-    *   [isMessageSet][43]
-    *   [getMessageRef][44]
-    *   [resetMessage][45]
-*   [getErrorTypes][46]
-*   [link][47]
-    *   [Parameters][48]
-*   [link][49]
-    *   [Parameters][50]
-*   [link][51]
-    *   [Parameters][52]
-*   [link][53]
-*   [label][54]
-    *   [Parameters][55]
-*   [label][56]
-    *   [Parameters][57]
-*   [getDefaultMode][58]
-*   [Beehives][59]
-*   [Beehive][60]
-*   [BeehiveAdd][61]
-*   [BeehiveEdit][62]
-*   [BeehiveToken][63]
-*   [Calendar][64]
-*   [Help][65]
-*   [HomePage][66]
-*   [Notification][67]
-*   [Settings][68]
-*   [Test][69]
-*   [getCard][70]
-    *   [Parameters][71]
-*   [route][72]
-*   [image][73]
-    *   [Parameters][74]
+*   [Beehive][30]
+*   [BeehiveEdit][31]
+*   [BeehiveToken][32]
+*   [Calendar][33]
+*   [Help][34]
+*   [HomePage][35]
+*   [Notification][36]
+*   [Settings][37]
+*   [Button][38]
+*   [error][39]
+    *   [Parameters][40]
+*   [error][41]
+    *   [Parameters][42]
+*   [Beehives][43]
+*   [BeehiveAdd][44]
+*   [Test][45]
+    *   [getMessage][46]
+    *   [fetchUser][47]
+    *   [setMessage][48]
+        *   [Parameters][49]
+    *   [isMessageSet][50]
+    *   [getMessageRef][51]
+    *   [resetMessage][52]
+*   [text][53]
+    *   [Parameters][54]
+*   [text][55]
+    *   [Parameters][56]
+*   [text][57]
+*   [message][58]
+*   [getErrorTypes][59]
+*   [link][60]
+    *   [Parameters][61]
+*   [link][62]
+    *   [Parameters][63]
+*   [link][64]
+*   [link][65]
+    *   [Parameters][66]
+*   [label][67]
+    *   [Parameters][68]
+*   [label][69]
+    *   [Parameters][70]
+*   [getDefaultMode][71]
+*   [getCard][72]
+    *   [Parameters][73]
+*   [route][74]
 *   [image][75]
     *   [Parameters][76]
 *   [image][77]
     *   [Parameters][78]
-*   [url][79]
-*   [timeframeFrom][80]
-    *   [Parameters][81]
-*   [fetchUser][82]
-*   [value][83]
-    *   [Parameters][84]
-*   [value][85]
-    *   [Parameters][86]
-*   [placeholder][87]
-    *   [Parameters][88]
-*   [getData][89]
-    *   [Parameters][90]
-*   [onClick][91]
-    *   [Parameters][92]
-*   [onClick][93]
-    *   [Parameters][94]
-*   [onClick][95]
-    *   [Parameters][96]
-*   [getErrorMessageByType][97]
-    *   [Parameters][98]
-*   [small][99]
-    *   [Parameters][100]
-*   [small][101]
-    *   [Parameters][102]
-*   [cardStates][103]
-    *   [Parameters][104]
-*   [svg][105]
-*   [imagePosition][106]
-    *   [Parameters][107]
-*   [reload][108]
-*   [name][109]
-    *   [Parameters][110]
-*   [name][111]
-    *   [Parameters][112]
-*   [addEventListener][113]
-*   [clickType][114]
-    *   [Parameters][115]
-*   [baseRoute][116]
-*   [fallbackCopyTextToClipboard][117]
-    *   [Parameters][118]
-*   [navigate][119]
-    *   [Parameters][120]
-*   [formId][121]
-    *   [Parameters][122]
-*   [required][123]
-    *   [Parameters][124]
-*   [updateSettings][125]
-    *   [Parameters][126]
-*   [foreignLink][127]
-*   [action][128]
-*   [options][129]
-    *   [Parameters][130]
-    *   [Examples][131]
-*   [inline][132]
-    *   [Parameters][133]
-*   [inline][134]
-    *   [Parameters][135]
-*   [theme][136]
-    *   [Parameters][137]
-*   [selected][138]
-*   [navigateWithPrefix][139]
-    *   [Parameters][140]
-*   [component][141]
-    *   [Parameters][142]
-*   [collapsed][143]
-*   [onCardStatesModified][144]
+*   [image][79]
+    *   [Parameters][80]
+*   [url][81]
+*   [timeframeFrom][82]
+    *   [Parameters][83]
+*   [value][84]
+    *   [Parameters][85]
+*   [value][86]
+    *   [Parameters][87]
+*   [placeholder][88]
+    *   [Parameters][89]
+*   [getData][90]
+    *   [Parameters][91]
+*   [onClick][92]
+    *   [Parameters][93]
+*   [onClick][94]
+    *   [Parameters][95]
+*   [onClick][96]
+    *   [Parameters][97]
+*   [getErrorMessageByType][98]
+    *   [Parameters][99]
+*   [small][100]
+    *   [Parameters][101]
+*   [small][102]
+    *   [Parameters][103]
+*   [cardStates][104]
+    *   [Parameters][105]
+*   [svg][106]
+*   [reload][107]
+*   [name][108]
+    *   [Parameters][109]
+*   [name][110]
+    *   [Parameters][111]
+*   [addEventListener][112]
+*   [imagePosition][113]
+    *   [Parameters][114]
+*   [baseRoute][115]
+*   [fallbackCopyTextToClipboard][116]
+    *   [Parameters][117]
+*   [navigate][118]
+    *   [Parameters][119]
+*   [required][120]
+    *   [Parameters][121]
+*   [updateSettings][122]
+    *   [Parameters][123]
+*   [clickType][124]
+    *   [Parameters][125]
+*   [foreignLink][126]
+*   [action][127]
+*   [options][128]
+    *   [Parameters][129]
+    *   [Examples][130]
+*   [formId][131]
+    *   [Parameters][132]
+*   [inline][133]
+    *   [Parameters][134]
+*   [inline][135]
+    *   [Parameters][136]
+*   [theme][137]
+    *   [Parameters][138]
+*   [selected][139]
+*   [navigateWithPrefix][140]
+    *   [Parameters][141]
+*   [component][142]
+    *   [Parameters][143]
+*   [setRead][144]
     *   [Parameters][145]
-*   [setRead][146]
-    *   [Parameters][147]
-*   [copyTextToClipboard][148]
-    *   [Parameters][149]
-*   [hasSubpages][150]
-*   [isValidEmail][151]
-    *   [Parameters][152]
-*   [remove][153]
-    *   [Parameters][154]
-*   [getPropsBy][155]
-    *   [Parameters][156]
-    *   [Examples][157]
-*   [isValidPasswordStrong][158]
-    *   [Parameters][159]
-*   [isValidPasswordMedium][160]
-    *   [Parameters][161]
-*   [isEmpty][162]
-    *   [Parameters][163]
-    *   [Examples][164]
-*   [registerServiceWorker][165]
-*   [onLoad][166]
-    *   [Parameters][167]
-*   [askPermission][168]
-*   [getCookie][169]
-    *   [Parameters][170]
+*   [collapsed][146]
+*   [onCardStatesModified][147]
+    *   [Parameters][148]
+*   [copyTextToClipboard][149]
+    *   [Parameters][150]
+*   [hasSubpages][151]
+*   [isValidEmail][152]
+    *   [Parameters][153]
+*   [remove][154]
+    *   [Parameters][155]
+*   [getPropsBy][156]
+    *   [Parameters][157]
+    *   [Examples][158]
+*   [isValidPasswordStrong][159]
+    *   [Parameters][160]
+*   [isValidPasswordMedium][161]
+    *   [Parameters][162]
+*   [isEmpty][163]
+    *   [Parameters][164]
+    *   [Examples][165]
+*   [registerServiceWorker][166]
+*   [onLoad][167]
+    *   [Parameters][168]
+*   [askPermission][169]
+*   [getCookie][170]
+    *   [Parameters][171]
 
 ## NotFound
 
@@ -181,31 +182,31 @@ This page is a default route
 
 ### Parameters
 
-*   `modes` **[array][171]** Modes that card can be in
+*   `modes` **[array][172]** Modes that card can be in
 
 ## type
 
 ### Parameters
 
-*   `type` **[string][172]** Type attribute for the select, although not used in the template. Defaults to 'text'.
+*   `type` **[string][173]** Type attribute for the select, although not used in the template. Defaults to 'text'.
 
 ## type
 
 ### Parameters
 
-*   `type` **[string][172]** Specifies the type of the input element (e.g., 'text', 'password'). Defaults to 'text'.
+*   `type` **[string][173]** Specifies the type of the input element (e.g., 'text', 'password'). Defaults to 'text'.
 
 ## type
 
 ### Parameters
 
-*   `type` **[string][172]** css type of the button from styles.css
+*   `type` **[string][173]** css type of the button from styles.css
 
 ## type
 
 ### Parameters
 
-*   `type` **[string][172]** css type of the button from styles.css
+*   `type` **[string][173]** css type of the button from styles.css
 
 ## RouterObj
 
@@ -218,10 +219,10 @@ prefix: /dashboard -> all other routes are ->  dashboard/something
 
 #### Parameters
 
-*   `prefix` **[string][172]** prefix of all other nested routes
-*   `callback` **[function][173]** another nested routes belongs here
+*   `prefix` **[string][173]** prefix of all other nested routes
+*   `callback` **[function][174]** another nested routes belongs here
 
-Returns **[boolean][174]**&#x20;
+Returns **[boolean][175]**&#x20;
 
 ### groupGet
 
@@ -230,11 +231,11 @@ prefix: /dashboard -> all other routes are ->  dashboard/something
 
 #### Parameters
 
-*   `prefix` **[string][172]** prefix of all other nested routes
+*   `prefix` **[string][173]** prefix of all other nested routes
 *   `component` **SvelteComponent** component to be on a "" route
-*   `callback` **[function][173]** another nested routes belongs here
+*   `callback` **[function][174]** another nested routes belongs here
 
-Returns **[boolean][174]**&#x20;
+Returns **[boolean][175]**&#x20;
 
 ### get
 
@@ -251,9 +252,9 @@ Flattens a nested route structure into an array of routes.
 
 #### Parameters
 
-*   `routes` **[Object][175]** Nested routes object with paths as keys and values as page names or nested routes.
+*   `routes` **[Object][176]** Nested routes object with paths as keys and values as page names or nested routes.
 
-Returns **[Array][171]** Array of flattened routes with properties: `route` (full path) and `page` (associated page/component).
+Returns **[Array][172]** Array of flattened routes with properties: `route` (full path) and `page` (associated page/component).
 
 ### collapseRec
 
@@ -261,10 +262,10 @@ Recursive part of collapse function, it flattens a nested route structure into a
 
 #### Parameters
 
-*   `routes` **[Object][175]** Nested routes object with paths as keys and values as page names or nested routes.
-*   `parent` **[string][172]** Current base path for nested routes. (optional, default `''`)
+*   `routes` **[Object][176]** Nested routes object with paths as keys and values as page names or nested routes.
+*   `parent` **[string][173]** Current base path for nested routes. (optional, default `''`)
 
-Returns **[Array][171]** Array of flattened routes with properties: `route` (full path) and `page` (associated page/component).
+Returns **[Array][172]** Array of flattened routes with properties: `route` (full path) and `page` (associated page/component).
 
 ### resolveProps
 
@@ -272,9 +273,9 @@ Resolves the properties associated with a given site route.
 
 #### Parameters
 
-*   `siteRoute` **[string][172]** The route from the site to be resolved.
+*   `siteRoute` **[string][173]** The route from the site to be resolved.
 
-Returns **[Object][175]** An object containing properties related to the resolved route.
+Returns **[Object][176]** An object containing properties related to the resolved route.
 If the route is not found, an empty object is returned.
 
 ### resolve
@@ -283,7 +284,7 @@ Resolves the given site route to its associated page. If no match is found, retu
 
 #### Parameters
 
-*   `siteRoute` **[string][172]** The route from the site to be resolved.
+*   `siteRoute` **[string][173]** The route from the site to be resolved.
 *   `defaultPage` **svelteHTML** The default page to return if no matching route is found.
 
 Returns **svelteHTML** The page/component associated with the given site route or the default page if not found.
@@ -296,10 +297,10 @@ siteRoute: /dashboard/E8YRO897AS, route dashboard/\*
 
 #### Parameters
 
-*   `siteRoute` **[string][172]** currentRoute of the site
-*   `route` **[string][172]** route to check againsts
+*   `siteRoute` **[string][173]** currentRoute of the site
+*   `route` **[string][173]** route to check againsts
 
-Returns **[boolean][174]**&#x20;
+Returns **[boolean][175]**&#x20;
 
 ## writable
 
@@ -307,125 +308,9 @@ This module provides utilities for routing and navigation within a Svelte applic
 It exports a writable Svelte store (`route`) to keep track of the current route,
 as well as helper functions to navigate programmatically.
 
-## error
-
-### Parameters
-
-*   `error` **[String][172]** type of an error message from errors.js
-
-## error
-
-### Parameters
-
-*   `error` **[String][172]** type of the card from error.js
-
-## text
-
-### Parameters
-
-*   `text` **[string][172]** text of the button
-
-## text
-
-### Parameters
-
-*   `text` **[string][172]** text of the button
-
-## text
-
-Display text for the panel item.
-
-Type: [String][172]
-
-## message
-
-Set of message utility functions
-
-### getMessage
-
-Return a text of a message that was last set
-
-Returns **[string][172]**&#x20;
-
-### setMessage
-
-sets a new message to be displayed
-
-#### Parameters
-
-*   `value`  {string}
-
-### isMessageSet
-
-Checks if any message is present
-
-Returns **[boolean][174]**&#x20;
-
-### getMessageRef
-
-Returns a reference to writable object
-
-Returns **[writable][29]**&#x20;
-
-### resetMessage
-
-Resets message to empty string
-
-## getErrorTypes
-
-Returns an array of error types with corresponding messages
-
-## link
-
-### Parameters
-
-*   `link` **[string][172]** optional, if specified button will redirect before action
-
-## link
-
-### Parameters
-
-*   `link` **[string][172]** optional, if specified button will redirect before action
-
-## link
-
-### Parameters
-
-*   `link` **[string][172]** optional, if specified button will redirect before action
-
-## link
-
-URL for the navigation.
-
-Type: ([String][172] | null)
-
-## label
-
-### Parameters
-
-*   `label` **[string][172]** Label to display above the select dropdown. Optional.
-
-## label
-
-### Parameters
-
-*   `label` **[string][172]** Label to display above the input. Optional.
-
-## getDefaultMode
-
-Returns the default mode called 'default'
-
-## Beehives
-
-This page shows a list of all beekepers beehives
-
 ## Beehive
 
 This page shows one beehive with its corresponding data
-
-## BeehiveAdd
-
-This page allows beekeper to add new beehives to their account with multiple options
 
 ## BeehiveEdit
 
@@ -455,9 +340,133 @@ This page displays notifications from beehives
 
 This page handles general settings of the dashboard
 
+## Button
+
+This is a button component for creating standardised buttons
+
+## error
+
+### Parameters
+
+*   `error` **[String][173]** type of an error message from errors.js
+
+## error
+
+### Parameters
+
+*   `error` **[String][173]** type of the card from error.js
+
+## Beehives
+
+This page shows a list of all beekepers beehives
+
+## BeehiveAdd
+
+This page allows beekeper to add new beehives to their account with multiple options
+
 ## Test
 
 Provides testing ground for new components
+
+### getMessage
+
+Return a text of a message that was last set
+
+Returns **[string][173]**&#x20;
+
+### fetchUser
+
+nacita pouzivatelove data zo servera
+
+### setMessage
+
+sets a new message to be displayed
+
+#### Parameters
+
+*   `value`  {string}
+
+### isMessageSet
+
+Checks if any message is present
+
+Returns **[boolean][175]**&#x20;
+
+### getMessageRef
+
+Returns a reference to writable object
+
+Returns **[writable][29]**&#x20;
+
+### resetMessage
+
+Resets message to empty string
+
+## text
+
+### Parameters
+
+*   `text` **[string][173]** text of the button
+
+## text
+
+### Parameters
+
+*   `text` **[string][173]** text of the button
+
+## text
+
+Display text for the panel item.
+
+Type: [String][173]
+
+## message
+
+Set of message utility functions
+
+## getErrorTypes
+
+Returns an array of error types with corresponding messages
+
+## link
+
+### Parameters
+
+*   `link` **[string][173]** optional, if specified button will redirect before action
+
+## link
+
+### Parameters
+
+*   `link` **[string][173]** optional, if specified button will redirect before action
+
+## link
+
+URL for the navigation.
+
+Type: ([String][173] | null)
+
+## link
+
+### Parameters
+
+*   `link` **[string][173]** optional, if specified button will redirect before action
+
+## label
+
+### Parameters
+
+*   `label` **[string][173]** Label to display above the select dropdown. Optional.
+
+## label
+
+### Parameters
+
+*   `label` **[string][173]** Label to display above the input. Optional.
+
+## getDefaultMode
+
+Returns the default mode called 'default'
 
 ## getCard
 
@@ -476,19 +485,19 @@ Initialized with the current window's location pathname.
 
 ### Parameters
 
-*   `image` **[string][172]** optional, if specified image will be displayed left to the text, image path + name located in folder static
+*   `image` **[string][173]** optional, if specified image will be displayed left to the text, image path + name located in folder static
 
 ## image
 
 ### Parameters
 
-*   `image` **[string][172]** optional, if specified image will be displayed left to the text, image path + name located in folder static
+*   `image` **[string][173]** optional, if specified image will be displayed left to the text, image path + name located in folder static
 
 ## image
 
 ### Parameters
 
-*   `image` **[string][172]** optional, if specified image will be displayed left to the text, image path + name located in folder static
+*   `image` **[string][173]** optional, if specified image will be displayed left to the text, image path + name located in folder static
 
 ## url
 
@@ -497,7 +506,7 @@ The URL or path to which the link should point within the SPA (Single Page Appli
 Note: This is designed for JavaScript-based routing within the application.
 If you wish to navigate outside the SPA or to an external link, consider using a regular `<a>` tag.
 
-Type: [String][172]
+Type: [String][173]
 
 ## timeframeFrom
 
@@ -508,27 +517,23 @@ Only usable on server side
 
 *   `token` **any**&#x20;
 
-## fetchUser
+## value
 
-nacita pouzivatelove data zo servera
+### Parameters
+
+*   `value` **([string][173] | [number][177])** The current value of the select dropdown.
 
 ## value
 
 ### Parameters
 
-*   `value` **([string][172] | [number][176])** The current value of the select dropdown.
-
-## value
-
-### Parameters
-
-*   `value` **([string][172] | [number][176])** Current value of the input.
+*   `value` **([string][173] | [number][177])** Current value of the input.
 
 ## placeholder
 
 ### Parameters
 
-*   `placeholder` **[string][172]** Placeholder text for the input. Optional.
+*   `placeholder` **[string][173]** Placeholder text for the input. Optional.
 
 ## getData
 
@@ -542,19 +547,19 @@ this method will return data for the card
 
 ### Parameters
 
-*   `onClick` **[function][173]** function when the button is clicked
+*   `onClick` **[function][174]** function when the button is clicked
 
 ## onClick
 
 ### Parameters
 
-*   `onClick` **[function][173]** function when the button is clicked
+*   `onClick` **[function][174]** function when the button is clicked
 
 ## onClick
 
 ### Parameters
 
-*   `onClick` **[function][173]** function when the button is clicked
+*   `onClick` **[function][174]** function when the button is clicked
 
 ## getErrorMessageByType
 
@@ -562,66 +567,60 @@ Returns message if error type exists
 
 ### Parameters
 
-*   `type` **[string][172]** type of error message
+*   `type` **[string][173]** type of error message
 
 ## small
 
 ### Parameters
 
-*   `small` **[string][172]** Small text to display above the select dropdown for extra information or description. Optional.
+*   `small` **[string][173]** Small text to display above the select dropdown for extra information or description. Optional.
 
 ## small
 
 ### Parameters
 
-*   `small` **[string][172]** Small text to display above the input for extra information or description. Optional.
+*   `small` **[string][173]** Small text to display above the input for extra information or description. Optional.
 
 ## cardStates
 
 ### Parameters
 
-*   `cardStates` **[Object][175]** the card states of the card
+*   `cardStates` **[Object][176]** the card states of the card
 
 ## svg
 
 Path for the icon of the panel item.
 
-Type: [String][172]
-
-## imagePosition
-
-### Parameters
-
-*   `image` **[string][172]** optional, if specified image will be displayed left or right to the text, left is default
-    Type left, right
+Type: [String][173]
 
 ## reload
 
 Determines if navigation should force a page reload.
 
-Type: [Boolean][174]
+Type: [Boolean][175]
 
 ## name
 
 ### Parameters
 
-*   `name` **[string][172]** Name attribute for the select dropdown. Optional.
+*   `name` **[string][173]** Name attribute for the select dropdown. Optional.
 
 ## name
 
 ### Parameters
 
-*   `name` **[string][172]** Name attribute for the input. Optional.
+*   `name` **[string][173]** Name attribute for the input. Optional.
 
 ## addEventListener
 
 An event listener that updates the `route` store when the browser's back/forward buttons are used.
 
-## clickType
+## imagePosition
 
 ### Parameters
 
-*   `type` **[string][172]** button type when in forms
+*   `image` **[string][173]** optional, if specified image will be displayed left or right to the text, left is default
+    Type left, right
 
 ## baseRoute
 
@@ -629,7 +628,7 @@ Determines if the dynamic prefix should be bypassed.
 When set to true, the dynamic prefix stored in the prefix store is ignored.
 Useful for base or root routes.
 
-Type: [Boolean][174]
+Type: [Boolean][175]
 
 ## fallbackCopyTextToClipboard
 
@@ -645,43 +644,43 @@ Navigates to a given path programmatically.
 
 ### Parameters
 
-*   `path` **[string][172]** The path to navigate to.
-
-## formId
-
-### Parameters
-
-*   `formId` **[string][172]** to determine form
+*   `path` **[string][173]** The path to navigate to.
 
 ## required
 
 ### Parameters
 
-*   `required` **[boolean][174]** If set, the input will be required. Optional.
+*   `required` **[boolean][175]** If set, the input will be required. Optional.
 
 ## updateSettings
 
 ### Parameters
 
-*   `updateSettings` **[function][173]** function to update Settings of the card, only used in a dashboard view
+*   `updateSettings` **[function][174]** function to update Settings of the card, only used in a dashboard view
+
+## clickType
+
+### Parameters
+
+*   `type` **[string][173]** button type when in forms
 
 ## foreignLink
 
 Indicates if the link is external to the SPA.
 
-Type: [Boolean][174]
+Type: [Boolean][175]
 
 ## action
 
 Action that is run before redirect to url address
 
-Type: [function][173]
+Type: [function][174]
 
 ## options
 
 ### Parameters
 
-*   `options` **[Array][171]<[Array][171]<([string][172] | [number][176])>>** An array of options for the select dropdown. Each option is an array where the first element is the value and the second element is the display text.
+*   `options` **[Array][172]<[Array][172]<([string][173] | [number][177])>>** An array of options for the select dropdown. Each option is an array where the first element is the value and the second element is the display text.
 
 ### Examples
 
@@ -695,29 +694,35 @@ options={[
       ]}
 ```
 
+## formId
+
+### Parameters
+
+*   `formId` **[string][173]** to determine form
+
 ## inline
 
 ### Parameters
 
-*   `inline` **[boolean][174]** If set, the label will be on the left and the input on the right. Optional.
+*   `inline` **[boolean][175]** If set, the label will be on the left and the input on the right. Optional.
 
 ## inline
 
 ### Parameters
 
-*   `inline` **[boolean][174]** If set, the label will be on the left and the input on the right. Optional.
+*   `inline` **[boolean][175]** If set, the label will be on the left and the input on the right. Optional.
 
 ## theme
 
 ### Parameters
 
-*   `theme` **[String][172]** default one is 'default' other options are: 'dashed'
+*   `theme` **[String][173]** default one is 'default' other options are: 'dashed'
 
 ## selected
 
 Determines if the current panel item is selected.
 
-Type: [Boolean][174]
+Type: [Boolean][175]
 
 ## navigateWithPrefix
 
@@ -726,25 +731,13 @@ Useful for apps with base path or dynamic segment in the route.
 
 ### Parameters
 
-*   `path` **[string][172]** The path to navigate to after the prefix.
+*   `path` **[string][173]** The path to navigate to after the prefix.
 
 ## component
 
 ### Parameters
 
-*   `component` **[String][172]** name of the card from card config
-
-## collapsed
-
-Indicates if the sidebar or panel is in a collapsed state.
-
-Type: [Boolean][174]
-
-## onCardStatesModified
-
-### Parameters
-
-*   `onCardStatesModified` **[function][173]** used to update states in a dashboard view
+*   `component` **[String][173]** name of the card from card config
 
 ## setRead
 
@@ -753,6 +746,18 @@ Sets notification to state 'read'
 ### Parameters
 
 *   `id`  id of the notification
+
+## collapsed
+
+Indicates if the sidebar or panel is in a collapsed state.
+
+Type: [Boolean][175]
+
+## onCardStatesModified
+
+### Parameters
+
+*   `onCardStatesModified` **[function][174]** used to update states in a dashboard view
 
 ## copyTextToClipboard
 
@@ -767,7 +772,7 @@ only after component mount
 If page has subpages /\*\* will be appended to end of link to stay selected in subpages
 Warning! This option might trigger multiple navbar links to be selected
 
-Type: [Boolean][174]
+Type: [Boolean][175]
 
 ## isValidEmail
 
@@ -775,7 +780,7 @@ lib/utils/helpers/input.validation.ts
 
 ### Parameters
 
-*   `email` **[string][172]** The email to validate
+*   `email` **[string][173]** The email to validate
 
 ## remove
 
@@ -791,8 +796,8 @@ Extracts named parameters from a site route based on the route pattern.
 
 ### Parameters
 
-*   `siteRoute` **[string][172]** The actual route, e.g. "/user/123/profile".
-*   `route` **[string][172]** The route pattern with named parameters, e.g. "/user/{id}/profile".
+*   `siteRoute` **[string][173]** The actual route, e.g. "/user/123/profile".
+*   `route` **[string][173]** The route pattern with named parameters, e.g. "/user/{id}/profile".
 
 ### Examples
 
@@ -801,7 +806,7 @@ const props = getProps("/user/123/profile", "/user/{id}/profile");
   // props would be: { id: "123" }
 ```
 
-Returns **[Object][175]** An object containing the named parameters and their corresponding values.
+Returns **[Object][176]** An object containing the named parameters and their corresponding values.
 
 ## isValidPasswordStrong
 
@@ -809,7 +814,7 @@ lib/utils/helpers/input.validation.ts
 
 ### Parameters
 
-*   `password` **[string][172]** The password to validate
+*   `password` **[string][173]** The password to validate
 
 ## isValidPasswordMedium
 
@@ -817,7 +822,7 @@ lib/utils/helpers/input.validation.ts
 
 ### Parameters
 
-*   `password` **[string][172]** The password to validate
+*   `password` **[string][173]** The password to validate
 
 ## isEmpty
 
@@ -825,7 +830,7 @@ Determines if an object (often a form object) is empty.
 
 ### Parameters
 
-*   `obj` **[Object][175]** Object to check.
+*   `obj` **[Object][176]** Object to check.
 
 ### Examples
 
@@ -837,7 +842,7 @@ const formData = {
 console.log(isEmpty(formData));  // Outputs: false
 ```
 
-Returns **[boolean][174]** True if the object has no properties, false otherwise.
+Returns **[boolean][175]** True if the object has no properties, false otherwise.
 
 ## registerServiceWorker
 
@@ -922,296 +927,298 @@ Gets a cookie by name
 
 [29]: #writable
 
-[30]: #error
+[30]: #beehive
 
-[31]: #parameters-13
+[31]: #beehiveedit
 
-[32]: #error-1
+[32]: #beehivetoken
 
-[33]: #parameters-14
+[33]: #calendar
 
-[34]: #text
+[34]: #help
 
-[35]: #parameters-15
+[35]: #homepage
 
-[36]: #text-1
+[36]: #notification
 
-[37]: #parameters-16
+[37]: #settings
 
-[38]: #text-2
+[38]: #button
 
-[39]: #message
+[39]: #error
 
-[40]: #getmessage
+[40]: #parameters-13
 
-[41]: #setmessage
+[41]: #error-1
 
-[42]: #parameters-17
+[42]: #parameters-14
 
-[43]: #ismessageset
+[43]: #beehives
 
-[44]: #getmessageref
+[44]: #beehiveadd
 
-[45]: #resetmessage
+[45]: #test
 
-[46]: #geterrortypes
+[46]: #getmessage
 
-[47]: #link
+[47]: #fetchuser
 
-[48]: #parameters-18
+[48]: #setmessage
 
-[49]: #link-1
+[49]: #parameters-15
 
-[50]: #parameters-19
+[50]: #ismessageset
 
-[51]: #link-2
+[51]: #getmessageref
 
-[52]: #parameters-20
+[52]: #resetmessage
 
-[53]: #link-3
+[53]: #text
 
-[54]: #label
+[54]: #parameters-16
 
-[55]: #parameters-21
+[55]: #text-1
 
-[56]: #label-1
+[56]: #parameters-17
 
-[57]: #parameters-22
+[57]: #text-2
 
-[58]: #getdefaultmode
+[58]: #message
 
-[59]: #beehives
+[59]: #geterrortypes
 
-[60]: #beehive
+[60]: #link
 
-[61]: #beehiveadd
+[61]: #parameters-18
 
-[62]: #beehiveedit
+[62]: #link-1
 
-[63]: #beehivetoken
+[63]: #parameters-19
 
-[64]: #calendar
+[64]: #link-2
 
-[65]: #help
+[65]: #link-3
 
-[66]: #homepage
+[66]: #parameters-20
 
-[67]: #notification
+[67]: #label
 
-[68]: #settings
+[68]: #parameters-21
 
-[69]: #test
+[69]: #label-1
 
-[70]: #getcard
+[70]: #parameters-22
 
-[71]: #parameters-23
+[71]: #getdefaultmode
 
-[72]: #route
+[72]: #getcard
 
-[73]: #image
+[73]: #parameters-23
 
-[74]: #parameters-24
+[74]: #route
 
-[75]: #image-1
+[75]: #image
 
-[76]: #parameters-25
+[76]: #parameters-24
 
-[77]: #image-2
+[77]: #image-1
 
-[78]: #parameters-26
+[78]: #parameters-25
 
-[79]: #url
+[79]: #image-2
 
-[80]: #timeframefrom
+[80]: #parameters-26
 
-[81]: #parameters-27
+[81]: #url
 
-[82]: #fetchuser
+[82]: #timeframefrom
 
-[83]: #value
+[83]: #parameters-27
 
-[84]: #parameters-28
+[84]: #value
 
-[85]: #value-1
+[85]: #parameters-28
 
-[86]: #parameters-29
+[86]: #value-1
 
-[87]: #placeholder
+[87]: #parameters-29
 
-[88]: #parameters-30
+[88]: #placeholder
 
-[89]: #getdata
+[89]: #parameters-30
 
-[90]: #parameters-31
+[90]: #getdata
 
-[91]: #onclick
+[91]: #parameters-31
 
-[92]: #parameters-32
+[92]: #onclick
 
-[93]: #onclick-1
+[93]: #parameters-32
 
-[94]: #parameters-33
+[94]: #onclick-1
 
-[95]: #onclick-2
+[95]: #parameters-33
 
-[96]: #parameters-34
+[96]: #onclick-2
 
-[97]: #geterrormessagebytype
+[97]: #parameters-34
 
-[98]: #parameters-35
+[98]: #geterrormessagebytype
 
-[99]: #small
+[99]: #parameters-35
 
-[100]: #parameters-36
+[100]: #small
 
-[101]: #small-1
+[101]: #parameters-36
 
-[102]: #parameters-37
+[102]: #small-1
 
-[103]: #cardstates
+[103]: #parameters-37
 
-[104]: #parameters-38
+[104]: #cardstates
 
-[105]: #svg
+[105]: #parameters-38
 
-[106]: #imageposition
+[106]: #svg
 
-[107]: #parameters-39
+[107]: #reload
 
-[108]: #reload
+[108]: #name
 
-[109]: #name
+[109]: #parameters-39
 
-[110]: #parameters-40
+[110]: #name-1
 
-[111]: #name-1
+[111]: #parameters-40
 
-[112]: #parameters-41
+[112]: #addeventlistener
 
-[113]: #addeventlistener
+[113]: #imageposition
 
-[114]: #clicktype
+[114]: #parameters-41
 
-[115]: #parameters-42
+[115]: #baseroute
 
-[116]: #baseroute
+[116]: #fallbackcopytexttoclipboard
 
-[117]: #fallbackcopytexttoclipboard
+[117]: #parameters-42
 
-[118]: #parameters-43
+[118]: #navigate
 
-[119]: #navigate
+[119]: #parameters-43
 
-[120]: #parameters-44
+[120]: #required
 
-[121]: #formid
+[121]: #parameters-44
 
-[122]: #parameters-45
+[122]: #updatesettings
 
-[123]: #required
+[123]: #parameters-45
 
-[124]: #parameters-46
+[124]: #clicktype
 
-[125]: #updatesettings
+[125]: #parameters-46
 
-[126]: #parameters-47
+[126]: #foreignlink
 
-[127]: #foreignlink
+[127]: #action
 
-[128]: #action
+[128]: #options
 
-[129]: #options
+[129]: #parameters-47
 
-[130]: #parameters-48
+[130]: #examples
 
-[131]: #examples
+[131]: #formid
 
-[132]: #inline
+[132]: #parameters-48
 
-[133]: #parameters-49
+[133]: #inline
 
-[134]: #inline-1
+[134]: #parameters-49
 
-[135]: #parameters-50
+[135]: #inline-1
 
-[136]: #theme
+[136]: #parameters-50
 
-[137]: #parameters-51
+[137]: #theme
 
-[138]: #selected
+[138]: #parameters-51
 
-[139]: #navigatewithprefix
+[139]: #selected
 
-[140]: #parameters-52
+[140]: #navigatewithprefix
 
-[141]: #component
+[141]: #parameters-52
 
-[142]: #parameters-53
+[142]: #component
 
-[143]: #collapsed
+[143]: #parameters-53
 
-[144]: #oncardstatesmodified
+[144]: #setread
 
 [145]: #parameters-54
 
-[146]: #setread
+[146]: #collapsed
 
-[147]: #parameters-55
+[147]: #oncardstatesmodified
 
-[148]: #copytexttoclipboard
+[148]: #parameters-55
 
-[149]: #parameters-56
+[149]: #copytexttoclipboard
 
-[150]: #hassubpages
+[150]: #parameters-56
 
-[151]: #isvalidemail
+[151]: #hassubpages
 
-[152]: #parameters-57
+[152]: #isvalidemail
 
-[153]: #remove
+[153]: #parameters-57
 
-[154]: #parameters-58
+[154]: #remove
 
-[155]: #getpropsby
+[155]: #parameters-58
 
-[156]: #parameters-59
+[156]: #getpropsby
 
-[157]: #examples-1
+[157]: #parameters-59
 
-[158]: #isvalidpasswordstrong
+[158]: #examples-1
 
-[159]: #parameters-60
+[159]: #isvalidpasswordstrong
 
-[160]: #isvalidpasswordmedium
+[160]: #parameters-60
 
-[161]: #parameters-61
+[161]: #isvalidpasswordmedium
 
-[162]: #isempty
+[162]: #parameters-61
 
-[163]: #parameters-62
+[163]: #isempty
 
-[164]: #examples-2
+[164]: #parameters-62
 
-[165]: #registerserviceworker
+[165]: #examples-2
 
-[166]: #onload
+[166]: #registerserviceworker
 
-[167]: #parameters-63
+[167]: #onload
 
-[168]: #askpermission
+[168]: #parameters-63
 
-[169]: #getcookie
+[169]: #askpermission
 
-[170]: #parameters-64
+[170]: #getcookie
 
-[171]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[171]: #parameters-64
 
-[172]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[172]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-[173]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[173]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[174]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[174]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 
-[175]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[175]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[176]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[176]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[177]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
