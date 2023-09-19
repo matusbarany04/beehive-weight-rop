@@ -1,4 +1,9 @@
 <script>
+  /**
+   * @file BeehiveToken
+   * This page provides one of the options to add new beehive with token
+   */
+
   import Button from "../../../../components/Buttons/Button.svelte";
   import Loading from "../../../../components/pages/Loading.svelte";
   import { navigate } from "../../../../components/router/route.serv";

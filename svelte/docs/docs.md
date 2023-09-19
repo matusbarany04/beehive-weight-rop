@@ -54,9 +54,16 @@
 - [getErrorTypes][50]
 - [getErrorMessageByType][51]
   - [Parameters][52]
-- [fetchUser][53]
-- [onLoad][54]
-  - [Parameters][55]
+- [message][53]
+  - [getMessage][54]
+  - [setMessage][55]
+    - [Parameters][56]
+  - [isMessageSet][57]
+  - [getMessageRef][58]
+  - [resetMessage][59]
+- [fetchUser][60]
+- [onLoad][61]
+  - [Parameters][62]
 
 ## fallbackCopyTextToClipboard
 
@@ -80,7 +87,7 @@ lib/utils/helpers/input.validation.ts
 
 ### Parameters
 
-- `email` **[string][56]** The email to validate
+- `email` **[string][63]** The email to validate
 
 ## isValidPasswordStrong
 
@@ -88,7 +95,7 @@ lib/utils/helpers/input.validation.ts
 
 ### Parameters
 
-- `password` **[string][56]** The password to validate
+- `password` **[string][63]** The password to validate
 
 ## isValidPasswordMedium
 
@@ -96,7 +103,7 @@ lib/utils/helpers/input.validation.ts
 
 ### Parameters
 
-- `password` **[string][56]** The password to validate
+- `password` **[string][63]** The password to validate
 
 ## isEmpty
 
@@ -104,7 +111,7 @@ Determines if an object (often a form object) is empty.
 
 ### Parameters
 
-- `obj` **[Object][57]** Object to check.
+- `obj` **[Object][64]** Object to check.
 
 ### Examples
 
@@ -116,7 +123,7 @@ const formData = {
 console.log(isEmpty(formData)); // Outputs: false
 ```
 
-Returns **[boolean][58]** True if the object has no properties, false otherwise.
+Returns **[boolean][65]** True if the object has no properties, false otherwise.
 
 ## writable
 
@@ -139,7 +146,7 @@ Navigates to a given path programmatically.
 
 ### Parameters
 
-- `path` **[string][56]** The path to navigate to.
+- `path` **[string][63]** The path to navigate to.
 
 ## navigateWithPrefix
 
@@ -148,7 +155,7 @@ Useful for apps with base path or dynamic segment in the route.
 
 ### Parameters
 
-- `path` **[string][56]** The path to navigate to after the prefix.
+- `path` **[string][63]** The path to navigate to after the prefix.
 
 ## RouterObj
 
@@ -161,10 +168,10 @@ prefix: /dashboard -> all other routes are -> dashboard/something
 
 #### Parameters
 
-- `prefix` **[string][56]** prefix of all other nested routes
-- `callback` **[function][59]** another nested routes belongs here
+- `prefix` **[string][63]** prefix of all other nested routes
+- `callback` **[function][66]** another nested routes belongs here
 
-Returns **[boolean][58]**&#x20;
+Returns **[boolean][65]**&#x20;
 
 ### groupGet
 
@@ -173,11 +180,11 @@ prefix: /dashboard -> all other routes are -> dashboard/something
 
 #### Parameters
 
-- `prefix` **[string][56]** prefix of all other nested routes
+- `prefix` **[string][63]** prefix of all other nested routes
 - `component` **SvelteComponent** component to be on a "" route
-- `callback` **[function][59]** another nested routes belongs here
+- `callback` **[function][66]** another nested routes belongs here
 
-Returns **[boolean][58]**&#x20;
+Returns **[boolean][65]**&#x20;
 
 ### get
 
@@ -194,9 +201,9 @@ Flattens a nested route structure into an array of routes.
 
 #### Parameters
 
-- `routes` **[Object][57]** Nested routes object with paths as keys and values as page names or nested routes.
+- `routes` **[Object][64]** Nested routes object with paths as keys and values as page names or nested routes.
 
-Returns **[Array][60]** Array of flattened routes with properties: `route` (full path) and `page` (associated page/component).
+Returns **[Array][67]** Array of flattened routes with properties: `route` (full path) and `page` (associated page/component).
 
 ### collapseRec
 
@@ -204,10 +211,10 @@ Recursive part of collapse function, it flattens a nested route structure into a
 
 #### Parameters
 
-- `routes` **[Object][57]** Nested routes object with paths as keys and values as page names or nested routes.
-- `parent` **[string][56]** Current base path for nested routes. (optional, default `''`)
+- `routes` **[Object][64]** Nested routes object with paths as keys and values as page names or nested routes.
+- `parent` **[string][63]** Current base path for nested routes. (optional, default `''`)
 
-Returns **[Array][60]** Array of flattened routes with properties: `route` (full path) and `page` (associated page/component).
+Returns **[Array][67]** Array of flattened routes with properties: `route` (full path) and `page` (associated page/component).
 
 ### resolveProps
 
@@ -215,9 +222,9 @@ Resolves the properties associated with a given site route.
 
 #### Parameters
 
-- `siteRoute` **[string][56]** The route from the site to be resolved.
+- `siteRoute` **[string][63]** The route from the site to be resolved.
 
-Returns **[Object][57]** An object containing properties related to the resolved route.
+Returns **[Object][64]** An object containing properties related to the resolved route.
 If the route is not found, an empty object is returned.
 
 ### resolve
@@ -226,7 +233,7 @@ Resolves the given site route to its associated page. If no match is found, retu
 
 #### Parameters
 
-- `siteRoute` **[string][56]** The route from the site to be resolved.
+- `siteRoute` **[string][63]** The route from the site to be resolved.
 - `defaultPage` **svelteHTML** The default page to return if no matching route is found.
 
 Returns **svelteHTML** The page/component associated with the given site route or the default page if not found.
@@ -239,10 +246,10 @@ siteRoute: /dashboard/E8YRO897AS, route dashboard/\*
 
 #### Parameters
 
-- `siteRoute` **[string][56]** currentRoute of the site
-- `route` **[string][56]** route to check againsts
+- `siteRoute` **[string][63]** currentRoute of the site
+- `route` **[string][63]** route to check againsts
 
-Returns **[boolean][58]**&#x20;
+Returns **[boolean][65]**&#x20;
 
 ## getPropsBy
 
@@ -250,8 +257,8 @@ Extracts named parameters from a site route based on the route pattern.
 
 ### Parameters
 
-- `siteRoute` **[string][56]** The actual route, e.g. "/user/123/profile".
-- `route` **[string][56]** The route pattern with named parameters, e.g. "/user/{id}/profile".
+- `siteRoute` **[string][63]** The actual route, e.g. "/user/123/profile".
+- `route` **[string][63]** The route pattern with named parameters, e.g. "/user/{id}/profile".
 
 ### Examples
 
@@ -260,7 +267,7 @@ const props = getProps("/user/123/profile", "/user/{id}/profile");
 // props would be: { id: "123" }
 ```
 
-Returns **[Object][57]** An object containing the named parameters and their corresponding values.
+Returns **[Object][64]** An object containing the named parameters and their corresponding values.
 
 ## getCard
 
@@ -282,7 +289,7 @@ this method will return data for the card
 
 ### Parameters
 
-- `modes` **[array][60]** Modes that card can be in
+- `modes` **[array][67]** Modes that card can be in
 
 ## getDefaultMode
 
@@ -307,7 +314,41 @@ Returns message if error type exists
 
 ### Parameters
 
-- `type` **[string][56]** type of error message
+- `type` **[string][63]** type of error message
+
+## message
+
+Set of message utility functions
+
+### getMessage
+
+Return a text of a message that was last set
+
+Returns **[string][63]**&#x20;
+
+### setMessage
+
+sets a new message to be displayed
+
+#### Parameters
+
+- `value` {string}
+
+### isMessageSet
+
+Checks if any message is present
+
+Returns **[boolean][65]**&#x20;
+
+### getMessageRef
+
+Returns a reference to writable object
+
+Returns **[writable][14]**&#x20;
+
+### resetMessage
+
+Resets message to empty string
 
 ## fetchUser
 
@@ -374,11 +415,18 @@ callback po nacitani vybratych dat
 [50]: #geterrortypes
 [51]: #geterrormessagebytype
 [52]: #parameters-21
-[53]: #fetchuser
-[54]: #onload
-[55]: #parameters-22
-[56]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
-[57]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
-[58]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
-[59]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
-[60]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[53]: #message
+[54]: #getmessage
+[55]: #setmessage
+[56]: #parameters-22
+[57]: #ismessageset
+[58]: #getmessageref
+[59]: #resetmessage
+[60]: #fetchuser
+[61]: #onload
+[62]: #parameters-23
+[63]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[64]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[65]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[66]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[67]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array

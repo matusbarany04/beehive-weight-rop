@@ -1,4 +1,8 @@
 <script>
+  /**
+   * @component Notification
+   * This page displays notifications from beehives
+   */
   import { onMount } from "svelte";
   import Button from "../../../components/Buttons/Button.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
@@ -38,6 +42,10 @@
       );
     });
 
+  /**
+   * Sets notification to state 'read'
+   * @param id id of the notification
+   */
   const setRead = (id) => {
     messages.forEach((element) => {
       if (element.id === id) {
@@ -56,14 +64,16 @@
           .then((response) => response.json())
           .then((data) => console.log(data))
           .catch((error) => console.error("Error:", error));
-
-        // .then((res) => res.json())
       }
     });
     //TODO post marked as read
     messages = [...messages];
   };
 
+  /**
+   * Deletes notification from database and removes it from page
+   * @param id id of the notification
+   */
   const remove = (id) => {
     const index = messages
       .map(function (e) {
@@ -72,6 +82,7 @@
       .indexOf(id);
 
     if (index > -1) {
+      //TODO rewrite remove
       // POST(
       //   "",
       //   JSON.stringify({
@@ -85,6 +96,7 @@
     }
     messages = [...messages];
   };
+
   /*
   let socket = new SockJS('/ws')
   let privateStompClient = Stomp.over(socket)
@@ -112,6 +124,9 @@
       JSON.stringify({text:"hello", to:"test"}));
   }*/
 
+  /**
+   * Registers a service worker that tries to send continuous notifications even when page is closed
+   */
   function registerServiceWorker() {
     console.log("register...");
     if ("serviceWorker" in navigator) {
@@ -127,6 +142,9 @@
     } else console.log("Your browser does not support service workers.");
   }
 
+  /**
+   * Asks for permission to send notifications trough browser
+   */
   function askPermission() {
     return new Promise(function (resolve, reject) {
       const permissionResult = Notification.requestPermission(
@@ -148,6 +166,11 @@
     });
   }
 
+  /**
+   * @deprecated
+   * Gets a cookie by name
+   * @param name
+   */
   function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -197,6 +220,7 @@
             return;
           }
 
+          //TODO create method
           // Keep your server in sync with the latest subscriptionId
           sendSubscriptionToServer(subscription);
 
@@ -236,7 +260,7 @@
   <Button
     text="Označiť všetky ako prečítané"
     onClick={() => {
-      // mato spravi request pre viac precitanych
+      // TODO mato spravi request pre viac precitanych
       messages.forEach((element) => {
         setRead(element.id);
       });

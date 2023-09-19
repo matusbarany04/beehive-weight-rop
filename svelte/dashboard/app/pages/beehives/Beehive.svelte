@@ -1,17 +1,17 @@
 <script>
-  // import { message } from "$lib/utils/dashboard";
-  import { onMount } from "svelte";
+  /**
+   * @file Beehive
+   * This page shows one beehive with its corresponding data
+   */
   import PercentageCard from "../../component/cards/PercentageCard.svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
   import MapCard from "../../component/cards/MapCard.svelte";
   import ApexChart from "../../component/cards/ApexChart.svelte";
-  import { dataHandler } from "../../component/cards/dataHandler";
   import Modal from "../../../../components/Modal.svelte";
   import Input from "../../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
   import shared, { onLoad } from "../../stores/shared";
-  import { DataHandler } from "@vincjo/datatables";
   import RouterLink from "../../../../components/RouterLink.svelte";
 
   export let props;
@@ -51,8 +51,8 @@
     </h1>
     <div class="mt-4 md:mt-0">
       <RouterLink url="/edit" append>
-        <Button text="Upraviť"/>
-      </RouterLink> 
+        <Button text="Upraviť" />
+      </RouterLink>
     </div>
   </div>
   {#if beeData}

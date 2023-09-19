@@ -1,12 +1,16 @@
 <script>
+  /**
+   * @component Settings
+   * This page handles general settings of the dashboard
+   */
   import { onMount } from "svelte";
   import SettingsHeader from "../component/settings/SettingsHeader.svelte";
   import SettingsItem from "../component/settings/SettingsItem.svelte";
   import Toggle from "../component/settings/Toggle.svelte";
+  import message from "../stores/message";
 
   onMount(() => {
-    // console.log("Settings! here")
-    // message.set("Upozornenia");
+    message.set("Nastavenia");
   });
 </script>
 

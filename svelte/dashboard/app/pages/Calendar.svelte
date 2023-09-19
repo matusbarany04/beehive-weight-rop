@@ -1,4 +1,8 @@
 <script>
+  /**
+   * @file Calendar
+   * This page displays a calendar that hold important events for beekeepers
+   */
   import DayItem from "../../../components/calendar/DayItem.svelte";
   import Button from "../../../components/Buttons/Button.svelte";
   import Modal from "../../../components/Modal.svelte";

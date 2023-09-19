@@ -48,9 +48,9 @@
   }
 </script>
 
-<div class={inline ? 'flex items-center gap-2' : ''}>
+<div class={inline ? "flex items-center gap-2" : ""}>
   {#if label}
-    <label for={name} class={inline ? 'w-1/3' : ''}>{label}</label> <br />
+    <label for={name} class={inline ? "w-1/3" : ""}>{label}</label> <br />
   {/if}
   {#if small}
     <small>{small}</small><br />

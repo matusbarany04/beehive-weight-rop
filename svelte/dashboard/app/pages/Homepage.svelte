@@ -1,4 +1,8 @@
 <script>
+  /**
+   * @component HomePage
+   * This page shows graphs and charts related to beehives and their data
+   */
   import { onMount, setContext, tick } from "svelte";
 
   import Button from "../../../components/Buttons/Button.svelte";

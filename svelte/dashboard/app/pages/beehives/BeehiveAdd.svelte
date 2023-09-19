@@ -1,7 +1,8 @@
 <script>
-  // $: ({ user, sessionid } = $page.data);
-
-  // import { message } from "$lib/utils/dashboard";
+  /**
+   * @file BeehiveAdd
+   * This page allows beekeper to add new beehives to their account with multiple options
+   */
   import { onMount } from "svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
   import Option from "../../component/beehives/Option.svelte";
