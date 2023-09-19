@@ -1,6 +1,6 @@
 # Beehive Weight
 
-An application/tool designed to monitor the weight of beehives.
+BuzzysBees is a technology composed of a web interface and a multifunctional monitoring device used for recording data from bee hives. The device measures basic parameters (such as weight, temperature, air humidity...), responds to them, and automatically forwards the acquired data to a server. Beekeepers can view this data on a website, as well as adjust the settings of individual devices.
 
 ## Table of Contents
 1. [Features](#features)
@@ -48,5 +48,8 @@ cd svelte/
 npm run docs:prepare
 
 # After that you can build .md file
+npm run docs:build:md
+
+#or build whole documentation page
 npm run docs:build
 ```
