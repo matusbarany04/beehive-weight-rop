@@ -17,11 +17,10 @@
   export let props;
 
   let user = shared.getUser();
-
   let showSettings = false;
-
   let beeData;
   let beehive;
+
   onLoad("beehives", (beehives) => {
     beehive = shared.getBeehiveById(props.id);
   });
@@ -285,6 +284,6 @@
       }}
       clickType="submit"
       text="Uložiť a zatvoriť okno"
-    ></Button>
+    />
   </button>
 </Modal>

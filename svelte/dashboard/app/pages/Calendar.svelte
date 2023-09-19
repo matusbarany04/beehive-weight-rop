@@ -8,6 +8,7 @@
   import Modal from "../../../components/Modal.svelte";
   import Input from "../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../components/Inputs/DropdownInput.svelte";
+  import message from "../stores/message";
 
   let daysOfMonth = [];
   let now = new Date();
@@ -15,6 +16,8 @@
   let markedItem = now;
   let newReminder = false;
   let reminders = [];
+
+  message.setMessage("Kalendár");
 
   updateCalendar();
 

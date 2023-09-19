@@ -5,12 +5,17 @@
    */
   import HelpDropdown from "../component/help/HelpDropdown.svelte";
   import SettingsHeader from "../component/settings/SettingsHeader.svelte";
+
+  import message from "../stores/message";
+
+  message.setMessage("Pomoc");
 </script>
 
 <SettingsHeader
   title="Často kladené otázky"
   description="Nemôžete nájsť odpoveď, ktorú hľadáte? Obráťte sa na náš zákaznícky servis."
-></SettingsHeader>
+/>
+
 <div class="divide-neutral-200 mx-auto mt-8 w-full">
   <HelpDropdown
     question="Čo je BuzzyBees?"

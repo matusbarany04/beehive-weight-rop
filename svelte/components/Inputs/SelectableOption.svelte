@@ -1,6 +1,18 @@
 <script>
+
+  /**
+   * @param {string} name - Title of the option.
+   */
   export let name;
+
+  /**
+   * @param {string} value - Value which will be given to a form.
+   */
   export let value;
+
+  /**
+   * @param {string} selection - Group variable to store the current value.
+   */
   export let selection;
 </script>
 
