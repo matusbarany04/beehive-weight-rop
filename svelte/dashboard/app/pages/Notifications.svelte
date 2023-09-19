@@ -3,9 +3,7 @@
   import Button from "../../../components/Buttons/Button.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
   import { fade, fly } from "svelte/transition";
-  import { dataHandler } from "../component/cards/dataHandler";
-  import SockJS from "../../../components/lib/stock-min";
-  import { Stomp } from "../../../components/lib/stomp-min";
+  import message from "../stores/message";
   /*
   var stompClient = null;
 
@@ -19,6 +17,8 @@
   });*/
 
   let messages = [];
+
+  message.setMessage("Upozornenia");
 
   fetch("/dashboardApi/getNotifications")
     .then((response) => {

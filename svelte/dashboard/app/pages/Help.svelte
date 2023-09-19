@@ -2,8 +2,9 @@
   import { chart } from "svelte-apexcharts";
   import HelpDropdown from "../component/help/HelpDropdown.svelte";
   import SettingsHeader from "../component/settings/SettingsHeader.svelte";
-  import Button from "../../../components/Buttons/Button.svelte";
-  import toast from "../../../components/Toast/toast";
+  import message from "../stores/message";
+
+  message.setMessage("Pomoc");
 </script>
 
 <!--  <div class="flex flex-col items-center">-->
@@ -15,7 +16,8 @@
 <SettingsHeader
   title="Často kladené otázky"
   description="Nemôžete nájsť odpoveď, ktorú hľadáte? Obráťte sa na náš zákaznícky servis."
-></SettingsHeader>
+/>
+
 <div class="divide-neutral-200 mx-auto mt-8 w-full">
   <HelpDropdown
     question="Čo je BuzzyBees?"

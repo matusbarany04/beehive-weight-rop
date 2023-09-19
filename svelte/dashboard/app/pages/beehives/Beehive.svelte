@@ -5,23 +5,20 @@
   import Button from "../../../../components/Buttons/Button.svelte";
   import MapCard from "../../component/cards/MapCard.svelte";
   import ApexChart from "../../component/cards/ApexChart.svelte";
-  import { dataHandler } from "../../component/cards/dataHandler";
   import Modal from "../../../../components/Modal.svelte";
   import Input from "../../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
   import shared, { onLoad } from "../../stores/shared";
-  import { DataHandler } from "@vincjo/datatables";
   import RouterLink from "../../../../components/RouterLink.svelte";
 
   export let props;
 
   let user = shared.getUser();
-
   let showSettings = false;
-
   let beeData;
   let beehive;
+
   onLoad("beehives", (beehives) => {
     beehive = shared.getBeehiveById(props.id);
   });
@@ -51,8 +48,8 @@
     </h1>
     <div class="mt-4 md:mt-0">
       <RouterLink url="/edit" append>
-        <Button text="Upraviť"/>
-      </RouterLink> 
+        <Button text="Upraviť" />
+      </RouterLink>
     </div>
   </div>
   {#if beeData}
@@ -285,6 +282,6 @@
       }}
       clickType="submit"
       text="Uložiť a zatvoriť okno"
-    ></Button>
+    />
   </button>
 </Modal>

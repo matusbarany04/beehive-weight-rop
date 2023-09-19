@@ -18,17 +18,29 @@ public class BeeController {
     StatusRepository statusRepo;
 
     @GetMapping("/clk_sync")
-    public long clkSync() {
+    public long clk() {
         Date date = new Date();
         return date.getTime();
     }
 
+    /**
+     * Checks timestamp and insert new data to the database.
+     * @param data - JSON string data
+     *
+     * @return status whether data is correct and successfully saved.
+     */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateStatus(@RequestBody String data) {
-        System.out.println(data);
+        JSONObject response = new JSONObject();
         Status status = new Status(new JSONObject(data));
-        statusRepo.save(status);
-        return "DATA HAS BEEN SAVED";
+
+        if(status.getTimestamp() > clk()) {
+            statusRepo.save(status);
+            response.put("status", "ok");
+
+        } else response.put("status", "ERR_WRONG_TIMESTAMP");
+
+        return response.toString();
     }
 
     @GetMapping("/testStatuses")
@@ -39,6 +51,12 @@ public class BeeController {
         return Arrays.toString(lastStatuses);
     }
 
+    /**
+     * Pairs beehive with user and insert new beehive to the database.
+     * @param data - JSON string data - beehive
+     *
+     * @return status whether beehive is successfully paired.
+     */
     @PostMapping("/requestPair")
     public String requestConnect(@RequestBody String data) {
         JSONObject json = new JSONObject(data);

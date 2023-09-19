@@ -38,7 +38,8 @@
   {#if image}
     <div
       class="image mr-1.5"
-      style="mask-image: url(/{image}); -webkit-mask-image: url(/{image}); "></div>
+      style="mask-image: url(/{image}); -webkit-mask-image: url(/{image}); "
+    ></div>
   {/if}
 
   <p class="text no_wrap text-ellipsis whitespace-nowrap text-sm">
