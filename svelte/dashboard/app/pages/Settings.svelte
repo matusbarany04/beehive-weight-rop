@@ -10,7 +10,6 @@
   import message from "../stores/message";
 
   message.setMessage("Nastavenia");
-  
 </script>
 
 <svelte:head>

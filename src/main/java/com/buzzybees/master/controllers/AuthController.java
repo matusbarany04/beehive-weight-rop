@@ -5,6 +5,8 @@ import com.buzzybees.master.tables.User;
 import com.buzzybees.master.users.Mailer;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.users.UserService;
+import com.buzzybees.master.users.settings.Settings;
+import com.buzzybees.master.users.settings.SettingsRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
@@ -16,12 +18,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class AuthController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    SettingsRepository settingsRepository;
 
     public static final String SSID = "sessionid";
 
@@ -49,7 +55,7 @@ public class AuthController {
 
                 if (user != null) {
                     String token = UserService.loginUser(user);
-                    if(token == null) return "redirect:/login";
+                    if (token == null) return "redirect:/login";
                     response.addCookie(new Cookie(SSID, token));
                     return "redirect:/dashboard";
                 }
@@ -82,8 +88,12 @@ public class AuthController {
             response.put("status", "exists");
             return response.toString();
         }
+        //saving newly created user
+        User savedUser = userRepository.save(user);
 
-        userRepository.save(user);
+        // creating fresh settings
+        Settings.createSettingsIfNonExistent(savedUser.getId(), userRepository, settingsRepository);
+
         long id = userRepository.getUserByEmail(user.getEmail()).id;
         Mailer.sendVerification(user.getEmail(), id);
 

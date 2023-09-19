@@ -1,10 +1,12 @@
 package com.buzzybees.master.tables;
 
 import com.buzzybees.master.security.PasswordUtils;
+import com.buzzybees.master.users.UserRepository;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -30,12 +32,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
-
     @Column(name = "dashboard_data", columnDefinition = "json", nullable = false)
     private String dashboardData = "[]";
 
-    @Column(name = "settings", columnDefinition = "json", nullable = false)
-    private String settings = "[]";
 
     public void setDashboardData(String dashboardData) {
         this.dashboardData = dashboardData;
@@ -77,14 +76,6 @@ public class User {
         this.password = hashPasswd(password);
     }
 
-    public void updateSettings(String settings) {
-        this.settings = settings;
-    }
-
-    public String getSettings() {
-        return settings;
-    }
-
     private String hashPasswd(String password) throws NoSuchAlgorithmException {
         return PasswordUtils.hashPasswd(password);
     }
@@ -104,5 +95,9 @@ public class User {
         jsonObject.put("verified", verified);
         jsonObject.put("dashboardData", dashboardData);
         return jsonObject;
+    }
+
+    public static boolean userExists(long id, UserRepository userRepository){
+        return Objects.isNull(userRepository.getUserById(id));
     }
 }
