@@ -1,17 +1,15 @@
 <script>
-  import { chart } from "svelte-apexcharts";
+  /**
+   * @fileoverview This page is for resolving user related problem and providing explanations
+   * @module Help
+   */
   import HelpDropdown from "../component/help/HelpDropdown.svelte";
   import SettingsHeader from "../component/settings/SettingsHeader.svelte";
+
   import message from "../stores/message";
 
   message.setMessage("Pomoc");
 </script>
-
-<!--  <div class="flex flex-col items-center">-->
-<!--    <h2 class="mt-5 text-5xl font-bold tracking-tight">FAQ</h2>-->
-
-<!--    <p class="text-neutral-500 mt-3 text-xl">Frequenty asked questions</p>-->
-<!--  </div>-->
 
 <SettingsHeader
   title="Často kladené otázky"

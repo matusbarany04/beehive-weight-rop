@@ -43,7 +43,7 @@ function traverse(sourcePath, destPath, indent = "") {
         // Remove everything after </script> including the </script> tag
         fileContents = fileContents.replace(/<\/script>[\s\S]*$/, "");
 
-        if (originalLength < fileContents.length) {
+        if (originalLength > fileContents.length) {
           fs.writeFileSync(fullDestPath + ".js", fileContents, "utf8");
         } else {
           // there is nothing to document

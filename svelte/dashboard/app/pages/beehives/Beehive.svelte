@@ -1,6 +1,8 @@
 <script>
-  // import { message } from "$lib/utils/dashboard";
-  import { onMount } from "svelte";
+  /**
+   * @fileoverview This page shows one beehive with its corresponding data
+   * @module Beehive
+   */
   import PercentageCard from "../../component/cards/PercentageCard.svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
   import MapCard from "../../component/cards/MapCard.svelte";

@@ -1,4 +1,9 @@
 <script>
+  /**
+   * @fileoverview Provides testing ground for new components
+   * @module Test
+   */
+
   import Button from "../../../components/Buttons/Button.svelte";
   import ButtonSmall from "../../../components/Buttons/ButtonSmall.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";

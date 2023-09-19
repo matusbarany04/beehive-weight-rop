@@ -1,4 +1,9 @@
 <script>
+
+  /**
+   * @fileoverview This page shows edit options for a particular beehive
+   * @module BeehiveEdit
+   */
   import SettingsItem from "../../component/settings/SettingsItem.svelte";
   import Input from "../../../../components/Inputs/Input.svelte";
   import shared, { onLoad } from "../../stores/shared";
@@ -6,6 +11,7 @@
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import SelectableOption from "../../../../components/Inputs/SelectableOption.svelte";
   import message from "../../stores/message";
+
   //import props from "./Beehive.svelte";
 
   let beehive;
@@ -14,6 +20,7 @@
   let connectionMode = "0";
 
   export let props;
+
 
   let intervals = [
     [10, "10min"],
@@ -30,6 +37,7 @@
   });
 
   message.setMessage("Nastavenia zariadenia");
+
 </script>
 
 {#if beehive}
