@@ -1,8 +1,12 @@
 <script>
   /**
-   * @file BeehiveAdd
+   *
    * This page allows beekeper to add new beehives to their account with multiple options
+   *
+   * @class BeehiveAdd
+   * @constructor
    */
+  
   import { onMount } from "svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
   import Option from "../../component/beehives/Option.svelte";

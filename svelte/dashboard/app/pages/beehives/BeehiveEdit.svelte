@@ -1,9 +1,12 @@
 <script>
   /**
-   * @file BeehiveEdit
+   *
    * This page shows edit options for a particular beehive
+   *
+   * @class BeehiveEdit
+   * @constructor
    */
-
+  
   import SettingsItem from "../../component/settings/SettingsItem.svelte";
   import Input from "../../../../components/Inputs/Input.svelte";
   import shared, { onLoad } from "../../stores/shared";

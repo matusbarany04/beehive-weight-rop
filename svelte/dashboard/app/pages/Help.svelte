@@ -1,9 +1,12 @@
 <script>
   /**
-   * @file Help
+   *
    * This page is for resolving user related problem and providing explanations
+   *
+   * @class Help
+   * @constructor
    */
-
+  
   import HelpDropdown from "../component/help/HelpDropdown.svelte";
   import SettingsHeader from "../component/settings/SettingsHeader.svelte";
 </script>

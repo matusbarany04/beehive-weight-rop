@@ -1,8 +1,12 @@
 <script>
   /**
-   * @file Beehives
+   *
    * This page shows a list of all beekepers beehives
+   *
+   * @class Beehives
+   * @constructor
    */
+  
   import Button from "../../../components/Buttons/Button.svelte";
 
   import { DataHandler, Th, RowCount, Pagination } from "@vincjo/datatables";

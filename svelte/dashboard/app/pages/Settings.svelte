@@ -1,8 +1,12 @@
 <script>
   /**
-   * @component Settings
+   *
    * This page handles general settings of the dashboard
+   *
+   * @class Settings
+   * @constructor
    */
+  
   import { onMount } from "svelte";
   import SettingsHeader from "../component/settings/SettingsHeader.svelte";
   import SettingsItem from "../component/settings/SettingsItem.svelte";

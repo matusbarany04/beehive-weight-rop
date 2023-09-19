@@ -1,0 +1,25 @@
+{
+  "source": {
+    "include": [
+      "./docs/temp/"
+    ],
+    "includePattern": ".+\\.js(doc|x)?$"
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "tags": {
+    "allowUnknownTags": ["component"] 
+  },
+  "opts": {
+    "template": "node_modules/better-docs",
+    "encoding": "utf8",
+    "destination": "./docs/out",
+    "recurse": true,
+    "verbose": true
+  }
+}
