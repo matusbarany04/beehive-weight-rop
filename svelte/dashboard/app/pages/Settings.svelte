@@ -10,10 +10,7 @@
   import message from "../stores/message";
 
   message.setMessage("Nastavenia");
-
-  onMount(() => {
-    message.set("Nastavenia");
-  });
+  
 </script>
 
 <svelte:head>
