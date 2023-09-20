@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +67,6 @@ public class SettingsController extends CookieAuthController {
     private UserRepository userRepository;
 
 
-    @ModelAttribute
     public void validateUser() {
         if (currentUserId == 0) {
             throw new SessionNotSetException("Session id not set");
@@ -75,6 +76,11 @@ public class SettingsController extends CookieAuthController {
         }
     }
 
+    @ModelAttribute
+    public void combinedMethod(HttpServletRequest request) {
+        super.getCookies(request);
+        validateUser();
+    }
 
     private boolean isValidUser(Long userId) {
         return userRepository.findById(userId).isPresent();
@@ -91,7 +97,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param settingsJson Contains all Setting variables
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/highHumidity" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/highHumidity" \
      * -H "Content-Type: application/json" \
      * -d '{"dont_disturb_from": 1500}'
      */
@@ -132,11 +138,11 @@ public class SettingsController extends CookieAuthController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getSettingsByUserId(@PathVariable Long userId) {
-        Settings settings = Settings.getSettingsByUser(userId, settingsRepository);
+    @GetMapping(value = "getData", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getSettingsByUserId() {
+        Settings settings = Settings.getSettingsByUser(currentUserId, settingsRepository);
 
-        Settings.createSettingsIfNonExistent(userId, userRepository, settingsRepository);
+        Settings.createSettingsIfNonExistent(currentUserId, userRepository, settingsRepository);
 
         if (settings != null) {
             System.out.println("settings " + settings.toString());
@@ -152,7 +158,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the threshold value with key "highHumidity". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/highHumidity" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/highHumidity" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
@@ -173,7 +179,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the light weight value with key "lightWeight". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/lightWeight" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/lightWeight" \
      * -H "Content-Type: application/json" \
      * -d '{"lightWeight": 1}'
      */
@@ -194,7 +200,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the heavy weight value with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/heavyWeight" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/heavyWeight" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
@@ -212,7 +218,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the heavy weight threshold with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/heavyWeightTreshold" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/heavyWeightTreshold" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
@@ -231,7 +237,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the high humidity threshold with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/highHumidityThreshold" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/highHumidityThreshold" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
@@ -249,7 +255,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the threshold value with key "lowHumidity". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/highHumidity" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/highHumidity" \
      * -H "Content-Type: application/json" \
      * -d '{"highHumidity": 1}'
      */
@@ -267,7 +273,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the "Do Not Disturb From" time with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/dontDisturbFrom" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/dontDisturbFrom" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
@@ -285,7 +291,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the "Do Not Disturb To" time with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/dontDisturbTo" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/dontDisturbTo" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
@@ -303,7 +309,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the "Do Not Disturb" setting with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/dontDisturb" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/dontDisturb" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
@@ -321,7 +327,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the alternate email with key "value". Defaults to the user's primary email if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/altMail" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/altMail" \
      * -H "Content-Type: application/json" \
      * -d '{"value": "alternate@example.com"}'
      */
@@ -339,7 +345,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the "Send Notifications" setting with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/sendNotifications" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/sendNotifications" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
@@ -357,7 +363,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the setting with key "value". Defaults to 1 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/useUserLoginMail" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/useUserLoginMail" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
@@ -375,7 +381,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the low battery setting with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/lowBattery" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/lowBattery" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
@@ -393,7 +399,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the battery low threshold with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/batteryLowThreshold" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/batteryLowThreshold" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 20}'
      */
@@ -411,7 +417,7 @@ public class SettingsController extends CookieAuthController {
      *
      * @param body Contains the low humidity threshold with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
-     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/lowHumidityThreshold" \
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/lowHumidityThreshold" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 30}'
      */
