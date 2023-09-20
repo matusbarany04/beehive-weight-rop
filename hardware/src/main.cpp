@@ -27,13 +27,17 @@ void setup()
   Serial.println(HX711_LIB_VERSION);
   Serial.println();
 
+  pinMode(0, INPUT);
+
+  Serial.println(analogRead(0));
+/*
   networkManager.connectDefault();
   networkManager.setContentType("application/json");
 
   button.setAction([]() {
     networkManager.POST(String(SERVER_URL) + "/requestPair", "{\"beehive\": \"" + String(BEEHIVE_ID) + "\"}");
     Serial.println(networkManager.getRequestResult());
-  });
+  });*/
 
 /*
   scale.begin(dataPin, clockPin);
@@ -71,6 +75,7 @@ void loop()
  /*Serial.print("UNITS: ");
   Serial.println(scale.get_units(10));*/
   delay(250);
+  Serial.println(analogRead(0));
   button.check();
 }
 
