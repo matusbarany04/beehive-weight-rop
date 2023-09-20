@@ -57,7 +57,11 @@ class NetworkManager {
 
         bool isRequestSuccessful() {
             return httpResponseCode > 0;
-        } 
+        }
+
+        void turn_wifi_off() {
+            WiFi.mode(WIFI_OFF);
+        }
 
     private:
 

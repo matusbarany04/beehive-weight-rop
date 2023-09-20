@@ -11,14 +11,17 @@
   import SelectableOption from "../../../../components/Inputs/SelectableOption.svelte";
   import message from "../../stores/message";
   import Sensor from "../../component/beehives/Sensor.svelte";
-  
+  import Button from "../../../../components/Buttons/Button.svelte";
+  import Modal from "../../../../components/Modal.svelte";
+
   export let props;
-  
+
   let beehive;
   let token;
+  let sensorWindow;
   let locationResults;
   let connectionMode = "0";
-  
+
   let intervals = [
     [10, "10min"],
     [30, "30min"],
@@ -28,6 +31,11 @@
     [300, "5h"],
     [600, "10h"],
   ];
+  
+  function addSensor(e) {
+    sensorWindow = false;
+    console.log(e.target);
+  }
 
   onLoad(["beehives"], () => {
     beehive = shared.getBeehiveById(props.id);
@@ -36,17 +44,18 @@
   message.setMessage("Nastavenia zariadenia");
 
   function searchLocation(e) {
-    console.log(e.target.value)
+    console.log(e.target.value);
     const query = e.target.value;
     locationResults = [];
-    let response = {results: [{name: "Košice", country: "Slovakia"}, {name: "Košice", country: "Slovakia"}]};
-    
-    fetch("https://geocoding-api.open-meteo.com/v1/search?count=10&name=" + query)
+
+    fetch(
+      "https://geocoding-api.open-meteo.com/v1/search?count=10&name=" + query,
+    )
       .then((r) => r.json())
       .then((response) => {
-        console.log(response["results"]); 
-        for(let item of response["results"]) {
-          locationResults.push(`${ item["name"]} (${item["country"]})`);
+        console.log(response["results"]);
+        for (let item of response["results"]) {
+          locationResults.push(`${item["name"]} (${item["country"]})`);
           locationResults = locationResults;
         }
       });
@@ -55,7 +64,7 @@
 
 {#if beehive}
   <div class="flex w-full flex-row justify-center">
-    <form class="w-5/6" action="/dashboardApi/saveBeehive" method="post">
+    <form class="w-5/6" action="/dashboardApi/saveBeehive" method="post" id="device_settings">
       <div class="m-4 rounded-lg bg-white p-4">
         <Input
           type="text"
@@ -120,16 +129,33 @@
       </div>
 
       <div class="m-4 rounded-lg bg-white p-4">
-        <h3 class="p-4 font-bold">Senzory</h3>
+        <div class="flex m-4 items-center">
+          <h3 class="font-bold w-full">Senzory</h3>
+          <Button clickType="button" type="secondary" text="+ Pridať" onClick={() => sensorWindow = true} />
+        </div>
 
-        <Sensor name="Hmotnosť" img="../../../icons/weight.svg" />
-        <Sensor name="Teplota" img="../../../icons/temp.svg" />
-        <Sensor name="Teplota+Vlhkosť" img="../../../icons/humidity.svg" />
-        <Sensor name="Svetlo" img="../../../icons/light.svg" />
-        <Sensor name="Zvuk" img="../../../icons/sound.svg" />
+        
+      </div>
+      <div class="flex gap-2 justify-end m-4">
+        <Button type="primary" formId="device_settings" text="Uložiť zmeny"/>
+        <Button type="secondary" formId="device_settings" text="Zahodiť zmeny"/>
       </div>
     </form>
+    
   </div>
+
+
+  
+  <Modal bind:showModal={sensorWindow}>
+    <h2 slot="header" class="text-2xl font-bold">Pridať Senzor</h2>
+    <div class="grid grid-cols-3 gap-3 my-5">
+      <Sensor name="Hmotnosť" img="../../../icons/weight.svg" on:click={addSensor} />
+      <Sensor name="Teplota" img="../../../icons/temp.svg" on:click={addSensor}/>
+      <Sensor name="Teplota+Vlhkosť" img="../../../icons/humidity.svg" on:click={addSensor}/>
+      <Sensor name="Svetlo" img="../../../icons/light.svg" on:click={addSensor}/>
+      <Sensor name="Zvuk" img="../../../icons/sound.svg" on:click={addSensor}/>
+    </div>
+  </Modal>
 {:else}
   <Loading />
 {/if}
