@@ -2,6 +2,7 @@
   import Panel from "../component/panel/Panel.svelte";
   import PanelRoot from "../component/panel/PanelRoot.svelte";
   import message from "../stores/message";
+  import panelState from "../component/panel/panelState";
 
   let headerMessage = message.getMessage();
 
@@ -9,6 +10,13 @@
     headerMessage = message;
   });
 
+  
+  let leftPadding = false;
+  
+  panelState.getOpenedRef().subscribe((val)=>{
+    leftPadding = !val;
+  })
+  
   let loading = false;
 </script>
 
@@ -17,7 +25,7 @@
   <div class="h-screen flex-1 overflow-y-scroll bg-tertiary-100 px-8">
     <header class="flex h-16 align-middle">
       {#if !loading}
-        <h1 class="my-auto text-3xl font-bold">{headerMessage}</h1>
+        <h1 class="my-auto  text-3xl font-bold { leftPadding ? 'ml-8' : ''}">{headerMessage}</h1>
       {:else}
         <h1 class="my-auto text-3xl font-bold">Načítavam...</h1>
       {/if}
