@@ -69,7 +69,11 @@
       <div class="m-4 rounded-lg bg-white">
         <h3 class="p-4 font-bold">Spôsob pripojenia</h3>
 
-        <SelectableOption name="Mobilná sieť" bind:selection={connectionMode} value="0">
+        <SelectableOption
+          name="Mobilná sieť"
+          bind:selection={connectionMode}
+          value="0"
+        >
           <Input
             type="password"
             name="sim_password"
@@ -100,13 +104,12 @@
 
       <div class="m-4 rounded-lg bg-white p-4">
         <h3 class="p-4 font-bold">Senzory</h3>
-        
+
         <Sensor name="Hmotnosť" img="../../../icons/weight.svg" />
         <Sensor name="Teplota" img="../../../icons/temp.svg" />
         <Sensor name="Teplota+Vlhkosť" img="../../../icons/humidity.svg" />
         <Sensor name="Svetlo" img="../../../icons/light.svg" />
         <Sensor name="Zvuk" img="../../../icons/sound.svg" />
-        
       </div>
     </form>
   </div>

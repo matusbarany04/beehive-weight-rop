@@ -86,6 +86,53 @@ public class SettingsController extends CookieAuthController {
         this.userRepository = users;
     }
 
+    /**
+     * Updates settings in batch
+     *
+     * @param userId       The user's ID.
+     * @param settingsJson Contains all Setting variables
+     * @return OK if updated successfully, otherwise outputs not found.
+     * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/highHumidity" \
+     * -H "Content-Type: application/json" \
+     * -d '{"value": 1}'
+     */
+    @PutMapping("/updateBatch")
+    public ResponseEntity<Object> updateSettings(@PathVariable Long userId, @RequestBody String settingsJson) {
+        JSONObject json = new JSONObject(settingsJson);
+        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+
+        if (userSettings == null) {
+            // Handle the case where no settings exist for the user.
+            return ResponseEntity.notFound().build();
+        }
+
+        if (json.has("id")) userSettings.setId(json.getLong("id"));
+        if (json.has("dont_disturb_from")) userSettings.setDontDisturbFrom(json.getLong("dont_disturb_from"));
+        if (json.has("dont_disturb")) userSettings.setDontDisturb(json.getBoolean("dont_disturb"));
+        if (json.has("dont_disturb_to")) userSettings.setDontDisturbTo(json.getLong("dont_disturb_to"));
+        if (json.has("send_notifications")) userSettings.setSendNotifications(json.getBoolean("send_notifications"));
+        if (json.has("use_user_login_mail")) userSettings.setUseUserLoginMail(json.getBoolean("use_user_login_mail"));
+        if (json.has("alt_mail")) userSettings.setAltMail(json.getString("alt_mail"));
+        if (json.has("low_battery")) userSettings.setLowBattery(json.getBoolean("low_battery"));
+
+        if (json.has("battery_low_threshold"))
+            userSettings.setBatteryLowThreshold(json.getInt("battery_low_threshold"));
+        if (json.has("high_humidity")) userSettings.setHighHumidity(json.getBoolean("high_humidity"));
+        if (json.has("high_humidity_threshold"))
+            userSettings.setHighHumidityThreshold(json.getInt("high_humidity_threshold"));
+        if (json.has("low_humidity")) userSettings.setLowHumidity(json.getBoolean("low_humidity"));
+        if (json.has("low_humidity_threshold"))
+            userSettings.setLowHumidityThreshold(json.getInt("low_humidity_threshold"));
+        if (json.has("heavy_weight")) userSettings.setHeavyWeight(json.getBoolean("heavy_weight"));
+        if (json.has("heavy_weight_threshold"))
+            userSettings.setHeavyWeightThreshold(json.getInt("heavy_weight_threshold"));
+        if (json.has("light_weight")) userSettings.setLightWeight(json.getBoolean("light_weight"));
+        if (json.has("light_weight_threshold"))
+            userSettings.setLightWeightThreshold(json.getInt("light_weight_threshold"));
+
+        settingsRepository.save(userSettings);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getSettingsByUserId(@PathVariable Long userId) {
@@ -164,6 +211,7 @@ public class SettingsController extends CookieAuthController {
             userSettings.setHeavyWeight((boolean) value);
         });
     }
+
     /**
      * Updates the heavy weight threshold for a specific user.
      *
@@ -373,6 +421,7 @@ public class SettingsController extends CookieAuthController {
             userSettings.setBatteryLowThreshold((int) value);
         });
     }
+
     /**
      * Updates the low humidity threshold setting for a specific user.
      *
@@ -395,10 +444,9 @@ public class SettingsController extends CookieAuthController {
     /**
      * Helper function to bundle boilerplate to one function.
      *
-     * @param userId   The ID of the users settings
-     * @param value    The new value of the setting to be saved.
-     * @param action   A {@link Consumer} applies given value to the user's settings.
-     *
+     * @param userId The ID of the users settings
+     * @param value  The new value of the setting to be saved.
+     * @param action A {@link Consumer} applies given value to the user's settings.
      * @return {@link ResponseEntity} with OK status if the setting was updated successfully; NOT_FOUND status otherwise.
      */
     public ResponseEntity<Object> saveSettingItem(Long userId, Object value, Consumer<Object> action) {
