@@ -29,7 +29,7 @@ import java.util.function.Consumer;
 // TODO auth
 
 @RestController
-@RequestMapping("/dashboardApi/settings/{userId}")
+@RequestMapping("/dashboardApi/settings")
 public class SettingsController extends CookieAuthController {
 
     public class UserNotValidException extends RuntimeException {
@@ -66,11 +66,11 @@ public class SettingsController extends CookieAuthController {
 
 
     @ModelAttribute
-    public void validateUser(@PathVariable("userId") Long userId) {
+    public void validateUser() {
         if (currentUserId == 0) {
             throw new SessionNotSetException("Session id not set");
         }
-        if (!isValidUser(userId)) {
+        if (!isValidUser(currentUserId)) {
             throw new UserNotValidException("User is not valid");
         }
     }
@@ -89,7 +89,6 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates settings in batch
      *
-     * @param userId       The user's ID.
      * @param settingsJson Contains all Setting variables
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/highHumidity" \
@@ -97,9 +96,9 @@ public class SettingsController extends CookieAuthController {
      * -d '{"dont_disturb_from": 1500}'
      */
     @PutMapping("/updateBatch")
-    public ResponseEntity<Object> updateSettings(@PathVariable Long userId, @RequestBody String settingsJson) {
+    public ResponseEntity<Object> updateSettings(@RequestBody String settingsJson) {
         JSONObject json = new JSONObject(settingsJson);
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
         if (userSettings == null) {
             // Handle the case where no settings exist for the user.
@@ -151,16 +150,15 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the high humidity threshold for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the threshold value with key "highHumidity". Defaults to 0 if not provided.
+     * @param body Contains the threshold value with key "highHumidity". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/highHumidity" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
     @PutMapping("/highHumidity")
-    public ResponseEntity<Object> setHighHumidity(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setHighHumidity(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
         if (Objects.nonNull(userSettings)) {
             userSettings.setHighHumidity(0 != body.getOrDefault("value", 0));
@@ -173,16 +171,15 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the light weight setting for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the light weight value with key "lightWeight". Defaults to 0 if not provided.
+     * @param body Contains the light weight value with key "lightWeight". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/lightWeight" \
      * -H "Content-Type: application/json" \
      * -d '{"lightWeight": 1}'
      */
     @PutMapping("/lightWeight")
-    public ResponseEntity<Object> setLightWeight(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setLightWeight(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
         if (Objects.nonNull(userSettings)) {
             userSettings.setLightWeight(0 != body.getOrDefault("lightWeight", 0));
@@ -195,18 +192,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the heavy weight setting for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the heavy weight value with key "value". Defaults to 0 if not provided.
+     * @param body Contains the heavy weight value with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/heavyWeight" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
     @PutMapping("/heavyWeight")
-    public ResponseEntity<Object> setHeavyWeight(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setHeavyWeight(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setHeavyWeight((boolean) value);
         });
     }
@@ -214,18 +210,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the heavy weight threshold for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the heavy weight threshold with key "value". Defaults to 0 if not provided.
+     * @param body Contains the heavy weight threshold with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/heavyWeightTreshold" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
     @PutMapping("/heavyWeightTreshold")
-    public ResponseEntity<Object> setHeavyWeightTreshold(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setHeavyWeightTreshold(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setHeavyWeightThreshold((int) value);
         });
     }
@@ -234,18 +229,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the high humidity threshold for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the high humidity threshold with key "value". Defaults to 0 if not provided.
+     * @param body Contains the high humidity threshold with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/highHumidityThreshold" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
     @PutMapping("/highHumidityThreshold")
-    public ResponseEntity<Object> setHighHumidityThreshold(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setHighHumidityThreshold(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setHighHumidityThreshold((int) value);
         });
     }
@@ -253,18 +247,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the low humidity threshold for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the threshold value with key "lowHumidity". Defaults to 0 if not provided.
+     * @param body Contains the threshold value with key "lowHumidity". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/highHumidity" \
      * -H "Content-Type: application/json" \
      * -d '{"highHumidity": 1}'
      */
     @PutMapping("/setLowHumidity")
-    public ResponseEntity<Object> setLowHumidity(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setLowHumidity(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setLowHumidity((boolean) value);
         });
     }
@@ -272,18 +265,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the "Do Not Disturb From" time setting for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the "Do Not Disturb From" time with key "value". Defaults to 0 if not provided.
+     * @param body Contains the "Do Not Disturb From" time with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/dontDisturbFrom" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
     @PutMapping("/dontDisturbFrom")
-    public ResponseEntity<Object> setDontDisturbFrom(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setDontDisturbFrom(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setDontDisturbFrom((long) value);
         });
     }
@@ -291,18 +283,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the "Do Not Disturb To" time setting for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the "Do Not Disturb To" time with key "value". Defaults to 0 if not provided.
+     * @param body Contains the "Do Not Disturb To" time with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/dontDisturbTo" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
     @PutMapping("/dontDisturbTo")
-    public ResponseEntity<Object> setDontDisturbTo(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setDontDisturbTo(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setDontDisturbTo((long) value);
         });
     }
@@ -310,18 +301,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the "Do Not Disturb" setting for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the "Do Not Disturb" setting with key "value". Defaults to 0 if not provided.
+     * @param body Contains the "Do Not Disturb" setting with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/dontDisturb" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
     @PutMapping("/dontDisturb")
-    public ResponseEntity<Object> setDontDisturb(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setDontDisturb(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setDontDisturb((boolean) value);
         });
     }
@@ -329,18 +319,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the alternate email address setting for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the alternate email with key "value". Defaults to the user's primary email if not provided.
+     * @param body Contains the alternate email with key "value". Defaults to the user's primary email if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/altMail" \
      * -H "Content-Type: application/json" \
      * -d '{"value": "alternate@example.com"}'
      */
     @PutMapping("/altMail")
-    public ResponseEntity<Object> setAltMail(@PathVariable Long userId, @RequestBody Map<String, String> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setAltMail(@RequestBody Map<String, String> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, body.getOrDefault("value", userRepository.getUserById(userId).getEmail()), (Object value) -> {
+        return saveSettingItem(currentUserId, body.getOrDefault("value", userRepository.getUserById(currentUserId).getEmail()), (Object value) -> {
             userSettings.setAltMail((String) value);
         });
     }
@@ -348,18 +337,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the "Send Notifications" setting for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the "Send Notifications" setting with key "value". Defaults to 0 if not provided.
+     * @param body Contains the "Send Notifications" setting with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/sendNotifications" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
     @PutMapping("/sendNotifications")
-    public ResponseEntity<Object> setSendNotifications(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setSendNotifications(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setSendNotifications((boolean) value);
         });
     }
@@ -367,18 +355,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the setting to use the user's login email.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the setting with key "value". Defaults to 1 if not provided.
+     * @param body Contains the setting with key "value". Defaults to 1 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/useUserLoginMail" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
     @PutMapping("/useUserLoginMail")
-    public ResponseEntity<Object> setUseUserLoginMail(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setUseUserLoginMail(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 1), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 1), (Object value) -> {
             userSettings.setUseUserLoginMail((boolean) value);
         });
     }
@@ -386,18 +373,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the low battery notification setting for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the low battery setting with key "value". Defaults to 0 if not provided.
+     * @param body Contains the low battery setting with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/lowBattery" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 1}'
      */
     @PutMapping("/lowBattery")
-    public ResponseEntity<Object> setLowBattery(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setLowBattery(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setLowBattery((boolean) value);
         });
     }
@@ -405,18 +391,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the battery low threshold setting for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the battery low threshold with key "value". Defaults to 0 if not provided.
+     * @param body Contains the battery low threshold with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/batteryLowThreshold" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 20}'
      */
     @PutMapping("/batteryLowThreshold")
-    public ResponseEntity<Object> setBatteryLowThreshold(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setBatteryLowThreshold(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setBatteryLowThreshold((int) value);
         });
     }
@@ -424,18 +409,17 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates the low humidity threshold setting for a specific user.
      *
-     * @param userId The user's ID.
-     * @param body   Contains the low humidity threshold with key "value". Defaults to 0 if not provided.
+     * @param body Contains the low humidity threshold with key "value". Defaults to 0 if not provided.
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/lowHumidityThreshold" \
      * -H "Content-Type: application/json" \
      * -d '{"value": 30}'
      */
     @PutMapping("/lowHumidityThreshold")
-    public ResponseEntity<Object> setLowHumidityThreshold(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
-        Settings userSettings = settingsRepository.getSettingsByUserId(userId);
+    public ResponseEntity<Object> setLowHumidityThreshold(@RequestBody Map<String, Integer> body) {
+        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
 
-        return saveSettingItem(userId, 0 != body.getOrDefault("value", 0), (Object value) -> {
+        return saveSettingItem(currentUserId, 0 != body.getOrDefault("value", 0), (Object value) -> {
             userSettings.setLowHumidityThreshold((int) value);
         });
     }
