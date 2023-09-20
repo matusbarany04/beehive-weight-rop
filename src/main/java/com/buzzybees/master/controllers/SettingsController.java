@@ -33,15 +33,27 @@ public class SettingsController extends CookieAuthController {
             super(message);
         }
     }
-
-    @ExceptionHandler(UserNotValidException.class)
+    public class SessionNotSetException extends RuntimeException {
+        public SessionNotSetException(String message) {
+            super(message);
+        }
+    }
+    @ExceptionHandler({UserNotValidException.class, SessionNotSetException.class})
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> handleUserNotValidException(UserNotValidException ex) {
+    public ResponseEntity<?> handleExceptions(RuntimeException ex) {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage());
-        errorResponse.put("error", HttpStatus.UNAUTHORIZED.value());
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        if (ex instanceof UserNotValidException) {
+            errorResponse.put("error", HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        } else if (ex instanceof SessionNotSetException) {
+            errorResponse.put("error", HttpStatus.UNAUTHORIZED.value());
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        } else {
+            errorResponse.put("error", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     private SettingsRepository settingsRepository;
@@ -50,6 +62,9 @@ public class SettingsController extends CookieAuthController {
 
     @ModelAttribute
     public void validateUser(@PathVariable("userId") Long userId) {
+        if(currentUserId == 0){
+           throw new SessionNotSetException("Session id not set");
+        }
         if (!isValidUser(userId)) {
             throw new UserNotValidException("User is not valid");
         }

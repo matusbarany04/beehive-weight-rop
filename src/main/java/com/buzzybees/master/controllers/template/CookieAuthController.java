@@ -11,7 +11,7 @@ public abstract class CookieAuthController {
 
     protected long currentUserId;
 
-    @ModelAttribute("cookie")
+    @ModelAttribute("sessionid")
     public void getCookies(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
