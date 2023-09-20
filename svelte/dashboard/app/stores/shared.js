@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Provides utilities for sharing dashboard data between across the whole dashboard
+ * @module shared.js
+ */
+
 import { writable, get } from "svelte/store";
 import { dataHandler } from "../component/cards/dataHandler";
 
@@ -161,7 +166,13 @@ function getLoadedData(dataTypes) {
   return results;
 }
 
-function loadData(dataType, data) {
+/**
+ * Function distributes provided data to all subscribed parties 
+ * 
+ * @param dataType name of data
+ * @param data data itself 
+ */
+export function loadData(dataType, data) {
   savedData[dataType] = data;
   for (let callback of callbacks) {
     if (callback.dataTypes.includes(dataType)) {

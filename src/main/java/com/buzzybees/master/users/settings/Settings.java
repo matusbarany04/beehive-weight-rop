@@ -19,54 +19,59 @@ public class Settings {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    @Column(name = "user_id", unique = true)
+    @Column(name = "user_id", unique = true, nullable = false)
     private long userId;
 
     @Column(name = "timestamp")
     private long timestamp;
 
     @Column(name = "dont_disturb")
-    private boolean dontDisturb;
+    private boolean dontDisturb = false;
 
     @Column(name = "dont_disturb_from")
-    private long dontDisturbFrom;
+    private long dontDisturbFrom = 1200;
 
     @Column(name = "dont_disturb_to")
-    private long dontDisturbTo;
+    private long dontDisturbTo = 1500;
 
     @Column(name = "send_notifications")
-    private boolean sendNotifications;
+    private boolean sendNotifications = false;
 
     @Column(name = "use_user_login_mail")
-    private boolean useUserLoginMail;
+    private boolean useUserLoginMail = true;
 
     @Column(name = "alt_mail")
-    private String altMail;
+    private String altMail = "";
 
     @Column(name = "low_battery")
-    private boolean lowBattery;
+    private boolean lowBattery = false;
 
     @Column(name = "battery_low_threshold")
-    private int batteryLowThreshold;
+    private int batteryLowThreshold = 20;
 
     @Column(name = "high_humidity")
-    private boolean highHumidity;
+    private boolean highHumidity = false;
 
     @Column(name = "high_humidity_threshold")
-    private int highHumidityThreshold;
+    private int highHumidityThreshold = 100;
 
     @Column(name = "low_humidity")
-    private boolean lowHumidity;
+    private boolean lowHumidity = false;
 
     @Column(name = "low_humidity_threshold")
-    private int lowHumidityThreshold;
+    private int lowHumidityThreshold = 30;
 
     @Column(name = "heavy_weight")
-    private boolean heavyWeight;
+    private boolean heavyWeight = false;
 
     @Column(name = "heavy_weight_threshold")
-    private int heavyWeightThreshold;
+    private int heavyWeightThreshold = 100;
 
+    @Column(name = "light_weight")
+    private boolean lightWeight = false;
+
+    @Column(name = "light_weight_threshold")
+    private int lightWeightThreshold = 0;
 
     /**
      * @param json A JSON object containing all Settings fields
@@ -88,6 +93,8 @@ public class Settings {
             this.lowHumidityThreshold = json.optInt("low_humidity_threshold");
             this.heavyWeight = json.optBoolean("heavy_weight");
             this.heavyWeightThreshold = json.optInt("heavy_weight_threshold");
+            this.lightWeight = json.optBoolean("light_weight");
+            this.lightWeightThreshold = json.optInt("light_weight_threshold");
         }
     }
 
@@ -113,7 +120,8 @@ public class Settings {
         json.put("low_humidity_threshold", this.lowHumidityThreshold);
         json.put("heavy_weight", this.heavyWeight);
         json.put("heavy_weight_threshold", this.heavyWeightThreshold);
-
+        json.put("light_weight", this.lightWeight);
+        json.put("light_weight_threshold", this.lightWeightThreshold);
         return json;
     }
 
@@ -132,29 +140,6 @@ public class Settings {
         }
     }
 
-
-    @Override
-    public String toString() {
-        return "Settings{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", timestamp=" + timestamp +
-                ", dontDisturb=" + dontDisturb +
-                ", dontDisturbFrom=" + dontDisturbFrom +
-                ", dontDisturbTo=" + dontDisturbTo +
-                ", sendNotifications=" + sendNotifications +
-                ", useUserLoginMail=" + useUserLoginMail +
-                ", altMail='" + altMail + '\'' +
-                ", lowBattery=" + lowBattery +
-                ", batteryLowThreshold=" + batteryLowThreshold +
-                ", highHumidity=" + highHumidity +
-                ", highHumidityThreshold=" + highHumidityThreshold +
-                ", lowHumidity=" + lowHumidity +
-                ", lowHumidityThreshold=" + lowHumidityThreshold +
-                ", heavyWeight=" + heavyWeight +
-                ", heavyWeightThreshold=" + heavyWeightThreshold +
-                '}';
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -266,6 +251,47 @@ public class Settings {
 
     public int getBatteryLowThreshold() {
         return batteryLowThreshold;
+    }
+
+    @Override
+    public String toString() {
+        return "Settings{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", timestamp=" + timestamp +
+                ", dontDisturb=" + dontDisturb +
+                ", dontDisturbFrom=" + dontDisturbFrom +
+                ", dontDisturbTo=" + dontDisturbTo +
+                ", sendNotifications=" + sendNotifications +
+                ", useUserLoginMail=" + useUserLoginMail +
+                ", altMail='" + altMail + '\'' +
+                ", lowBattery=" + lowBattery +
+                ", batteryLowThreshold=" + batteryLowThreshold +
+                ", highHumidity=" + highHumidity +
+                ", highHumidityThreshold=" + highHumidityThreshold +
+                ", lowHumidity=" + lowHumidity +
+                ", lowHumidityThreshold=" + lowHumidityThreshold +
+                ", heavyWeight=" + heavyWeight +
+                ", heavyWeightThreshold=" + heavyWeightThreshold +
+                ", lightWeight=" + lightWeight +
+                ", lightWeightThreshold=" + lightWeightThreshold +
+                '}';
+    }
+
+    public boolean isLightWeight() {
+        return lightWeight;
+    }
+
+    public void setLightWeight(boolean lightWeight) {
+        this.lightWeight = lightWeight;
+    }
+
+    public int getLightWeightThreshold() {
+        return lightWeightThreshold;
+    }
+
+    public void setLightWeightThreshold(int lightWeightThreshold) {
+        this.lightWeightThreshold = lightWeightThreshold;
     }
 
     public boolean isHighHumidity() {

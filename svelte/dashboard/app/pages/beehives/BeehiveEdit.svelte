@@ -129,12 +129,13 @@
       </div>
 
       <div class="m-4 rounded-lg bg-white p-4">
+
         <div class="flex m-4 items-center">
           <h3 class="font-bold w-full">Senzory</h3>
           <Button clickType="button" type="secondary" text="+ Pridať" onClick={() => sensorWindow = true} />
         </div>
 
-        
+
       </div>
       <div class="flex gap-2 justify-end m-4">
         <Button type="primary" formId="device_settings" text="Uložiť zmeny"/>
