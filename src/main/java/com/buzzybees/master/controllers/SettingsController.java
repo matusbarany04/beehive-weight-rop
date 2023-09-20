@@ -94,7 +94,7 @@ public class SettingsController extends CookieAuthController {
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/{USER_ID}/highHumidity" \
      * -H "Content-Type: application/json" \
-     * -d '{"value": 1}'
+     * -d '{"dont_disturb_from": 1500}'
      */
     @PutMapping("/updateBatch")
     public ResponseEntity<Object> updateSettings(@PathVariable Long userId, @RequestBody String settingsJson) {
@@ -106,7 +106,6 @@ public class SettingsController extends CookieAuthController {
             return ResponseEntity.notFound().build();
         }
 
-        if (json.has("id")) userSettings.setId(json.getLong("id"));
         if (json.has("dont_disturb_from")) userSettings.setDontDisturbFrom(json.getLong("dont_disturb_from"));
         if (json.has("dont_disturb")) userSettings.setDontDisturb(json.getBoolean("dont_disturb"));
         if (json.has("dont_disturb_to")) userSettings.setDontDisturbTo(json.getLong("dont_disturb_to"));
