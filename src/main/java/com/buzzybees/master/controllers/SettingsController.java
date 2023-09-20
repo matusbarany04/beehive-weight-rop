@@ -44,16 +44,15 @@ public class SettingsController extends CookieAuthController {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage());
 
+        HttpStatus error = HttpStatus.INTERNAL_SERVER_ERROR;
         if (ex instanceof UserNotValidException) {
-            errorResponse.put("error", HttpStatus.NOT_FOUND.value());
-            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+            error = HttpStatus.NOT_FOUND;
         } else if (ex instanceof SessionNotSetException) {
-            errorResponse.put("error", HttpStatus.UNAUTHORIZED.value());
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
-        } else {
-            errorResponse.put("error", HttpStatus.INTERNAL_SERVER_ERROR.value());
-            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+            error = HttpStatus.UNAUTHORIZED;
         }
+
+        errorResponse.put("error", error.value());
+        return new ResponseEntity<>(errorResponse, error);
     }
 
     private SettingsRepository settingsRepository;
