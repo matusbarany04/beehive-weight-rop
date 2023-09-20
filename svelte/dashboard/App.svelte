@@ -5,6 +5,7 @@
   import Loading from "../components/pages/Loading.svelte";
   import { SvelteToast } from "@zerodevx/svelte-toast";
   import "../components/Toast/toastStyles.css";
+  import settingsLoader from "./app/stores/settingsLoader";
   // Initiate all fetch operations in an async function
   async function loadData() {
     //sets prefix for all route links
@@ -14,6 +15,7 @@
     shared.fetchUser();
     shared.fetchBeehives();
     shared.fetchStatuses();
+    settingsLoader.loadSettings();
     // fetches all shared data between all components and saves them to corresponding stores
   }
 
