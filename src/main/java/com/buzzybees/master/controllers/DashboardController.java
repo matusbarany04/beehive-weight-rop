@@ -338,34 +338,34 @@ public class DashboardController {
         return response.toString();
     }
 
-    @PostMapping("/updateSettings")
-    public String updateSettings(@RequestBody Map<String, String> data) {
-        JSONObject response = new JSONObject();
-
-        if (currentUserId > 0) {
-            User user = userRepository.getUserById(currentUserId);
-            user.updateSettings(data.get("settings"));
-            userRepository.save(user);
-            response.put("status", "ok");
-
-        } else response.put("status", "ERR_NO_PERMISSION");
-
-        return response.toString();
-    }
-
-    @GetMapping("/getSettings")
-    public String getSettings() {
-        JSONObject response = new JSONObject();
-
-        if (currentUserId > 0) {
-            User user = userRepository.getUserById(currentUserId);
-            response.put("settings", user.getSettings());
-        }
-
-        response.put("status", currentUserId > 0 ? "ok" : "ERR_NO_PERMISSION");
-
-        return response.toString();
-    }
+//    @PostMapping("/updateSettings")
+//    public String updateSettings(@RequestBody Map<String, String> data) {
+//        JSONObject response = new JSONObject();
+//
+//        if (currentUserId > 0) {
+//            User user = userRepository.getUserById(currentUserId);
+//            user.updateSettings(data.get("settings"));
+//            userRepository.save(user);
+//            response.put("status", "ok");
+//
+//        } else response.put("status", "ERR_NO_PERMISSION");
+//
+//        return response.toString();
+//    }
+//
+//    @GetMapping("/getSettings")
+//    public String getSettings() {
+//        JSONObject response = new JSONObject();
+//
+//        if (currentUserId > 0) {
+//            User user = userRepository.getUserById(currentUserId);
+//            response.put("settings", user.getSettings());
+//        }
+//
+//        response.put("status", currentUserId > 0 ? "ok" : "ERR_NO_PERMISSION");
+//
+//        return response.toString();
+//    }
 
     @GetMapping("/checkPairingStatus")
     public String checkStatus(@RequestParam("token") String beehive) {

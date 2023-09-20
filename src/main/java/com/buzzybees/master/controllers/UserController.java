@@ -1,5 +1,6 @@
 package com.buzzybees.master.controllers;
 
+import com.buzzybees.master.controllers.template.CookieAuthController;
 import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.notifications.Notification.Type;
 import com.buzzybees.master.notifications.NotificationRepository;
@@ -27,7 +28,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends CookieAuthController {
 
     @Autowired
     UserRepository userRepository;
@@ -35,21 +36,7 @@ public class UserController {
     @Autowired
     NotificationRepository notificationRepository;
 
-    long currentUserId = 0;
-    @ModelAttribute("user")
-    public void getCookies(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(AuthController.SSID)) {
-                    currentUserId = UserService.getUserIdByToken(cookie.getValue());
-                    return;
-                }
-            }
-        }
 
-        currentUserId = 0;
-    }
 
     // toto robi pekny json, skus takto davat api
     @GetMapping("/getUsers")
@@ -84,21 +71,21 @@ public class UserController {
         return response.toString();
     }
 
-    @PostMapping(value = "/updateSettings", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String updateSettings(@RequestBody Map<String, String> data) {
-
-        if (currentUserId > 0) {
-            User user = userRepository.getUserById(currentUserId);
-            user.updateSettings(data.get("settings"));
-
-            JSONObject response = new JSONObject();
-            response.put("status", "ok");
-            return response.toString();
-        }
-        JSONObject error = new JSONObject();
-        error.put("status", "error");
-        return error.toString();
-    }
+//    @PostMapping(value = "/updateSettings", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public String updateSettings(@RequestBody Map<String, String> data) {
+//
+//        if (currentUserId > 0) {
+//            User user = userRepository.getUserById(currentUserId);
+//            user.updateSettings(data.get("settings"));
+//
+//            JSONObject response = new JSONObject();
+//            response.put("status", "ok");
+//            return response.toString();
+//        }
+//        JSONObject error = new JSONObject();
+//        error.put("status", "error");
+//        return error.toString();
+//    }
 
     @GetMapping("/sendMail")
     public String send() {
