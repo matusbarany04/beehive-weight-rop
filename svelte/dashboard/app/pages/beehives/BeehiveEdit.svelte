@@ -11,16 +11,14 @@
   import SelectableOption from "../../../../components/Inputs/SelectableOption.svelte";
   import message from "../../stores/message";
   import Sensor from "../../component/beehives/Sensor.svelte";
-
-  //import props from "./Beehive.svelte";
-
+  
+  export let props;
+  
   let beehive;
   let token;
-
+  let locationResults;
   let connectionMode = "0";
-
-  export let props;
-
+  
   let intervals = [
     [10, "10min"],
     [30, "30min"],
@@ -36,6 +34,23 @@
   });
 
   message.setMessage("Nastavenia zariadenia");
+
+  function searchLocation(e) {
+    console.log(e.target.value)
+    const query = e.target.value;
+    locationResults = [];
+    let response = {results: [{name: "Košice", country: "Slovakia"}, {name: "Košice", country: "Slovakia"}]};
+    
+    fetch("https://geocoding-api.open-meteo.com/v1/search?count=10&name=" + query)
+      .then((r) => r.json())
+      .then((response) => {
+        console.log(response["results"]); 
+        for(let item of response["results"]) {
+          locationResults.push(`${ item["name"]} (${item["country"]})`);
+          locationResults = locationResults;
+        }
+      });
+  }
 </script>
 
 {#if beehive}
@@ -55,6 +70,8 @@
           name="location"
           label="Poloha"
           value={beehive.location}
+          results={locationResults}
+          on:input={searchLocation}
           inline
         />
         <DropdownInput
@@ -69,7 +86,11 @@
       <div class="m-4 rounded-lg bg-white">
         <h3 class="p-4 font-bold">Spôsob pripojenia</h3>
 
-        <SelectableOption name="Mobilná sieť" bind:selection={connectionMode} value="0">
+        <SelectableOption
+          name="Mobilná sieť"
+          bind:selection={connectionMode}
+          value="0"
+        >
           <Input
             type="password"
             name="sim_password"
@@ -100,13 +121,12 @@
 
       <div class="m-4 rounded-lg bg-white p-4">
         <h3 class="p-4 font-bold">Senzory</h3>
-        
+
         <Sensor name="Hmotnosť" img="../../../icons/weight.svg" />
         <Sensor name="Teplota" img="../../../icons/temp.svg" />
         <Sensor name="Teplota+Vlhkosť" img="../../../icons/humidity.svg" />
         <Sensor name="Svetlo" img="../../../icons/light.svg" />
         <Sensor name="Zvuk" img="../../../icons/sound.svg" />
-        
       </div>
     </form>
   </div>
