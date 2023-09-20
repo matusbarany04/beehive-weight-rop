@@ -8,10 +8,14 @@
 >
   <!-- title -->
   <div class="flex-1 justify-center lg:justify-normal">
-    <h1 class="text-lg font-semibold">{title}</h1>
-    <h4 class="text-base font-normal">
-      {detail}
-    </h4>
+    {#if title}
+      <h1 class="text-lg font-semibold">{title}</h1>
+    {/if}
+    {#if detail}
+      <h4 class="text-base font-normal">
+        {detail}
+      </h4>
+    {/if}
   </div>
   <div class=" flex max-w-sm flex-1 items-center lg:justify-end">
     <slot><h1>práve pripravujeme!</h1></slot>

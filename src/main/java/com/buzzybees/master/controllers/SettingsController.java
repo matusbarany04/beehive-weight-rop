@@ -34,13 +34,13 @@ import java.util.function.Consumer;
 @RequestMapping("/dashboardApi/settings")
 public class SettingsController extends CookieAuthController {
 
-    public class UserNotValidException extends RuntimeException {
+    public static class UserNotValidException extends RuntimeException {
         public UserNotValidException(String message) {
             super(message);
         }
     }
 
-    public class SessionNotSetException extends RuntimeException {
+    public static class SessionNotSetException extends RuntimeException {
         public SessionNotSetException(String message) {
             super(message);
         }
