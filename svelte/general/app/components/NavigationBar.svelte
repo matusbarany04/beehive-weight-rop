@@ -1,6 +1,6 @@
 <script>
   import RouterLink from "../../../components/RouterLink.svelte";
-  import TW_BREAKPOINTS from "../../../components/lib/utils/static";
+  import { TW_BREAKPOINTS } from "../../../components/lib/utils/staticFuncs";
 
   let toggle = false;
 

@@ -1,4 +1,4 @@
-const TW_BREAKPOINTS = {
+export const TW_BREAKPOINTS = {
   sm: 640,
   md: 768,
   lg: 1024,
@@ -6,7 +6,46 @@ const TW_BREAKPOINTS = {
   "2xl": 1536,
 };
 
-export default TW_BREAKPOINTS;
+export default {
+  /**
+   * Function checks equality be casting both to a string and returns boolean if they match
+   * Limitations:
+   *  Order has to be same for both jsons otherwise they will be not equal
+   * @param a {json}
+   * @param b {json}
+   * @return {boolean}
+   */
+  jsonFlatEqual: function (a, b) {
+    return JSON.stringify(a) === JSON.stringify(b);
+  },
+
+  /**
+   * Function checks equality be looping over their values and returns boolean if they match
+   * @param json1 {json}
+   * @param json2 {json}
+   * @return {boolean}
+   */
+  deepCompareJson: function (json1, json2) {
+    if (
+      Object.prototype.toString.call(json1) ===
+      Object.prototype.toString.call(json2)
+    ) {
+      if (
+        Object.prototype.toString.call(json1) === "[object Object]" ||
+        Object.prototype.toString.call(json1) === "[object Array]"
+      ) {
+        if (Object.keys(json1).length !== Object.keys(json2).length) {
+          return false;
+        }
+        return Object.keys(json1).every(function (key) {
+          return this.deepCompareJson(json1[key], json2[key]);
+        });
+      }
+      return json1 === json2;
+    }
+    return false;
+  },
+};
 
 export const generateUUID = () => {
   let d = new Date().getTime(),

@@ -22,7 +22,7 @@
   on:click={() => (selection = value)}
 >
   <input
-    class="after:bg-white"
+    class="accent-secondary-500 after:bg-white"
     type="radio"
     bind:group={selection}
     id={name}

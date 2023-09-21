@@ -11,7 +11,7 @@
   import {
     generateUUID,
     isEmpty,
-  } from "../../../../../components/lib/utils/static";
+  } from "../../../../../components/lib/utils/staticFuncs";
 
   //TODO pridat check funkciu ci su tu vsetky premenne
   /**

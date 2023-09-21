@@ -4,6 +4,8 @@ import com.buzzybees.master.controllers.AuthController;
 import com.buzzybees.master.users.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 @RestController
@@ -11,7 +13,7 @@ public abstract class CookieAuthController {
 
     protected long currentUserId;
 
-    @ModelAttribute("cookie")
+    @ModelAttribute
     public void getCookies(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 

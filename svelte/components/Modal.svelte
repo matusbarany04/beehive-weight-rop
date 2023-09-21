@@ -1,6 +1,6 @@
 <script>
   import Button from "./Buttons/Button.svelte";
-  import { generateUUID } from "./lib/utils/static";
+  import { generateUUID } from "./lib/utils/staticFuncs";
 
   export let showModal; // boolean
 

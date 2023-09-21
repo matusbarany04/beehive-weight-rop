@@ -1,12 +1,13 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../../../components/lib/utils/static";
+  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
   import { getContext, onMount } from "svelte";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import shared from "../../stores/shared";
+  import  ApexCharts  from "apexcharts"
+  
   import { dataHandler } from "./dataHandler";
-
   export let cardStates;
   export let onDragEnd; // function
   export let onDragStart; // function
@@ -115,7 +116,7 @@
           },
         },
       };
-      // const ApexCharts = (await import("apexcharts")).default;
+
       chart = new ApexCharts(document.getElementById(id), options);
       chart.render();
       headerSelected = cardStates.data[0].timespan ?? "week";

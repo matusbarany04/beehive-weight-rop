@@ -8,7 +8,7 @@
   import Button from "../../../components/Buttons/Button.svelte";
   import EditPanel from "../component/panel/EditPanel.svelte";
   import * as cardUtils from "../component/cards/cardUtilities";
-  import { generateUUID } from "../../../components/lib/utils/static";
+  import { generateUUID } from "../../../components/lib/utils/staticFuncs";
   import shared, { onLoad } from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
 

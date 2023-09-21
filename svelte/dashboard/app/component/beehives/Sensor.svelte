@@ -8,5 +8,6 @@
   on:click
 >
   <img class="m-auto w-8" src={img} alt={name} />
+
   <div>{name}</div>
 </div>
