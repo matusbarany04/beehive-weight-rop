@@ -21,31 +21,23 @@
     : 'hover:text-slate-500'}"
   on:click={() => (selection = value)}
 >
-  <input
-    class="accent-secondary-500 after:bg-white"
-    type="radio"
-    bind:group={selection}
-    id={name}
-    {value}
-  />
-  <label for={name}>{name}</label>
+  <div class="flex gap-2 items-center">
+    <input
+      class="appearance-none w-4 h-4 rounded-full border border-black bg-clip-content bg-white transition duration-100 checked:bg-secondary-500 checked:p-[2px]"
+      type="radio"
+      bind:group={selection}
+      id={name}
+      {value}
+    />
+    <label for={name}>{name}</label>
+  </div>
 
   {#if selection === value}
-    <slot />
+    <slot/>
   {/if}
 </div>
 
 <style>
-  input[type="radio"]:checked:after {
-    width: 7px;
-    height: 7px;
-    border-radius: 10px;
-    top: -8px;
-    left: 3px;
-    position: relative;
-    background-color: #ffa500;
-    content: "";
-    display: inline-block;
-    visibility: visible;
-  }
+
+
 </style>
