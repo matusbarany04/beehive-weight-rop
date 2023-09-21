@@ -164,9 +164,7 @@
 </div>
 
 <Modal bind:showModal={newReminder}>
-  <h2 slot="header" class="text-2xl font-bold">
-    Nová poznámka/primomienka
-  </h2>
+  <h2 slot="header" class="text-2xl font-bold">Nová poznámka/primomienka</h2>
 
   <form
     id="newReminder"

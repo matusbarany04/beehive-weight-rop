@@ -55,7 +55,7 @@
       navigateWithPrefix(link);
     }
   }}
-  class="flex rounded-lg p-2 btn-{type} hover:scale-[1.02] duration-200"
+  class="flex rounded-lg p-2 btn-{type} duration-200 hover:scale-[1.02]"
 >
   {#if image && imagePosition === "left"}
     <div
