@@ -31,7 +31,7 @@
     [300, "5h"],
     [600, "10h"],
   ];
-  
+
   function addSensor(e) {
     sensorWindow = false;
     console.log(e.target);
@@ -64,7 +64,12 @@
 
 {#if beehive}
   <div class="flex w-full flex-row justify-center">
-    <form class="w-5/6" action="/dashboardApi/saveBeehive" method="post" id="device_settings">
+    <form
+      class="w-5/6"
+      action="/dashboardApi/saveBeehive"
+      method="post"
+      id="device_settings"
+    >
       <div class="m-4 rounded-lg bg-white p-4">
         <Input
           type="text"
@@ -129,32 +134,51 @@
       </div>
 
       <div class="m-4 rounded-lg bg-white p-4">
-
-        <div class="flex m-4 items-center">
-          <h3 class="font-bold w-full">Senzory</h3>
-          <Button clickType="button" type="secondary" text="+ Pridať" onClick={() => sensorWindow = true} />
+        <div class="m-4 flex items-center">
+          <h3 class="w-full font-bold">Senzory</h3>
+          <Button
+            clickType="button"
+            type="secondary"
+            text="+ Pridať"
+            onClick={() => (sensorWindow = true)}
+          />
         </div>
-
-
       </div>
-      <div class="flex gap-2 justify-end m-4">
-        <Button type="primary" formId="device_settings" text="Uložiť zmeny"/>
-        <Button type="secondary" formId="device_settings" text="Zahodiť zmeny"/>
+      <div class="m-4 flex justify-end gap-2">
+        <Button type="primary" formId="device_settings" text="Uložiť zmeny" />
+        <Button
+          type="secondary"
+          formId="device_settings"
+          text="Zahodiť zmeny"
+        />
       </div>
     </form>
-    
   </div>
 
-
-  
   <Modal bind:showModal={sensorWindow}>
     <h2 slot="header" class="text-2xl font-bold">Pridať Senzor</h2>
-    <div class="grid grid-cols-3 gap-3 my-5">
-      <Sensor name="Hmotnosť" img="../../../icons/weight.svg" on:click={addSensor} />
-      <Sensor name="Teplota" img="../../../icons/temp.svg" on:click={addSensor}/>
-      <Sensor name="Teplota+Vlhkosť" img="../../../icons/humidity.svg" on:click={addSensor}/>
-      <Sensor name="Svetlo" img="../../../icons/light.svg" on:click={addSensor}/>
-      <Sensor name="Zvuk" img="../../../icons/sound.svg" on:click={addSensor}/>
+    <div class="my-5 grid grid-cols-3 gap-3">
+      <Sensor
+        name="Hmotnosť"
+        img="../../../icons/weight.svg"
+        on:click={addSensor}
+      />
+      <Sensor
+        name="Teplota"
+        img="../../../icons/temp.svg"
+        on:click={addSensor}
+      />
+      <Sensor
+        name="Teplota+Vlhkosť"
+        img="../../../icons/humidity.svg"
+        on:click={addSensor}
+      />
+      <Sensor
+        name="Svetlo"
+        img="../../../icons/light.svg"
+        on:click={addSensor}
+      />
+      <Sensor name="Zvuk" img="../../../icons/sound.svg" on:click={addSensor} />
     </div>
   </Modal>
 {:else}

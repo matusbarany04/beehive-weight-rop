@@ -84,7 +84,7 @@
           </li>
         {/each}
         {#if results.length === 0}
-          <li class="italic opacity-70 p-1">Žiadne výsledky</li>
+          <li class="p-1 italic opacity-70">Žiadne výsledky</li>
         {/if}
       </ul>
     {/if}

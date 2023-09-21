@@ -3,8 +3,8 @@
  * @module settingsLoader.js
  */
 
-import {writable, get} from "svelte/store";
-import shared, {loadData} from "./shared";
+import { writable, get } from "svelte/store";
+import shared, { loadData } from "./shared";
 
 /**
  * Shared settings state
@@ -23,14 +23,19 @@ export default {
       },
     );
     // TODO remove log
-    console.log(results)
-    
+    console.log(results);
+
     if (results.error === undefined) {
-      // adding data to shared.onDataLoaded 
-      loadData("settings", results)
+      // adding data to shared.onDataLoaded
+      loadData("settings", results);
       settings.set(results);
     } else {
-      console.error("Error loading user settings: ", results.message, " ", results.error)
+      console.error(
+        "Error loading user settings: ",
+        results.message,
+        " ",
+        results.error,
+      );
     }
   },
 };

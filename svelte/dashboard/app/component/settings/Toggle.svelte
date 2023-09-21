@@ -1,14 +1,14 @@
 <script>
-  import { generateUUID } from "../../../../components/lib/utils/static";
+  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
 
   export let checked = true;
-  
-  export let action = function (){}
-  
+
+  export let action = function () {};
+
   const id = generateUUID();
   const handleCheckboxChange = () => {
     checked = !checked;
-    action(checked)
+    action(checked);
   };
 </script>
 

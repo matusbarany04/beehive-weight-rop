@@ -14,6 +14,12 @@
    * @param {string} type css type of the button from styles.css
    */
   export let type = "secondary";
+
+  /**
+   * @param {boolean} enabled enabled option
+   */
+  export let enabled = true;
+
   /**
    * @param {string} image  optional, if specified image will be displayed left to the text, image path + name located in folder static
    */
@@ -50,12 +56,16 @@
   form={formId}
   type={clickType}
   on:click={() => {
-    onClick();
-    if (link) {
-      navigateWithPrefix(link);
+    if (enabled) {
+      onClick();
+      if (link) {
+        navigateWithPrefix(link);
+      }
     }
   }}
-  class="flex rounded-lg p-2 btn-{type} hover:scale-[1.02] duration-200"
+  class="flex rounded-lg p-2 btn-{type}{enabled
+    ? ''
+    : '-disabled'} duration-200 hover:scale-[1.02]"
 >
   {#if image && imagePosition === "left"}
     <div

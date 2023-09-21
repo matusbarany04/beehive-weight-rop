@@ -167,10 +167,10 @@ function getLoadedData(dataTypes) {
 }
 
 /**
- * Function distributes provided data to all subscribed parties 
- * 
+ * Function distributes provided data to all subscribed parties
+ *
  * @param dataType name of data
- * @param data data itself 
+ * @param data data itself
  */
 export function loadData(dataType, data) {
   savedData[dataType] = data;
