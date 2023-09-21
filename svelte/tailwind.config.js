@@ -14,6 +14,11 @@ export default {
     "btn-tertiary",
     "btn-confirm",
     "btn-error",
+    "btn-primary-disabled",
+    "btn-secondary-disabled",
+    "btn-tertiary-disabled",
+    "btn-confirm-disabled",
+    "btn-error-disabled",
     "btn-transparent",
     "no-scrollbar",
   ],
@@ -86,8 +91,36 @@ export default {
           "--icon-color": "white",
         },
       };
-
       addUtilities(buttonUtilities);
+
+      const buttonsDisabled = {
+        ".btn-primary-disabled": {
+          "background-color": theme("colors.secondary.800"),
+          "--icon-color": theme("colors.primary.100"),
+          "--text-color": theme("colors.primary.100"),
+        },
+        ".btn-secondary-disabled": {
+          "--icon-color": theme("colors.primary.100"),
+          "background-color": theme("colors.tertiary.400"),
+          outline: "2px solid #cfd2d6",
+        },
+
+        ".btn-confirm-disabled": {
+          "background-color": theme("colors.confirm.800"),
+          "--icon-color": theme("colors.primary.100"),
+        },
+        ".btn-error-disabled": {
+          "background-color": theme("colors.error"),
+          "--text-color": theme("colors.primary.100"),
+          "--icon-color": theme("colors.primary.100"),
+        },
+        ".btn-transparent-disabled": {
+          "--text-color": theme("colors.primary.100"),
+          "--icon-color": theme("colors.primary.100"),
+        },
+      };
+
+      addUtilities(buttonsDisabled);
 
       const scrollbar = {
         ".no-scrollbar::-webkit-scrollbar": {

@@ -9,6 +9,7 @@
     "@zerodevx/svelte-toast": "^0.9.5",
     "apexcharts": "^3.41.1",
     "better-docs": "^2.7.2",
+    "color": "^4.2.3",
     "docs": "^0.3.2-canary.0",
     "jsdoc": "^4.0.2",
     "leaflet": "^1.9.4",

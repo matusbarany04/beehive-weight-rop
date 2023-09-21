@@ -1,6 +1,6 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../../../components/lib/utils/static";
+  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
   import { getContext, onMount } from "svelte";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
