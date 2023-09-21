@@ -3,7 +3,7 @@
   import { route } from "../../../../components/router/route.serv";
   import { RouterObj } from "../../../../components/router/routerObj";
   import panelState from "./panelState";
-  import TW_BREAKPOINTS from "../../../../components/lib/utils/staticFuncs";
+  import { TW_BREAKPOINTS }  from "../../../../components/lib/utils/staticFuncs";
 
   /**
    * Display text for the panel item.

@@ -1,4 +1,4 @@
-const TW_BREAKPOINTS = {
+export const TW_BREAKPOINTS = {
   sm: 640,
   md: 768,
   lg: 1024,
@@ -7,7 +7,6 @@ const TW_BREAKPOINTS = {
 };
 
 export default {
-  TW_BREAKPOINTS,
   /**
    * Function checks equality be casting both to a string and returns boolean if they match
    * Limitations:
