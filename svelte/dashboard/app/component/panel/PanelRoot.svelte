@@ -1,5 +1,5 @@
 <script>
-  import TW_BREAKPOINTS from "../../../../components/lib/utils/staticFuncs";
+  import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
   import { writable } from "svelte/store";
   import panelState from "./panelState";
 
