@@ -111,6 +111,6 @@
   }
 
   .text {
-    color: var(--icon-color, black);
+    color: var(--text-color, black);
   }
 </style>

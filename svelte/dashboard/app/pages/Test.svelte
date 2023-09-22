@@ -7,6 +7,9 @@
   import Button from "../../../components/Buttons/Button.svelte";
   import ButtonSmall from "../../../components/Buttons/ButtonSmall.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
+  import message from "../stores/message";
+
+  message.setMessage("Test");
 </script>
 
 <Button image="icons/android.svg" type="primary" text="android"></Button>
