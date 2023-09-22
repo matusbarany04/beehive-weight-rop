@@ -8,9 +8,8 @@
   import { navigate } from "../../../../components/router/route.serv";
   import message from "../../stores/message";
 
+  message.setMessage("Pridať úľ");
 
-  message.setMessage("Pridať úľ")
-  
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
 

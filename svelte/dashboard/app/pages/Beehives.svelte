@@ -34,7 +34,7 @@
 
   let showModal = false;
 
-  message.setMessage("Zoznam úľov")
+  message.setMessage("Zoznam úľov");
 </script>
 
 <svelte:head>

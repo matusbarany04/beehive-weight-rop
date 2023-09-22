@@ -29,8 +29,8 @@
   onLoad("statuses", (statuses) => {
     beeData = shared.getStatusesById(props.id);
   });
-  
-  message.setMessage("Detail úľu")
+
+  message.setMessage("Detail úľu");
 
   // let temperatures = [];
 

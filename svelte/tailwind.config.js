@@ -66,13 +66,12 @@ export default {
     extend: {},
   },
   plugins: [
-    function ({addUtilities, theme}) {
-    
+    function ({ addUtilities, theme }) {
       function calcDesaturated(color) {
-        let hsl = colorUtils.RGBToHSL(color)
-        
-        if (typeof hsl == 'object') {
-          return colorUtils.hslToString(hsl.h, hsl.s / 2, hsl.l)
+        let hsl = colorUtils.RGBToHSL(color);
+
+        if (typeof hsl == "object") {
+          return colorUtils.hslToString(hsl.h, hsl.s / 2, hsl.l);
         }
         return color;
       }

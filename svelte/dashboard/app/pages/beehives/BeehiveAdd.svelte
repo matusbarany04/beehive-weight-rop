@@ -7,8 +7,7 @@
   import Option from "../../component/beehives/Option.svelte";
   import message from "../../stores/message";
 
-  
-  message.setMessage("Pridať úľ")
+  message.setMessage("Pridať úľ");
 </script>
 
 <svelte:head>
