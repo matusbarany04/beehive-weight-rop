@@ -5,8 +5,8 @@
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import shared from "../../stores/shared";
-  import  ApexCharts  from "apexcharts"
-  
+  import ApexCharts from "apexcharts";
+
   import { dataHandler } from "./dataHandler";
   export let cardStates;
   export let onDragEnd; // function

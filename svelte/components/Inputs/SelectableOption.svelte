@@ -21,9 +21,9 @@
     : 'hover:text-slate-500'}"
   on:click={() => (selection = value)}
 >
-  <div class="flex gap-2 items-center">
+  <div class="flex items-center gap-2">
     <input
-      class="appearance-none w-4 h-4 rounded-full border border-black bg-clip-content bg-white transition duration-100 checked:bg-secondary-500 checked:p-[2px]"
+      class="border-black h-4 w-4 appearance-none rounded-full border bg-white bg-clip-content transition duration-100 checked:bg-secondary-500 checked:p-[2px]"
       type="radio"
       bind:group={selection}
       id={name}
@@ -33,11 +33,9 @@
   </div>
 
   {#if selection === value}
-    <slot/>
+    <slot />
   {/if}
 </div>
 
 <style>
-
-
 </style>
