@@ -6,7 +6,7 @@
   import { tweened } from "svelte/motion";
   import { quartInOut } from "svelte/easing";
   import PanelRoot from "./PanelRoot.svelte";
-  import {TW_BREAKPOINTS} from "../../../../components/lib/utils/staticFuncs";
+  import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
 
   let screenSize = 0;
   $: collapsed = false;

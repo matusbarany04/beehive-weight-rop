@@ -63,7 +63,10 @@
       }
     }
   }}
-  class="flex rounded-lg p-2 btn-{type}{enabled ? '' : '-disabled'} duration-200 hover:scale-[1.02]">
+  class="flex rounded-lg p-2 btn-{type}{enabled
+    ? ''
+    : '-disabled'} duration-200 hover:scale-[1.02]"
+>
   {#if image && imagePosition === "left"}
     <div
       class="image mr-2 self-center"
