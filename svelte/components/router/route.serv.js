@@ -3,7 +3,7 @@
  * It exports a writable Svelte store (`route`) to keep track of the current route,
  * as well as helper functions to navigate programmatically.
  * 
- * @module router.serv.js
+ * @module routerservjs
  */
 import {get, writable} from "svelte/store";
 import {prefix} from "./prefix.js";

@@ -1,6 +1,6 @@
 <script>
   /**
-   * @fileoverview This is a button component for creating standardised buttons
+   * @fileoverview This is a button component for creating standardized buttons.
    * @module Button
    */
 
