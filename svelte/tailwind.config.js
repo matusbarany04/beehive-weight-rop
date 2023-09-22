@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
+import colorUtils from "./build_utils/colorUtils";
+
 const colors = require("tailwindcss/colors");
 
 export default {
@@ -64,7 +66,17 @@ export default {
     extend: {},
   },
   plugins: [
-    function ({ addUtilities, theme }) {
+    function ({addUtilities, theme}) {
+    
+      function calcDesaturated(color) {
+        let hsl = colorUtils.RGBToHSL(color)
+        
+        if (typeof hsl == 'object') {
+          return colorUtils.hslToString(hsl.h, hsl.s / 2, hsl.l)
+        }
+        return color;
+      }
+
       const buttonUtilities = {
         ".btn-primary": {
           "background-color": theme("colors.secondary.500"),
@@ -82,7 +94,7 @@ export default {
           "--icon-color": "black",
         },
         ".btn-error": {
-          "background-color": theme("colors.error"),
+          "background-color": theme("colors.error.500"),
           "--text-color": "white",
           "--icon-color": "white",
         },
@@ -95,28 +107,28 @@ export default {
 
       const buttonsDisabled = {
         ".btn-primary-disabled": {
-          "background-color": theme("colors.secondary.800"),
-          "--icon-color": theme("colors.primary.100"),
-          "--text-color": theme("colors.primary.100"),
+          "background-color": calcDesaturated(theme("colors.secondary.800")),
+          "--icon-color": calcDesaturated(theme("colors.primary.100")),
+          "--text-color": calcDesaturated(theme("colors.primary.100")),
         },
         ".btn-secondary-disabled": {
-          "--icon-color": theme("colors.primary.100"),
-          "background-color": theme("colors.tertiary.400"),
+          "--icon-color": calcDesaturated(theme("colors.primary.100")),
+          "background-color": calcDesaturated(theme("colors.tertiary.400")),
           outline: "2px solid #cfd2d6",
         },
-
         ".btn-confirm-disabled": {
-          "background-color": theme("colors.confirm.800"),
-          "--icon-color": theme("colors.primary.100"),
+          "background-color": calcDesaturated(theme("colors.confirm.500")),
+          "--text-color": calcDesaturated(theme("colors.confirm.600")),
+          "--icon-color": calcDesaturated(theme("colors.confirm.600")),
         },
         ".btn-error-disabled": {
-          "background-color": theme("colors.error"),
-          "--text-color": theme("colors.primary.100"),
-          "--icon-color": theme("colors.primary.100"),
+          "background-color": calcDesaturated(theme("colors.error.500")),
+          "--text-color": calcDesaturated(theme("colors.primary.100")),
+          "--icon-color": calcDesaturated(theme("colors.primary.100")),
         },
         ".btn-transparent-disabled": {
-          "--text-color": theme("colors.primary.100"),
-          "--icon-color": theme("colors.primary.100"),
+          "--text-color": calcDesaturated(theme("colors.primary.100")),
+          "--icon-color": calcDesaturated(theme("colors.primary.100")),
         },
       };
 

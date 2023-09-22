@@ -58,9 +58,8 @@
     -webkit-mask-size: 100%;
     background-color: var(--icon-color, black);
   }
-
   .text {
-    color: var(--icon-color, black);
+    color: var(--text-color, black);
   }
 
   .root:hover {
