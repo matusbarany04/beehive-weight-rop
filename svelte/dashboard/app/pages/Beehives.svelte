@@ -13,6 +13,7 @@
   import shared, { onLoad } from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
   import RouterLink from "../../../components/RouterLink.svelte";
+  import message from "../stores/message";
 
   const user = shared.getUser();
   let rows, handler, statuses;
@@ -32,6 +33,8 @@
   });
 
   let showModal = false;
+
+  message.setMessage("Zoznam úľov")
 </script>
 
 <svelte:head>

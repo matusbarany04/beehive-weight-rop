@@ -6,7 +6,11 @@
   import Button from "../../../../components/Buttons/Button.svelte";
   import Loading from "../../../../components/pages/Loading.svelte";
   import { navigate } from "../../../../components/router/route.serv";
+  import message from "../../stores/message";
 
+
+  message.setMessage("Pridať úľ")
+  
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
 
