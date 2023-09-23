@@ -13,6 +13,7 @@
   import Sensor from "../../component/beehives/Sensor.svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
   import Modal from "../../../../components/Modal.svelte";
+  import SensorView from "../../component/beehives/SensorView.svelte";
 
   export let props;
 
@@ -21,6 +22,7 @@
   let sensorWindow;
   let locationResults;
   let connectionMode = "0";
+  let sensors = [];
 
   let intervals = [
     [10, "10min"],
@@ -32,9 +34,36 @@
     [600, "10h"],
   ];
 
-  function addSensor(e) {
+  const ports = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"];
+
+  function addSensor(type, name, connector) {
     sensorWindow = false;
-    console.log(e.target);
+    let port = findPort(connector);
+    sensors[port] = { type: type, name: generateName(name) };
+    console.log(sensors);
+  }
+
+  function findPort(connector) {
+    console.log(ports);
+    for (let port of ports) {
+      if (port.startsWith(connector) && !sensors[port]) return port;
+    }
+  }
+
+  function generateName(name) {
+    if (!exist(name)) return name;
+    let newName = name + " 1";
+    for (let i = 2; exist(newName); i++) newName = name + " " + i;
+    return newName;
+  }
+
+  function exist(name) {
+    console.log(sensors);
+    for (let connector in sensors) {
+      console.log(connector);
+      if (sensors[connector].name === name) return true;
+    }
+    return false;
   }
 
   onLoad(["beehives"], () => {
@@ -143,6 +172,7 @@
             onClick={() => (sensorWindow = true)}
           />
         </div>
+        <SensorView {ports} bind:devices={sensors} />
       </div>
       <div class="m-4 flex justify-end gap-2">
         <Button type="primary" formId="device_settings" text="Uložiť zmeny" />
@@ -158,27 +188,11 @@
   <Modal bind:showModal={sensorWindow}>
     <h2 slot="header" class="text-2xl font-bold">Pridať Senzor</h2>
     <div class="my-5 grid grid-cols-3 gap-3">
-      <Sensor
-        name="Hmotnosť"
-        img="../../../icons/weight.svg"
-        on:click={addSensor}
-      />
-      <Sensor
-        name="Teplota"
-        img="../../../icons/temp.svg"
-        on:click={addSensor}
-      />
-      <Sensor
-        name="Teplota+Vlhkosť"
-        img="../../../icons/humidity.svg"
-        on:click={addSensor}
-      />
-      <Sensor
-        name="Svetlo"
-        img="../../../icons/light.svg"
-        on:click={addSensor}
-      />
-      <Sensor name="Zvuk" img="../../../icons/sound.svg" on:click={addSensor} />
+      <Sensor name="Hmotnosť" type="weight" action={addSensor} />
+      <Sensor name="Teplota" type="temp" action={addSensor} />
+      <Sensor name="Teplota+Vlhkosť" type="humidity" action={addSensor} />
+      <Sensor name="Svetlo" type="light" action={addSensor} />
+      <Sensor name="Zvuk" type="sound" action={addSensor} />
     </div>
   </Modal>
 {:else}
