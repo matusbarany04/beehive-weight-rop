@@ -11,6 +11,7 @@
   import { generateUUID } from "../../../components/lib/utils/staticFuncs";
   import shared, { onLoad } from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
+  import message from "../stores/message";
 
   const finalItemCount = 4;
 
@@ -68,7 +69,11 @@
     return { exists: false, x: -1, y: -1 };
   };
 
-  onLoad(["user"], (user) => initCardList(user));
+  message.setMessage("Dobrý deň");
+  onLoad(["user"], (user) => {
+    message.setMessage("Dobrý deň, včelár " + user.name);
+    initCardList(user);
+  });
 
   onMount(function () {
     // message.set(`Dobré ráno, včelár ${user.name}!`);

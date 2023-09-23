@@ -13,6 +13,7 @@
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
   import shared, { onLoad } from "../../stores/shared";
   import RouterLink from "../../../../components/RouterLink.svelte";
+  import message from "../../stores/message";
 
   export let props;
 
@@ -28,6 +29,8 @@
   onLoad("statuses", (statuses) => {
     beeData = shared.getStatusesById(props.id);
   });
+
+  message.setMessage("Detail úľu");
 
   // let temperatures = [];
 
