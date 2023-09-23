@@ -41,7 +41,7 @@ public class Beehive {
     private int connectionMode = SIM_MODE;
 
     @Column(name = "interval_min")
-    private int interval;
+    private int interval = 60;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "beehive")
     private final List<Device> devices = new LinkedList<>();

@@ -79,15 +79,13 @@ public class BeeController {
         String beehive = json.getString("beehive");
         String model = json.getString("model");
 
-        if(PairingManager.isExpired(beehive)) return "ERROR_TIMEOUT";
-
-        int status = PairingManager.requestPair(beehive, model);
+        int status = PairingManager.isExpired(beehive) ? PairingManager.ERROR_TIMEOUT : PairingManager.requestPair(beehive, model);
 
         return switch (status) {
             case PairingManager.PAIRING_SUCCESSFUL -> "SUCCESS";
             case PairingManager.NOT_PAIRING_MODE -> "NOT_PAIRING_MODE";
             case PairingManager.BEEHIVE_EXIST -> "ERROR_ALREADY_PAIRED";
-
+            case PairingManager.ERROR_TIMEOUT -> "ERROR_TIMEOUT";
             default -> "ERROR";
         };
     }

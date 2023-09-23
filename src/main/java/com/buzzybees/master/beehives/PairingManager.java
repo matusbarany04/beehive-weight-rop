@@ -17,6 +17,7 @@ public class PairingManager {
 
     public static final int BEEHIVE_EXIST = -1;
     public static final int NOT_PAIRING_MODE = -2;
+    public static final int ERROR_TIMEOUT = -3;
     public static final int PAIRING_SUCCESSFUL = 0;
 
     @Autowired
