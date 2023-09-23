@@ -7,6 +7,7 @@
   import Loading from "../../../../components/pages/Loading.svelte";
   import { navigate } from "../../../../components/router/route.serv";
   import message from "../../stores/message";
+  import shared from "../../stores/shared";
 
   message.setMessage("Pridať úľ");
 
@@ -25,7 +26,7 @@
             status = await response.json();
             console.log(status["status"]);
             if (status["status"] === "PAIRED") {
-              navigate("/dashboard/beehives/" + token + "/edit");
+              location.href = "/dashboard/beehives/" + token + "/edit";
               clearInterval(interval);
             }
           }, 1000);
