@@ -79,7 +79,10 @@ public class DashboardController {
         if (currentUserId > 0) {
             JSONArray array = new JSONArray();
             Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
-            for (Beehive beehive : beehives) array.put(beehive.toJSON());
+            for (Beehive beehive : beehives) {
+                System.out.println(beehive.toJSON());
+                array.put(beehive.toJSON());
+            }
 
             response.put("beehives", array);
             status = "ok";

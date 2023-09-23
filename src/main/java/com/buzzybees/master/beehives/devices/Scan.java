@@ -1,6 +1,7 @@
-package com.buzzybees.master.beehives;
+package com.buzzybees.master.beehives.devices;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
@@ -21,9 +22,8 @@ public class Scan {
     @Column(name = "date")
     private Date date;
 
-    @Column(name = "devices")
+    @Column(name = "devices", columnDefinition="json")
     private String devices;
-
 
     public void setDevices(JSONObject devices) {
        this.devices = devices.toString();

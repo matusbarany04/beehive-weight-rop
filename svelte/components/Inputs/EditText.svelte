@@ -11,16 +11,16 @@
    */
   export let focus;
 
-  let input, prevValue;
+  let input, prevValue, isFocused;
 
-  onMount(() => input.focus());
-
-  $: if (focus && input) input.focus();
+  if(focus) isFocused = true;
+  
+  $: if (isFocused && input) input.focus();
 
   function keydown(e) {
     if (e.key === "Enter") focus = false;
     else if (e.key === "Escape") {
-      focus = false;
+      isFocused = false;
       value = prevValue;
     }
   }
@@ -32,16 +32,16 @@
 </script>
 
 {#if value}
-  {#if focus}
+  {#if isFocused}
     <input
       class={$$props.class}
       bind:this={input}
       bind:value
-      on:focusout={() => (focus = false)}
+      on:focusout={() => (isFocused = false)}
       on:focus={focusAction}
       on:keydown={keydown}
     />
   {:else}
-    <div class={$$props.class} on:dblclick={() => (focus = true)}>{value}</div>
+    <div class={$$props.class} on:dblclick={() => (isFocused = true)}>{value}</div>
   {/if}
 {/if}

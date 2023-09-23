@@ -1,13 +1,13 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
-  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
-  import {getContext, onMount} from "svelte";
+  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
+  import { getContext, onMount } from "svelte";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import shared from "../../stores/shared";
   import ApexCharts from "apexcharts";
 
-  import {dataHandler} from "./dataHandler";
+  import { dataHandler } from "./dataHandler";
 
   export let cardStates;
   export let onDragEnd; // function
@@ -65,12 +65,12 @@
         // );
       }
     });
-    
+
     // this fixes apex chart size after redirect back to dashboard
     setTimeout(() => {
       id = id;
-    }, 100)
-    
+    }, 100);
+
     onMount(async () => {
       var options = {
         stroke: {
@@ -127,8 +127,6 @@
       chart.render();
       headerSelected = cardStates.data[0].timespan ?? "week";
       changeZoom(headerSelected);
-      
-     
     });
   }
 </script>
@@ -185,7 +183,7 @@
   </div>
   <div class="relative flex max-h-full w-full">
     <!-- {#if chartRef} -->
-    <div id={id} class="h-full w-full"/>
+    <div {id} class="h-full w-full" />
     <!-- {/if} -->
     <!-- {#if chartRef} -->
     <!-- <Line bind:chart={chartRef} {options} {data} /> -->

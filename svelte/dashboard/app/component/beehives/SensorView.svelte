@@ -1,17 +1,17 @@
 <script>
   import Sensor from "./Sensor.svelte";
-  import Input from "../../../../components/Inputs/Input.svelte";
   import EditText from "../../../../components/Inputs/EditText.svelte";
+  import {onMount} from "svelte";
 
   export let devices = {};
   export let ports;
 
   const WEIGHT_PORT = "W1";
-  let activeInput;
+  let loaded = false;
   let x;
-
-  $: if (activeInput) activeInput.select();
-
+  
+  onMount(() => loaded = true);
+  
   function focusInput(e) {
     e.target.select();
   }
@@ -81,7 +81,7 @@
             <EditText
               class="w-full text-center"
               bind:value={devices[port]["name"]}
-              focus
+              focus={loaded}
             />
           {/if}
         </div>

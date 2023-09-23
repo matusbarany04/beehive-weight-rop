@@ -5,8 +5,8 @@
  *
  * @module routerservjs
  */
-import {get, writable} from "svelte/store";
-import {prefix} from "./prefix.js";
+import { get, writable } from "svelte/store";
+import { prefix } from "./prefix.js";
 
 /**
  * A writable Svelte store that holds the current application's route (path).
@@ -78,7 +78,6 @@ function areThereUnsavedData() {
   return get(areUnsavedData);
 }
 
-
 function unsavedDataPrompt() {
   return confirm("You have unsaved data! Are you sure you want to proceed?");
 }
@@ -99,9 +98,9 @@ window.addEventListener("beforeunload", function (e) {
 const callbacks = writable([]);
 
 export function setOnAfterNavigate(callback) {
-  console.log("setOnAfterNavigate")
+  console.log("setOnAfterNavigate");
   // Use the update method to push a new callback to the callbacks array
-  callbacks.update(currCallbacks => [...currCallbacks, callback]);
+  callbacks.update((currCallbacks) => [...currCallbacks, callback]);
 }
 
 /**
@@ -111,13 +110,9 @@ export async function callAfterNavigateCallbacks() {
   await tick();
   // Use the value from the callbacks store
   console.log("callingAfterNavigate");
-  callbacks.subscribe(currCallbacks => {
+  callbacks.subscribe((currCallbacks) => {
     for (const callback of currCallbacks) {
       callback();
     }
   })();
 }
-
-
-
-

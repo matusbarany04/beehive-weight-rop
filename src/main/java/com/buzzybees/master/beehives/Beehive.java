@@ -1,9 +1,13 @@
 package com.buzzybees.master.beehives;
 
+import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.tables.Status;
 import jakarta.persistence.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "beehives")
@@ -14,8 +18,8 @@ public class Beehive {
     public static final int OTHER_BEEHIVE_MODE = 2;
 
     @Id
-    @GeneratedValue
-    private long id;
+    @Column(name = "token")
+    private String token;
 
     @Column(name = "location")
     private String location;
@@ -32,14 +36,15 @@ public class Beehive {
     @Column(name = "other_users")
     private String otherUsers = "{}";
 
-    @Column(name = "token")
-    private String token;
 
     @Column(name = "connection_mode")
     private int connectionMode = SIM_MODE;
 
     @Column(name = "interval_min")
     private int interval;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "beehive")
+    private final List<Device> devices = new LinkedList<>();
 
     public Beehive() {
 
@@ -56,10 +61,6 @@ public class Beehive {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getLocation() {
@@ -102,16 +103,6 @@ public class Beehive {
         this.interval = interval;
     }
 
-    public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", name);
-        jsonObject.put("interval", interval);
-        jsonObject.put("location", location);
-        jsonObject.put("token", token);
-        jsonObject.put("model", model);
-        return jsonObject;
-    }
-
     public static Beehive findByToken(Beehive[] beehives, String token) {
         for(Beehive beehive : beehives) {
             if(beehive.getToken().equals(token)) return beehive;
@@ -131,4 +122,24 @@ public class Beehive {
     public String getModel() {
         return model;
     }
+
+    public List<Device> getDevices() {
+        return devices;
+    }
+
+    public JSONObject toJSON() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", name);
+        jsonObject.put("interval", interval);
+        jsonObject.put("location", location);
+        jsonObject.put("token", token);
+        jsonObject.put("model", model);
+
+        JSONArray array = new JSONArray();
+        for(Device device : devices) array.put( device.toJSON());
+        jsonObject.put("devices", array);
+
+        return jsonObject;
+    }
+
 }

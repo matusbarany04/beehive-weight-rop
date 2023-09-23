@@ -1,4 +1,4 @@
-package com.buzzybees.master.beehives;
+package com.buzzybees.master.beehives.devices;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

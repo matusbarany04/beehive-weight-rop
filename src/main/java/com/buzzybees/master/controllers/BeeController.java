@@ -1,16 +1,20 @@
 package com.buzzybees.master.controllers;
 
+import com.buzzybees.master.beehives.Beehive;
+import com.buzzybees.master.beehives.BeehiveRepository;
 import com.buzzybees.master.beehives.PairingManager;
-import com.buzzybees.master.beehives.Scan;
-import com.buzzybees.master.beehives.ScanRepository;
+import com.buzzybees.master.beehives.devices.Device;
+import com.buzzybees.master.beehives.devices.DeviceRepository;
+import com.buzzybees.master.beehives.devices.Scan;
+import com.buzzybees.master.beehives.devices.ScanRepository;
 import com.buzzybees.master.beehives.StatusRepository;
 import com.buzzybees.master.tables.Status;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 
@@ -22,6 +26,12 @@ public class BeeController {
 
     @Autowired
     ScanRepository scanRepository;
+
+    @Autowired
+    BeehiveRepository beehiveRepository;
+
+    @Autowired
+    DeviceRepository deviceRepository;
 
     @GetMapping("/clk_sync")
     public long clk() {
@@ -92,5 +102,17 @@ public class BeeController {
         scanRepository.save(scan);
 
         return "{\"status\":\"ok\"";
+    }
+
+    @PostMapping("/test")
+    public String testTable() {
+        Beehive[] beehives = beehiveRepository.getAllByUser(1);
+
+        for(Beehive beehive : beehives) {
+            System.out.println(beehive.getName());
+            System.out.println(beehive.getDevices());
+        }
+
+        return "OK";
     }
 }

@@ -3,16 +3,16 @@
    * @fileoverview This page shows graphs and charts related to beehives and their data
    * @module HomePage
    */
-  import {onMount, setContext, tick} from "svelte";
+  import { onMount, setContext, tick } from "svelte";
 
   import Button from "../../../components/Buttons/Button.svelte";
   import EditPanel from "../component/panel/EditPanel.svelte";
   import * as cardUtils from "../component/cards/cardUtilities";
-  import {generateUUID} from "../../../components/lib/utils/staticFuncs";
-  import shared, {onLoad} from "../stores/shared";
+  import { generateUUID } from "../../../components/lib/utils/staticFuncs";
+  import shared, { onLoad } from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
   import message from "../stores/message";
-  import {setOnAfterNavigate} from "../../../components/router/route.serv";
+  import { setOnAfterNavigate } from "../../../components/router/route.serv";
 
   const finalItemCount = 4;
 
@@ -67,7 +67,7 @@
         itemsActive[i] = false;
       }
     }
-    return {exists: false, x: -1, y: -1};
+    return { exists: false, x: -1, y: -1 };
   };
 
   message.setMessage("Dobrý deň");
@@ -75,7 +75,6 @@
     message.setMessage("Dobrý deň, včelár " + user.name);
     initCardList(user);
   });
-
 
   onMount(function () {
     // message.set(`Dobré ráno, včelár ${user.name}!`);
@@ -109,7 +108,7 @@
 
       return itemSideSize;
     };
-    
+
     window.addEventListener(
       "resize",
       function (event) {
@@ -133,11 +132,11 @@
         }
         itemsActive = [...itemsActive];
       },
-      {passive: true},
+      { passive: true },
     );
-    
+
     onLoad(["beehives", "statuses"], (beehives, statuses) => {
-      console.log("beehives, statuses")
+      console.log("beehives, statuses");
       updateItemSideSize();
       renderCards = true;
     });
@@ -245,9 +244,9 @@
       if (!checkCollision(copy)) {
         // item.x = copy.x;
         // item.y = copy.y;
-        return {x: copy.x, y: copy.y};
+        return { x: copy.x, y: copy.y };
       } else {
-        return {x: item.x, y: item.y};
+        return { x: item.x, y: item.y };
       }
     },
     saveCardList: async () => {
@@ -259,7 +258,7 @@
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({data: JSON.stringify(cardList)}), // TOKEN needed , token: sessionid
+          body: JSON.stringify({ data: JSON.stringify(cardList) }), // TOKEN needed , token: sessionid
         });
         const output = await response.json();
         console.log("saving... ", output);
@@ -272,12 +271,11 @@
   };
 
   setContext("dashboardEditor", dashboardEditor);
-
 </script>
 
 <svelte:head>
   <title>DashBoard</title>
-  <meta name="description" content="Svelte demo app"/>
+  <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
 {#if editMode}
@@ -353,12 +351,14 @@
   class="relative flex min-h-screen w-full flex-1 items-center justify-center"
 >
   {#if editMode}
-    <div class="absolute box-border grid h-full w-full text-slate-900"
+    <div
+      class="absolute box-border grid h-full w-full text-slate-900"
       style:--side="{itemSideSize}px"
       style:--grid-gap="{gridGap}px"
-      style:--itemCount={varItemCount}>
-      {#each {length: Math.pow(varItemCount, 2)} as _, i}
-        <div class={"cell gridItem " + (itemsActive[i] ? "active" : "")}/>
+      style:--itemCount={varItemCount}
+    >
+      {#each { length: Math.pow(varItemCount, 2) } as _, i}
+        <div class={"cell gridItem " + (itemsActive[i] ? "active" : "")} />
       {/each}
     </div>
   {/if}
@@ -404,7 +404,7 @@
         />
       {/each}
     {:else}
-      <Loading/>
+      <Loading />
     {/if}
   </div>
 </div>
@@ -423,7 +423,7 @@
       grid-template-columns: repeat(1, calc(var(--side) * var(--itemCount)));
       grid-template-rows: repeat(
         calc(var(--itemCount) * var(--itemCount)),
-          calc(var(--side) * var(--itemCount))
+        calc(var(--side) * var(--itemCount))
       );
     }
   }
