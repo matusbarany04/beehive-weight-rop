@@ -57,7 +57,7 @@
       </RouterLink>
     </div>
   </div>
-  {#if beeData}
+  {#if beehive && beeData}
     <div
       class="mx-auto mb-4 grid grid-cols-2 justify-between gap-4 md:grid-cols-4 lg:w-5/6"
     >
