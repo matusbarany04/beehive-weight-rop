@@ -49,19 +49,19 @@
   const ports = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"];
 
   message.setMessage("Nastavenia zariadenia");
-  
+
   onLoad(["beehives"], () => {
     beehive = shared.getBeehiveById(props.id);
-    connectionMode = beehive.model === MODEL_WITH_GSM ? "0" : "1";
-    
-    for(let device of beehive.devices) {
+    connectionMode = beehive["connectionMode"] + "";
+    console.log(beehive);
+
+    for (let device of beehive.devices) {
       sensors[device["port"]] = device;
       delete sensors[device["port"]]["port"];
     }
-    
+
     console.log(sensors);
   });
-
 
   function addSensor(type, name, connector) {
     sensorWindow = false;
@@ -93,7 +93,7 @@
     }
     return false;
   }
-  
+
   function searchLocation(e) {
     console.log(e.target.value);
     const query = e.target.value;

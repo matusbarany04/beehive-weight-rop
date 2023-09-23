@@ -4,6 +4,8 @@ import com.buzzybees.master.beehives.Beehive;
 import com.buzzybees.master.beehives.BeehiveRepository;
 import com.buzzybees.master.beehives.PairingManager;
 import com.buzzybees.master.beehives.StatusRepository;
+import com.buzzybees.master.beehives.devices.Device;
+import com.buzzybees.master.beehives.devices.DeviceRepository;
 import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.notifications.NotificationRepository;
 import com.buzzybees.master.notifications.Reminder;
@@ -42,16 +44,18 @@ public class DashboardController {
     private NotificationRepository notificationRepository;
     private UserRepository userRepository;
     private ReminderRepository reminderRepository;
+    private DeviceRepository deviceRepository;
 
     private long currentUserId;
 
     @Autowired
-    public void initRepos(StatusRepository statuses, NotificationRepository notifications, BeehiveRepository beehives, UserRepository users, ReminderRepository reminders) {
+    public void initRepos(StatusRepository statuses, NotificationRepository notifications, BeehiveRepository beehives, UserRepository users, ReminderRepository reminders, DeviceRepository deviceRepository) {
         this.statusRepository = statuses;
         this.notificationRepository = notifications;
         this.beehiveRepository = beehives;
         this.userRepository = users;
         this.reminderRepository = reminders;
+        this.deviceRepository = deviceRepository;
     }
 
     @ModelAttribute("dashboard")
@@ -400,10 +404,20 @@ public class DashboardController {
             Beehive beehive = beehiveRepository.getBeehiveByToken(formData.getFirst("beehive"));
             beehive.setName(formData.getFirst("name"));
 
-            String interval = Objects.requireNonNull(formData.getFirst("interval"));
-            beehive.setInterval(Integer.parseInt(interval));
+            String interval = formData.getFirst("interval");
+            if(interval != null) beehive.setInterval(Integer.parseInt(interval));
 
             beehive.setLocation(formData.getFirst("location"));
+
+            String mode = Objects.requireNonNull(formData.getFirst("connectionMode"));
+            beehive.setConnectionMode(Integer.parseInt(mode));
+
+            JSONObject sensors = new JSONObject(formData.getFirst("sensors"));
+            for(String port : sensors.keySet()) {
+                Device device = Device.fromJSON(sensors.getJSONObject(port), port);
+                device.setBeehive(beehive);
+                deviceRepository.save(device);
+            }
 
             beehiveRepository.save(beehive);
             json.put("status", "ok");

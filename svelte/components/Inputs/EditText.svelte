@@ -13,12 +13,12 @@
 
   let input, prevValue, isFocused;
 
-  if(focus) isFocused = true;
-  
+  if (focus) isFocused = true;
+
   $: if (isFocused && input) input.focus();
 
   function keydown(e) {
-    if (e.key === "Enter") focus = false;
+    if (e.key === "Enter") isFocused = false;
     else if (e.key === "Escape") {
       isFocused = false;
       value = prevValue;
@@ -42,6 +42,8 @@
       on:keydown={keydown}
     />
   {:else}
-    <div class={$$props.class} on:dblclick={() => (isFocused = true)}>{value}</div>
+    <div class={$$props.class} on:dblclick={() => (isFocused = true)}>
+      {value}
+    </div>
   {/if}
 {/if}

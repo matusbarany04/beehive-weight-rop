@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class Device {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(name = "name")
@@ -24,6 +24,19 @@ public class Device {
 
     @Column(name = "port")
     private String port;
+
+    public static Device fromJSON(JSONObject jsonObject, String port) {
+        Device device = new Device();
+        System.out.println(jsonObject);
+        device.name = jsonObject.getString("name");
+        device.type = jsonObject.getString("type");
+        device.port = port;
+
+        long id = jsonObject.optLong("id");
+        if(id > 1) device.id = id;
+
+        return device;
+    }
 
     public String getName() {
         return name;

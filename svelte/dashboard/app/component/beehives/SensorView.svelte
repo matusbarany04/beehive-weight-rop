@@ -1,7 +1,7 @@
 <script>
   import Sensor from "./Sensor.svelte";
   import EditText from "../../../../components/Inputs/EditText.svelte";
-  import {onMount} from "svelte";
+  import { onMount } from "svelte";
 
   export let devices = {};
   export let ports;
@@ -9,9 +9,9 @@
   const WEIGHT_PORT = "W1";
   let loaded = false;
   let x;
-  
-  onMount(() => loaded = true);
-  
+
+  onMount(() => (loaded = true));
+
   function focusInput(e) {
     e.target.select();
   }
@@ -23,7 +23,7 @@
       <EditText
         class="ml-[40%] w-1/5 text-center"
         bind:value={devices[WEIGHT_PORT]["name"]}
-        focus
+        focus={loaded}
       />
     {/if}
     <div class=" m-auto h-14 w-14 rounded">

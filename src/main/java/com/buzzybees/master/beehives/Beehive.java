@@ -132,6 +132,7 @@ public class Beehive {
         jsonObject.put("name", name);
         jsonObject.put("interval", interval);
         jsonObject.put("location", location);
+        jsonObject.put("connectionMode", connectionMode);
         jsonObject.put("token", token);
         jsonObject.put("model", model);
 
