@@ -14,6 +14,7 @@
   import shared, { onLoad } from "../../stores/shared";
   import RouterLink from "../../../../components/RouterLink.svelte";
   import message from "../../stores/message";
+  import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
 
   export let props;
 
@@ -21,6 +22,7 @@
   let showSettings = false;
   let beeData;
   let beehive;
+  let innerWidth;
 
   onLoad("beehives", (beehives) => {
     beehive = shared.getBeehiveById(props.id);
@@ -39,6 +41,7 @@
   // let temperatures = dataHandler.getTemperatures(data.beehive_id)
 </script>
 
+<svelte:window bind:innerWidth />
 <div id="chart"></div>
 
 <!-- {JSON.stringify(beeData)} -->
@@ -139,11 +142,15 @@
       />
     </div>
 
-    <div class="mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:w-5/6">
+    <div
+      class="mx-auto grid grid-cols-1 gap-4 md:aspect-video md:grid-cols-4 md:grid-rows-2 lg:w-5/6"
+    >
       <ApexChart
         cardStates={{
           id: "",
-          spanX: 1,
+          x: TW_BREAKPOINTS.md < innerWidth ? 1 : 0,
+          y: TW_BREAKPOINTS.md < innerWidth ? 1 : 1,
+          spanX: 2,
           mode: "static",
           spanY: 1,
           editing: false,
@@ -161,7 +168,9 @@
       <ApexChart
         cardStates={{
           id: "",
-          spanX: 1,
+          x: TW_BREAKPOINTS.md < innerWidth ? 3 : 0,
+          y: TW_BREAKPOINTS.md < innerWidth ? 1 : 2,
+          spanX: 2,
           mode: "static",
           spanY: 1,
           editing: false,
@@ -175,10 +184,13 @@
           ],
         }}
       />
+
       <ApexChart
         cardStates={{
           id: "",
-          spanX: 1,
+          x: TW_BREAKPOINTS.md < innerWidth ? 1 : 0,
+          y: TW_BREAKPOINTS.md < innerWidth ? 2 : 3,
+          spanX: 2,
           mode: "static",
           spanY: 1,
           editing: false,
@@ -192,10 +204,13 @@
           ],
         }}
       />
+
       <ApexChart
         cardStates={{
           id: "",
-          spanX: 1,
+          spanX: 2,
+          x: TW_BREAKPOINTS.md < innerWidth ? 3 : 0,
+          y: TW_BREAKPOINTS.md < innerWidth ? 2 : 4,
           mode: "static",
           spanY: 1,
           editing: false,
@@ -209,7 +224,11 @@
           ],
         }}
       />
+    </div>
 
+    <div
+      class="mx-auto mt-4 grid aspect-video grid-cols-1 gap-4 md:grid-cols-2 lg:w-5/6"
+    >
       <MapCard
         cardStates={{
           id: "",
