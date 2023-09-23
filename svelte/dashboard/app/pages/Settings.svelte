@@ -7,24 +7,26 @@
   import SettingsItem from "../component/settings/SettingsItem.svelte";
   import Toggle from "../component/settings/Toggle.svelte";
   import message from "../stores/message";
-  import shared, {onLoad} from "../stores/shared";
+  import shared, { onLoad } from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
   import staticFuncs, {
     generateUUID,
   } from "../../../components/lib/utils/staticFuncs";
   import Button from "../../../components/Buttons/Button.svelte";
   import toast from "../../../components/Toast/toast";
-  import {setUnsavedData, resetUnsavedData} from "../../../components/router/route.serv";
+  import {
+    setUnsavedData,
+    resetUnsavedData,
+  } from "../../../components/router/route.serv";
 
   message.setMessage("Nastavenia");
 
   let settings = null;
   let originalSettings = null;
 
-
   onLoad("settings", (settings_json) => {
-    settings = {...settings_json};
-    originalSettings = {...settings_json};
+    settings = { ...settings_json };
+    originalSettings = { ...settings_json };
   });
 
   let saveEnabled = false;
@@ -35,11 +37,11 @@
    */
   function triggerSave() {
     saveEnabled = !staticFuncs.jsonFlatEqual(settings, originalSettings);
-    console.log("save" , saveEnabled, settings, originalSettings)
+    console.log("save", saveEnabled, settings, originalSettings);
     setUnsavedData(saveEnabled);
   }
 
-  triggerSave()
+  triggerSave();
 
   /**
    * Saves new settings to the database
@@ -50,11 +52,10 @@
       body: JSON.stringify(settings),
     })
       .then((response) => {
-        originalSettings = {...settings};
+        originalSettings = { ...settings };
         saveEnabled = false;
-        resetUnsavedData()
+        resetUnsavedData();
         toast.push("Settings saved!");
-
       })
       .catch((error) => {
         toast.push("Something happened", "error");
@@ -64,7 +65,7 @@
 
 <svelte:head>
   <title>Analytika</title>
-  <meta name="Analytika" content="Analytika"/>
+  <meta name="Analytika" content="Analytika" />
 </svelte:head>
 
 <div class="absolute right-0 top-0 z-50 flex w-min justify-end gap-3 p-4">
@@ -82,7 +83,7 @@
 
 <form class="h-full w-full">
   {#if settings}
-    <SettingsHeader title="Upozornenia"/>
+    <SettingsHeader title="Upozornenia" />
 
     <SettingsItem
       title="Posielať upozornenia na mail"
@@ -164,7 +165,7 @@
       title="Zvýšená vlhkosť vzduchu"
       detail="Pri zvýšenej vlhkosti Vám príde upozornenie"
     >
-      <Toggle bind:checked={settings["high_humidity"]} action={triggerSave}/>
+      <Toggle bind:checked={settings["high_humidity"]} action={triggerSave} />
     </SettingsItem>
     {#if settings["high_humidity"] === true}
       <SettingsItem detail="High humidity Threshold">
@@ -192,7 +193,7 @@
       title="Znížená vlhkosť vzduchu"
       detail="Pri zníženej vlhkosti Vám príde upozornenie"
     >
-      <Toggle bind:checked={settings["low_humidity"]} action={triggerSave}/>
+      <Toggle bind:checked={settings["low_humidity"]} action={triggerSave} />
     </SettingsItem>
     {#if settings["low_humidity"] === true}
       <SettingsItem detail="Low humidity Threshold">
@@ -223,7 +224,7 @@
       title="Vysoká váha úľa"
       detail="Pri zvýšenej váhe Vám príde upozornenie"
     >
-      <Toggle bind:checked={settings["heavy_weight"]} action={triggerSave}/>
+      <Toggle bind:checked={settings["heavy_weight"]} action={triggerSave} />
     </SettingsItem>
     {#if settings["heavy_weight"] === true}
       <SettingsItem detail="Heavy weight threshold">
@@ -251,7 +252,7 @@
       title="Znížená váha úľa"
       detail="Pri zníženej váhe Vám príde upozornenie"
     >
-      <Toggle bind:checked={settings["light_weight"]} action={triggerSave}/>
+      <Toggle bind:checked={settings["light_weight"]} action={triggerSave} />
     </SettingsItem>
     {#if settings["light_weight"] === true}
       <SettingsItem detail="Low weight threshold">
@@ -287,21 +288,21 @@
       >
         <option value="">--Please choose an option--</option>
         <option value="50" selected={settings["battery_low_threshold"] === 50}
-        >50%
+          >50%
         </option>
         <option value="20" selected={settings["battery_low_threshold"] === 20}
-        >20%
+          >20%
         </option>
         <option value="10" selected={settings["battery_low_threshold"] === 10}
-        >10%
+          >10%
         </option>
         <option value="0" selected={settings["battery_low_threshold"] === 0}
-        >0%
+          >0%
         </option>
       </select>
-      <Toggle/>
+      <Toggle />
     </SettingsItem>
   {:else}
-    <Loading/>
+    <Loading />
   {/if}
 </form>

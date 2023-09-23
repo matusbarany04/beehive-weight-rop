@@ -144,7 +144,7 @@
             node.style.width = `auto`;
             node.style.height = `auto`;
           }
-          let { x: endX, y: endY } = dashboardEditor.mouseAsCordinates();
+          let { x: endX, y: endY } = dashboardEditor.mouseAsCoordinates();
 
           onDragEnd(endX, endY, selfAsJson());
         }
@@ -192,9 +192,9 @@
             out.marY,
             selfAsJson(),
           );
-          let endPosition = dashboardEditor.cordinatesAsPosition(endX, endY);
+          let endPosition = dashboardEditor.coordinatesAsPosition(endX, endY);
 
-          let startPosition = dashboardEditor.cordinatesAsPosition(
+          let startPosition = dashboardEditor.coordinatesAsPosition(
             cardStates.x,
             cardStates.y,
           );
@@ -281,7 +281,7 @@
 
       // onCardStatesModified
       if (cardStates.editing && dragDisabled && handlingHandle) {
-        let newPos = dashboardEditor.mouseAsCordinates();
+        let newPos = dashboardEditor.mouseAsCoordinates();
 
         if (newPos.exists) {
           if (cardStates.x !== newPos.x || cardStates.y !== newPos.y) {

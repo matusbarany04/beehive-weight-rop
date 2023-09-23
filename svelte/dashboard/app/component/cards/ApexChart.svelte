@@ -1,13 +1,14 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
-  import { getContext, onMount } from "svelte";
+  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
+  import {getContext, onMount} from "svelte";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import shared from "../../stores/shared";
   import ApexCharts from "apexcharts";
 
-  import { dataHandler } from "./dataHandler";
+  import {dataHandler} from "./dataHandler";
+
   export let cardStates;
   export let onDragEnd; // function
   export let onDragStart; // function
@@ -35,7 +36,7 @@
   } else {
     const beehiveData = [];
     cardStates.data.forEach((element) => {
-      console.log(element);
+      // console.log(element);
       if (element.type === "dummy") {
         // ONLY FOR DEBUG BUG BUG element.type ===  "dummy"
         beehiveData.push({
@@ -58,13 +59,18 @@
           data: shared.getDataByType(element.type, element.beehive_id, true),
         });
 
-        console.log(
-          "beehiveData",
-          shared.getDataByType(element.type, element.beehive_id, true),
-        );
+        // console.log(
+        //   "beehiveData",
+        //   shared.getDataByType(element.type, element.beehive_id, true),
+        // );
       }
     });
-
+    
+    // this fixes apex chart size after redirect back to dashboard
+    setTimeout(() => {
+      id = id;
+    }, 100)
+    
     onMount(async () => {
       var options = {
         stroke: {
@@ -121,6 +127,8 @@
       chart.render();
       headerSelected = cardStates.data[0].timespan ?? "week";
       changeZoom(headerSelected);
+      
+     
     });
   }
 </script>
@@ -177,7 +185,7 @@
   </div>
   <div class="relative flex max-h-full w-full">
     <!-- {#if chartRef} -->
-    <div {id} class="h-full w-full" />
+    <div id={id} class="h-full w-full"/>
     <!-- {/if} -->
     <!-- {#if chartRef} -->
     <!-- <Line bind:chart={chartRef} {options} {data} /> -->
