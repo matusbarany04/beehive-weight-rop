@@ -25,7 +25,7 @@
             status = await response.json();
             console.log(status["status"]);
             if (status["status"] === "PAIRED") {
-              navigate("/beehive/" + token + "/edit");
+              navigate("/beehives/" + token + "/edit");
               clearInterval(interval);
             }
           }, 1000);

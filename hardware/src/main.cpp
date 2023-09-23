@@ -8,6 +8,7 @@
 #include "HX711.h"
 #include <Button.h>
 #include <network.h>
+#include <ArduinoJson.h>
 
 HX711 scale;
 
@@ -30,14 +31,20 @@ void setup()
   pinMode(0, INPUT);
 
   Serial.println(analogRead(0));
-/*
   networkManager.connectDefault();
   networkManager.setContentType("application/json");
 
   button.setAction([]() {
-    networkManager.POST(String(SERVER_URL) + "/requestPair", "{\"beehive\": \"" + String(BEEHIVE_ID) + "\"}");
+    DynamicJsonDocument data(150);
+    data["beehive"] = BEEHIVE_ID;
+    data["model"] = MODEL_NAME;
+    
+    String json;
+    serializeJson(data, json);
+
+    networkManager.POST(String(SERVER_URL) + "/requestPair", json);
     Serial.println(networkManager.getRequestResult());
-  });*/
+  });
 
 /*
   scale.begin(dataPin, clockPin);
@@ -74,8 +81,8 @@ void loop()
 {
  /*Serial.print("UNITS: ");
   Serial.println(scale.get_units(10));*/
-  delay(250);
-  Serial.println(analogRead(0));
+  delay(10);
+  //Serial.println(analogRead(0));
   button.check();
 }
 

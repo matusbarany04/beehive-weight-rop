@@ -49,7 +49,7 @@ public class PairingManager {
     }
 
     public static boolean isExpired(String beehive) {
-        long start = startTimes.get(beehive);
+        long start = startTimes.getOrDefault(beehive, 0L);
         return System.currentTimeMillis() - start > TIMEOUT_SECONDS * 1000;
     }
 }
