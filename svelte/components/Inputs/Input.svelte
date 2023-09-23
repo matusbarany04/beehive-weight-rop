@@ -76,7 +76,7 @@
       {name}
       class="mb-2 mt-1 h-8 w-full rounded-md border-2 border-slate-300 pl-4"
       {required}
-      autocomplete={autocomplete ? "on" : "off"}
+      autocomplete={autocomplete ? "on" : "one-time-code"}
     />
 
     {#if results}

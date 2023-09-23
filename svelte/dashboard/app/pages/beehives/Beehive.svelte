@@ -26,6 +26,7 @@
 
   onLoad("beehives", (beehives) => {
     beehive = shared.getBeehiveById(props.id);
+    document.title = beehive.name;
   });
 
   onLoad("statuses", (statuses) => {

@@ -15,6 +15,8 @@
   import Modal from "../../../../components/Modal.svelte";
   import SensorView from "../../component/beehives/SensorView.svelte";
   import toast from "../../../../components/Toast/toast";
+  import {setUnsavedData} from "../../../../components/router/route.serv";
+  import {onMount} from "svelte";
 
   export let props;
   const MODEL_WITH_GSM = "BBIMZ-A";
@@ -26,8 +28,6 @@
   let connectionMode = "0";
   let sensors = {};
 
-  //setUnsavedData(true);
-
   let intervals = [
     [10, "10min"],
     [30, "30min"],
@@ -37,30 +37,22 @@
     [300, "5h"],
     [600, "10h"],
   ];
-
-  window.history.pushState("{}", "", location.path);
-
-  window.onpopstate = (e) => {
-    console.log(e);
-    if (confirm("unsaved changes")) window.location.href = "/beehives";
-    window.history.pushState("{}", "", location.path);
-  };
-
+  
   const ports = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"];
 
   message.setMessage("Nastavenia zariadenia");
+  
+  onMount(() => setUnsavedData(true));
 
   onLoad(["beehives"], () => {
     beehive = shared.getBeehiveById(props.id);
     connectionMode = beehive["connectionMode"] + "";
-    console.log(beehive);
+    document.title = beehive.name + " - " + message.getMessage();
 
     for (let device of beehive.devices) {
       sensors[device["port"]] = device;
       delete sensors[device["port"]]["port"];
     }
-
-    console.log(sensors);
   });
 
   function addSensor(type, name, connector) {

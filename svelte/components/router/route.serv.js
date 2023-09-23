@@ -5,8 +5,8 @@
  *
  * @module routerservjs
  */
-import { get, writable } from "svelte/store";
-import { prefix } from "./prefix.js";
+import {get, writable} from "svelte/store";
+import {prefix} from "./prefix.js";
 
 /**
  * A writable Svelte store that holds the current application's route (path).
@@ -61,7 +61,29 @@ let areUnsavedData = writable(false);
  * @param bool state of data on the page
  */
 export function setUnsavedData(bool) {
-  areUnsavedData.set(bool);
+  areUnsavedData.set(false);
+  if (bool) {
+    window.history.pushState("{}", "", location.path);
+    const forms = document.getElementsByTagName("form");
+    for (let form of forms) form.addEventListener("input", () => {
+      areUnsavedData.set(true)
+      console.log("changed");
+    });
+
+    handleRefresh();
+    window.onpopstate = (e) => {
+      if (!areThereUnsavedData() || confirm("You have unsaved changes! Are you sure you want to leave?")) {
+        setUnsavedData(false);
+        window.onpopstate = undefined;
+        window.onbeforeunload = undefined;
+        history.back();
+      }
+
+      window.history.pushState("{}", "", location.path);
+    };
+
+
+  } else window.onpopstate = window.onbeforeunload = undefined;
 }
 
 /**
@@ -82,17 +104,22 @@ function unsavedDataPrompt() {
   return confirm("You have unsaved data! Are you sure you want to proceed?");
 }
 
-window.addEventListener("beforeunload", function (e) {
-  if (areThereUnsavedData()) {
-    // Custom message is not always displayed due to browser limitations
-    // Browsers might display their own default message instead
-    const message =
-      "You have unsaved changes! Are you sure you want to leave?" +
-      areThereUnsavedData();
-    e.returnValue = message; // Gecko, Trident, Chrome earlier than 51
-    return message; // Gecko, WebKit, Chrome from 51
-  }
-});
+function handleRefresh() {
+  
+  window.onbeforeunload = (e) => {
+    history.back();
+    window.onpopstate = undefined;
+    window.onbeforeunload = undefined;
+    if (areThereUnsavedData()) {
+      setUnsavedData(false);
+      // Custom message is not always displayed due to browser limitations
+      // Browsers might display their own default message instead
+      const message = "You have unsaved changes! Are you sure you want to leave?";
+      e.returnValue = message; // Gecko, Trident, Chrome earlier than 51
+      return message; // Gecko, WebKit, Chrome from 51
+    }
+  };
+}
 
 // Create a writable store with an initial value of an empty array
 const callbacks = writable([]);
