@@ -29,15 +29,14 @@ public class PairingManager {
         startTimes.put(beehiveToken, System.currentTimeMillis());
     }
 
-    public static int requestPair(String beehiveToken) {
+    public static int requestPair(String beehiveToken, String model) {
 
         if(beehiveRepository.getBeehiveByToken(beehiveToken) != null) return BEEHIVE_EXIST;
         Long userId = beehivesInPairingMode.get(beehiveToken);
 
         if(userId == null) return NOT_PAIRING_MODE;
 
-        Beehive beehive = new Beehive();
-        beehive.setToken(beehiveToken);
+        Beehive beehive = new Beehive(beehiveToken, model);
         beehive.setUserId(userId);
         beehiveRepository.save(beehive);
         beehivesInPairingMode.remove(beehiveToken);

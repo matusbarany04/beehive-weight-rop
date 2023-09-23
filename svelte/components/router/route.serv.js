@@ -2,11 +2,11 @@
  * This module provides utilities for routing and navigation within a Svelte application.
  * It exports a writable Svelte store (`route`) to keep track of the current route,
  * as well as helper functions to navigate programmatically.
- * 
+ *
  * @module routerservjs
  */
-import {get, writable} from "svelte/store";
-import {prefix} from "./prefix.js";
+import { get, writable } from "svelte/store";
+import { prefix } from "./prefix.js";
 
 /**
  * A writable Svelte store that holds the current application's route (path).
@@ -35,16 +35,15 @@ window.addEventListener("popstate", () => {
  */
 export function navigate(path) {
   // user canceled confirm popup, don't route
-  if (areThereUnsavedData() && !unsavedDataPrompt()) { 
+  if (areThereUnsavedData() && !unsavedDataPrompt()) {
     return;
   }
-  //else route 
+  //else route
   window.history.pushState({}, "", path);
   route.set(path);
-  //clear the data state to not interfere with other pages 
+  //clear the data state to not interfere with other pages
   resetUnsavedData();
 }
-
 
 /**
  * Navigates to a given path programmatically, but with the added `currentPrefix`.
@@ -80,7 +79,6 @@ function areThereUnsavedData() {
   return get(areUnsavedData);
 }
 
-
 function unsavedDataPrompt() {
   return confirm("You have unsaved data! Are you sure you want to proceed?");
 }
@@ -96,5 +94,3 @@ window.addEventListener("beforeunload", function (e) {
     return message; // Gecko, WebKit, Chrome from 51
   }
 });
-
-

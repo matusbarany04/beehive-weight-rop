@@ -23,15 +23,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/dashboardApi")
@@ -137,6 +135,12 @@ public class DashboardController {
 
         response.put("status", responseStatus);
         return response.toString();
+    }
+
+    private long dateToTimestamp(String date) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+        Date datetime = format.parse(date);
+        return datetime.getTime();
     }
 
     @GetMapping(value = "/downloadCSV")
@@ -278,14 +282,13 @@ public class DashboardController {
     }
 
 
-    //TODO zmenit stav uzporonenia, seen -> 1, moznost vymazat upzoornenie
-
+/*
 
     @PostMapping(value = "/createNewBeehive", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String createNewBeehive(@RequestBody Map<String, String> data) {
         Beehive beehive = new Beehive();
         beehive.setToken(data.get("token"));
-        beehive.setId(currentUserId);
+        beehive.setUserId(currentUserId);
         beehive.setName(data.get("name"));
         beehive.setLocation(data.get("location"));
         beehive.setInterval(Integer.parseInt(data.get("interval")));
@@ -297,11 +300,7 @@ public class DashboardController {
     }
 
 
-    private long dateToTimestamp(String date) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
-        Date datetime = format.parse(date);
-        return datetime.getTime();
-    }
+
 
     @PostMapping(value = "/renameBeehive")
     public String renameBeehive(@RequestBody Map<String, String> data) {
@@ -336,7 +335,7 @@ public class DashboardController {
 
         response.put("status", status);
         return response.toString();
-    }
+    }*/
 
 //    @PostMapping("/updateSettings")
 //    public String updateSettings(@RequestBody Map<String, String> data) {
@@ -384,6 +383,26 @@ public class DashboardController {
         JSONObject json = new JSONObject();
         if(currentUserId > 0) {
             PairingManager.init(beehive, currentUserId);
+            json.put("status", "ok");
+
+        } else json.put("status", "ERR_NO_PERMISSION");
+
+        return json.toString();
+    }
+
+    @PostMapping(value = "/saveDeviceSettings", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String saveDeviceSettings(@RequestBody MultiValueMap<String, String> formData) {
+        JSONObject json = new JSONObject();
+        if(currentUserId > 0) {
+            Beehive beehive = beehiveRepository.getBeehiveByToken(formData.getFirst("beehive"));
+            beehive.setName(formData.getFirst("name"));
+
+            String interval = Objects.requireNonNull(formData.getFirst("interval"));
+            beehive.setInterval(Integer.parseInt(interval));
+
+            beehive.setLocation(formData.getFirst("location"));
+
+            beehiveRepository.save(beehive);
             json.put("status", "ok");
 
         } else json.put("status", "ERR_NO_PERMISSION");

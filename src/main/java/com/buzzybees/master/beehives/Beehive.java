@@ -9,6 +9,10 @@ import org.json.JSONObject;
 @Table(name = "beehives")
 public class Beehive {
 
+    public static final int SIM_MODE = 0;
+    public static final int WIFI_MODE = 1;
+    public static final int OTHER_BEEHIVE_MODE = 2;
+
     @Id
     @GeneratedValue
     private long id;
@@ -19,9 +23,8 @@ public class Beehive {
     @Column(name = "name")
     private String name;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    @Column(name = "model")
+    private String model;
 
     @Column(name = "user_id")
     private long userId;
@@ -32,10 +35,20 @@ public class Beehive {
     @Column(name = "token")
     private String token;
 
+    @Column(name = "connection_mode")
+    private int connectionMode = SIM_MODE;
+
     @Column(name = "interval_min")
     private int interval;
 
-    private boolean isPaired;
+    public Beehive() {
+
+    }
+
+    public Beehive (String token, String model) {
+        this.token = token;
+        this.model = model;
+    }
 
     public void setLocation(String location) {
         this.location = location;
@@ -73,10 +86,6 @@ public class Beehive {
         this.userId = userId;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public static JSONArray mergeStatuses(Status[] statuses) {
         JSONArray jsonArray = new JSONArray();
         for(Status status : statuses) {
@@ -99,6 +108,7 @@ public class Beehive {
         jsonObject.put("interval", interval);
         jsonObject.put("location", location);
         jsonObject.put("token", token);
+        jsonObject.put("model", model);
         return jsonObject;
     }
 
@@ -108,5 +118,17 @@ public class Beehive {
         }
 
         return null;
+    }
+
+    public void setConnectionMode(int connectionMode) {
+        this.connectionMode = connectionMode;
+    }
+
+    public int getConnectionMode() {
+        return connectionMode;
+    }
+
+    public String getModel() {
+        return model;
     }
 }

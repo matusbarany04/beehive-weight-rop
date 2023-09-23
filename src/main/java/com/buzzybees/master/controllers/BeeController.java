@@ -1,6 +1,8 @@
 package com.buzzybees.master.controllers;
 
 import com.buzzybees.master.beehives.PairingManager;
+import com.buzzybees.master.beehives.Scan;
+import com.buzzybees.master.beehives.ScanRepository;
 import com.buzzybees.master.beehives.StatusRepository;
 import com.buzzybees.master.tables.Status;
 import org.json.JSONObject;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 
@@ -16,6 +19,9 @@ public class BeeController {
 
     @Autowired
     StatusRepository statusRepo;
+
+    @Autowired
+    ScanRepository scanRepository;
 
     @GetMapping("/clk_sync")
     public long clk() {
@@ -61,10 +67,11 @@ public class BeeController {
     public String requestConnect(@RequestBody String data) {
         JSONObject json = new JSONObject(data);
         String beehive = json.getString("beehive");
+        String model = json.getString("model");
 
         if(PairingManager.isExpired(beehive)) return "ERROR_TIMEOUT";
 
-        int status = PairingManager.requestPair(beehive);
+        int status = PairingManager.requestPair(beehive, model);
 
         return switch (status) {
             case PairingManager.PAIRING_SUCCESSFUL -> "SUCCESS";
@@ -75,4 +82,15 @@ public class BeeController {
         };
     }
 
+    @PostMapping("/newScan")
+    public String newScan(@RequestBody String data) {
+        JSONObject json = new JSONObject(data);
+        Scan scan = new Scan();
+        scan.setBeehive(json.getString("token"));
+        scan.setDevices(json.getJSONObject("devices"));
+        scan.setDate(new Date());
+        scanRepository.save(scan);
+
+        return "{\"status\":\"ok\"";
+    }
 }

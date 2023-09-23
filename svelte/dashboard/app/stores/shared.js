@@ -172,7 +172,8 @@ function getLoadedData(dataTypes) {
  * @param dataType name of data
  * @param data data itself
  */
-export function loadData(dataType, data) { // TODO spread and assign if object? 
+export function loadData(dataType, data) {
+  // TODO spread and assign if object?
   savedData[dataType] = data;
   for (let callback of callbacks) {
     if (callback.dataTypes.includes(dataType)) {

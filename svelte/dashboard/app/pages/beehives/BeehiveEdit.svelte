@@ -14,15 +14,22 @@
   import Button from "../../../../components/Buttons/Button.svelte";
   import Modal from "../../../../components/Modal.svelte";
   import SensorView from "../../component/beehives/SensorView.svelte";
+  import toast from "../../../../components/Toast/toast";
+  import RouterLink from "../../../../components/RouterLink.svelte";
+  import { setUnsavedData } from "../../../../components/router/route.serv";
+  import {onMount} from "svelte";
 
   export let props;
+  const MODEL_WITH_GSM = "BBIMZ-A";
 
   let beehive;
   let token;
   let sensorWindow;
   let locationResults;
   let connectionMode = "0";
-  let sensors = [];
+  let sensors = {};
+
+  //setUnsavedData(true);
 
   let intervals = [
     [10, "10min"],
@@ -33,6 +40,16 @@
     [300, "5h"],
     [600, "10h"],
   ];
+  
+  
+  window.history.pushState("{}", "", location.path);
+
+  window.onpopstate = (e) => {
+    console.log(e);
+    if(confirm("unsaved changes")) window.location.href = "/beehives";
+    window.history.pushState("{}", "", location.path);
+  }
+  
 
   const ports = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"];
 
@@ -44,10 +61,12 @@
   }
 
   function findPort(connector) {
-    console.log(ports);
+    if (connector === "W" && !sensors["W1"]) return "W1";
     for (let port of ports) {
       if (port.startsWith(connector) && !sensors[port]) return port;
     }
+
+    toast.push("Už nemáte voľný port !", "error");
   }
 
   function generateName(name) {
@@ -68,6 +87,7 @@
 
   onLoad(["beehives"], () => {
     beehive = shared.getBeehiveById(props.id);
+    connectionMode = beehive.model === MODEL_WITH_GSM ? "0" : "1";
   });
 
   message.setMessage("Nastavenia zariadenia");
@@ -89,24 +109,46 @@
         }
       });
   }
+
+  function saveSettings(e) {
+    let formData = new FormData(e.target);
+    formData.append("beehive", props.id);
+    formData.append("connectionMode", connectionMode);
+    formData.append("sensors", JSON.stringify(sensors));
+
+    fetch("/dashboardApi/saveDeviceSettings", {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      method: "POST",
+      body: new URLSearchParams(formData),
+    })
+      .then((r) => r.json())
+      .then((response) => {
+        if (response.status === "ok") toast.push("Zmeny boli uložené");
+        else
+          toast.push(
+            `Pri ukladaní nastala chyba (${response.status})`,
+            "error",
+          );
+      });
+  }
 </script>
 
 {#if beehive}
+  <div>Model: {beehive.model}</div>
   <div class="flex w-full flex-row justify-center">
     <form
       class="w-5/6"
-      action="/dashboardApi/saveBeehive"
-      method="post"
+      on:submit|preventDefault={saveSettings}
       id="device_settings"
     >
       <div class="m-4 rounded-lg bg-white p-4">
         <Input
           type="text"
-          name="title"
+          name="name"
           label="Názov váhy"
           value={beehive.name}
           inline
-          required=""
+          required
         />
         <Input
           type="text"
@@ -129,19 +171,21 @@
       <div class="m-4 rounded-lg bg-white">
         <h3 class="p-4 font-bold">Spôsob pripojenia</h3>
 
-        <SelectableOption
-          name="Mobilná sieť"
-          bind:selection={connectionMode}
-          value="0"
-        >
-          <Input
-            type="password"
-            name="sim_password"
-            label="Heslo na SIM kartu"
-            value="0000"
-            inline
-          />
-        </SelectableOption>
+        {#if beehive.model === MODEL_WITH_GSM}
+          <SelectableOption
+            name="Mobilná sieť"
+            bind:selection={connectionMode}
+            value="0"
+          >
+            <Input
+              type="password"
+              name="sim_password"
+              label="Heslo na SIM kartu"
+              value="0000"
+              inline
+            />
+          </SelectableOption>
+        {/if}
 
         <SelectableOption name="WiFi" bind:selection={connectionMode} value="1">
           <Input
@@ -176,10 +220,12 @@
       </div>
       <div class="m-4 flex justify-end gap-2">
         <Button type="primary" formId="device_settings" text="Uložiť zmeny" />
+
         <Button
           type="secondary"
-          formId="device_settings"
           text="Zahodiť zmeny"
+          clickType="button"
+          onClick={() => history.back()}
         />
       </div>
     </form>
@@ -190,7 +236,7 @@
     <div class="my-5 grid grid-cols-3 gap-3">
       <Sensor name="Hmotnosť" type="weight" action={addSensor} />
       <Sensor name="Teplota" type="temp" action={addSensor} />
-      <Sensor name="Teplota+Vlhkosť" type="humidity" action={addSensor} />
+      <Sensor name="Teplota, Vlhkosť" type="humidity" action={addSensor} />
       <Sensor name="Svetlo" type="light" action={addSensor} />
       <Sensor name="Zvuk" type="sound" action={addSensor} />
     </div>

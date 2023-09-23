@@ -1,16 +1,40 @@
 <script>
   import Sensor from "./Sensor.svelte";
+  import Input from "../../../../components/Inputs/Input.svelte";
+  import EditText from "../../../../components/Inputs/EditText.svelte";
 
   export let devices = {};
   export let ports;
 
+  const WEIGHT_PORT = "W1";
+  let activeInput;
   let x;
+
+  $: if (activeInput) activeInput.select();
+
+  function focusInput(e) {
+    e.target.select();
+  }
 </script>
 
 <div class="">
+  <div class="w-full">
+    {#if devices[WEIGHT_PORT]}
+      <EditText
+        class="ml-[40%] w-1/5 text-center"
+        bind:value={devices[WEIGHT_PORT]["name"]}
+        focus
+      />
+    {/if}
+    <div class=" m-auto h-14 w-14 rounded">
+      {#if devices[WEIGHT_PORT]}
+        <Sensor type={devices[WEIGHT_PORT]["type"]} />
+      {/if}
+    </div>
+  </div>
   <div class="relative m-auto w-4/5">
     <div class="absolute top-12 w-full text-center">
-      <div>W1</div>
+      <div>{WEIGHT_PORT}</div>
       <div class="flex w-full justify-between">
         {#each ports as port}
           <div class="w-full text-center">{port}</div>
@@ -47,14 +71,18 @@
 
     <div class="flex">
       {#each ports as port}
-        <div class="w-full">
+        <div class="w-full bg-transparent" draggable="true">
           <div class=" m-auto h-14 w-14 rounded">
             {#if devices[port]}
               <Sensor type={devices[port]["type"]} />
             {/if}
           </div>
           {#if devices[port]}
-            <div class="w-full text-center">{devices[port]["name"]}</div>
+            <EditText
+              class="w-full text-center"
+              bind:value={devices[port]["name"]}
+              focus
+            />
           {/if}
         </div>
       {/each}
