@@ -142,6 +142,7 @@
       class="w-5/6"
       on:submit|preventDefault={saveSettings}
       id="device_settings"
+      autocomplete="off"
     >
       <div class="m-4 rounded-lg bg-white p-4">
         <Input

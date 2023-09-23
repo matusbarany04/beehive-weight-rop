@@ -79,7 +79,7 @@ public class BeeController {
         String beehive = json.getString("beehive");
         String model = json.getString("model");
 
-        int status = PairingManager.isExpired(beehive) ? PairingManager.ERROR_TIMEOUT : PairingManager.requestPair(beehive, model);
+        int status = PairingManager.requestPair(beehive, model);
 
         return switch (status) {
             case PairingManager.PAIRING_SUCCESSFUL -> "SUCCESS";

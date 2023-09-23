@@ -44,6 +44,11 @@
    */
   export let inline = false;
 
+  /**
+   * @param {boolean} autocomplete - If set, the input will allow autocompleting saved data.
+   */
+  export let autocomplete = false;
+
   let selectedItem;
 
   function typeAction(node) {
@@ -71,6 +76,7 @@
       {name}
       class="mb-2 mt-1 h-8 w-full rounded-md border-2 border-slate-300 pl-4"
       {required}
+      autocomplete={autocomplete ? "on" : "off"}
     />
 
     {#if results}

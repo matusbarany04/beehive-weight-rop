@@ -36,6 +36,7 @@ public class PairingManager {
         Long userId = beehivesInPairingMode.get(beehiveToken);
 
         if(userId == null) return NOT_PAIRING_MODE;
+        if(isExpired(beehiveToken)) return ERROR_TIMEOUT;
 
         Beehive beehive = new Beehive(beehiveToken, model);
         beehive.setUserId(userId);
