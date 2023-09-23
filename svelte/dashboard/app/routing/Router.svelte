@@ -1,5 +1,5 @@
 <script>
-  import { route } from "../../../components/router/route.serv";
+  import {route} from "../../../components/router/route.serv";
   import Homepage from "../pages/Homepage.svelte";
   import Notfound from "../pages/Notfound.svelte";
   import Help from "../pages/Help.svelte";
@@ -11,7 +11,7 @@
   import Beehive from "../pages/beehives/Beehive.svelte";
   import Beehives from "../pages/Beehives.svelte";
   import Notifications from "../pages/Notifications.svelte";
-  import { RouterObj } from "../../../components/router/routerObj";
+  import {RouterObj} from "../../../components/router/routerObj";
   import BeehiveAdd from "../pages/beehives/BeehiveAdd.svelte";
   import BeehiveToken from "../pages/beehives/BeehiveToken.svelte";
   import BeehiveEdit from "../pages/beehives/BeehiveEdit.svelte";
@@ -20,6 +20,11 @@
   let value = Notfound;
 
   let props = {};
+  let key = 1;
+
+  // export function invalidate() {
+  //   key++;
+  // }
 
   route.subscribe((currentRoute) => {
     const routes = new RouterObj();
@@ -46,14 +51,19 @@
       });
     });
 
-    value = routes.resolve(currentRoute, Notfound);
+    key++;
 
+    value = routes.resolve(currentRoute, Notfound);
+    
     props = routes.resolveProps(currentRoute);
   });
+
 </script>
 
 <MainLayout>
   <DashLayout>
-    <svelte:component this={value} {props} />
+    {#key key}
+      <svelte:component this={value} {props}/>
+    {/key}
   </DashLayout>
 </MainLayout>
