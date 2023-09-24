@@ -50,7 +50,7 @@
     messages.forEach((element) => {
       if (element.id === id) {
         element.seen = !element.seen;
-        fetch("", {
+        fetch("/dashboardApi/updateNotification", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +58,6 @@
           body: JSON.stringify({
             type: "update",
             data: id,
-            token: data.sessionid,
           }),
         })
           .then((response) => response.json())

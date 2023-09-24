@@ -15,8 +15,8 @@
   import Modal from "../../../../components/Modal.svelte";
   import SensorView from "../../component/beehives/SensorView.svelte";
   import toast from "../../../../components/Toast/toast";
-  import {setUnsavedData} from "../../../../components/router/route.serv";
-  import {onMount} from "svelte";
+  import { setUnsavedData } from "../../../../components/router/route.serv";
+  import { onMount } from "svelte";
 
   export let props;
   const MODEL_WITH_GSM = "BBIMZ-A";
@@ -37,11 +37,11 @@
     [300, "5h"],
     [600, "10h"],
   ];
-  
+
   const ports = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"];
 
   message.setMessage("Nastavenia zariadenia");
-  
+
   onMount(() => setUnsavedData(true));
 
   onLoad(["beehives"], () => {

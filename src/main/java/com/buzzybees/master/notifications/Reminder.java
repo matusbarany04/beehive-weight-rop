@@ -23,7 +23,6 @@ public class Reminder {
     @Column(name = "details")
     private String details = "";
 
-
     @Column(name = "user_id")
     private long userId;
 

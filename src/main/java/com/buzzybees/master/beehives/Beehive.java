@@ -127,20 +127,4 @@ public class Beehive {
         return devices;
     }
 
-    public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", name);
-        jsonObject.put("interval", interval);
-        jsonObject.put("location", location);
-        jsonObject.put("connectionMode", connectionMode);
-        jsonObject.put("token", token);
-        jsonObject.put("model", model);
-
-        JSONArray array = new JSONArray();
-        for(Device device : devices) array.put( device.toJSON());
-        jsonObject.put("devices", array);
-
-        return jsonObject;
-    }
-
 }

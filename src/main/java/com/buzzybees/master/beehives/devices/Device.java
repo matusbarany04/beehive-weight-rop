@@ -1,6 +1,8 @@
 package com.buzzybees.master.beehives.devices;
 
 import com.buzzybees.master.beehives.Beehive;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
@@ -8,19 +10,22 @@ import org.json.JSONObject;
 @Table(name = "device_config")
 public class Device {
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "beehive")
+    private Beehive beehive;
+
     @Id
+    @JsonProperty("id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(name = "name")
     private String name;
 
+    @JsonProperty("type")
     @Column(name = "type")
     private String type;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "beehive")
-    private Beehive beehive;
 
     @Column(name = "port")
     private String port;
@@ -60,14 +65,5 @@ public class Device {
 
     public void setPort(String port) {
         this.port = port;
-    }
-
-    public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", name);
-        jsonObject.put("type", type);
-        jsonObject.put("port", port);
-        jsonObject.put("id", id);
-        return jsonObject;
     }
 }

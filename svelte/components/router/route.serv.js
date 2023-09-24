@@ -5,8 +5,8 @@
  *
  * @module routerservjs
  */
-import {get, writable} from "svelte/store";
-import {prefix} from "./prefix.js";
+import { get, writable } from "svelte/store";
+import { prefix } from "./prefix.js";
 
 /**
  * A writable Svelte store that holds the current application's route (path).
@@ -65,14 +65,18 @@ export function setUnsavedData(bool) {
   if (bool) {
     window.history.pushState("{}", "", location.path);
     const forms = document.getElementsByTagName("form");
-    for (let form of forms) form.addEventListener("input", () => {
-      areUnsavedData.set(true)
-      console.log("changed");
-    });
+    for (let form of forms)
+      form.addEventListener("input", () => {
+        areUnsavedData.set(true);
+        console.log("changed");
+      });
 
     handleRefresh();
     window.onpopstate = (e) => {
-      if (!areThereUnsavedData() || confirm("You have unsaved changes! Are you sure you want to leave?")) {
+      if (
+        !areThereUnsavedData() ||
+        confirm("You have unsaved changes! Are you sure you want to leave?")
+      ) {
         setUnsavedData(false);
         window.onpopstate = undefined;
         window.onbeforeunload = undefined;
@@ -81,8 +85,6 @@ export function setUnsavedData(bool) {
 
       window.history.pushState("{}", "", location.path);
     };
-
-
   } else window.onpopstate = window.onbeforeunload = undefined;
 }
 
@@ -105,7 +107,6 @@ function unsavedDataPrompt() {
 }
 
 function handleRefresh() {
-  
   window.onbeforeunload = (e) => {
     history.back();
     window.onpopstate = undefined;
@@ -114,7 +115,8 @@ function handleRefresh() {
       setUnsavedData(false);
       // Custom message is not always displayed due to browser limitations
       // Browsers might display their own default message instead
-      const message = "You have unsaved changes! Are you sure you want to leave?";
+      const message =
+        "You have unsaved changes! Are you sure you want to leave?";
       e.returnValue = message; // Gecko, Trident, Chrome earlier than 51
       return message; // Gecko, WebKit, Chrome from 51
     }
