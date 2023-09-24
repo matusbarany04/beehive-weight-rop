@@ -15,7 +15,11 @@ public abstract class CookieAuthController extends DatabaseController {
 
     protected long currentUserId;
 
-
+    /**
+     * checks all request whether session id is present
+     * @param request http request
+     * @throws NoPermissionException when request is unauthorized
+     */
     @ModelAttribute
     public void authorize(HttpServletRequest request) throws NoPermissionException {
         Cookie[] cookies = request.getCookies();

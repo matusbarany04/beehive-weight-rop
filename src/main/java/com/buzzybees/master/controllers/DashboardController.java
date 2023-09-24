@@ -17,6 +17,7 @@ import com.buzzybees.master.notifications.ReminderRepository;
 import com.buzzybees.master.tables.Status;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -35,14 +36,17 @@ import java.util.*;
 @RequestMapping("/dashboardApi")
 public class DashboardController extends CookieAuthController {
 
+    @Autowired
+    BeehiveRepository beehiveRepository;
+
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
+    /**
+     * @return all user's beehives based on session id.
+     */
     @GetMapping("/getBeehives")
     public ApiResponse getBeehives() {
-
-        BeehiveRepository beehiveRepository = getRepo(Beehive.class);
         Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
-
         return new ApiResponse("beehives", beehives);
     }
 /*
@@ -78,9 +82,13 @@ public class DashboardController extends CookieAuthController {
         return ApiResponse.json("data", jsonObject);
     }*/
 
+    /**
+     * @param date start date from which statuses will be collected.
+     * @return all statuses of beehives belonging to user since specific date.
+     * @throws ParseException when date format is wrong.
+     */
     @GetMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getData(@RequestParam(value = "fromDate", defaultValue = "all") String date) throws ParseException {
-        BeehiveRepository beehiveRepository = getRepo(Beehive.class);
         StatusRepository statusRepository = getRepo(Status.class);
 
         long timestamp = date.equals("all") ? 0 : dateToTimestamp(date);
@@ -116,16 +124,22 @@ public class DashboardController extends CookieAuthController {
         return response.toString();
     }
 
-
+    /**
+     * @param date date to parse.
+     * @return timestamp of a date.
+     * @throws ParseException when date format is wrong.
+     */
     private long dateToTimestamp(String date) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
         Date datetime = format.parse(date);
         return datetime.getTime();
     }
 
+    /**
+     * @return CSV file with all statuses of beehives belonging to user.
+     */
     @GetMapping(value = "/downloadCSV")
     public ResponseEntity<Resource> downloadCSV() {
-        BeehiveRepository beehiveRepository = getRepo(Beehive.class);
         StatusRepository statusRepository = getRepo(Status.class);
 
         Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
@@ -147,17 +161,20 @@ public class DashboardController extends CookieAuthController {
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 
+    /**
+     * @return user's notifications
+     */
     @GetMapping("/getNotifications")
     public ApiResponse getNotifications() {
-        ApiResponse response = new ApiResponse();
-
         NotificationRepository notificationRepository = getRepo(Notification.class);
         Notification[] notifications = notificationRepository.getUserNotifications(currentUserId);
-        response.putObject("notifications", notifications);
 
-        return response;
+        return new ApiResponse("notifications", notifications);
     }
 
+    /**
+     * @return user's reminders
+     */
     @GetMapping("/getReminders")
     public ApiResponse getReminders() {
         ReminderRepository reminderRepository = getRepo(Reminder.class);
@@ -166,6 +183,11 @@ public class DashboardController extends CookieAuthController {
         return new ApiResponse("reminders", reminders);
     }
 
+    /**
+     * saves new reminder to database
+     * @param reminder created reminder from frontend form
+     * @return created reminder
+     */
     @PostMapping(value = "/newReminder", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse newReminder(@ModelAttribute Reminder reminder) {
         reminder.setUserId(currentUserId);
@@ -194,6 +216,12 @@ public class DashboardController extends CookieAuthController {
         return new ApiResponse();
     }
 
+    /**
+     * delete specific notification
+     * @param notificationId determine which notification should be deleted
+     * @return status whether action was successful
+     * @throws OwnershipException when notification does not belong to user
+     */
     @DeleteMapping("/deleteNotification")
     public ApiResponse deleteNotification(@RequestParam("id") long notificationId) throws OwnershipException {
         NotificationRepository notificationRepository = getRepo(Notification.class);
@@ -207,19 +235,24 @@ public class DashboardController extends CookieAuthController {
         return new ApiResponse();
     }
 
-
+    /**
+     * @param beehive - determine which beehive to watch
+     * @return status whether beehive has been paired or not
+     */
     @GetMapping("/checkPairingStatus")
-    public String checkStatus(@RequestParam("token") String beehive) {
-        JSONObject json = new JSONObject();
+    public ApiResponse checkStatus(@RequestParam("token") String beehive) {
+        ApiResponse apiResponse = new ApiResponse();
 
-        String status;
-        if (PairingManager.isExpired(beehive)) status = "TIMEOUT";
-        else status = PairingManager.isPaired(beehive) ? "PAIRED" : "PENDING";
+        if (PairingManager.isExpired(beehive)) apiResponse.setStatus("TIMEOUT");
+        else apiResponse.setStatus(PairingManager.isPaired(beehive) ? "PAIRED" : "PENDING");
 
-        json.put("status", status);
-        return json.toString();
+        return apiResponse;
     }
 
+    /**
+     * @param beehive - determine which beehive to watch
+     * @return status whether beehive has been paired or not
+     */
     @PostMapping("/newPairing")
     public String newPairing(@RequestBody String beehive) {
         JSONObject json = new JSONObject();
@@ -232,9 +265,13 @@ public class DashboardController extends CookieAuthController {
         return json.toString();
     }
 
+    /**
+     * saves beehive settings to database
+     * @param formData device settings from frontend form
+     * @return status whether action was successful
+     */
     @PostMapping(value = "/saveDeviceSettings", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ApiResponse saveDeviceSettings(@RequestBody MultiValueMap<String, String> formData) {
-        BeehiveRepository beehiveRepository = getRepo(Beehive.class);
         DeviceRepository deviceRepository = getRepo(Device.class);
 
         Beehive beehive = beehiveRepository.getBeehiveByToken(formData.getFirst("beehive"));
@@ -256,7 +293,6 @@ public class DashboardController extends CookieAuthController {
         }
 
         beehiveRepository.save(beehive);
-
 
         return new ApiResponse();
     }

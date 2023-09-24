@@ -16,6 +16,12 @@ public abstract class DatabaseController {
     @Autowired
     private ApplicationContext applicationContext;
 
+    /**
+     * @param entity which repository store
+     * @param <R> CrudRepository object
+     * @param <E> Entity object
+     * @return repository by entity
+     */
     @SuppressWarnings("unchecked")
     public <R extends CrudRepository<E, Long>, E> R getRepo(Class<E> entity) {
         Repositories repositories = new Repositories(applicationContext);
