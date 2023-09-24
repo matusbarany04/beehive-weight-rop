@@ -1,6 +1,8 @@
 package com.buzzybees.master;
 
 import com.buzzybees.master.config.HttpSessionConfig;
+import com.buzzybees.master.language.Language;
+import com.buzzybees.master.language.LanguageParser;
 import com.buzzybees.master.users.Mailer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,12 +16,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.io.File;
+
 
 @SpringBootApplication
 @EnableScheduling
 public class MasterApplication {
 
     public static void main(String[] args) {
+        LanguageParser.createParser().parse(Language.SK);
+
         SpringApplication.run(MasterApplication.class, args);
         Mailer.checkKeysExpiration();
     }

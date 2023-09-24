@@ -12,8 +12,8 @@
 </script>
 
 <SettingsHeader
-  title="Často kladené otázky"
-  description="Nemôžete nájsť odpoveď, ktorú hľadáte? Obráťte sa na náš zákaznícky servis."
+  title="?(help.questions.1.header)"
+  description="Nemôžsete nájsť odpoveď, ktorú hľadáte? Obráťte sa na náš zákaznícky servis."
 />
 
 <div class="divide-neutral-200 mx-auto mt-8 w-full">

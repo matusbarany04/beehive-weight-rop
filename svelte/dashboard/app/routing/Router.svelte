@@ -20,7 +20,6 @@
   let value = Notfound;
 
   let props = {};
-  let key = 1;
 
   // export function invalidate() {
   //   key++;
@@ -51,8 +50,6 @@
       });
     });
 
-    key++;
-
     value = routes.resolve(currentRoute, Notfound);
 
     props = routes.resolveProps(currentRoute);
@@ -61,8 +58,6 @@
 
 <MainLayout>
   <DashLayout>
-    {#key key}
-      <svelte:component this={value} {props} />
-    {/key}
+    <svelte:component this={value} {props} />
   </DashLayout>
 </MainLayout>

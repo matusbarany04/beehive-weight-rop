@@ -1,0 +1,29 @@
+{
+  "help": {
+    "message": "Pomoc",
+    "header-title": "Často kladené otázky?",
+    "header-description": "Nemôžete nájsť odpoveď, ktorú hľadáte? Obráťte sa na náš zákaznícky servis.",
+    "questions": {
+      "1": {
+        "header": "Čo je BuzzyBees?",
+        "answer": "BuzzyBees je inovatívne riešenie na monitorovanie úľov navrhnuté tak, aby poskytovalo včelárom dáta v reálnom čase o zdraví úľa, produkcii medu, raste plodu a ďalších."
+      },
+      "2": {
+        "header": "Ako funguje BuzzyBees?",
+        "anwser": "Využívaním pokročilých senzorov a vlastných algoritmov BuzzyBees meria hmotnosť, teplotu a ďalšie kľúčové parametre vašich úľov a potom tieto informácie prenáša do prístupnej aplikácie alebo panela."
+      },
+      "3": {
+        "header": "Prečo je monitorovanie úľa dôležité?",
+        "anwser": "Monitorovanie hmotnosti a podmienok úľa môže pomôcť pri určovaní úrovní produkcie medu, zdravia včiel, rastu plodu, potravinových rezerv a možných včelích rojov. BuzzyBees pomáha zabezpečiť prosperitu vašich včelích kolónií."
+      },
+      "4": {
+        "header": "Čím sa BuzzyBees líši od iných monitorovacích nástrojov?",
+        "anwser": "BuzzyBees kombinuje starodávne včelárske múdrosti s najmodernejšou technológiou. Naša ľahko použiteľná aplikácia, presné senzory a jedinečné algoritmy nás odlišujú od tradičných monitorovacích riešení."
+      },
+      "5": {
+        "header": "Sú moje dáta v bezpečí?",
+        "anwser": "Rozhodne. Prioritou je súkromie používateľa a bezpečnosť dát. Všetky prenášané dáta sú šifrované a nikdy nepredávame vaše dáta tretím stranám."
+      }
+    }
+  }
+}
