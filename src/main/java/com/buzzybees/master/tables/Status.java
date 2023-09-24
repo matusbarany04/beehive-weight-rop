@@ -12,7 +12,6 @@ import java.util.Date;
 @Table(name = "status")
 public class Status {
 
-
     @Column(name = "timestamp")
     private long timestamp;
 
@@ -38,16 +37,6 @@ public class Status {
 
     @Column(name = "humidity")
     private float humidity;
-
-    public Status(JSONObject jsonObject) {
-        beehive = jsonObject.getString("beehive");
-        status = jsonObject.getString("status");
-        temperature = jsonObject.getFloat("temperature");
-        humidity = jsonObject.getFloat("humidity");
-        timestamp = jsonObject.getLong("timestamp");
-        weight = jsonObject.getFloat("weight");
-        battery = jsonObject.getInt("battery");
-    }
 
     public Status() {
 

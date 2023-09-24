@@ -1,37 +1,26 @@
 package com.buzzybees.master.controllers;
 
-import com.buzzybees.master.beehives.Beehive;
-import com.buzzybees.master.beehives.BeehiveRepository;
 import com.buzzybees.master.beehives.PairingManager;
-import com.buzzybees.master.beehives.devices.Device;
-import com.buzzybees.master.beehives.devices.DeviceRepository;
+import com.buzzybees.master.beehives.StatusRepository;
 import com.buzzybees.master.beehives.devices.Scan;
 import com.buzzybees.master.beehives.devices.ScanRepository;
-import com.buzzybees.master.beehives.StatusRepository;
+import com.buzzybees.master.controllers.template.ApiResponse;
+import com.buzzybees.master.controllers.template.DatabaseController;
+import com.buzzybees.master.exceptions.TimestampException;
 import com.buzzybees.master.tables.Status;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Date;
 
 
 @RestController
-public class BeeController {
+public class BeeController extends DatabaseController {
 
     @Autowired
     StatusRepository statusRepo;
-
-    @Autowired
-    ScanRepository scanRepository;
-
-    @Autowired
-    BeehiveRepository beehiveRepository;
-
-    @Autowired
-    DeviceRepository deviceRepository;
 
     @GetMapping("/clk_sync")
     public long clk() {
@@ -41,36 +30,22 @@ public class BeeController {
 
     /**
      * Checks timestamp and insert new data to the database.
-     * @param data - JSON string data
      *
+     * @param data - JSON string data
      * @return status whether data is correct and successfully saved.
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String updateStatus(@RequestBody String data) {
-        JSONObject response = new JSONObject();
-        Status status = new Status(new JSONObject(data));
+    public ApiResponse updateStatus(@ModelAttribute Status status) throws TimestampException {
 
-        if(status.getTimestamp() > clk()) {
-            statusRepo.save(status);
-            response.put("status", "ok");
-
-        } else response.put("status", "ERR_WRONG_TIMESTAMP");
-
-        return response.toString();
-    }
-
-    @GetMapping("/testStatuses")
-    public String test() {
-        String[] beehives = {"ZOEU3GXLC0CQPQ0X", "9XUKIB685I5VMHF6"};
-        Status[] lastStatuses = statusRepo.getLastStatuses(Arrays.asList(beehives));
-        System.out.println("sql test");
-        return Arrays.toString(lastStatuses);
+        if (status.getTimestamp() < clk()) throw new TimestampException();
+        statusRepo.save(status);
+        return new ApiResponse();
     }
 
     /**
      * Pairs beehive with user and insert new beehive to the database.
-     * @param data - JSON string data - beehive
      *
+     * @param data - JSON string data - beehive
      * @return status whether beehive is successfully paired.
      */
     @PostMapping("/requestPair")
@@ -90,27 +65,28 @@ public class BeeController {
         };
     }
 
+    /**
+     * Inserts new scan to database.
+     * @param data results
+     * @return status whether action was successful.
+     */
     @PostMapping("/newScan")
-    public String newScan(@RequestBody String data) {
+    public ApiResponse newScan(@RequestBody String data) {
+        ScanRepository scanRepository = getRepo(Scan.class);
+
         JSONObject json = new JSONObject(data);
         Scan scan = new Scan();
+
         scan.setBeehive(json.getString("token"));
         scan.setDevices(json.getJSONObject("devices"));
         scan.setDate(new Date());
-        scanRepository.save(scan);
 
-        return "{\"status\":\"ok\"";
+        scanRepository.save(scan);
+        return new ApiResponse();
     }
 
     @PostMapping("/test")
-    public String testTable() {
-        Beehive[] beehives = beehiveRepository.getAllByUser(1);
-
-        for(Beehive beehive : beehives) {
-            System.out.println(beehive.getName());
-            System.out.println(beehive.getDevices());
-        }
-
-        return "OK";
+    public String test() {
+        return "TEST";
     }
 }
