@@ -19,7 +19,8 @@ export default {
   loadSettings: async function () {
     let results = await fetch("/dashboardApi/settings/getData").then(
       async (result) => {
-        return await result.json();
+        const json = await result.json();
+        return json["status"] === "ok" ? json["settings"] : undefined;
       },
     );
     // TODO remove log

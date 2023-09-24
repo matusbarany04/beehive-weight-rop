@@ -73,56 +73,8 @@ public class Settings {
     @Column(name = "light_weight_threshold")
     private int lightWeightThreshold = 0;
 
-    /**
-     * @param json A JSON object containing all Settings fields
-     */
-    public Settings(JSONObject json) {
-        if (json != null) {
-            this.id = json.optLong("id");
-            this.dontDisturbFrom = json.optLong("dont_disturb_from");
-            this.dontDisturb = json.optBoolean("dont_disturb");
-            this.dontDisturbTo = json.optLong("dont_disturb_to");
-            this.sendNotifications = json.optBoolean("send_notifications");
-            this.useUserLoginMail = json.optBoolean("use_user_login_mail");
-            this.altMail = json.optString("alt_mail");
-            this.lowBattery = json.optBoolean("low_battery");
-            this.batteryLowThreshold = json.optInt("battery_low_threshold");
-            this.highHumidity = json.optBoolean("high_humidity");
-            this.highHumidityThreshold = json.optInt("high_humidity_threshold");
-            this.lowHumidity = json.optBoolean("low_humidity");
-            this.lowHumidityThreshold = json.optInt("low_humidity_threshold");
-            this.heavyWeight = json.optBoolean("heavy_weight");
-            this.heavyWeightThreshold = json.optInt("heavy_weight_threshold");
-            this.lightWeight = json.optBoolean("light_weight");
-            this.lightWeightThreshold = json.optInt("light_weight_threshold");
-        }
-    }
-
     public Settings() {
 
-    }
-
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-
-        json.put("id", this.id);
-        json.put("dont_disturb_from", this.dontDisturbFrom);
-        json.put("dont_disturb", this.dontDisturb);
-        json.put("dont_disturb_to", this.dontDisturbTo);
-        json.put("send_notifications", this.sendNotifications);
-        json.put("use_user_login_mail", this.useUserLoginMail);
-        json.put("alt_mail", this.altMail);
-        json.put("low_battery", this.lowBattery);
-        json.put("battery_low_threshold", this.batteryLowThreshold);
-        json.put("high_humidity", this.highHumidity);
-        json.put("high_humidity_threshold", this.highHumidityThreshold);
-        json.put("low_humidity", this.lowHumidity);
-        json.put("low_humidity_threshold", this.lowHumidityThreshold);
-        json.put("heavy_weight", this.heavyWeight);
-        json.put("heavy_weight_threshold", this.heavyWeightThreshold);
-        json.put("light_weight", this.lightWeight);
-        json.put("light_weight_threshold", this.lightWeightThreshold);
-        return json;
     }
 
     public static Settings getSettingsByUser(Long userId, SettingsRepository settingsRepository) {

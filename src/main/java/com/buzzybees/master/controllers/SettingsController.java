@@ -1,31 +1,20 @@
 package com.buzzybees.master.controllers;
 
-import com.buzzybees.master.beehives.BeehiveRepository;
-import com.buzzybees.master.beehives.StatusRepository;
+import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.CookieAuthController;
-import com.buzzybees.master.notifications.NotificationRepository;
-import com.buzzybees.master.notifications.ReminderRepository;
+import com.buzzybees.master.exceptions.ItemNotFoundException;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.users.settings.Settings;
 import com.buzzybees.master.users.settings.SettingsRepository;
-import com.sun.mail.imap.protocol.BODY;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 // TODO auth
@@ -75,12 +64,12 @@ public class SettingsController extends CookieAuthController {
             throw new UserNotValidException("User is not valid");
         }
     }
-
+/*
     @ModelAttribute
     public void combinedMethod(HttpServletRequest request) {
         super.getCookies(request);
         validateUser();
-    }
+    }*/
 
     private boolean isValidUser(Long userId) {
         return userRepository.findById(userId).isPresent();
@@ -95,61 +84,33 @@ public class SettingsController extends CookieAuthController {
     /**
      * Updates settings in batch
      *
-     * @param settingsJson Contains all Setting variables
+     * @param settings Contains all Setting variables
      * @return OK if updated successfully, otherwise outputs not found.
      * @example curl -X PUT "http://localhost:8080/dashboardApi/settings/highHumidity" \
      * -H "Content-Type: application/json" \
      * -d '{"dont_disturb_from": 1500}'
      */
     @PutMapping("/updateBatch")
-    public ResponseEntity<Object> updateSettings(@RequestBody String settingsJson) {
-        JSONObject json = new JSONObject(settingsJson);
-        Settings userSettings = settingsRepository.getSettingsByUserId(currentUserId);
+    public ApiResponse updateSettings(@ModelAttribute Settings settings) throws ItemNotFoundException {
+        SettingsRepository settingsRepository = getRepo(Settings.class);
 
-        if (userSettings == null) {
+        if (settings == null) {
             // Handle the case where no settings exist for the user.
-            return ResponseEntity.notFound().build();
+            throw new ItemNotFoundException();
         }
 
-        if (json.has("dont_disturb_from")) userSettings.setDontDisturbFrom(json.getLong("dont_disturb_from"));
-        if (json.has("dont_disturb")) userSettings.setDontDisturb(json.getBoolean("dont_disturb"));
-        if (json.has("dont_disturb_to")) userSettings.setDontDisturbTo(json.getLong("dont_disturb_to"));
-        if (json.has("send_notifications")) userSettings.setSendNotifications(json.getBoolean("send_notifications"));
-        if (json.has("use_user_login_mail")) userSettings.setUseUserLoginMail(json.getBoolean("use_user_login_mail"));
-        if (json.has("alt_mail")) userSettings.setAltMail(json.getString("alt_mail"));
-        if (json.has("low_battery")) userSettings.setLowBattery(json.getBoolean("low_battery"));
-
-        if (json.has("battery_low_threshold"))
-            userSettings.setBatteryLowThreshold(json.getInt("battery_low_threshold"));
-        if (json.has("high_humidity")) userSettings.setHighHumidity(json.getBoolean("high_humidity"));
-        if (json.has("high_humidity_threshold"))
-            userSettings.setHighHumidityThreshold(json.getInt("high_humidity_threshold"));
-        if (json.has("low_humidity")) userSettings.setLowHumidity(json.getBoolean("low_humidity"));
-        if (json.has("low_humidity_threshold"))
-            userSettings.setLowHumidityThreshold(json.getInt("low_humidity_threshold"));
-        if (json.has("heavy_weight")) userSettings.setHeavyWeight(json.getBoolean("heavy_weight"));
-        if (json.has("heavy_weight_threshold"))
-            userSettings.setHeavyWeightThreshold(json.getInt("heavy_weight_threshold"));
-        if (json.has("light_weight")) userSettings.setLightWeight(json.getBoolean("light_weight"));
-        if (json.has("light_weight_threshold"))
-            userSettings.setLightWeightThreshold(json.getInt("light_weight_threshold"));
-
-        settingsRepository.save(userSettings);
-        return ResponseEntity.ok().build();
+        settingsRepository.save(settings);
+        return new ApiResponse();
     }
 
-    @GetMapping(value = "getData", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getSettingsByUserId() {
+    @GetMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiResponse getSettingsByUserId() throws ItemNotFoundException {
         Settings settings = Settings.getSettingsByUser(currentUserId, settingsRepository);
-
         Settings.createSettingsIfNonExistent(currentUserId, userRepository, settingsRepository);
 
-        if (settings != null) {
-            System.out.println("settings " + settings.toString());
-            return new ResponseEntity<>(settings.toJson().toString(), HttpStatus.OK);
-        }
+        if(settings == null) throw new ItemNotFoundException();
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ApiResponse("settings", settings);
     }
 
 

@@ -1,5 +1,6 @@
 package com.buzzybees.master.tables;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
@@ -25,6 +26,7 @@ public class Status {
     @Column(name = "battery")
     private int battery;
 
+    @JsonIgnore
     @Column(name = "status")
     private String status;
 
