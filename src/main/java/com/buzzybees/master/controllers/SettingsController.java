@@ -17,8 +17,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-// TODO auth
-
 @RestController
 @RequestMapping("/dashboardApi/settings")
 public class SettingsController extends CookieAuthController {

@@ -236,7 +236,7 @@ public class DashboardController extends CookieAuthController {
     }
 
     /**
-     * @param beehive - determine which beehive to watch
+     * @param beehive determine which beehive to watch
      * @return status whether beehive has been paired or not
      */
     @GetMapping("/checkPairingStatus")
@@ -250,19 +250,14 @@ public class DashboardController extends CookieAuthController {
     }
 
     /**
-     * @param beehive - determine which beehive to watch
-     * @return status whether beehive has been paired or not
+     * initialize new pairing (beehive with user)
+     * @param beehive determine which beehive to pair
+     * @return status whether action was successful
      */
     @PostMapping("/newPairing")
-    public String newPairing(@RequestBody String beehive) {
-        JSONObject json = new JSONObject();
-        if (currentUserId > 0) {
-            PairingManager.init(beehive, currentUserId);
-            json.put("status", "ok");
-
-        } else json.put("status", "ERR_NO_PERMISSION");
-
-        return json.toString();
+    public ApiResponse newPairing(@RequestBody String beehive) {
+        PairingManager.init(beehive, currentUserId);
+        return new ApiResponse();
     }
 
     /**
