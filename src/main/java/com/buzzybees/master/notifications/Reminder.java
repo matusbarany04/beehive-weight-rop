@@ -1,5 +1,6 @@
 package com.buzzybees.master.notifications;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
@@ -23,6 +24,7 @@ public class Reminder {
     @Column(name = "details")
     private String details = "";
 
+    @JsonIgnore
     @Column(name = "user_id")
     private long userId;
 
@@ -34,29 +36,6 @@ public class Reminder {
 
     @Column(name = "action")
     private String action = "";
-
-    public Reminder(String title, String date, String time) {
-        this.title = title;
-        this.date = date;
-        this.time = time;
-    }
-
-    public Reminder() {
-
-    }
-
-    public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", id);
-        jsonObject.put("date", date);
-        jsonObject.put("time", time);
-        jsonObject.put("title", title);
-        jsonObject.put("details", details);
-        jsonObject.put("color", color);
-        jsonObject.put("action", action);
-        jsonObject.put("notifyBy", notifyBy);
-        return jsonObject;
-    }
 
     public void setColor(String color) {
         this.color = color;
@@ -93,5 +72,41 @@ public class Reminder {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public int getNotifyBy() {
+        return notifyBy;
+    }
+
+    public String getAction() {
+        return action;
     }
 }

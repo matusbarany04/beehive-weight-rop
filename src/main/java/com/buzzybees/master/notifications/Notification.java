@@ -5,6 +5,7 @@ import com.buzzybees.master.controllers.UserController;
 import com.buzzybees.master.users.Mailer;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.users.UserService;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,6 @@ import java.sql.Date;
 @Entity
 @Table(name = "notifications")
 public class Notification {
-
-    public Notification() {
-
-    }
 
     public enum Type {
         INFO,
@@ -41,6 +38,7 @@ public class Notification {
     @Column(name = "type")
     private int type;
 
+    @JsonIgnore
     @Column(name = "user_id")
     private long userId;
 
@@ -55,6 +53,10 @@ public class Notification {
 
     @Column(name = "timestamp")
     private Date timestamp;
+
+    public Notification() {
+
+    }
 
     public Notification(Type type, long userId, String title, String messageName, int value) {
         this.type = type.ordinal();
@@ -83,6 +85,30 @@ public class Notification {
         return userId;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
     public void setSeen(boolean seen) {
         this.seen = seen;
     }
@@ -91,17 +117,5 @@ public class Notification {
         UserRepository userRepository = UserService.getBean(UserRepository.class);
         String email = userRepository.getEmail(userId);
         Mailer.sendMessage(email, title, message);
-    }
-
-    public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("title", title);
-        jsonObject.put("message", message);
-        jsonObject.put("seen", seen);
-        jsonObject.put("type", type);
-        jsonObject.put("id", id);
-        jsonObject.put("userId", userId);
-        jsonObject.put("timestamp", timestamp);
-        return jsonObject;
     }
 }
