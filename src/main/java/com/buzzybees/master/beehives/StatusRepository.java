@@ -23,4 +23,10 @@ public interface StatusRepository extends CrudRepository<Status, Long> {
 
     @Query("SELECT s, MAX(s.timestamp) FROM Status s WHERE s.beehive LIKE :beehiveId")
     Status getLastStatus(String beehiveId);
+
+    @Query("SELECT s FROM Status s INNER JOIN Beehive b ON b.token = s.beehive WHERE b.userId = :id AND s.timestamp > :timestamp ORDER BY s.timestamp")
+    Status[] getUserStatusesSince(long id, long timestamp);
+
+    @Query("SELECT s,b FROM Status s INNER JOIN Beehive b ON b.token = s.beehive WHERE b.userId = :id AND s.timestamp = (SELECT MAX(s1.timestamp) FROM Status s1 WHERE s1.beehive = b.token)")
+    List<Object[]> csvSelect(long id);
 }

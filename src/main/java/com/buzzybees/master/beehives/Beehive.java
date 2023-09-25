@@ -3,8 +3,8 @@ package com.buzzybees.master.beehives;
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.tables.Status;
 import jakarta.persistence.*;
+import org.hibernate.annotations.WhereJoinTable;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -35,7 +35,6 @@ public class Beehive {
 
     @Column(name = "other_users")
     private String otherUsers = "{}";
-
 
     @Column(name = "connection_mode")
     private int connectionMode = SIM_MODE;
@@ -87,13 +86,6 @@ public class Beehive {
         this.userId = userId;
     }
 
-    public static JSONArray mergeStatuses(Status[] statuses) {
-        JSONArray jsonArray = new JSONArray();
-        for(Status status : statuses) {
-            jsonArray.put(status.toJSON());
-        }
-        return jsonArray;
-    }
 
     public int getInterval() {
         return interval;
@@ -126,5 +118,4 @@ public class Beehive {
     public List<Device> getDevices() {
         return devices;
     }
-
 }

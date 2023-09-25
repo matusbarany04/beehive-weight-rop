@@ -74,7 +74,8 @@ export default {
     return this.getStatuses()[beehive_id];
   },
   getStatusesByType: function (type, beehive_id) {
-    return this.getStatusesById(beehive_id)[type];
+    let statuses = this.getStatusesById(beehive_id);
+    return statuses ? statuses[type] : [];
   },
 
   getBeehiveIdsWithNames: function () {
@@ -113,10 +114,10 @@ export default {
     return savedData["statuses"][beehive_id]["humidity"];
   },
   getBatteries: function (beehive_id) {
-    return savedData["statuses"][beehive_id]["battery"];
+    return this.getStatusesById(beehive_id)["battery"];
   },
   getWeight: function (beehive_id) {
-    let weights = savedData["statuses"][beehive_id]["weight"];
+    let weights = this.getStatusesById(beehive_id)["weight"];
     return weights[weights.length - 1];
   },
   getLastUpdateTime: function (beehive_id) {

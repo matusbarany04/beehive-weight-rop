@@ -15,6 +15,8 @@ import com.buzzybees.master.notifications.NotificationRepository;
 import com.buzzybees.master.notifications.Reminder;
 import com.buzzybees.master.notifications.ReminderRepository;
 import com.buzzybees.master.tables.Status;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -88,41 +91,31 @@ public class DashboardController extends CookieAuthController {
      * @throws ParseException when date format is wrong.
      */
     @GetMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getData(@RequestParam(value = "fromDate", defaultValue = "all") String date) throws ParseException {
+    public ApiResponse getData(@RequestParam(value = "fromDate", defaultValue = "all") String date) throws ParseException {
         StatusRepository statusRepository = getRepo(Status.class);
 
         long timestamp = date.equals("all") ? 0 : dateToTimestamp(date);
+        Status[] statuses = statusRepository.getUserStatusesSince(currentUserId, timestamp);
 
-        JSONObject response = new JSONObject();
-        JSONObject jsonObject = new JSONObject();
-        String[] beehives = beehiveRepository.getBeehiveTokens(currentUserId);
-        Status[] statuses = statusRepository.getAllStatusesSince(beehives, timestamp);
+        HashMap<String, HashMap<String, Object>> data = new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        for (String token : beehives) {
-            JSONObject beehive = new JSONObject();
-            beehive.put("timestamp", new JSONArray());
-            beehive.put("battery", new JSONArray());
-            beehive.put("weight", new JSONArray());
-            beehive.put("humidity", new JSONArray());
-            beehive.put("temperature", new JSONArray());
-            jsonObject.put(token, beehive);
-        }
+        for(Status status : statuses) {
+            HashMap<String, Object> beehive = data.getOrDefault(status.getBeehive(), new HashMap<>());
+            Map<String, Object> map = objectMapper.convertValue(status, new TypeReference<>(){});
+            map.forEach((key, value) -> {
+                List<Object> list = new ArrayList<>((Collection<?>) beehive.getOrDefault(key, new ArrayList<>()));
+                list.add(value);
+                beehive.put(key, list);
+            });
 
-        for (Status status : statuses) {
-            JSONObject beehive = jsonObject.getJSONObject(status.getBeehive());
-            beehive.getJSONArray("timestamp").put(status.getTimestamp());
-            beehive.getJSONArray("battery").put(status.getBattery());
-            beehive.getJSONArray("weight").put(status.getWeight());
-            beehive.getJSONArray("humidity").put(status.getHumidity());
-            beehive.getJSONArray("temperature").put(status.getTemperature());
             beehive.put("currentStatus", status.getStatus());
+            data.put(status.getBeehive(), beehive);
         }
 
-        response.put("data", jsonObject);
-        response.put("status", "ok");
-
-        return response.toString();
+        return new ApiResponse("data", data);
     }
+
 
     /**
      * @param date date to parse.
@@ -142,14 +135,13 @@ public class DashboardController extends CookieAuthController {
     public ResponseEntity<Resource> downloadCSV() {
         StatusRepository statusRepository = getRepo(Status.class);
 
-        Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
-        String[] tokens = beehiveRepository.getBeehiveTokens(currentUserId);
-        Status[] lastStatuses = statusRepository.getLastStatuses(Arrays.asList(tokens));
-
+        List<Object[]> data = statusRepository.csvSelect(currentUserId);
         StringBuilder csv = new StringBuilder("Ul;Stav;Hmotnost;Bateria;Teplota;Vlhkost;Posledna aktualizacia;\n");
-        for (Status status : lastStatuses) {
-            Beehive beehive = Beehive.findByToken(beehives, status.getBeehive());
-            assert beehive != null;
+
+        for(Object[] row : data) {
+            Status status = (Status) row[0];
+            Beehive beehive = (Beehive) row[1];
+
             csv.append(beehive.getName()).append(";").append(status.toCSV()).append("\n");
         }
 

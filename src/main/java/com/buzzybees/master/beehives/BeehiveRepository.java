@@ -16,4 +16,5 @@ public interface BeehiveRepository extends CrudRepository<Beehive, Long> {
 
     @Query("SELECT b FROM Beehive b WHERE b.userId = :userId")
     Beehive[] getAllWithSensors(long userId);
+
 }

@@ -1,5 +1,7 @@
 package com.buzzybees.master.controllers;
 
+import com.buzzybees.master.beehives.Beehive;
+import com.buzzybees.master.beehives.BeehiveRepository;
 import com.buzzybees.master.beehives.PairingManager;
 import com.buzzybees.master.beehives.StatusRepository;
 import com.buzzybees.master.beehives.devices.Scan;
@@ -10,10 +12,13 @@ import com.buzzybees.master.exceptions.TimestampException;
 import com.buzzybees.master.tables.Status;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -31,7 +36,7 @@ public class BeeController extends DatabaseController {
     /**
      * Checks timestamp and insert new data to the database.
      *
-     * @param data - JSON string data
+     * @param status data from ESP
      * @return status whether data is correct and successfully saved.
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -85,8 +90,12 @@ public class BeeController extends DatabaseController {
         return new ApiResponse();
     }
 
-    @PostMapping("/test")
-    public String test() {
-        return "TEST";
+    @GetMapping("/test")
+    public ApiResponse test() {
+        BeehiveRepository beehiveRepository = getRepo(Beehive.class);
+        System.out.println(statusRepo.csvSelect(1));
+
+
+        return new ApiResponse("statuses", null);
     }
 }

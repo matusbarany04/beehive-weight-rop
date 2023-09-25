@@ -1,5 +1,6 @@
 package com.buzzybees.master.tables;
 
+import com.buzzybees.master.beehives.Beehive;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.json.JSONObject;
@@ -19,6 +20,7 @@ public class Status {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long statusId;
 
+    @JsonIgnore
     @Column(name = "beehive")
     private String beehive;
 
@@ -78,20 +80,18 @@ public class Status {
         this.beehive = beehive;
     }
 
-    public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status", status);
-        jsonObject.put("timestamp", timestamp);
-        jsonObject.put("weight", weight);
-        jsonObject.put("temperature", temperature);
-        jsonObject.put("humidity", humidity);
-        jsonObject.put("battery", battery);
-        return jsonObject;
-    }
-
     public String toCSV() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd. MM. yyyy HH:mm:ss");
         String date = simpleDateFormat.format(new Date(timestamp));
         return String.format("%s;%.1f;%d;%.1f;%.1f;%s;", status, weight, battery, temperature, humidity, date);
+    }
+
+    @Entity
+    public static class BeehiveStatus extends Status {
+
+        @JsonIgnore
+        @ManyToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name = "beehive")
+        private Beehive beehive;
     }
 }
