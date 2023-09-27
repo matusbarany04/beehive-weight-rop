@@ -3,8 +3,8 @@ import TestCard from "./TestCard.svelte";
 import DeletedCard from "./DeletedCard.svelte";
 import MapCard from "./MapCard.svelte";
 import WeatherCard from "./WeatherCard.svelte";
-import ApexChart from "./ApexChart.svelte";
 import DoubleGraph from "./DoubleGraph.svelte";
+import EChart from "./EChart.svelte";
 /**
  *  this method will return title, span, position and other attributes of the element
  * @param {*} id of the card
@@ -17,7 +17,7 @@ export const getCard = (id) => {};
 export const getData = (id) => {};
 
 const cardtypes = [
-  { format: "LineGraph", component: ApexChart },
+  { format: "LineGraph", component: EChart },
   { format: "DoubleGraph", component: DoubleGraph },
   { format: "PercentageCard", component: PercentageCard },
   { format: "MapCard", component: MapCard },
