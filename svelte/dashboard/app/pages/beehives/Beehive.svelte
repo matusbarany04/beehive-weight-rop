@@ -61,9 +61,9 @@
       </RouterLink>
     </div>
   </div>
-<!--  <div class="mx-auto mb-4 grid grid-cols-1 justify-between gap-4 lg:w-5/6">-->
-<!--    <EChart></EChart>-->
-<!--  </div>-->
+  <!--  <div class="mx-auto mb-4 grid grid-cols-1 justify-between gap-4 lg:w-5/6">-->
+  <!--    <EChart></EChart>-->
+  <!--  </div>-->
   {#if beehive && beeData}
     <div
       class="mx-auto mb-4 grid grid-cols-2 justify-between gap-4 md:grid-cols-4 lg:w-5/6"
@@ -169,7 +169,7 @@
         }}
       />
 
-      <ApexChart
+      <EChart
         cardStates={{
           id: "",
           x: TW_BREAKPOINTS.md < innerWidth ? 3 : 0,
@@ -189,7 +189,7 @@
         }}
       />
 
-      <ApexChart
+      <EChart
         cardStates={{
           id: "",
           x: TW_BREAKPOINTS.md < innerWidth ? 1 : 0,
@@ -209,7 +209,7 @@
         }}
       />
 
-      <ApexChart
+      <EChart
         cardStates={{
           id: "",
           spanX: 2,
