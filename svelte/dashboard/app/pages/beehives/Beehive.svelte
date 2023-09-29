@@ -15,6 +15,7 @@
   import RouterLink from "../../../../components/RouterLink.svelte";
   import message from "../../stores/message";
   import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
+  import EChart from "../../component/cards/EChart.svelte";
 
   export let props;
 
@@ -61,6 +62,9 @@
       </RouterLink>
     </div>
   </div>
+  <!--  <div class="mx-auto mb-4 grid grid-cols-1 justify-between gap-4 lg:w-5/6">-->
+  <!--    <EChart></EChart>-->
+  <!--  </div>-->
   {#if beehive && beeData}
     <div
       class="mx-auto mb-4 grid grid-cols-2 justify-between gap-4 md:grid-cols-4 lg:w-5/6"
@@ -146,7 +150,7 @@
     <div
       class="mx-auto grid grid-cols-1 gap-4 md:aspect-video md:grid-cols-4 md:grid-rows-2 lg:w-5/6"
     >
-      <ApexChart
+      <EChart
         cardStates={{
           id: "",
           x: TW_BREAKPOINTS.md < innerWidth ? 1 : 0,
@@ -166,7 +170,7 @@
         }}
       />
 
-      <ApexChart
+      <EChart
         cardStates={{
           id: "",
           x: TW_BREAKPOINTS.md < innerWidth ? 3 : 0,
@@ -186,7 +190,7 @@
         }}
       />
 
-      <ApexChart
+      <EChart
         cardStates={{
           id: "",
           x: TW_BREAKPOINTS.md < innerWidth ? 1 : 0,
@@ -206,7 +210,7 @@
         }}
       />
 
-      <ApexChart
+      <EChart
         cardStates={{
           id: "",
           spanX: 2,
@@ -227,9 +231,7 @@
       />
     </div>
 
-    <div
-      class="mx-auto mt-4 grid aspect-video grid-cols-1 gap-4 md:grid-cols-2 lg:w-5/6"
-    >
+    <div class="mx-auto mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:w-5/6">
       <MapCard
         cardStates={{
           id: "",
@@ -253,6 +255,10 @@
       />
     </div>
   {/if}
+
+  <div class="spacer h-16">
+    <!-- just for spacing-->
+  </div>
 </div>
 
 <Modal bind:showModal={showSettings}>

@@ -25,6 +25,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -35,7 +36,6 @@ public class UserController extends CookieAuthController {
 
     @Autowired
     NotificationRepository notificationRepository;
-
 
 
     // toto robi pekny json, skus takto davat api
@@ -141,6 +141,27 @@ public class UserController extends CookieAuthController {
         return response.toString();
     }
 
+    @PostMapping(value = {"/change/username"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String updateUserName(@RequestBody Map<String, String> updateRequest) {
+        String newName = updateRequest.get("name");
+
+
+        if (currentUserId > 0) {
+            User user = userRepository.getUserById(currentUserId);
+            if (user  == null) {
+
+                return "User not found";
+            }
+
+            user.setName(newName);
+            userRepository.save(user);
+
+            return "User name updated successfully";
+
+        }
+        return "Not logged in";
+    }
+
     @Deprecated
     @GetMapping("/getToken")
     public String getToken() {
@@ -187,7 +208,7 @@ public class UserController extends CookieAuthController {
     @MessageMapping("/private")
     public void sendToSpecificUser(@Payload Message message) {
         System.out.println(message);
-     //   simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/specific", message);
+        //   simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/specific", message);
     }
 
     @GetMapping("/messageTest")

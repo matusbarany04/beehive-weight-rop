@@ -567,7 +567,8 @@
     -webkit-mask-mode: alpha;
     -webkit-mask-size: 100%;
     mask-size: 100%;
-    background: var(--color-delete);
+    background: red;
+    //background: var(--color-delete);
     mask-image: url("icons/delete.svg");
     -webkit-mask-image: url("icons/delete.svg");
   }
