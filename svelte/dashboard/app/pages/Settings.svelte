@@ -30,6 +30,12 @@
   });
 
   let saveEnabled = false;
+  let userObject;
+  let originalUser;
+  onLoad("user", (user) => {
+    userObject = { ...user };
+    originalUser = { ...user };
+  });
 
   /**
    * Function that updates save button enabled state when some setting changes
@@ -38,6 +44,12 @@
   function triggerSave() {
     saveEnabled = !staticFuncs.jsonFlatEqual(settings, originalSettings);
     console.log("save", saveEnabled, settings, originalSettings);
+
+    if (userObject && originalUser) {
+      console.log("user", userObject["name"], originalUser["name"]);
+      saveEnabled = saveEnabled || userObject["name"] !== originalUser["name"];
+    }
+
     setUnsavedData(saveEnabled);
   }
 
@@ -58,7 +70,24 @@
         toast.push("Settings saved!");
       })
       .catch((error) => {
-        toast.push("Something happened", "error");
+        toast.push("Something happened when saving notif. settings", "error");
+      });
+
+    fetch("/user/change/username", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: userObject["name"] }),
+    })
+      .then((response) => {
+        originalUser = { ...userObject };
+        saveEnabled = false;
+        resetUnsavedData();
+        toast.push("User settings saved!");
+      })
+      .catch((error) => {
+        toast.push("Something happened when saving user", "error");
       });
   }
 </script>
@@ -83,6 +112,40 @@
 
 <form class="h-full w-full">
   {#if settings}
+    <SettingsHeader title="Účet" />
+
+    <SettingsItem
+      title="Vaše meno"
+      detail="Pod týmto menom Vás budeme oslovovať v e-mailoch a na webovej stránke"
+    >
+      <input
+        type="text"
+        placeholder="Vaše meno"
+        bind:value={userObject["name"]}
+        on:input={triggerSave}
+        class="h-8 w-96 rounded-md border-2 border-slate-300 px-4"
+      />
+    </SettingsItem>
+
+    <SettingsItem
+      title="Váš email"
+      detail="Email ktorý ste použili pri registrácií"
+    >
+      <p
+        class="h-8 w-96 rounded-md border-2 border-slate-300 px-4 text-slate-500"
+      >
+        {userObject["email"]}
+      </p>
+    </SettingsItem>
+
+    <SettingsItem
+      title="Zmeniť heslo"
+      detail="Pri zmene hesla budete odhlásený zo všetkých zariadení a budete sa musieť znova prihlásiť s novým heslo"
+    >
+      <Button text="Zmeniť heslo" link="/settings/newpassword"></Button>
+    </SettingsItem>
+
+
     <SettingsHeader title="Upozornenia" />
 
     <SettingsItem
