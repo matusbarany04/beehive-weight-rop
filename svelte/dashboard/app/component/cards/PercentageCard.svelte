@@ -31,7 +31,7 @@
           element.beehive_id,
         );
         if (beeData.length > 0) {
-          // TODO make it so that i dont have to essentially cast to int here 
+          // TODO make it so that i dont have to essentially cast to int here
           value = Number(beeData[beeData.length - 1]).toFixed() ?? "error";
 
           let lastVal = beeData[beeData.length - 1][1];

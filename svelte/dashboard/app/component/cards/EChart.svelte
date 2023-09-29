@@ -1,12 +1,12 @@
 <script>
-  import { onMount } from "svelte";
+  import {onMount} from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
-  import shared, { onLoad } from "../../stores/shared";
+  import shared, {onLoad} from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
+  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { tick } from "svelte";
+  import {tick} from "svelte";
 
   /**
    * @type {object}
@@ -23,7 +23,6 @@
   export let onDragStart; // function
 
   let component = "LineGraph";
-  let chart;
   let id = generateUUID();
   let error = null;
   let headerSelected = "none";
@@ -86,7 +85,9 @@
           trigger: "axis",
           formatter: function (params) {
             // Assuming params[0].value[0] or params[0].value is the timestamp value
-            let value = params[0].value[0] ? params[0].value[0] : params[0].value;
+            let value = params[0].value[0]
+              ? params[0].value[0]
+              : params[0].value;
 
             let date = new Date(value / 1000);
 
@@ -110,7 +111,7 @@
           },
         },
         grid: {
-          left: "6%",
+          // left: "6%",
           right: "5%",
           top: "4%",
         },
@@ -123,7 +124,7 @@
             formatter: function (value) {
               // Assuming value is in milliseconds
               let date = new Date(value / 1000);
-              
+
               // Format it to HH:mm:ss or any format you prefer
               let hours = String(date.getHours()).padStart(2, "0");
               let minutes = String(date.getMinutes()).padStart(2, "0");
@@ -134,16 +135,71 @@
           boundaryGap: false,
         },
         yAxis: {},
-        dataZoom: [
-          {
-            startValue: "2014-06-01",
-          },
-          {
-            type: "inside",
-          },
-        ],
+        dataZoom: [{
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],  // Controls the first xAxis by default
+          start: 10,        // Initial start percentage
+          end: 80,          // Initial end percentage
 
+          // Soft gray background for the slider
+          backgroundColor: 'rgba(240, 240, 240, 0.6)',
+          
+          // Subtle border color
+          borderColor: 'rgba(220, 220, 220, 1)',
+          borderWidth: 0,
+          
+          // Muted highlight for the selected area
+          fillerColor: 'rgba(220, 220, 220, 0.8)',
+
+          // Soft and muted data shadow styles
+          dataBackground: {
+            lineStyle: {
+              color: 'rgba(126,83,7,0.42)',
+              width: 1
+            },
+            areaStyle: {
+              color: 'rgba(230, 230, 230, 0.8)'
+            }
+          },
+          // Customize the brush-style drag area
+          brushStyle: {
+
+            color: 'rgba(240, 240, 240, 0.2)',           // Soft white for the main color
+            borderWidth: 0,
+            shadowColor: 'rgba(150, 150, 150, 0.3)',     // Medium gray for the shadow
+            shadowOffsetX: 2,
+            shadowOffsetY: 2
+          },
+
+          // Handle styling: muted gray with soft shadow
+          handleStyle: {
+            color: 'rgb(219,152,52)',
+            borderWidth: 0,
+            shadowBlur: 4,
+            shadowOffsetX: 2,
+            shadowOffsetY: 2,
+            shadowColor: 'rgba(150, 150, 150, 0.5)'
+          },
+
+          // Label with soft gray text
+          labelFormatter: function(value) { return "Value: " + value; },
+          textStyle: {
+            color: 'rgba(100, 100, 100, 1)'
+          }
+        }],
         series: {
+          lineStyle: {
+            color: '#db9834' // Blue color, for example
+          },
+          itemStyle: {
+            borderType: "solid",
+            color: '#db9834',
+            borderCap: "butt",
+            emphasis: {   
+              color: '#db9834'  
+            }
+          },
           name: beehiveData[0].name,
           type: "line",
           data: beehiveData[0].data.map(function (item) {
@@ -204,7 +260,7 @@
     slot="header"
     class="flex w-full max-w-[15rem] items-center justify-around"
   >
-    {#if chart}
+    {#if myChart}
       {#each miniButtons as item}
         <ButtonSmall
           text={item[1]}
@@ -217,8 +273,9 @@
       {/each}
     {/if}
   </div>
+  
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full" />
+    <div {id} class="h-full w-full "/>
   </div>
 
   <div class="" slot="customSettings">
