@@ -5,7 +5,7 @@
    */
   import Button from "../../../../components/Buttons/Button.svelte";
   import Loading from "../../../../components/pages/Loading.svelte";
-  import {navigate} from "../../../../components/router/route.serv";
+  import { navigate } from "../../../../components/router/route.serv";
   import message from "../../stores/message";
   import shared from "../../stores/shared";
 
@@ -17,7 +17,7 @@
   let timeout;
 
   if (token) {
-    fetch("/dashboardApi/newPairing", {method: "POST", body: token})
+    fetch("/dashboardApi/newPairing", { method: "POST", body: token })
       .then((r) => r.json())
       .then((status) => {
         if (status["status"] === "ok") {
@@ -52,7 +52,7 @@
       Tu zadajte identifikačné číslo váhy (uvedené na obale)
       <p>
         <i
-        >Upozornenie: SIM karta v úli musí mať PIN 0000 alebo žiadny PIN inak
+          >Upozornenie: SIM karta v úli musí mať PIN 0000 alebo žiadny PIN inak
           sa nedokáže pripojiť na internet</i
         >
       </p>
@@ -64,24 +64,25 @@
           placeholder="XXXXXXXXXXXXXXX"
         />
         <div class="flex w-full justify-center">
-          <Button type="confirm" text="Potvrdiť"/>
+          <Button type="confirm" text="Potvrdiť" />
         </div>
       </form>
     </div>
 
     <div class="w-3/4 p-5">
-      <img src="/img/beehive_token.svg" alt="ukazka vahy"/>
+      <img src="/img/beehive_token.svg" alt="ukazka vahy" />
+    </div>
+  {:else if timeout}
+    <div>
+      Nepodarilo sa nájsť váhu. Skontrolujte prosím, či sa váha dokáže pripojiť
+      k internetu a skúste to znova.
     </div>
   {:else}
-    {#if timeout}
-      <div>Nepodarilo sa nájsť váhu. Skontrolujte prosím, či sa váha dokáže pripojiť k internetu a skúste to znova.</div>
-    {:else}
-      <p>Hľadanie váhy...</p>
-      <Loading/>
-      <div class="flex items-center">
-        <img class="h-20" src="/img/press_button.svg" alt="stlacte tlacidlo"/>
-        Stlačte prosím tlačidlo REQ_CONNECT na váhe
-      </div>
-    {/if}
+    <p>Hľadanie váhy...</p>
+    <Loading />
+    <div class="flex items-center">
+      <img class="h-20" src="/img/press_button.svg" alt="stlacte tlacidlo" />
+      Stlačte prosím tlačidlo REQ_CONNECT na váhe
+    </div>
   {/if}
 </div>

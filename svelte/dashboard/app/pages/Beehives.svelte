@@ -14,6 +14,7 @@
   import Loading from "../../../components/pages/Loading.svelte";
   import RouterLink from "../../../components/RouterLink.svelte";
   import message from "../stores/message";
+  import { navigate, route } from "../../../components/router/route.serv";
 
   const user = shared.getUser();
   let rows, handler, statuses;
@@ -34,6 +35,8 @@
 
   let showModal = false;
 
+  let exportPopup = false;
+
   message.setMessage("Zoznam úľov");
 </script>
 
@@ -43,46 +46,6 @@
 </svelte:head>
 
 <div class="box-border h-full w-full">
-  <!-- <div class="grid gap-4 grid-cols-1 md:grid-cols-4">
-        <LineGraph
-            cardStates={{
-                id: "item.id",
-
-                spanX: 1,
-                spanY: 1,
-                editing: false,
-            }}
-        />
-        <PercentageCard
-            cardStates={{
-                id: "item.id",
-
-                spanX: 1,
-                spanY: 1,
-                editing: false,
-            }}
-        />
-        <LineGraph
-            cardStates={{
-                id: "item.id",
-
-                spanX: 1,
-                spanY: 1,
-                editing: false,
-            }}
-        />
-        <LineGraph
-            cardStates={{
-                id: "item.id",
-
-                spanX: 1,
-                spanY: 1,
-                editing: false,
-            }}
-        />
-    </div> -->
-
-  <!-- <div class="cardImage" /> -->
   {#if handler && rows}
     <div class="mt-4 flex h-auto w-full flex-col rounded-lg bg-white p-8">
       <div
@@ -99,13 +62,37 @@
         <div
           class="flex w-full flex-1 items-center justify-center gap-4 md:justify-end"
         >
-          <RouterLink url="../../dashboardApi/downloadCSV" reload="true">
+          <div class="relative">
             <Button
               image="icons/export.svg"
               text="Exportovať"
               type="secondary"
+              onClick={() => {
+                exportPopup = !exportPopup;
+              }}
             />
-          </RouterLink>
+            {#if exportPopup}
+              <div
+                class="min-h-24 absolute top-12 flex w-32 flex-col gap-2 rounded-md border-2 border-slate-300 bg-white"
+              >
+                <RouterLink
+                  baseRoute="true"
+                  url="/dashboardApi/downloadCSV"
+                  reload="true"
+                >
+                  <Button type="transparent" text="ako CSV"></Button>
+                </RouterLink>
+                <div class="border border-slate-300"></div>
+                <RouterLink
+                  baseRoute="true"
+                  url="/dashboardApi/downloadExcel"
+                  reload="true"
+                >
+                  <Button type="transparent" text="ako Excel"></Button>
+                </RouterLink>
+              </div>
+            {/if}
+          </div>
 
           <Button
             image="icons/add_thin.svg"
@@ -202,10 +189,10 @@
                     />
                   {/if}
                   <!-- {#if row.statuses.length > 0}
-                {new Date(row.statuses[0].timestamp).toLocaleString()}
-              {:else}
-                Nedostatok dát
-              {/if} -->
+          {new Date(row.statuses[0].timestamp).toLocaleString()}
+        {:else}
+          Nedostatok dát
+        {/if} -->
                 </td>
                 <td class="font-bold">
                   {#if statuses}

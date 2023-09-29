@@ -98,7 +98,7 @@ export default {
           "--icon-color": "white",
         },
         ".btn-transparent": {
-          "--text-color": "white",
+          "--text-color": theme("colors.primary.900"),
           "--icon-color": "white",
         },
       };
