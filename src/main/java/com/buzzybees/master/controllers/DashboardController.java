@@ -6,6 +6,7 @@ import com.buzzybees.master.beehives.PairingManager;
 import com.buzzybees.master.beehives.StatusRepository;
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.beehives.devices.DeviceRepository;
+import com.buzzybees.master.beehives.export.ExcelService;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.CookieAuthController;
 import com.buzzybees.master.exceptions.ItemNotFoundException;
@@ -27,14 +28,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/dashboardApi")
 public class DashboardController extends CookieAuthController {
+
+
+    @Autowired
+    private ExcelService excelService;
 
     @Autowired
     BeehiveRepository beehiveRepository;
@@ -161,6 +169,51 @@ public class DashboardController extends CookieAuthController {
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 
+
+    /**
+     * @return Excel file stream with all statuses of beehives belonging to user.
+     */
+    @GetMapping("/downloadExcel")
+    public ResponseEntity<byte[]> downloadExcel() {
+        StatusRepository statusRepository = getRepo(Status.class);
+        Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
+        String[] tokens = beehiveRepository.getBeehiveTokens(currentUserId);
+        Status[] lastStatuses = statusRepository.getLastStatuses(Arrays.asList(tokens));
+
+        StringBuilder csv = new StringBuilder("Ul;Stav;Hmotnost;Bateria;Teplota;Vlhkost;Posledna aktualizacia;\n");
+
+
+        ByteArrayInputStream in = excelService.exportToExcel(
+                Arrays.stream(csv.toString().split(";")).toList(),
+
+
+                Arrays.stream(beehives).map((beehive) -> {
+                    List<String> list = new ArrayList<>();
+                    list.add(beehive.getName());
+
+                    try {
+                        String[] array = statusRepository.getLastStatus(beehive.getToken()).toCSV().split(";");
+
+                        list.addAll(
+                                Stream.of(array).toList());
+                    } catch (NullPointerException e) {
+                        list.addAll(new ArrayList<>());
+                    }
+                    return list;
+                }).toList()
+        );
+
+        // Set HTTP headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=data.xlsx");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .headers(headers)
+                .body(in.readAllBytes());
+    }
+
+
     /**
      * @return user's notifications
      */
@@ -185,6 +238,7 @@ public class DashboardController extends CookieAuthController {
 
     /**
      * saves new reminder to database
+     *
      * @param reminder created reminder from frontend form
      * @return created reminder
      */
@@ -218,6 +272,7 @@ public class DashboardController extends CookieAuthController {
 
     /**
      * delete specific notification
+     *
      * @param notificationId determine which notification should be deleted
      * @return status whether action was successful
      * @throws OwnershipException when notification does not belong to user
@@ -251,6 +306,7 @@ public class DashboardController extends CookieAuthController {
 
     /**
      * initialize new pairing (beehive with user)
+     *
      * @param beehive determine which beehive to pair
      * @return status whether action was successful
      */
@@ -262,6 +318,7 @@ public class DashboardController extends CookieAuthController {
 
     /**
      * saves beehive settings to database
+     *
      * @param formData device settings from frontend form
      * @return status whether action was successful
      */
