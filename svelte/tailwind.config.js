@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-import colorUtils from "./build_utils/colorUtils";
+// import colorUtils from "./build_utils/colorUtils";
 
 const colors = require("tailwindcss/colors");
 
@@ -106,31 +106,44 @@ export default {
 
       const buttonsDisabled = {
         ".btn-primary-disabled": {
-          "background-color": calcDesaturated(theme("colors.secondary.800")),
-          "--icon-color": calcDesaturated(theme("colors.primary.100")),
-          "--text-color": calcDesaturated(theme("colors.primary.100")),
+          "background-color": "#A57A0B",
+          "--icon-color": "#202325",
+          "--text-color": "#202325"
         },
         ".btn-secondary-disabled": {
-          "--icon-color": calcDesaturated(theme("colors.primary.100")),
-          "background-color": calcDesaturated(theme("colors.tertiary.400")),
-          outline: "2px solid #cfd2d6",
+          "--icon-color": "#202325",
+          "background-color": "#A3A5A9",
+          "outline": "2px solid #cfd2d6"
         },
         ".btn-confirm-disabled": {
-          "background-color": calcDesaturated(theme("colors.confirm.500")),
-          "--text-color": calcDesaturated(theme("colors.confirm.600")),
-          "--icon-color": calcDesaturated(theme("colors.confirm.600")),
+          "background-color": "#22c55e",
+          "--text-color": "#16a34a",
+          "--icon-color": "#16a34a"
         },
         ".btn-error-disabled": {
-          "background-color": calcDesaturated(theme("colors.error.500")),
-          "--text-color": calcDesaturated(theme("colors.primary.100")),
-          "--icon-color": calcDesaturated(theme("colors.primary.100")),
+          "background-color": "#ef4444",
+          "--text-color": "#202325",
+          "--icon-color": "#202325"
         },
         ".btn-transparent-disabled": {
-          "--text-color": calcDesaturated(theme("colors.primary.100")),
-          "--icon-color": calcDesaturated(theme("colors.primary.100")),
-        },
+          "--text-color": "#202325",
+          "--icon-color": "#202325"
+        }
       };
 
+      // const fs = require('fs');
+      //
+      // const jsonData = JSON.stringify(buttonsDisabled, null, 2);
+      //
+      // fs.writeFile('disabledDataButton.json', jsonData, (err) => {
+      //   if (err) {
+      //     console.error('Error writing to file:', err);
+      //   } else {
+      //     console.log('Successfully wrote to data.json');
+      //   }
+      // });
+      
+      
       addUtilities(buttonsDisabled);
 
       const scrollbar = {
