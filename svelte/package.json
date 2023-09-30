@@ -7,7 +7,6 @@
     "@rollup/plugin-terser": "^0.4.3",
     "@vincjo/datatables": "^1.12.4",
     "@zerodevx/svelte-toast": "^0.9.5",
-    "apexcharts": "^3.41.1",
     "color": "^4.2.3",
     "docs": "^0.3.2-canary.0",
     "jsdoc": "^4.0.2",
@@ -23,7 +22,6 @@
     "rollup-plugin-svelte": "^7.1.6",
     "sirv-cli": "^0.3.1",
     "svelte": "^4.2.0",
-    "svelte-apexcharts": "^1.0.2",
     "svelte-preprocess": "^5.0.4",
     "taffydb": "^2.7.3"
   },
@@ -46,7 +44,6 @@
     "require": "^0.4.4",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
-    "stompjs": "^2.3.3",
     "svelte-forms-lib": "^2.0.1",
     "tailwindcss": "^3.3.3"
   }

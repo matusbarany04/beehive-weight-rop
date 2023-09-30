@@ -36,10 +36,10 @@
       cardList = JSON.parse(user["dashboardData"]);
     }
   };
-
+  let user;
   const resetCardList = () => {
     cardList = [];
-    initCardList();
+    initCardList(user);
   };
 
   const getPosOfGridItem = (x, y) => {
@@ -71,7 +71,8 @@
   };
 
   message.setMessage("Dobrý deň");
-  onLoad(["user"], (user) => {
+  onLoad(["user"], (userObj) => {
+    user = userObj;
     message.setMessage("Dobrý deň, včelár " + user.name);
     initCardList(user);
   });
