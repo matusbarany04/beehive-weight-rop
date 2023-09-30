@@ -1,11 +1,15 @@
 package com.buzzybees.master.tables;
 
+import com.buzzybees.master.beehives.devices.SensorValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 
 @Entity
@@ -32,11 +36,9 @@ public class Status {
     @Column(name = "weight")
     private float weight;
 
-    @Column(name = "temperature")
-    private float temperature;
-
-    @Column(name = "humidity")
-    private float humidity;
+    @JsonProperty("sensors")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "status")
+    private List<SensorValue> sensorValues = new LinkedList<>();
 
     public Status() {
 
@@ -58,16 +60,8 @@ public class Status {
         return weight;
     }
 
-    public float getTemperature() {
-        return temperature;
-    }
-
     public long getTimestamp() {
         return timestamp;
-    }
-
-    public float getHumidity() {
-        return humidity;
     }
 
     public int getBattery() {
@@ -78,20 +72,21 @@ public class Status {
         this.beehive = beehive;
     }
 
-    public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status", status);
-        jsonObject.put("timestamp", timestamp);
-        jsonObject.put("weight", weight);
-        jsonObject.put("temperature", temperature);
-        jsonObject.put("humidity", humidity);
-        jsonObject.put("battery", battery);
-        return jsonObject;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setStatusId(long statusId) {
+        this.statusId = statusId;
     }
 
     public String toCSV() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd. MM. yyyy HH:mm:ss");
         String date = simpleDateFormat.format(new Date(timestamp));
-        return String.format("%s;%.1f;%d;%.1f;%.1f;%s;", status, weight, battery, temperature, humidity, date);
+        return String.format("%s;%.1f;%d;%.1f;%.1f;%s;", status, weight, battery, "", "", date);
+    }
+
+    public List<SensorValue> getSensorValues() {
+        return sensorValues;
     }
 }

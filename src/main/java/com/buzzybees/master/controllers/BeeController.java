@@ -1,19 +1,23 @@
 package com.buzzybees.master.controllers;
 
-import com.buzzybees.master.beehives.PairingManager;
-import com.buzzybees.master.beehives.StatusRepository;
-import com.buzzybees.master.beehives.devices.Scan;
-import com.buzzybees.master.beehives.devices.ScanRepository;
+import com.buzzybees.master.beehives.*;
+import com.buzzybees.master.beehives.devices.Device;
+import com.buzzybees.master.beehives.devices.DeviceManager;
+import com.buzzybees.master.beehives.devices.SensorValue;
+import com.buzzybees.master.beehives.devices.SensorValueRepository;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
 import com.buzzybees.master.exceptions.TimestampException;
 import com.buzzybees.master.tables.Status;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 
 @RestController
@@ -21,6 +25,9 @@ public class BeeController extends DatabaseController {
 
     @Autowired
     StatusRepository statusRepo;
+
+    @Autowired
+    SensorValueRepository sensorValueRepository;
 
     @GetMapping("/clk_sync")
     public long clk() {
@@ -31,15 +38,32 @@ public class BeeController extends DatabaseController {
     /**
      * Checks timestamp and insert new data to the database.
      *
-     * @param data - JSON string data
+     * @param status - JSON parsed data
      * @return status whether data is correct and successfully saved.
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiResponse updateStatus(@ModelAttribute Status status) throws TimestampException {
+    public ApiResponse updateStatus(@RequestBody Status status) {
+        List<SensorValue> valueList = status.getSensorValues();
+        List<Action> actions = new LinkedList<>();
 
-        if (status.getTimestamp() < clk()) throw new TimestampException();
+        valueList.forEach(sensorValue -> {
+            sensorValue.setStatus(status);
+
+            if(sensorValue.getSensorId() == 0) {
+                BeehiveRepository beehiveRepository = getRepo(Beehive.class);
+                Beehive beehive = beehiveRepository.getBeehiveByToken(status.getBeehive());
+                long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
+                actions.add(new Action("BURN_SENSOR_ID", id));
+                sensorValue.setSensorId(id);
+            }
+        });
+
+        status.setTimestamp(new Date().getTime());
+
+        sensorValueRepository.saveAll(status.getSensorValues());
         statusRepo.save(status);
-        return new ApiResponse();
+
+        return new ApiResponse("actions", actions);
     }
 
     /**
@@ -63,26 +87,6 @@ public class BeeController extends DatabaseController {
             case PairingManager.ERROR_TIMEOUT -> "ERROR_TIMEOUT";
             default -> "ERROR";
         };
-    }
-
-    /**
-     * Inserts new scan to database.
-     * @param data results
-     * @return status whether action was successful.
-     */
-    @PostMapping("/newScan")
-    public ApiResponse newScan(@RequestBody String data) {
-        ScanRepository scanRepository = getRepo(Scan.class);
-
-        JSONObject json = new JSONObject(data);
-        Scan scan = new Scan();
-
-        scan.setBeehive(json.getString("token"));
-        scan.setDevices(json.getJSONObject("devices"));
-        scan.setDate(new Date());
-
-        scanRepository.save(scan);
-        return new ApiResponse();
     }
 
     @PostMapping("/test")

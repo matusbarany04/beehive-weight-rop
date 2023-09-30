@@ -36,7 +36,6 @@ public class Beehive {
     @Column(name = "other_users")
     private String otherUsers = "{}";
 
-
     @Column(name = "connection_mode")
     private int connectionMode = SIM_MODE;
 
@@ -85,14 +84,6 @@ public class Beehive {
 
     public void setUserId(long userId) {
         this.userId = userId;
-    }
-
-    public static JSONArray mergeStatuses(Status[] statuses) {
-        JSONArray jsonArray = new JSONArray();
-        for(Status status : statuses) {
-            jsonArray.put(status.toJSON());
-        }
-        return jsonArray;
     }
 
     public int getInterval() {

@@ -121,15 +121,13 @@ public class DashboardController extends CookieAuthController {
             beehive.getJSONArray("timestamp").put(status.getTimestamp());
             beehive.getJSONArray("battery").put(status.getBattery());
             beehive.getJSONArray("weight").put(status.getWeight());
-            beehive.getJSONArray("humidity").put(status.getHumidity());
-            beehive.getJSONArray("temperature").put(status.getTemperature());
             beehive.put("currentStatus", status.getStatus());
         }
 
         response.put("data", jsonObject);
         response.put("status", "ok");
 
-        return response.toString();
+        return "";
     }
 
     /**
