@@ -3,6 +3,7 @@
 #include <ArduinoJson.h>
 #include "Sensor.h"
 #include "battery.h"
+#include "constants.h"
 
 #define PORT_COUNT 8
 
@@ -45,6 +46,7 @@ class SensorManager {
             }
 
             json["weight"] = 45;
+            json["beehive"] = BEEHIVE_ID;
             json["battery"] = battery.getPercentage();   
             json["status"] = "ok";
 

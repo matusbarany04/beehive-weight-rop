@@ -29,7 +29,6 @@ public class Status {
     @Column(name = "battery")
     private int battery;
 
-    @JsonIgnore
     @Column(name = "status")
     private String status;
 

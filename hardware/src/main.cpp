@@ -26,8 +26,9 @@ void setup(void)
   sensorManager.scan();
 
   networkManager.connectDefault();
+  networkManager.setContentType("application/json");
 
-  networkManager.POST(SERVER_URL + "/updateStatus", sensorManager.buildJSON());
+  networkManager.POST(String(SERVER_URL) + "/updateStatus", sensorManager.buildJSON());
   Serial.println(networkManager.getRequestResult());
 }
  
