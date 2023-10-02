@@ -99,7 +99,7 @@ export default {
         },
         ".btn-transparent": {
           "--text-color": theme("colors.primary.900"),
-          "--icon-color": "white",
+          "--icon-color": "black",
         },
       };
       addUtilities(buttonUtilities);
