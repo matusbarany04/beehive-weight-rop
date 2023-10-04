@@ -71,14 +71,15 @@
   {#if renderCards}
     <Grid
       draggable={editMode}
-      xCount={6}
-      yCount={6}
+      xCount={4}
+      yCount={4}
       padding={10}
       className="w-full aspect-square"
     >
-      {#each Array(4) as _, x}
+      {#each Array(2) as _, x}
         {#each Array(2) as _, y}
-          <GridItem {x} w={2} {y} className="outline-primary-100 outline"></GridItem>
+          <GridItem x={x*2}  {y}  w={2} className="outline-primary-100 outline"
+          ></GridItem>
         {/each}
       {/each}
 

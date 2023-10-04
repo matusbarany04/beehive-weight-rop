@@ -18,7 +18,7 @@ export class Grid {
   _xCount;
   /** @type {number} */
   _yCount;
-  
+
   /**
    *
    * @param {number} [width=0] - Grid width.
@@ -43,9 +43,7 @@ export class Grid {
   get id() {
     return this._id;
   }
-  
-  
-  
+
   /**
    * Setter for id.
    * @param {string} value
@@ -172,9 +170,7 @@ export class Grid {
    */
   static pixelSizeToUnitLength(pixelSize, padding, unitSize) {
     const totalSizePerUnit = unitSize + padding;
-    console.log("padding", padding, "unitsize", unitSize, "pixel", pixelSize)
+    console.log("padding", padding, "unitsize", unitSize, "pixel", pixelSize);
     return Math.max(1, Math.round(pixelSize / totalSizePerUnit));
   }
-  
-  
 }

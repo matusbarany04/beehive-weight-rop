@@ -9,12 +9,12 @@
   export let yCoordinate = 1;
   export let pixelWidth = 10;
   export let pixelHeight = pixelWidth;
-
+  
   export let className = "";
 </script>
 
 <div
-  class="absolute outline outline-secondary-100 {className}"
+  class="absolute {className}"
   style:width="{pixelWidth}px"
   style:height="{pixelHeight}px"
   style:top="{yCoordinate}px"
@@ -22,9 +22,9 @@
 >
   <slot />
 
-<!--  <p>pixelHeight {pixelHeight}</p>-->
-<!--  <p>pixelWidth: {pixelWidth}</p>-->
+  <!--  <p>pixelHeight {pixelHeight}</p>-->
+  <!--  <p>pixelWidth: {pixelWidth}</p>-->
 
-<!--  <p>xPos {xCoordinate}</p>-->
-<!--  <p>yPos: {yCoordinate}</p>-->
+  <!--  <p>xPos {xCoordinate}</p>-->
+  <!--  <p>yPos: {yCoordinate}</p>-->
 </div>

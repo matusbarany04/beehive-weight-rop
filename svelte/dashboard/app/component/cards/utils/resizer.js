@@ -84,7 +84,7 @@ export class Resizer {
 
   handleMouseUp(event) {
     this.isResizing = false;
-    this.root.resetShadow()
+    this.root.resetShadow();
     this.mouseUpEvent(event);
     // Remove the event listeners to prevent unnecessary operations
     document.removeEventListener("mousemove", this.handleMouseMove);

@@ -14,12 +14,11 @@
 
     export let className = "";
 
-
     let gridRoot = getGridContext();
 
     let item = new Item(x, y, w, h, gridRoot.getPadding());
-
-
+    item.padding = gridRoot.getPadding();
+    
     let gridItemRoot;
     let resizerElement;
 
@@ -34,10 +33,8 @@
 
         let resizer = new Resizer(resizerElement, item, gridItemRoot, gridRoot);
 
-
         item.subscribeMounted(() => {
             dragger.setDraggable(item.draggable);
-
 
             item.setDraggableChangedEvent((draggable) => {
                 dragger.setDraggable(draggable);
@@ -68,20 +65,23 @@
                 // item.yCoordinate = initialY;
             });
 
-
             resizer.setResizable(item.draggable);
 
             resizer.setOnMouseUpEvent((event) => {
-
                 item.wh = {
-                    w: Grid.pixelSizeToUnitLength(item.pixelWidth, gridRoot.getPadding(), item.unitSize),
-                    h: Grid.pixelSizeToUnitLength(item.pixelHeight, gridRoot.getPadding(), item.unitSize)
-                }
-            })
-
+                    w: Grid.pixelSizeToUnitLength(
+                        item.pixelWidth,
+                        gridRoot.getPadding(),
+                        item.unitSize,
+                    ),
+                    h: Grid.pixelSizeToUnitLength(
+                        item.pixelHeight,
+                        gridRoot.getPadding(),
+                        item.unitSize,
+                    ),
+                };
+            });
         });
-
-
     });
 </script>
 
@@ -95,18 +95,22 @@
         style:left="{item.xCoordinate}px"
 >
     <slot/>
-    <p>x: {item.x}</p>
-    <p>y: {item.y}</p>
-    <p>w: {item.w}</p>
-    <p>h: {item.h}</p>
-    <p>pixelHeight {item.pixelHeight}</p>
-    <p>pixelWidth: {item.pixelWidth}</p>
+    <div class="w-full h-full box-border p-4">
 
-    <p>xPos {item.xCoordinate}</p>
-    <p>yPos: {item.yCoordinate}</p>
+        <p>x: {item.x}</p>
+        <p>y: {item.y}</p>
+        <p>w: {item.w}</p>
+        <p>h: {item.h}</p>
+        <p>pixelHeight {item.pixelHeight}</p>
+        <p>pixelWidth: {item.pixelWidth}</p>
+
+        <p>xPos {item.xCoordinate}</p>
+        <p>yPos: {item.yCoordinate}</p>
+    </div>
 
     <div
             bind:this={resizerElement}
-            class="absolute bottom-2 right-2 z-10 h-4 w-4 bg-secondary-400"
+            style:background-image="url('/icons/arrows-fullscreen.svg')"
+            class="absolute bottom-1.5 right-1.5 z-10 h-4 w-4"
     ></div>
 </div>
