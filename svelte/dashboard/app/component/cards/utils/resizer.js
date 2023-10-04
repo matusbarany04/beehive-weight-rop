@@ -1,18 +1,19 @@
-export class Dragger {
+export class Resizer {
   /**
    *
    * @param node {HTMLElement}
    * @param item {Item}
-   * @param root {HTMLElement}
+   * @param root {Object}
    * */
-  constructor(node, item, root) {
+  constructor(node, item, resizableObject, root) {
     this.node = node;
-    this.isDraggable = false;
-    this.isDragging = false;
-    this.offsetX = 0;
-    this.offsetY = 0;
+    this.isResizable = false;
+    this.isResizing = false;
+    this.startWidth = 0;
+    this.startHeight = 0;
     this.item = item;
     this.root = root;
+    this.resizableObject = resizableObject;
 
     // Bind methods to the instance to preserve `this` context
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -30,18 +31,27 @@ export class Dragger {
    *
    * @param value {boolean}
    */
-  setDraggable(value) {
-    this.isDraggable = value;
+  setResizable(value) {
+    this.isResizable = value;
   }
 
   handleMouseDown(event) {
-    console.log("Mouse down dragger");
-    if (this.isDraggable) {
-      this.isDragging = true;
+    // stop dragger from picking up the event
+    event.stopPropagation();
 
-      // Calculate the initial offset at the start of the drag
-      this.offsetX = event.clientX - this.node.offsetLeft;
-      this.offsetY = event.clientY - this.node.offsetTop;
+    if (this.isResizable) {
+      //setting shadow behind the item to show possible positioning
+      console.log("item ", this.item);
+      this.root.setShadow(this.item);
+
+      this.isResizing = true;
+
+      // Store the initial dimensions at the start of the resize
+      this.startWidth = this.resizableObject.offsetWidth;
+      this.startHeight = this.resizableObject.offsetHeight;
+
+      this.startX = event.clientX;
+      this.startY = event.clientY;
 
       this.mouseDownEvent(event);
       document.addEventListener("mousemove", this.handleMouseMove);
@@ -53,38 +63,29 @@ export class Dragger {
   }
 
   handleMouseMove(event) {
-    if (!this.isDragging) return;
+    if (!this.isResizing) return;
 
-    const x = event.clientX - this.offsetX;
-    const y = event.clientY - this.offsetY;
+    this.root.updateShadow();
 
-    this.item.xCoordinate = x + this.root.scrollTop;
-    this.item.yCoordinate = y + this.root.scrollLeft;
+    const widthDelta = event.clientX - this.startX;
+    const heightDelta = event.clientY - this.startY;
 
-    let relativePos = this.getMouseToItemPosition(event);
+    this.item.pixelWidth = this.startWidth + widthDelta;
+    this.item.pixelHeight = this.startHeight + heightDelta;
 
-    this.mouseMoveEvent(relativePos.x, relativePos.y);
-  }
-
-  getMouseToItemPosition(event) {
-    return {
-      /** @type {int} */
-      x: event.clientX - this.node.getBoundingClientRect().left,
-      /** @type {int} */
-      y: event.clientY - this.node.getBoundingClientRect().top,
-    };
+    this.mouseMoveEvent(this.item.w, this.item.h);
   }
 
   handleMouseWheel(event) {
-    if (this.isDragging) {
+    if (this.isResizing) {
       event.preventDefault();
     }
   }
 
   handleMouseUp(event) {
-    this.isDragging = false;
+    this.isResizing = false;
+    this.root.resetShadow()
     this.mouseUpEvent(event);
-
     // Remove the event listeners to prevent unnecessary operations
     document.removeEventListener("mousemove", this.handleMouseMove);
     document.removeEventListener("mouseup", this.handleMouseUp);
@@ -97,7 +98,7 @@ export class Dragger {
     this.mouseUpEvent = event;
   }
 
-  mouseMoveEvent = (x, y) => {};
+  mouseMoveEvent = (width, height) => {};
 
   setOnMouseMoveEvent(event) {
     this.mouseMoveEvent = event;

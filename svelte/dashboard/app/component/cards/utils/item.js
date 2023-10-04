@@ -29,6 +29,11 @@ export class Item {
     this.callback();
   }
 
+  get unitSize() {
+    return this._unitSize;
+  }
+
+
   calculateSize() {
     this._pixelHeight = this._unitSize * this._h;
     this._pixelWidth = this._unitSize * this._w;
@@ -116,6 +121,20 @@ export class Item {
 
   set h(value) {
     this._h = value;
+    this.callback();
+    this.calculateSize();
+  }
+
+  /**
+   * Special setter when in need to set both at the same time, 
+   * It can happen that second one won't be reflected when calling separately
+   * @param value {Object}
+   * @param value.w {number}
+   * @param value.h {number} 
+   * */
+  set wh(value){
+    this._w = value.w;
+    this._h = value.h;
     this.callback();
     this.calculateSize();
   }

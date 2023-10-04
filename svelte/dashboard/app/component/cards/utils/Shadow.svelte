@@ -14,17 +14,17 @@
 </script>
 
 <div
-  class="absolute outline outline-primary-100 {className}"
-  style:height="{pixelWidth}px"
+  class="absolute outline outline-secondary-100 {className}"
   style:width="{pixelWidth}px"
+  style:height="{pixelHeight}px"
   style:top="{yCoordinate}px"
   style:left="{xCoordinate}px"
 >
   <slot />
 
-  <p>pixelHeight {pixelHeight}</p>
-  <p>pixelWidth: {pixelWidth}</p>
+<!--  <p>pixelHeight {pixelHeight}</p>-->
+<!--  <p>pixelWidth: {pixelWidth}</p>-->
 
-  <p>xPos {xCoordinate}</p>
-  <p>yPos: {yCoordinate}</p>
+<!--  <p>xPos {xCoordinate}</p>-->
+<!--  <p>yPos: {yCoordinate}</p>-->
 </div>
