@@ -1,16 +1,11 @@
 package com.buzzybees.master.tables;
 
+import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.beehives.devices.SensorValue;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
 
 @Entity
 @Table(name = "status")
@@ -20,7 +15,7 @@ public class Status {
     private long timestamp;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long statusId;
 
     @Column(name = "beehive")
@@ -34,10 +29,6 @@ public class Status {
 
     @Column(name = "weight")
     private float weight;
-
-    @JsonProperty("sensors")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "status")
-    private List<SensorValue> sensorValues = new LinkedList<>();
 
     public Status() {
 
@@ -82,10 +73,6 @@ public class Status {
     public String toCSV() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd. MM. yyyy HH:mm:ss");
         String date = simpleDateFormat.format(new Date(timestamp));
-        return String.format("%s;%.1f;%d;%.1f;%.1f;%s;", status, weight, battery, "", "", date);
-    }
-
-    public List<SensorValue> getSensorValues() {
-        return sensorValues;
+        return String.format("%s;%.1f;%d;%s;", status, weight, battery, date);
     }
 }

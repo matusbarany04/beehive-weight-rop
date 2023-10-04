@@ -8,7 +8,7 @@ SensorStorage::SensorStorage(int devAddress = 0x50) {
 }
 
 bool SensorStorage::Innit() {
-  Wire.begin();
+  Wire.begin(4, 19);
   if (this->Read(connectivityCheckCell) != '@') {
     this->Write(connectivityCheckCell, '@');
     if (this->Read(connectivityCheckCell) != '@') {

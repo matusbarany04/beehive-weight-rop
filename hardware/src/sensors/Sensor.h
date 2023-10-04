@@ -62,6 +62,4 @@ class Sensor {
         Data data;
         SensorStorage storage;
         unsigned int port;
-
-        
 };

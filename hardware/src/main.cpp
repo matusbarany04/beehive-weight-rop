@@ -16,7 +16,15 @@ void setup(void)
 {
   Serial.begin(9600);
 
-  Serial.println();
+Serial.println();
+pinMode(19, OUTPUT);
+digitalWrite(19, LOW);
+
+Serial.println(analogRead(2));
+
+pinMode(2, OUTPUT);
+digitalWrite(2, LOW);
+
 
   //sensorManager.resetSensor(0);
 
@@ -24,17 +32,18 @@ void setup(void)
   delay(1000);
 
   sensorManager.scan();
-
+/*
   networkManager.connectDefault();
   networkManager.setContentType("application/json");
 
   networkManager.POST(String(SERVER_URL) + "/updateStatus", sensorManager.buildJSON());
-  Serial.println(networkManager.getRequestResult());
+  Serial.println(networkManager.getRequestResult());*/
 }
  
 void loop()
 {  
   delay(500);
+ // Serial.println(analogRead(4));
 }
  /*
 void writeEEPROM(int deviceaddress, unsigned int eeaddress, byte data ) 

@@ -42,7 +42,7 @@ public class BeeController extends DatabaseController {
      * @return status whether data is correct and successfully saved.
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiResponse updateStatus(@RequestBody Status status) {
+    public ApiResponse updateStatus(@RequestBody Status status) {/*
         List<SensorValue> valueList = status.getSensorValues();
         List<Action> actions = new LinkedList<>();
 
@@ -61,9 +61,9 @@ public class BeeController extends DatabaseController {
         status.setTimestamp(new Date().getTime());
 
         sensorValueRepository.saveAll(status.getSensorValues());
-        statusRepo.save(status);
+        statusRepo.save(status);*/
 
-        return new ApiResponse("actions", actions);
+        return new ApiResponse("actions", null);
     }
 
     /**
