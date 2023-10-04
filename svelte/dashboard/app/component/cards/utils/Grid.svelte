@@ -21,7 +21,7 @@
   import { Item } from "./item";
   import Shadow from "./Shadow.svelte";
   import { Grid } from "./grid";
-  
+
   /*
     Known possible bugs 
     Padding is static and grid will break when changed dynamically

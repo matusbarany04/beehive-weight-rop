@@ -78,7 +78,7 @@
     >
       {#each Array(2) as _, x}
         {#each Array(2) as _, y}
-          <GridItem x={x*2}  {y}  w={2} className="outline-primary-100 outline"
+          <GridItem x={x * 2} {y} w={2} className="outline-primary-100 outline"
           ></GridItem>
         {/each}
       {/each}

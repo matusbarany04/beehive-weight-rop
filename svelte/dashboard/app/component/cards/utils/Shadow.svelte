@@ -9,7 +9,7 @@
   export let yCoordinate = 1;
   export let pixelWidth = 10;
   export let pixelHeight = pixelWidth;
-  
+
   export let className = "";
 </script>
 
