@@ -67,6 +67,7 @@ export class Item {
   set mounted(value) {
     this._mounted = value;
     this.mountedChangedEvent();
+    this.callback();
   }
 
   /**
@@ -178,6 +179,7 @@ export class Item {
   set draggable(value) {
     this._draggable = value;
     this.draggableChangedEvent(this._draggable);
+    this.callback();
   }
 
   get draggable() {
