@@ -33,22 +33,24 @@ public class BeehiveData {
             weights.add(status.getWeight());
         }
 
-        ArrayList<Long> timestampList = new ArrayList<>(timestamps);
-        List<DataGroup> list = getDataList(sensorValue.getType());
+        if(sensorValue != null) {
+            ArrayList<Long> timestampList = new ArrayList<>(timestamps);
+            List<DataGroup> list = getDataList(sensorValue.getType());
 
-        for (DataGroup dataGroup : list) {
-            int emptyPlaces = timestamps.size() - (timestampList.indexOf(dataGroup.from()) + dataGroup.values().size());
-            for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(0f);
-            if (emptyPlaces >= 0) {
-                dataGroup.values().add(sensorValue.getValue());
-                dataGroup.sensorIds().add(sensorValue.getSensorId());
-                return;
+            for (DataGroup dataGroup : list) {
+                int emptyPlaces = timestamps.size() - (timestampList.indexOf(dataGroup.from()) + dataGroup.values().size());
+                for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(0f);
+                if (emptyPlaces >= 0) {
+                    dataGroup.values().add(sensorValue.getValue());
+                    dataGroup.sensorIds().add(sensorValue.getSensorId());
+                    return;
+                }
             }
-        }
 
-        ArrayList<Float> values = new ArrayList<>(Collections.singletonList(sensorValue.getValue()));
-        Set<Long> sensorIds = new HashSet<>(Collections.singletonList(sensorValue.getSensorId()));
-        list.add(new DataGroup(status.getTimestamp(), sensorIds, values));
+            ArrayList<Float> values = new ArrayList<>(Collections.singletonList(sensorValue.getValue()));
+            Set<Long> sensorIds = new HashSet<>(Collections.singletonList(sensorValue.getSensorId()));
+            list.add(new DataGroup(status.getTimestamp(), sensorIds, values));
+        }
     }
 
     private List<DataGroup> getDataList(int type) {
