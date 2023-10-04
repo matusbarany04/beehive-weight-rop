@@ -53,7 +53,7 @@
         <Button text="Zahodiť zmeny" type="secondary" />
       {/if}
       <!-- TODO spravit len disabled mozno v buducnosti, 
-                                  pridat aj popup preco to zmizlo (ked sa zmensi sirka okna) -->
+                                        pridat aj popup preco to zmizlo (ked sa zmensi sirka okna) -->
       <Button
         text={!editMode ? "upraviť" : "uložiť"}
         type={!editMode ? "primary" : "confirm"}
@@ -87,13 +87,14 @@
 
       {#each cardList as item, i (item.id)}
         <GridItem x={item.x - 1} y={item.y - 1} w={item.spanX} h={item.spanY}>
+          <!--            this={cardUtils.getCardByFormat(item.component)}-->
           <svelte:component
             this={cardUtils.getDeletedCard()}
             cardStates={{
               id: item.id,
               editing: editMode,
               title: item.title,
-              data: item.data ?? [],
+              data: [],
             }}
           />
         </GridItem>

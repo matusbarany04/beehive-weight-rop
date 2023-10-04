@@ -116,7 +116,7 @@
           top: "4%",
         },
         xAxis: {
-          data: beehiveData[0].data.map(function (item) {
+          data: beehiveData[0]?.data.map(function (item) {
             return item[0];
           }),
           axisLabel: {
@@ -203,9 +203,9 @@
               color: "#db9834",
             },
           },
-          name: beehiveData[0].name,
+          name: beehiveData[0]?.name,
           type: "line",
-          data: beehiveData[0].data.map(function (item) {
+          data: beehiveData[0]?.data.map(function (item) {
             return item[1];
           }),
         },
@@ -286,7 +286,7 @@
       <DropdownInput
         label="Typ dát"
         name="data_type"
-        value={cardStates.data[0].type ?? "dummy"}
+        value={cardStates.data[0]?.type ?? "dummy"}
         options={[
           ["dummy", "ukážkové dáta"],
           ["temperature", "Teplota"],
@@ -298,7 +298,7 @@
       <DropdownInput
         label="Úsek načítaných dát"
         name="timespan"
-        value={cardStates.data[0].timespan ?? "week"}
+        value={cardStates.data[0]?.timespan ?? "week"}
         small={"Upozornenie: väčšieho množstva dát môže spôsobiť dlhšie načítanie stránky a problémy v systémoch s obmedzenými zdrojmi. Prosím, zvážte to pri výbere obdobia."}
         options={[
           ["week", "Posledný týždeň"],
@@ -310,10 +310,11 @@
       <DropdownInput
         label="Váha"
         name="beehive_id"
-        value={cardStates.data[0].beehive_id ?? "all"}
+        value={cardStates.data[0]?.beehive_id ?? "all"}
         small={"Váha pre ktorú sa budú zobrazovať dáta"}
-        options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
+        options={[]}
       />
+      <!--        options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}-->
     {/if}
   </div>
 </CardRoot>
