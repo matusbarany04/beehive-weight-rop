@@ -35,7 +35,7 @@
       root.get("/help", Help);
       root.get("/settings", Settings);
       root.get("/calendar", Calendar);
-      root.get("/test", "Test");
+      root.get("/test", Test);
       root.get("/notifications", Notifications);
 
       root.group("/beehives", (beeGroup) => {
