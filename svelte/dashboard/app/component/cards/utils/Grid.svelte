@@ -151,7 +151,7 @@
 
       grid.gridItemRefs.forEach((/** @type {Item} */ gridItem) => {
         positionGridItem(gridItem);
-        gridItem.mounted = true ;
+        gridItem.mounted = true;
       });
     });
 
