@@ -21,6 +21,7 @@
   import { Item } from "./item";
   import Shadow from "./Shadow.svelte";
   import { Grid } from "./grid";
+  import { GridManager } from "./gridManager";
 
   /*
     Known possible bugs 
@@ -34,6 +35,8 @@
 
   export let padding = 100;
 
+  export let referenceName;
+
   let rootElement;
 
   let width = 0;
@@ -42,6 +45,10 @@
   let resizeObserver;
 
   let grid = new Grid(width, height, xCount, yCount);
+  // setting reference name to grid object
+  if (referenceName != null) grid.id = referenceName;
+  // registering grid to a static array
+  GridManager.registerGrid(grid);
 
   $: {
     draggable;

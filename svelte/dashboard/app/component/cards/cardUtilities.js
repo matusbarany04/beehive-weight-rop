@@ -36,3 +36,7 @@ export function getCardByFormat(format) {
   }
   return output.component;
 }
+
+export function getDeletedCard() {
+  return DeletedCard;
+}

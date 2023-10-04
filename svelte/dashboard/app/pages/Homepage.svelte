@@ -28,13 +28,14 @@
     user = userObj;
     message.setMessage("Dobrý deň, včelár " + user.name);
     cardList = JSON.parse(user["dashboardData"]);
+    console.log(cardList);
     renderCards = true;
   });
 
   onMount(function () {});
 
   onLoad(["beehives", "statuses"], (beehives, statuses) => {
-    console.log("beehives, statuses");
+    console.log("beehives, statuses", statuses, beehives);
 
     renderCards = true;
   });
@@ -70,34 +71,33 @@
 <div class="flex min-h-screen w-full flex-1 flex-col">
   {#if renderCards}
     <Grid
+      referenceName="dashboardGrid"
       draggable={editMode}
       xCount={4}
       yCount={4}
       padding={10}
       className="w-full aspect-square"
     >
-      {#each Array(2) as _, x}
-        {#each Array(2) as _, y}
-          <GridItem x={x * 2} {y} w={2} className="outline-primary-100 outline"
-          ></GridItem>
-        {/each}
-      {/each}
-
-      <!--{#each cardList as item, i (item.id)}-->
-      <!--    <GridItem x={item.x} y={item.y}>-->
-
-      <!--        <svelte:component-->
-      <!--            this={cardUtils.getCardByFormat(item.component)}-->
-      <!--            cardStates={{-->
-      <!--                    id: item.id,-->
-      <!--                    editing: editMode,-->
-      <!--                    title: item.title,-->
-      <!--                    data: item.data ?? [],-->
-      <!--                }}-->
-      <!--        />-->
-
-      <!--    </GridItem>-->
+      <!--{#each Array(2) as _, x}-->
+      <!--  {#each Array(2) as _, y}-->
+      <!--    <GridItem x={x * 2} {y} w={2} className="outline-primary-100 outline"-->
+      <!--    ></GridItem>-->
+      <!--  {/each}-->
       <!--{/each}-->
+
+      {#each cardList as item, i (item.id)}
+        <GridItem x={item.x - 1} y={item.y - 1} w={item.spanX} h={item.spanY}>
+          <svelte:component
+            this={cardUtils.getDeletedCard()}
+            cardStates={{
+              id: item.id,
+              editing: editMode,
+              title: item.title,
+              data: item.data ?? [],
+            }}
+          />
+        </GridItem>
+      {/each}
     </Grid>
     <div class="h-16 w-full"></div>
   {:else}

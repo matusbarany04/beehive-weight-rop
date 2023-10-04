@@ -36,4 +36,9 @@ export class GridManager {
       GridManager.grids.splice(index, 1);
     }
   }
+
+  /**
+   * @return {Grid}
+   */
+  static getGridById() {}
 }
