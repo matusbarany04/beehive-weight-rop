@@ -10,6 +10,11 @@ import org.json.JSONObject;
 @Table(name = "device_config")
 public class Device {
 
+    public static final int TEMPERATURE = 0;
+    public static final int TEMP_HUMID = 1;
+    public static final int LIGHT = 2;
+    public static final int SOUND = 3;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "beehive")

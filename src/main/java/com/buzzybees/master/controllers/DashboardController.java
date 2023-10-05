@@ -1,11 +1,9 @@
 package com.buzzybees.master.controllers;
 
-import com.buzzybees.master.beehives.Beehive;
-import com.buzzybees.master.beehives.BeehiveRepository;
-import com.buzzybees.master.beehives.PairingManager;
-import com.buzzybees.master.beehives.StatusRepository;
+import com.buzzybees.master.beehives.*;
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.beehives.devices.DeviceRepository;
+import com.buzzybees.master.beehives.devices.SensorValue;
 import com.buzzybees.master.beehives.export.ExcelService;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.CookieAuthController;
@@ -15,6 +13,7 @@ import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.notifications.NotificationRepository;
 import com.buzzybees.master.notifications.Reminder;
 import com.buzzybees.master.notifications.ReminderRepository;
+import com.buzzybees.master.tables.PairList;
 import com.buzzybees.master.tables.Status;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -96,38 +95,21 @@ public class DashboardController extends CookieAuthController {
      * @throws ParseException when date format is wrong.
      */
     @GetMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getData(@RequestParam(value = "fromDate", defaultValue = "all") String date) throws ParseException {
+    public ApiResponse getData(@RequestParam(value = "fromDate", defaultValue = "all") String date) throws ParseException {
         StatusRepository statusRepository = getRepo(Status.class);
 
         long timestamp = date.equals("all") ? 0 : dateToTimestamp(date);
+        PairList<Status, SensorValue> data = statusRepository.getUserStatusesSince(currentUserId, timestamp);
 
-        JSONObject response = new JSONObject();
-        JSONObject jsonObject = new JSONObject();
-        String[] beehives = beehiveRepository.getBeehiveTokens(currentUserId);
-        Status[] statuses = statusRepository.getAllStatusesSince(beehives, timestamp);
+        HashMap<String, BeehiveData> map = new HashMap<>();
 
-        for (String token : beehives) {
-            JSONObject beehive = new JSONObject();
-            beehive.put("timestamp", new JSONArray());
-            beehive.put("battery", new JSONArray());
-            beehive.put("weight", new JSONArray());
-            beehive.put("humidity", new JSONArray());
-            beehive.put("temperature", new JSONArray());
-            jsonObject.put(token, beehive);
-        }
+        data.forEach((status, sensorValue) -> {
+            map.putIfAbsent(status.getBeehive(), new BeehiveData());
+            BeehiveData beehiveData = map.get(status.getBeehive());
+            beehiveData.push(status, sensorValue);
+        });
 
-        for (Status status : statuses) {
-            JSONObject beehive = jsonObject.getJSONObject(status.getBeehive());
-            beehive.getJSONArray("timestamp").put(status.getTimestamp());
-            beehive.getJSONArray("battery").put(status.getBattery());
-            beehive.getJSONArray("weight").put(status.getWeight());
-            beehive.put("currentStatus", status.getStatus());
-        }
-
-        response.put("data", jsonObject);
-        response.put("status", "ok");
-
-        return "";
+        return new ApiResponse("data", map);
     }
 
     /**
