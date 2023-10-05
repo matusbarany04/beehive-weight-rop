@@ -17,7 +17,7 @@ public class BeehiveData {
 
     private String currentStatus;
     private int battery;
-    private final Set<Long> timestamps = new HashSet<>();
+    private final LinkedHashSet<Long> timestamps = new LinkedHashSet<>();
     private final List<Float> weights = new LinkedList<>();
     private List<DataGroup> temperature;
     private List<DataGroup> humidity;
@@ -34,23 +34,41 @@ public class BeehiveData {
         }
 
         if(sensorValue != null) {
-            ArrayList<Long> timestampList = new ArrayList<>(timestamps);
+
             List<DataGroup> list = getDataList(sensorValue.getType());
 
+            DataGroup group = getGroupBySensorId(sensorValue.getSensorId(), list);
+            if(group != null && addToGroup(group, sensorValue)) return;
+
             for (DataGroup dataGroup : list) {
-                int emptyPlaces = timestamps.size() - (timestampList.indexOf(dataGroup.from()) + dataGroup.values().size());
-                for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(0f);
-                if (emptyPlaces >= 0) {
-                    dataGroup.values().add(sensorValue.getValue());
-                    dataGroup.sensorIds().add(sensorValue.getSensorId());
-                    return;
-                }
+                if(addToGroup(dataGroup, sensorValue)) return;
             }
 
             ArrayList<Float> values = new ArrayList<>(Collections.singletonList(sensorValue.getValue()));
             Set<Long> sensorIds = new HashSet<>(Collections.singletonList(sensorValue.getSensorId()));
             list.add(new DataGroup(status.getTimestamp(), sensorIds, values));
         }
+    }
+
+    private boolean addToGroup(DataGroup dataGroup, SensorValue sensorValue) {
+        ArrayList<Long> timestampList = new ArrayList<>(timestamps);
+        int emptyPlaces = timestamps.size() - (timestampList.indexOf(dataGroup.from()) + dataGroup.values().size());
+        for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(0f);
+        if (emptyPlaces >= 0) {
+            dataGroup.values().add(sensorValue.getValue());
+            dataGroup.sensorIds().add(sensorValue.getSensorId());
+            return true;
+        }
+
+        return false;
+    }
+
+    private DataGroup getGroupBySensorId(long sensorId, List<DataGroup> list) {
+        for (DataGroup dataGroup : list) {
+            if(dataGroup.sensorIds().contains(sensorId)) return dataGroup;
+        }
+
+        return null;
     }
 
     private List<DataGroup> getDataList(int type) {
