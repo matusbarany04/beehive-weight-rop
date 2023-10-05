@@ -1,12 +1,13 @@
 <script>
   import Logo from "../../../../components/Logo.svelte";
 
-  import { onMount } from "svelte";
+  import {onMount} from "svelte";
   import PanelRoot from "./PanelRoot.svelte";
   import * as cardUtils from "../cards/cardUtilities";
+  import GridAdd from "../cards/utils/GridAdd.svelte";
 
-  export let onDragStart = () => {};
-  export let onDragEnd = () => {};
+
+  const gridReference = "dashboardGrid";
 
   const components = cardUtils.getCardTypes();
   let itemSideSize = 100;
@@ -19,35 +20,41 @@
   });
 </script>
 
-<PanelRoot retracable={false}>
-  <div class="box-border h-screen max-w-full overflow-y-scroll no-scrollbar">
-    <Logo />
-    <hr />
-    <div
-      id="panelGrid"
-      class="box-border grid flex-1 gap-2 overflow-y-scroll px-2.5 no-scrollbar"
-      style:--row-width={itemSideSize + "px"}
-      style:--itemCount={components.length}
-    >
-      {#each components as item, index}
-        <svelte:component
-          this={item.component}
-          cardStates={{
-            x: 1,
-            y: index + 1,
-            spanX: 1,
-            spanY: 1,
+<div class="box-border h-screen max-w-full overflow-y-scroll no-scrollbar">
+  <Logo/>
+  <hr/>
+  <div
+    id="panelGrid"
+    class="box-border grid flex-1 gap-2 overflow-y-scroll px-2.5 no-scrollbar"
+    style:--row-width={itemSideSize + "px"}
+    style:--itemCount={components.length}
+  >
+    {#each components as item, index}
+      <GridAdd
+        gridItemComponent={item.component}
+        gridReference="{gridReference}"
+        gridItemProps={{
+         cardStates: {
             mode: "add",
             title: item.format, // TODO zmenit na nejaky string z listu, aby bola mozna localizacia
             data: [{ type: "dummy", from: "all", to: "now" }], //default type of data in card item
           }}
-          {onDragStart}
-          {onDragEnd}
+        }
+        className="grid place-items-center flex-1">
+        
+        <svelte:component
+          this={item.component}
+          cardStates={{
+            mode: "add",
+            title: item.format, // TODO zmenit na nejaky string z listu, aby bola mozna localizacia
+            data: [{ type: "dummy", from: "all", to: "now" }], //default type of data in card item
+          }}
         />
-      {/each}
-    </div>
+      </GridAdd>
+
+    {/each}
   </div>
-</PanelRoot>
+</div>
 
 <style lang="scss">
   #panelGrid {
