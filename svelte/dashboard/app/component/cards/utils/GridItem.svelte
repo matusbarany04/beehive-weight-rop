@@ -54,7 +54,7 @@
     let dragger = new Dragger(gridItemRoot, item, gridRoot.getRootElementRef());
 
     let resizer = new Resizer(resizerElement, item, gridItemRoot, gridRoot);
-
+    
     item.subscribeMounted(() => {
       dragger.setDraggable(item.draggable);
 
@@ -104,6 +104,8 @@
         };
       });
     });
+    
+    
   });
 </script>
 
@@ -115,21 +117,21 @@
   style:height="{$pixelSize.pixelHeight}px"
   style:left="{$itemCoords.x}px"
   style:top="{$itemCoords.y}px"
+  style:z-index="500"
 >
   <slot />
+<!--    <div class="box-border h-full w-full p-4">-->
+<!--      <p>x: {item.x}</p>-->
+<!--      <p>y: {item.y}</p>-->
+<!--      <p>w: {item.w}</p>-->
+<!--      <p>h: {item.h}</p>-->
+<!--      <p>pixelHeight {item.pixelHeight}</p>-->
+<!--      <p>pixelWidth: {item.pixelWidth}</p>-->
+<!--      <p>pixelWidth: {item.draggable}</p>-->
 
-  <!--  <div class="box-border h-full w-full p-4">-->
-  <!--    <p>x: {item.x}</p>-->
-  <!--    <p>y: {item.y}</p>-->
-  <!--    <p>w: {item.w}</p>-->
-  <!--    <p>h: {item.h}</p>-->
-  <!--    <p>pixelHeight {item.pixelHeight}</p>-->
-  <!--    <p>pixelWidth: {item.pixelWidth}</p>-->
-  <!--    <p>pixelWidth: {item.draggable}</p>-->
-
-  <!--    <p>xPos {item.xCoordinate}</p>-->
-  <!--    <p>yPos: {item.yCoordinate}</p>-->
-  <!--  </div>-->
+<!--      <p>xPos {item.xCoordinate}</p>-->
+<!--      <p>yPos: {item.yCoordinate}</p>-->
+<!--    </div>-->
 
   <div
     bind:this={resizerElement}

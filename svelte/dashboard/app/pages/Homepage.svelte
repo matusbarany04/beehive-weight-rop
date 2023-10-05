@@ -14,6 +14,7 @@
   import message from "../stores/message";
   import Grid from "../component/cards/utils/Grid.svelte";
   import GridItem from "../component/cards/utils/GridItem.svelte";
+  import panelState from "../component/panel/panelState";
 
   let cardList = [];
 
@@ -60,7 +61,11 @@
         onClick={() => {
           if (editMode) {
             // dashboardEditor.saveCardList();
+            panelState.resetMode();
+          } else {
+            panelState.setMode("dashboardEdit");
           }
+
           editMode = !editMode;
         }}
       />
@@ -85,20 +90,20 @@
       <!--  {/each}-->
       <!--{/each}-->
 
-      {#each cardList as item, i (item.id)}
-        <GridItem x={item.x - 1} y={item.y - 1} w={item.spanX} h={item.spanY}>
-          <!--            this={cardUtils.getCardByFormat(item.component)}-->
-          <svelte:component
-            this={cardUtils.getDeletedCard()}
-            cardStates={{
-              id: item.id,
-              editing: editMode,
-              title: item.title,
-              data: [],
-            }}
-          />
-        </GridItem>
-      {/each}
+      <!--{#each cardList as item, i (item.id)}-->
+      <!--  <GridItem x={item.x - 1} y={item.y - 1} w={item.spanX} h={item.spanY}>-->
+      <!--    &lt;!&ndash;            this={cardUtils.getCardByFormat(item.component)}&ndash;&gt;-->
+      <!--    <svelte:component-->
+      <!--      this={cardUtils.getDeletedCard()}-->
+      <!--      cardStates={{-->
+      <!--        id: item.id,-->
+      <!--        editing: editMode,-->
+      <!--        title: item.title,-->
+      <!--        data: [],-->
+      <!--      }}-->
+      <!--    />-->
+      <!--  </GridItem>-->
+      <!--{/each}-->
     </Grid>
     <div class="h-16 w-full"></div>
   {:else}

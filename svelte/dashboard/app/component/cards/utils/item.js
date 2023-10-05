@@ -82,6 +82,9 @@ export class Item {
 
   subscribeMounted(event) {
     this.mountedChangedEvent = event;
+    if(this._mounted){
+        this.mountedChangedEvent()
+    }
   }
 
   set pixelHeight(value) {

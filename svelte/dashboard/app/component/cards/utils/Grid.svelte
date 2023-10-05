@@ -1,5 +1,5 @@
 <script context="module">
-  import { getContext } from "svelte";
+  import {getContext} from "svelte";
 
   const GRID_CONTEXT_NAME = Symbol("grid-context");
 
@@ -15,13 +15,13 @@
 </script>
 
 <script>
-  import { setContext } from "svelte";
-  import { onMount } from "svelte";
+  import {setContext} from "svelte";
+  import {onMount} from "svelte";
   import GridItem from "./GridItem.svelte";
-  import { Item } from "./item";
+  import {Item} from "./item";
   import Shadow from "./Shadow.svelte";
-  import { Grid } from "./grid";
-  import { GridManager } from "./gridManager";
+  import {Grid} from "./grid";
+  import {GridManager} from "./gridManager";
 
   /*
     Known possible bugs 
@@ -34,6 +34,8 @@
   export let draggable = false;
 
   export let padding = 100;
+
+  export let pairedGrid;
 
   export let referenceName;
 
@@ -74,10 +76,12 @@
     getRootElementRef() {
       return rootElement;
     },
-    itemWidth: { ...itemWidthFunctions },
+    itemWidth: {...itemWidthFunctions},
     subscribeItem(gridItem) {
       grid.gridItemRefs.push(gridItem);
       gridItem.draggable = draggable;
+      refreshItems();
+      console.log("subscribing item", JSON.stringify(gridItem))
     },
     /**
      * @return {number}
@@ -136,7 +140,7 @@
       positionGridItem(shadowItem);
     },
     getShadowPos() {
-      return { x: shadowItem.x, y: shadowItem.y };
+      return {x: shadowItem.x, y: shadowItem.y};
     },
     getShadowItem() {
       return shadowItem;
@@ -144,11 +148,12 @@
     resetShadow() {
       shadowItem = null;
       shadowItemRef = null;
-    },
+    }
   };
 
   setContext(GRID_CONTEXT_NAME, utilityFunctions);
-
+  let newGridItems = []
+  
   onMount(() => {
     resizeObserver = new ResizeObserver((entries) => {
       const rect = entries[0].contentRect;
@@ -156,11 +161,14 @@
       height = rect.height;
       itemWidthFunctions.updateWidth();
 
-      grid.gridItemRefs.forEach((/** @type {Item} */ gridItem) => {
-        positionGridItem(gridItem);
-        gridItem.mounted = true;
-      });
+      refreshItems()
     });
+
+    grid.setNewGridItemCallback((gridItems) => {
+      // console.log("gridItems", gridItems);
+      newGridItems = gridItems
+    })
+
 
     resizeObserver.observe(rootElement);
 
@@ -170,6 +178,12 @@
     };
   });
 
+  function refreshItems(){
+    grid.gridItemRefs.forEach((/** @type {Item} */ gridItem) => {
+      positionGridItem(gridItem);
+      gridItem.mounted = true;
+    });
+  }
   /**
    * Functions for positioning grid item might be a separate file in the future
    * Keep interpolation at minimum
@@ -193,7 +207,7 @@
   function pointAsCoordinates(x, y) {
     let xCoord = Math.floor(x / (width / xCount));
     let yCoord = Math.floor(y / (height / yCount));
-    return { x: xCoord, y: yCoord };
+    return {x: xCoord, y: yCoord};
   }
 
   /**
@@ -221,11 +235,18 @@
         item.yCoordinate + mousePosition.y - (item.h - 1) * item.unitSize;
     }
 
-    return { x: xCoord, y: yCoord };
+    return {x: xCoord, y: yCoord};
   }
 </script>
 
 <div bind:this={rootElement} class="relative {className}">
+  {#each newGridItems as item, i (item.id)}
+    <!-- x-1 and y-1 are temporary, after collision detection they will be custom values-->
+    <GridItem x={1} y={1} w={1} h={1}>
+      <svelte:component this={item.component} {...item.props} ></svelte:component>
+    </GridItem>
+  {/each}
+  
   {#if shadowItem}
     <Shadow
       xCoordinate={shadowItem.xCoordinate}
@@ -235,5 +256,5 @@
       className="bg-slate-400"
     ></Shadow>
   {/if}
-  <slot />
+  <slot/>
 </div>

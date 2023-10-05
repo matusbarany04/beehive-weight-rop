@@ -1,26 +1,19 @@
 <script>
-  import { onMount } from "svelte";
+  import {onMount} from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
-  import shared, { onLoad } from "../../stores/shared";
+  import shared, {onLoad} from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
+  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { tick } from "svelte";
+  import {tick} from "svelte";
 
   /**
    * @type {object}
    */
   export let cardStates;
 
-  /**
-   * @type {function}
-   */
-  export let onDragEnd; // function
-  /**
-   * @type {function}
-   */
-  export let onDragStart; // function
+  export let className = '';
 
   let component = "LineGraph";
   let id = generateUUID();
@@ -223,26 +216,24 @@
       tick().then(() => {
         myChart.resize();
       });
-
-      window.addEventListener("resize", (e) => {
+      
+      resizeEvent = () => {
         myChart.resize();
-      });
+      }
     });
   }
+
+  let resizeEvent = () => {
+  }
+
 </script>
 
-<!--<CardRoot>-->
-<!--  &lt;!&ndash; Svelte component structure &ndash;&gt;-->
-<!--  <div id="mainss" class="h-full w-full"></div>-->
-<!--</CardRoot>-->
-
 <CardRoot
+  className="{className}"
+  resizedEvent={resizeEvent}
   updateSettings={(formData) => {
-    console.log("echart charts submit", formData);
-
     return {
       status: "success",
-
       data: [
         {
           timespan: formData.get("timespan"),
@@ -255,11 +246,10 @@
   }}
   {component}
   {cardStates}
-  {onDragStart}
-  {onDragEnd}
   {error}
 >
   <div
+
     slot="header"
     class="flex w-full max-w-[15rem] items-center justify-around"
   >
@@ -278,7 +268,7 @@
   </div>
 
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full" />
+    <div {id} class="h-full w-full"/>
   </div>
 
   <div class="" slot="customSettings">
@@ -314,7 +304,8 @@
         small={"Váha pre ktorú sa budú zobrazovať dáta"}
         options={[]}
       />
-      <!--        options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}-->
+      <!--  TODO ERROR add back options without crashing the whole thing -->
+      <!--  options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}-->
     {/if}
   </div>
 </CardRoot>

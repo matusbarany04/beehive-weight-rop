@@ -173,4 +173,32 @@ export class Grid {
     console.log("padding", padding, "unitsize", unitSize, "pixel", pixelSize);
     return Math.max(1, Math.round(pixelSize / totalSizePerUnit));
   }
+
+  /**
+   * @type {{x: number, y: number, props: Object, component: Object}[]}
+   */
+  _newItems = [];
+  
+  /**  functions for adding new items */
+  newGridItem(component, props, x = 0, y = 0) {
+    let id = generateUUID()
+    console.log("new grid component" , component, props, x,y)
+    this._newItems.push({id: id, x: x, y: y, props: props, component: component})
+    this.newItems = this._newItems; 
+    this.newGridItemCallback(this.newItems)
+  }
+  
+  newGridItemCallback = ()=>{};
+  setNewGridItemCallback(callback){
+      this.newGridItemCallback = callback
+  }
+  
+  set newItems(value){
+      this._newItems = value;
+  }
+
+  get newItems(){
+    return this._newItems;
+  }
+  
 }

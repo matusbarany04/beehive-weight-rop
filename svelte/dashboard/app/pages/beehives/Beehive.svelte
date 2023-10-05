@@ -151,6 +151,7 @@
       class="mx-auto grid grid-cols-1 gap-4 md:aspect-video md:grid-cols-4 md:grid-rows-2 lg:w-5/6"
     >
       <EChart
+        className="col-span-2 row-span-1"
         cardStates={{
           id: "",
           x: TW_BREAKPOINTS.md < innerWidth ? 1 : 0,
@@ -171,6 +172,8 @@
       />
 
       <EChart
+        className="col-span-2 row-span-1"
+        
         cardStates={{
           id: "",
           x: TW_BREAKPOINTS.md < innerWidth ? 3 : 0,
@@ -191,6 +194,8 @@
       />
 
       <EChart
+        className="col-span-2 row-span-1"
+        
         cardStates={{
           id: "",
           x: TW_BREAKPOINTS.md < innerWidth ? 1 : 0,
@@ -211,6 +216,8 @@
       />
 
       <EChart
+        className="col-span-2 row-span-1"
+        
         cardStates={{
           id: "",
           spanX: 2,

@@ -1,8 +1,8 @@
 <script>
-  import { onMount, getContext } from "svelte";
-  import { modes, getDefaultMode } from "./cardConfiguration";
+  import {onMount, getContext} from "svelte";
+  import {modes, getDefaultMode} from "./cardConfiguration";
 
-  import { spring } from "svelte/motion";
+  import {spring} from "svelte/motion";
   import CardError from "../errors/CardError.svelte";
   import Modal from "../../../../../components/Modal.svelte";
   import Input from "../../../../../components/Inputs/Input.svelte";
@@ -25,11 +25,13 @@
     data: [],
   };
 
+  export let className = '';
+
   /**
    * @param {function} updateSettings function to update Settings of the card, only used in a dashboard view
    */
   export let updateSettings = () => {
-    return { status: "success" };
+    return {status: "success"};
   };
   /**
    * @param {String} theme default one is 'default' other options are: 'dashed'
@@ -46,7 +48,8 @@
   /**
    * @param {function} onCardStatesModified used to update states in a dashboard view
    */
-  export let onCardStatesModified = () => {};
+  export let onCardStatesModified = () => {
+  };
 
   const dashboardEditor = getContext("dashboardEditor");
   // dashboardEditor.deleteCard("some dynamic id");
@@ -63,7 +66,7 @@
   let showSettings = false;
 
   let coords = spring(
-    { x: 0, y: 0 },
+    {x: 0, y: 0},
     {
       stiffness: 0.1,
       damping: 0.25,
@@ -110,11 +113,31 @@
   }
 
   let formID = generateUUID();
+  let cardRootRoot;
+
+  export let resizedEvent = () => {
+  
+  }
+
+  onMount(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      resizedEvent()
+    });
+
+    resizeObserver.observe(cardRootRoot);
+
+    // Cleanup function
+    return () => {
+      resizeObserver.disconnect();
+    };
+  });
+
 </script>
 
 <div
-  class="flex aspect-square h-full w-full justify-center overflow-hidden rounded-md align-middle {'root_' +
+  class="flex aspect-square h-full w-full select-none justify-center overflow-hidden rounded-md align-middle {className} {'root_' +
     theme}"
+  bind:this={cardRootRoot}
 >
   <div class="relative flex h-full w-full flex-col">
     <div class="z-20 my-1 box-border flex h-8 w-full px-3 py-1">
@@ -123,7 +146,7 @@
       >
         {cardStates?.title || ""}
       </h1>
-      <slot name="header" />
+      <slot name="header"/>
 
       {#if cardStates.mode !== "add" && cardStates.mode !== "static"}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -143,14 +166,15 @@
         />
       {/if}
       {#if cardStates.mode === "add"}
-        <div class="headerIcon addBtn" />
+        <div class="headerIcon addBtn"/>
       {/if}
     </div>
     <div id="customContent" class="flex h-[calc(100%-2rem)] w-full">
+
       {#if !error}
-        <slot />
+        <slot/>
       {:else}
-        <CardError {error} />
+        <CardError {error}/>
       {/if}
     </div>
   </div>
@@ -174,7 +198,7 @@
       value={cardStates?.title ?? ""}
     ></Input>
 
-    <slot name="customSettings" />
+    <slot name="customSettings"/>
   </form>
 
   <button slot="footer" type="submit" form="cardRootForm{formID}">

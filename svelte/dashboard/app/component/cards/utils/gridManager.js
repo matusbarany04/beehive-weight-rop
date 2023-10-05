@@ -38,7 +38,13 @@ export class GridManager {
   }
 
   /**
-   * @return {Grid}
+   * Retrieves a Grid from the grids array by its ID.
+   *
+   * @param {string|number} id - Id of the grid object to be retrieved.
+   * @return {Grid|null} The Grid object if found, null otherwise.
    */
-  static getGridById() {}
+  static getGridById(id) {
+    const grid = GridManager.grids.find((g) => g.id === id);
+    return grid || null;
+  }
 }
