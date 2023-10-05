@@ -5,7 +5,7 @@
     { x: 1, y: 1 },
     {
       stiffness: 0.1,
-      damping: 0.25,
+      damping: 0.6,
     },
   );
 
@@ -13,7 +13,7 @@
     { w: 10, h: 10 },
     {
       stiffness: 0.1,
-      damping: 0.25,
+      damping: 0.6,
     },
   );
 

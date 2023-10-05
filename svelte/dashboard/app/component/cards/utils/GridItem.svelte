@@ -27,14 +27,14 @@
     { pixelHeight: item.pixelHeight, pixelWidth: item.pixelWidth },
     {
       stiffness: 0.1,
-      damping: 0.25,
+      damping: 0.4,
     },
   );
   let itemCoords = spring(
     { x: item.xCoordinate, y: item.yCoordinate },
     {
       stiffness: 0.1,
-      damping: 0.25,
+      damping: 0.4,
     },
   );
 
