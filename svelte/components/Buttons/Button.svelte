@@ -78,7 +78,7 @@
   </p>
   {#if image && imagePosition === "right"}
     <div
-      class="image self-center"
+      class="image ml-2 self-center"
       style="mask-image: url({image}); -webkit-mask-image: url(/{image}); "
     ></div>
   {/if}

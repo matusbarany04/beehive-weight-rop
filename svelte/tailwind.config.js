@@ -99,7 +99,7 @@ export default {
         },
         ".btn-transparent": {
           "--text-color": theme("colors.primary.900"),
-          "--icon-color": "white",
+          "--icon-color": "black",
         },
       };
       addUtilities(buttonUtilities);
@@ -108,27 +108,27 @@ export default {
         ".btn-primary-disabled": {
           "background-color": "#A57A0B",
           "--icon-color": "#202325",
-          "--text-color": "#202325"
+          "--text-color": "#202325",
         },
         ".btn-secondary-disabled": {
           "--icon-color": "#202325",
           "background-color": "#A3A5A9",
-          "outline": "2px solid #cfd2d6"
+          outline: "2px solid #cfd2d6",
         },
         ".btn-confirm-disabled": {
           "background-color": "#22c55e",
           "--text-color": "#16a34a",
-          "--icon-color": "#16a34a"
+          "--icon-color": "#16a34a",
         },
         ".btn-error-disabled": {
           "background-color": "#ef4444",
           "--text-color": "#202325",
-          "--icon-color": "#202325"
+          "--icon-color": "#202325",
         },
         ".btn-transparent-disabled": {
           "--text-color": "#202325",
-          "--icon-color": "#202325"
-        }
+          "--icon-color": "#202325",
+        },
       };
 
       // const fs = require('fs');
@@ -142,8 +142,7 @@ export default {
       //     console.log('Successfully wrote to data.json');
       //   }
       // });
-      
-      
+
       addUtilities(buttonsDisabled);
 
       const scrollbar = {

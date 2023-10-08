@@ -6,6 +6,7 @@
   export let retracable = true;
 
   let visible = panelState.isOpened();
+
   panelState.getOpenedRef().subscribe((visibility) => {
     visible = visibility;
   });
@@ -36,10 +37,10 @@
 
 <svelte:window bind:innerWidth={screenWidth} />
 
-<div class="relative z-50 no-scrollbar">
+<div class="relative z-20 no-scrollbar">
   <section
     class="{visible
-      ? ''
+      ? 'overflow-x-visible'
       : 'overflow-x-hidden'} animate-width absolute h-screen flex-col bg-primary-100 no-scrollbar lg:relative {visible
       ? 'w-56'
       : 'w-0'}"

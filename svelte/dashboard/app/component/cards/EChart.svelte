@@ -13,14 +13,7 @@
    */
   export let cardStates;
 
-  /**
-   * @type {function}
-   */
-  export let onDragEnd; // function
-  /**
-   * @type {function}
-   */
-  export let onDragStart; // function
+  export let className = "";
 
   let component = "LineGraph";
   let id = generateUUID();
@@ -116,7 +109,7 @@
           top: "4%",
         },
         xAxis: {
-          data: beehiveData[0].data.map(function (item) {
+          data: beehiveData[0]?.data.map(function (item) {
             return item[0];
           }),
           axisLabel: {
@@ -203,9 +196,9 @@
               color: "#db9834",
             },
           },
-          name: beehiveData[0].name,
+          name: beehiveData[0]?.name,
           type: "line",
-          data: beehiveData[0].data.map(function (item) {
+          data: beehiveData[0]?.data.map(function (item) {
             return item[1];
           }),
         },
@@ -224,25 +217,21 @@
         myChart.resize();
       });
 
-      window.addEventListener("resize", (e) => {
+      resizeEvent = () => {
         myChart.resize();
-      });
+      };
     });
   }
+
+  let resizeEvent = () => {};
 </script>
 
-<!--<CardRoot>-->
-<!--  &lt;!&ndash; Svelte component structure &ndash;&gt;-->
-<!--  <div id="mainss" class="h-full w-full"></div>-->
-<!--</CardRoot>-->
-
 <CardRoot
+  {className}
+  resizedEvent={resizeEvent}
   updateSettings={(formData) => {
-    console.log("echart charts submit", formData);
-
     return {
       status: "success",
-
       data: [
         {
           timespan: formData.get("timespan"),
@@ -255,8 +244,6 @@
   }}
   {component}
   {cardStates}
-  {onDragStart}
-  {onDragEnd}
   {error}
 >
   <div
@@ -286,7 +273,7 @@
       <DropdownInput
         label="Typ dát"
         name="data_type"
-        value={cardStates.data[0].type ?? "dummy"}
+        value={cardStates.data[0]?.type ?? "dummy"}
         options={[
           ["dummy", "ukážkové dáta"],
           ["temperature", "Teplota"],
@@ -298,7 +285,7 @@
       <DropdownInput
         label="Úsek načítaných dát"
         name="timespan"
-        value={cardStates.data[0].timespan ?? "week"}
+        value={cardStates.data[0]?.timespan ?? "week"}
         small={"Upozornenie: väčšieho množstva dát môže spôsobiť dlhšie načítanie stránky a problémy v systémoch s obmedzenými zdrojmi. Prosím, zvážte to pri výbere obdobia."}
         options={[
           ["week", "Posledný týždeň"],
@@ -310,10 +297,12 @@
       <DropdownInput
         label="Váha"
         name="beehive_id"
-        value={cardStates.data[0].beehive_id ?? "all"}
+        value={cardStates.data[0]?.beehive_id ?? "all"}
         small={"Váha pre ktorú sa budú zobrazovať dáta"}
-        options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
+        options={[]}
       />
+      <!--  TODO ERROR add back options without crashing the whole thing -->
+      <!--  options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}-->
     {/if}
   </div>
 </CardRoot>

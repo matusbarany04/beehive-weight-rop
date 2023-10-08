@@ -10,6 +10,7 @@ import EChart from "./EChart.svelte";
  * @param {*} id of the card
  */
 export const getCard = (id) => {};
+
 /**
  *  this method will return data for the card
  * @param {*} id of the card
@@ -35,4 +36,8 @@ export function getCardByFormat(format) {
     return DeletedCard;
   }
   return output.component;
+}
+
+export function getDeletedCard() {
+  return DeletedCard;
 }
