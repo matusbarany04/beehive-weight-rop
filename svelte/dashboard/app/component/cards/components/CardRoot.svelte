@@ -1,8 +1,8 @@
 <script>
-  import {onMount, getContext} from "svelte";
-  import {modes, getDefaultMode} from "./cardConfiguration";
+  import { onMount, getContext } from "svelte";
+  import { modes, getDefaultMode } from "./cardConfiguration";
 
-  import {spring} from "svelte/motion";
+  import { spring } from "svelte/motion";
   import CardError from "../errors/CardError.svelte";
   import Modal from "../../../../../components/Modal.svelte";
   import Input from "../../../../../components/Inputs/Input.svelte";
@@ -25,13 +25,13 @@
     data: [],
   };
 
-  export let className = '';
+  export let className = "";
 
   /**
    * @param {function} updateSettings function to update Settings of the card, only used in a dashboard view
    */
   export let updateSettings = () => {
-    return {status: "success"};
+    return { status: "success" };
   };
   /**
    * @param {String} theme default one is 'default' other options are: 'dashed'
@@ -48,8 +48,7 @@
   /**
    * @param {function} onCardStatesModified used to update states in a dashboard view
    */
-  export let onCardStatesModified = () => {
-  };
+  export let onCardStatesModified = () => {};
 
   const dashboardEditor = getContext("dashboardEditor");
   // dashboardEditor.deleteCard("some dynamic id");
@@ -66,7 +65,7 @@
   let showSettings = false;
 
   let coords = spring(
-    {x: 0, y: 0},
+    { x: 0, y: 0 },
     {
       stiffness: 0.1,
       damping: 0.4,
@@ -115,13 +114,11 @@
   let formID = generateUUID();
   let cardRootRoot;
 
-  export let resizedEvent = () => {
-  
-  }
+  export let resizedEvent = () => {};
 
   onMount(() => {
     const resizeObserver = new ResizeObserver(() => {
-      resizedEvent()
+      resizedEvent();
     });
 
     resizeObserver.observe(cardRootRoot);
@@ -131,7 +128,6 @@
       resizeObserver.disconnect();
     };
   });
-
 </script>
 
 <div
@@ -146,7 +142,7 @@
       >
         {cardStates?.title || ""}
       </h1>
-      <slot name="header"/>
+      <slot name="header" />
 
       {#if cardStates.mode !== "add" && cardStates.mode !== "static"}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -157,24 +153,23 @@
           }}
         ></button>
       {/if}
-      {#if cardStates.editing && cardStates.mode !== "add"}
-        <button
-          class="headerIcon removeImage"
-          on:click={() => {
-            dashboardEditor.deleteCard(cardStates.id);
-          }}
-        />
-      {/if}
+      <!--{#if cardStates.editing && cardStates.mode !== "add"}-->
+      <!--        <button-->
+      <!--          class="headerIcon removeImage"-->
+      <!--          on:click={() => {-->
+      <!--            dashboardEditor.deleteCard(cardStates.id);-->
+      <!--          }}-->
+      <!--        />-->
+      <!--      {/if}-->
       {#if cardStates.mode === "add"}
-        <div class="headerIcon addBtn"/>
+        <div class="headerIcon addBtn" />
       {/if}
     </div>
     <div id="customContent" class="flex h-[calc(100%-2rem)] w-full">
-
       {#if !error}
-        <slot/>
+        <slot />
       {:else}
-        <CardError {error}/>
+        <CardError {error} />
       {/if}
     </div>
   </div>
@@ -198,7 +193,7 @@
       value={cardStates?.title ?? ""}
     ></Input>
 
-    <slot name="customSettings"/>
+    <slot name="customSettings" />
   </form>
 
   <button slot="footer" type="submit" form="cardRootForm{formID}">
@@ -258,7 +253,6 @@
     -webkit-mask-size: 100%;
     mask-size: 100%;
     background: red;
-    //background: var(--color-delete);
     mask-image: url("icons/delete.svg");
     -webkit-mask-image: url("icons/delete.svg");
   }

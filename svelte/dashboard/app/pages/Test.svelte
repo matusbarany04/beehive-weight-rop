@@ -8,8 +8,57 @@
   import ButtonSmall from "../../../components/Buttons/ButtonSmall.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
   import message from "../stores/message";
+  import { GridResolver } from "../component/cards/utils/gridResolver";
+  import panelState from "../component/panel/panelState";
 
   message.setMessage("Test");
+
+  const items = [
+    {
+      x: 0, // X coordinate (column)
+      y: 0, // Y coordinate (row)
+      w: 1, // Width span
+      h: 1, // Height span
+    },
+    {
+      x: 1,
+      y: 0,
+      w: 1,
+      h: 1,
+    },
+    {
+      x: 0,
+      y: 1,
+      w: 1,
+      h: 1,
+    },
+    {
+      x: 3,
+      y: 0,
+      w: 1,
+      h: 1,
+    },
+  ];
+
+  // Call the isPossible method with a 4x4 grid and the sample items
+  const possible = GridResolver.isPossible(4, 4, items);
+  console.log("old items", possible);
+  GridResolver.printGrid(4, 4, items);
+
+  let newItems = GridResolver.resolveAroundItem(4, 4, items, {
+    x: 1,
+    y: 0,
+    w: 1,
+    h: 2,
+  });
+  console.log("new items");
+
+  GridResolver.printGrid(4, 4, [...items, {
+      x: 1,
+      y: 0,
+      w: 1,
+      h: 2,
+  }]);
 </script>
 
 <Button image="icons/android.svg" type="primary" text="android"></Button>

@@ -82,8 +82,8 @@ export class Item {
 
   subscribeMounted(event) {
     this.mountedChangedEvent = event;
-    if(this._mounted){
-        this.mountedChangedEvent()
+    if (this._mounted) {
+      this.mountedChangedEvent();
     }
   }
 
@@ -169,10 +169,12 @@ export class Item {
     this.callback();
   }
 
-  callback = () => {};
-
+  callback(){
+    this.valueChangedEvent();
+  }
+  valueChangedEvent = ()=>{}
   setValueChangedCallback(callback) {
-    this.callback = callback;
+    this.valueChangedEvent = callback;
   }
 
   /**

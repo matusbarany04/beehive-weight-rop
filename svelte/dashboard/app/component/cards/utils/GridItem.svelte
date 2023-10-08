@@ -1,13 +1,20 @@
 <script>
-  import { getGridContext } from "./Grid.svelte";
-  import { Item } from "./item";
+  import {getGridContext} from "./Grid.svelte";
+  import {Item} from "./item";
   import Button from "../../../../../components/Buttons/Button.svelte";
-  import { Dragger } from "./dragger";
-  import { onMount } from "svelte";
-  import { Resizer } from "./resizer";
-  import { Grid } from "./grid";
-  import { spring } from "svelte/motion";
+  import {Dragger} from "./dragger";
+  import {onMount} from "svelte";
+  import {Resizer} from "./resizer";
+  import {Grid} from "./grid";
+  import {spring} from "svelte/motion";
 
+  /*
+    TODO 
+     
+    add - remove functionality 
+    when in editmode overlay actual content of gridItem
+    
+   */
   export let x = 1;
   export let y = 1;
   export let w = 1;
@@ -24,14 +31,14 @@
   let resizerElement;
 
   let pixelSize = spring(
-    { pixelHeight: item.pixelHeight, pixelWidth: item.pixelWidth },
+    {pixelHeight: item.pixelHeight, pixelWidth: item.pixelWidth},
     {
       stiffness: 0.1,
       damping: 0.4,
     },
   );
   let itemCoords = spring(
-    { x: item.xCoordinate, y: item.yCoordinate },
+    {x: item.xCoordinate, y: item.yCoordinate},
     {
       stiffness: 0.1,
       damping: 0.4,
@@ -39,9 +46,9 @@
   );
 
   item.setValueChangedCallback(() => {
-    console.log("value changed");
+    // console.log("value changed");
     item = item;
-    itemCoords.set({ x: item.xCoordinate, y: item.yCoordinate });
+    itemCoords.set({x: item.xCoordinate, y: item.yCoordinate});
     pixelSize.set({
       pixelHeight: item.pixelHeight,
       pixelWidth: item.pixelWidth,
@@ -54,7 +61,7 @@
     let dragger = new Dragger(gridItemRoot, item, gridRoot.getRootElementRef());
 
     let resizer = new Resizer(resizerElement, item, gridItemRoot, gridRoot);
-    
+
     item.subscribeMounted(() => {
       dragger.setDraggable(item.draggable);
 
@@ -63,10 +70,12 @@
         resizer.setResizable(draggable);
       });
 
-      const initialX = item.xCoordinate;
-      const initialY = item.yCoordinate;
+      let initialX = item.xCoordinate;
+      let initialY = item.yCoordinate;
 
       dragger.setOnMouseDownEvent(() => {
+        initialY = item.yCoordinate;
+        initialX = item.xCoordinate;
         gridRoot.setShadow(item);
       });
 
@@ -81,31 +90,26 @@
           item,
           dragger.getMouseToItemPosition(event),
         );
-
-        // Reset the item's coordinates to the initial values
-        // item.xCoordinate = initialX;
-        // item.yCoordinate = initialY;
       });
 
       resizer.setResizable(item.draggable);
 
       resizer.setOnMouseUpEvent((event) => {
-        item.wh = {
-          w: Grid.pixelSizeToUnitLength(
+        gridRoot.requestNewResize(
+          item,
+          Grid.pixelSizeToUnitLength(
             item.pixelWidth,
             gridRoot.getPadding(),
             item.unitSize,
           ),
-          h: Grid.pixelSizeToUnitLength(
+          Grid.pixelSizeToUnitLength(
             item.pixelHeight,
             gridRoot.getPadding(),
             item.unitSize,
-          ),
-        };
+          )
+        );
       });
     });
-    
-    
   });
 </script>
 
@@ -119,19 +123,16 @@
   style:top="{$itemCoords.y}px"
   style:z-index="500"
 >
-  <slot />
-<!--    <div class="box-border h-full w-full p-4">-->
-<!--      <p>x: {item.x}</p>-->
-<!--      <p>y: {item.y}</p>-->
-<!--      <p>w: {item.w}</p>-->
-<!--      <p>h: {item.h}</p>-->
-<!--      <p>pixelHeight {item.pixelHeight}</p>-->
-<!--      <p>pixelWidth: {item.pixelWidth}</p>-->
-<!--      <p>pixelWidth: {item.draggable}</p>-->
+  <slot/>
 
-<!--      <p>xPos {item.xCoordinate}</p>-->
-<!--      <p>yPos: {item.yCoordinate}</p>-->
-<!--    </div>-->
+  <div class="w-4 h-4 bg-secondary-400 z-30 absolute right-1 top-1"
+      on:click={(event) => {
+        console.log("clicked remove")
+         gridRoot.deleteGridItem(item);
+         event.stopPropagation();
+      }}
+    >
+  </div>
 
   <div
     bind:this={resizerElement}
@@ -141,3 +142,31 @@
       : ''}"
   ></div>
 </div>
+
+<style>
+  .removeImage {
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    isolation: isolate;
+    -webkit-isolation: isolate;
+    -webkit-mask-mode: alpha;
+    -webkit-mask-size: 100%;
+    mask-size: 100%;
+    background: red;
+    mask-image: url("icons/delete.svg");
+    -webkit-mask-image: url("icons/delete.svg");
+  }
+
+  .headerIcon {
+    height: 80%;
+    aspect-ratio: 1/1;
+    margin-left: 5px;
+    z-index: 10;
+
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+  }
+</style>

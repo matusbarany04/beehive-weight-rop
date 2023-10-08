@@ -22,6 +22,7 @@
   import Shadow from "./Shadow.svelte";
   import {Grid} from "./grid";
   import {GridManager} from "./gridManager";
+  import {GridResolver} from "./gridResolver";
 
   /*
     Known possible bugs 
@@ -73,15 +74,38 @@
   let shadowItemRef = null;
   let shadowItem = null;
   const utilityFunctions = {
+    deleteGridItem(item) {
+      let index = grid.gridItemRefs.indexOf(item);
+      if (index > -1) {
+        grid.gridItemRefs.splice(index, 1);
+      }
+      grid.gridItemRefs = grid.gridItemRefs;
+      refreshItems()
+    },
     getRootElementRef() {
       return rootElement;
     },
+    getGridObject() {
+      return grid;
+    },
     itemWidth: {...itemWidthFunctions},
     subscribeItem(gridItem) {
+      // console.log("new subscibe item ", gridItem);
+      GridResolver.printGrid(xCount, yCount, grid.gridItemRefs);
+      // console.log(GridResolver.isPossible(xCount, yCount, grid.gridItemRefs));
+      GridResolver.resolveAroundItem(
+        xCount,
+        yCount,
+        grid.gridItemRefs,
+        gridItem,
+      );
       grid.gridItemRefs.push(gridItem);
       gridItem.draggable = draggable;
+
+      // console.log("new resolved grid")
+      GridResolver.printGrid(xCount, yCount, grid.gridItemRefs);
       refreshItems();
-      console.log("subscribing item", JSON.stringify(gridItem))
+      // console.log("subscribing item", JSON.stringify(gridItem));
     },
     /**
      * @return {number}
@@ -100,8 +124,28 @@
 
         let coords = pointAsCoordinates(collapsed.x, collapsed.y);
 
-        item.x = coords.x;
-        item.y = coords.y;
+        if (GridResolver.isPossible(xCount, yCount,
+          [
+            ...grid.gridItemRefs.filter((it) => it !== item),
+            {...item, _x: coords.x, _y: coords.y}
+          ]
+        )) {
+
+          item.x = coords.x;
+          item.y = coords.y;
+
+        }
+      }
+      positionGridItem(item);
+    },
+    requestNewResize(item, width, height) {
+      if (GridResolver.isPossible(xCount, yCount,
+        [
+          ...grid.gridItemRefs.filter((it) => it !== item),
+          {...item, _w: width, _h: height}
+        ]
+      )) {
+        item.wh = {w: width, h: height}
       }
       positionGridItem(item);
     },
@@ -148,12 +192,12 @@
     resetShadow() {
       shadowItem = null;
       shadowItemRef = null;
-    }
+    },
   };
 
   setContext(GRID_CONTEXT_NAME, utilityFunctions);
-  let newGridItems = []
-  
+  let newGridItems = [];
+
   onMount(() => {
     resizeObserver = new ResizeObserver((entries) => {
       const rect = entries[0].contentRect;
@@ -161,14 +205,13 @@
       height = rect.height;
       itemWidthFunctions.updateWidth();
 
-      refreshItems()
+      refreshItems();
     });
 
     grid.setNewGridItemCallback((gridItems) => {
       // console.log("gridItems", gridItems);
-      newGridItems = gridItems
-    })
-
+      newGridItems = gridItems;
+    });
 
     resizeObserver.observe(rootElement);
 
@@ -178,19 +221,20 @@
     };
   });
 
-  function refreshItems(){
+  function refreshItems() {
     grid.gridItemRefs.forEach((/** @type {Item} */ gridItem) => {
       positionGridItem(gridItem);
       gridItem.mounted = true;
     });
   }
+
   /**
    * Functions for positioning grid item might be a separate file in the future
    * Keep interpolation at minimum
    */
 
   /**
-   *
+   * Positions grid item by its relative values to the absolute position
    * @param gridItem {Item}
    */
   function positionGridItem(gridItem) {
@@ -202,6 +246,7 @@
     gridItem.yCoordinate =
       itemWidthFunctions.getItemWidth() * gridItem.y +
       padding * Math.max(0, gridItem.y);
+
   }
 
   function pointAsCoordinates(x, y) {
@@ -237,16 +282,20 @@
 
     return {x: xCoord, y: yCoord};
   }
+
+  export const serialize = () => {
+  };
 </script>
 
 <div bind:this={rootElement} class="relative {className}">
   {#each newGridItems as item, i (item.id)}
     <!-- x-1 and y-1 are temporary, after collision detection they will be custom values-->
     <GridItem x={1} y={1} w={1} h={1}>
-      <svelte:component this={item.component} {...item.props} ></svelte:component>
+      <svelte:component this={item.component} {...item.props}
+      ></svelte:component>
     </GridItem>
   {/each}
-  
+
   {#if shadowItem}
     <Shadow
       xCoordinate={shadowItem.xCoordinate}

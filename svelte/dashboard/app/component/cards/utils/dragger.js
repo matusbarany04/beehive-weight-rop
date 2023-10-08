@@ -35,7 +35,7 @@ export class Dragger {
   }
 
   handleMouseDown(event) {
-    console.log("Mouse down dragger");
+    // console.log("Mouse down dragger");
     if (this.isDraggable) {
       this.isDragging = true;
 

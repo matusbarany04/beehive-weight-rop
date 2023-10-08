@@ -20,6 +20,7 @@ public class MasterApplication implements WebMvcConfigurer  {
         SpringApplication.run(MasterApplication.class, args);
         Mailer.checkKeysExpiration();
     }
+
 /*
     @Bean
     public ApiResponseHandler apiResponseHandler() {
@@ -40,6 +41,4 @@ public class MasterApplication implements WebMvcConfigurer  {
 //            }
 //        };
 //    }
-
-
 }

@@ -173,7 +173,6 @@
 
       <EChart
         className="col-span-2 row-span-1"
-        
         cardStates={{
           id: "",
           x: TW_BREAKPOINTS.md < innerWidth ? 3 : 0,
@@ -195,7 +194,6 @@
 
       <EChart
         className="col-span-2 row-span-1"
-        
         cardStates={{
           id: "",
           x: TW_BREAKPOINTS.md < innerWidth ? 1 : 0,
@@ -217,7 +215,6 @@
 
       <EChart
         className="col-span-2 row-span-1"
-        
         cardStates={{
           id: "",
           spanX: 2,

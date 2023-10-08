@@ -41,7 +41,7 @@ export class Resizer {
 
     if (this.isResizable) {
       //setting shadow behind the item to show possible positioning
-      console.log("item ", this.item);
+      // console.log("item ", this.item);
       this.root.setShadow(this.item);
 
       this.isResizing = true;

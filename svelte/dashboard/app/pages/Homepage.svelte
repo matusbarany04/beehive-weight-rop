@@ -29,15 +29,14 @@
     user = userObj;
     message.setMessage("Dobrý deň, včelár " + user.name);
     cardList = JSON.parse(user["dashboardData"]);
-    console.log(cardList);
+    // console.log(cardList);
     renderCards = true;
   });
 
   onMount(function () {});
 
   onLoad(["beehives", "statuses"], (beehives, statuses) => {
-    console.log("beehives, statuses", statuses, beehives);
-
+    // console.log("beehives, statuses", statuses, beehives);
     renderCards = true;
   });
 </script>
