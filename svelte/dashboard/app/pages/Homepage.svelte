@@ -18,11 +18,11 @@
   import PercentageCard from "../component/cards/PercentageCard.svelte";
   import WeatherCard from "../component/cards/WeatherCard.svelte";
   import MapCard from "../component/cards/MapCard.svelte";
+  import {getCardByFormat} from "../component/cards/cardUtilities";
 
   let cardList = [];
 
   let editMode = false;
-  let smallScreen = false;
   let editButton = true;
   let renderCards = false;
 
@@ -31,39 +31,28 @@
   onLoad(["user"], (userObj) => {
     user = userObj;
     message.setMessage("Dobrý deň, včelár " + user.name);
-    cardList = JSON.parse(user["dashboardData"]);
-    // console.log(cardList);
+    cardList = JSON.parse(user.dashboardData);
     renderCards = true;
+    console.log(user.type)
+    console.log(user.dashboardData)
+    console.log(JSON.parse(user.dashboardData))
   });
 
   onMount(function () {
+    
   });
 
   onLoad(["beehives", "statuses"], (beehives, statuses) => {
-    // console.log("beehives, statuses", statuses, beehives);
     renderCards = true;
   });
-  //data that can be loaded into the grid
-  //   {
-  //   w: 2,
-  //   h: 1,
-  //   x:0,
-  //   y:0,
-  //   props: {
-  //   cardStates: {
-  //     id: "",
-  //       mode: "static",
-  //       title: "Vnútorná teplota váhy",
-  //       editing: false,
-  //       data: [],
-  //   }},
-  // component: WeatherCard
-  // }
+  
+  // data that can be loaded into the grid
+
 </script>
 
 <svelte:head>
   <title>DashBoard</title>
-  <meta name="description" content="Svelte demo app"/>
+  <meta name="description" content="Dashboard"/>
 </svelte:head>
 
 <div class="absolute right-0 top-0 z-50 flex w-min justify-end gap-3 p-4">
@@ -102,29 +91,9 @@
       yCount={4}
       padding={10}
       className="w-full aspect-square"
-      items={[]}
-    >
-      <!--{#each Array(2) as _, x}-->
-      <!--  {#each Array(2) as _, y}-->
-      <!--    <GridItem x={x * 2} {y} w={2} className="outline-primary-100 outline"-->
-      <!--    ></GridItem>-->
-      <!--  {/each}-->
-      <!--{/each}-->
+      items={cardList.map(card => ({...card, component: getCardByFormat(card.component)}))}
 
-      <!--{#each cardList as item, i (item.id)}-->
-      <!--  <GridItem x={item.x - 1} y={item.y - 1} w={item.spanX} h={item.spanY}>-->
-      <!--    &lt;!&ndash;            this={cardUtils.getCardByFormat(item.component)}&ndash;&gt;-->
-      <!--    <svelte:component-->
-      <!--      this={cardUtils.getDeletedCard()}-->
-      <!--      cardStates={{-->
-      <!--        id: item.id,-->
-      <!--        editing: editMode,-->
-      <!--        title: item.title,-->
-      <!--        data: [],-->
-      <!--      }}-->
-      <!--    />-->
-      <!--  </GridItem>-->
-      <!--{/each}-->
+    >
     </Grid>
     <div class="h-16 w-full"></div>
   {:else}
