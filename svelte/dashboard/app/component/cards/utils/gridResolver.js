@@ -1,4 +1,4 @@
-import {Item} from "./item";
+import { Item } from "./item";
 /**
  * GridResolver resolves xy grid -
  * resolver checks if items are not overflowing the grid
@@ -17,7 +17,7 @@ export class GridResolver {
     if (this.isPossible(x, y, [...gridItems, item])) {
       return gridItems;
     } else {
-      let possibleItem = {...item};
+      let possibleItem = { ...item };
       let possible = false;
       for (let i = 0; i < y; i++) {
         for (let j = 0; j < x; j++) {
@@ -50,34 +50,33 @@ export class GridResolver {
    * @param item {Item}
    */
   static resolveAroundItem(x, y, gridItems, item) {
-
     if (this.isPossible(x, y, [item, ...gridItems])) {
-
       return gridItems;
     } else {
       let overlapped = this.isPossible(x, y, [item, ...gridItems], true);
 
-      let overlappedCopy = {...overlapped, _x: 0, _y: 0}
+      let overlappedCopy = { ...overlapped, _x: 0, _y: 0 };
 
       for (let i = 0; i <= y - overlapped._h; i++) {
         for (let j = 0; j <= x - overlapped._w; j++) {
           overlappedCopy._x = j;
           overlappedCopy._y = i;
-  
-          if (this.isPossible(x, y,
-            [
+
+          if (
+            this.isPossible(x, y, [
               item,
               ...gridItems.filter((it) => it !== overlapped),
-              overlappedCopy
-            ])) {
+              overlappedCopy,
+            ])
+          ) {
             overlapped.x = j;
             overlapped.y = i;
-          
-            return [item, ...gridItems]
+
+            return [item, ...gridItems];
           }
         }
       }
-      
+
       return gridItems; // If all else fails, return the original gridItems
     }
   }
@@ -97,7 +96,7 @@ export class GridResolver {
    * */
   static isPossible(x, y, gridItems, returnItem = false) {
     // Create a blank grid
-    const grid = Array.from({length: y}).map(() => Array(x).fill(null));
+    const grid = Array.from({ length: y }).map(() => Array(x).fill(null));
 
     for (const item of gridItems) {
       // for the height of the item
@@ -128,7 +127,7 @@ export class GridResolver {
 
   static printGrid(x, y, items) {
     // Create a blank grid matrix
-    const grid = Array.from({length: y}).map(() => Array(x).fill(" "));
+    const grid = Array.from({ length: y }).map(() => Array(x).fill(" "));
 
     // Assign labels for items (A, B, C, ...)
     const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -151,6 +150,5 @@ export class GridResolver {
       output += rowString + "\n";
       output += horizontalLine + "\n";
     });
-
   }
 }

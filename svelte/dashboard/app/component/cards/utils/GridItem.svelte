@@ -1,19 +1,18 @@
 <script>
-  import {getGridContext} from "./Grid.svelte";
-  import {Item} from "./item";
-  import Button from "../../../../../components/Buttons/Button.svelte";
-  import {Dragger} from "./dragger";
-  import {onMount} from "svelte";
-  import {Resizer} from "./resizer";
-  import {Grid} from "./grid";
-  import {spring} from "svelte/motion";
+  import { getGridContext } from "./Grid.svelte";
+  import { Item } from "./item";
+  import { Dragger } from "./dragger";
+  import { onMount } from "svelte";
+  import { Resizer } from "./resizer";
+  import { Grid } from "./grid";
+  import { spring } from "svelte/motion";
+  import { setContext, getContext } from "svelte";
 
   /*
     TODO 
      
     add - remove functionality 
-    when in editmode overlay actual content of gridItem
-    
+    when in edit mode overlay actual content of gridItem
    */
   export let x = 1;
   export let y = 1;
@@ -24,23 +23,23 @@
   export let className = "";
 
   let gridRoot = getGridContext();
-  
+
   let item = new Item(x, y, w, h, id);
-  
+
   item.padding = gridRoot.getPadding();
 
   let gridItemRoot;
   let resizerElement;
 
   let pixelSize = spring(
-    {pixelHeight: item.pixelHeight, pixelWidth: item.pixelWidth},
+    { pixelHeight: item.pixelHeight, pixelWidth: item.pixelWidth },
     {
       stiffness: 0.1,
       damping: 0.4,
     },
   );
   let itemCoords = spring(
-    {x: item.xCoordinate, y: item.yCoordinate},
+    { x: item.xCoordinate, y: item.yCoordinate },
     {
       stiffness: 0.1,
       damping: 0.4,
@@ -50,14 +49,13 @@
   item.setValueChangedCallback(() => {
     // console.log("value changed");
     item = item;
-    itemCoords.set({x: item.xCoordinate, y: item.yCoordinate});
+    itemCoords.set({ x: item.xCoordinate, y: item.yCoordinate });
     pixelSize.set({
       pixelHeight: item.pixelHeight,
       pixelWidth: item.pixelWidth,
     });
   });
 
-  
   gridRoot.subscribeItem(item);
 
   onMount(() => {
@@ -109,10 +107,25 @@
             item.pixelHeight,
             gridRoot.getPadding(),
             item.unitSize,
-          )
+          ),
         );
       });
     });
+  });
+
+  let saveDataFunction;
+  setContext("gridItem", {
+    /**
+     * @param fun {function}
+     */
+    setDataExportFunction(fun) {
+      saveDataFunction = fun;
+    },
+  });
+
+  let gridExport = getContext("grid");
+  gridExport.setDataExportFunction(() => {
+    return { id: item.id,x: item.x, y: item.y, w: item.w, h: item.h, ...saveDataFunction() };
   });
 </script>
 
@@ -126,24 +139,25 @@
   style:top="{$itemCoords.y}px"
   style:z-index="500"
 >
-  <slot/>
+  <slot />
 
-  <div class="w-4 h-4 bg-secondary-400 z-30 absolute right-1 top-1"
+  <div class="absolute right-1 top-0 z-30 {!item.draggable ? 'hidden' : ''}">
+    <button
+      class="removeImage headerIcon"
       on:click={(event) => {
-        console.log("clicked remove")
-         gridRoot.deleteGridItem(item);
-         event.stopPropagation();
+        gridRoot.deleteGridItem(item);
+        event.stopPropagation();
       }}
-       on:mousemove={(event) => {
-         event.stopPropagation();
+      on:mousemove={(event) => {
+        event.stopPropagation();
       }}
-       on:mousedown={(event) => {
-         event.stopPropagation();
+      on:mousedown={(event) => {
+        event.stopPropagation();
       }}
-       on:mouseup={(event) => {
-         event.stopPropagation();
+      on:mouseup={(event) => {
+        event.stopPropagation();
       }}
-    >
+    ></button>
   </div>
 
   <div

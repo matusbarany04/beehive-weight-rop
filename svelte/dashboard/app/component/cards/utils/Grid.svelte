@@ -1,5 +1,5 @@
 <script context="module">
-  import {getContext} from "svelte";
+  import { getContext } from "svelte";
 
   const GRID_CONTEXT_NAME = Symbol("grid-context");
 
@@ -15,14 +15,14 @@
 </script>
 
 <script>
-  import {setContext} from "svelte";
-  import {onMount} from "svelte";
+  import { setContext } from "svelte";
+  import { onMount } from "svelte";
   import GridItem from "./GridItem.svelte";
-  import {Item} from "./item";
+  import { Item } from "./item";
   import Shadow from "./Shadow.svelte";
-  import {Grid} from "./grid";
-  import {GridManager} from "./gridManager";
-  import {GridResolver} from "./gridResolver";
+  import { Grid } from "./grid";
+  import { GridManager } from "./gridManager";
+  import { GridResolver } from "./gridResolver";
 
   /*
     Known possible bugs 
@@ -37,7 +37,7 @@
   export let padding = 100;
 
   export let items;
-  
+
   export let referenceName;
 
   let rootElement;
@@ -49,7 +49,6 @@
 
   let grid = new Grid(width, height, xCount, yCount);
 
-    
   // setting reference name to grid object
   if (referenceName != null) grid.id = referenceName;
   // registering grid to a static array
@@ -79,13 +78,13 @@
     deleteGridItem(item) {
       for (let i = 0; i < grid.newItems.length; i++) {
         let it = grid.newItems[i];
-        
+
         if (it.id === item.id) {
           grid.newItems.splice(i, 1);
           grid.newItems = [...grid.newItems];
         }
       }
-      
+
       let index = grid.gridItemRefs.indexOf(item);
 
       if (index > -1) {
@@ -101,7 +100,7 @@
     getGridObject() {
       return grid;
     },
-    itemWidth: {...itemWidthFunctions},
+    itemWidth: { ...itemWidthFunctions },
     subscribeItem(gridItem) {
       GridResolver.printGrid(xCount, yCount, grid.gridItemRefs);
       GridResolver.resolveAroundItem(
@@ -133,12 +132,12 @@
 
         let coords = pointAsCoordinates(collapsed.x, collapsed.y);
 
-        if (GridResolver.isPossible(xCount, yCount,
-          [
+        if (
+          GridResolver.isPossible(xCount, yCount, [
             ...grid.gridItemRefs.filter((it) => it !== item),
-            {...item, _x: coords.x, _y: coords.y}
-          ]
-        )) {
+            { ...item, _x: coords.x, _y: coords.y },
+          ])
+        ) {
           item.x = coords.x;
           item.y = coords.y;
         }
@@ -146,13 +145,13 @@
       positionGridItem(item);
     },
     requestNewResize(item, width, height) {
-      if (GridResolver.isPossible(xCount, yCount,
-        [
+      if (
+        GridResolver.isPossible(xCount, yCount, [
           ...grid.gridItemRefs.filter((it) => it !== item),
-          {...item, _w: width, _h: height}
-        ]
-      )) {
-        item.wh = {w: width, h: height}
+          { ...item, _w: width, _h: height },
+        ])
+      ) {
+        item.wh = { w: width, h: height };
       }
       positionGridItem(item);
     },
@@ -191,7 +190,7 @@
       positionGridItem(shadowItem);
     },
     getShadowPos() {
-      return {x: shadowItem.x, y: shadowItem.y};
+      return { x: shadowItem.x, y: shadowItem.y };
     },
     getShadowItem() {
       return shadowItem;
@@ -228,7 +227,7 @@
         newItems.y,
         newItems.w,
         newItems.h,
-      )
+      );
     }
 
     resizeObserver.observe(rootElement);
@@ -264,13 +263,12 @@
     gridItem.yCoordinate =
       itemWidthFunctions.getItemWidth() * gridItem.y +
       padding * Math.max(0, gridItem.y);
-
   }
 
   function pointAsCoordinates(x, y) {
     let xCoord = Math.floor(x / (width / xCount));
     let yCoord = Math.floor(y / (height / yCount));
-    return {x: xCoord, y: yCoord};
+    return { x: xCoord, y: yCoord };
   }
 
   /**
@@ -298,14 +296,32 @@
         item.yCoordinate + mousePosition.y - (item.h - 1) * item.unitSize;
     }
 
-    return {x: xCoord, y: yCoord};
+    return { x: xCoord, y: yCoord };
   }
+
+  export function serialize() {
+    let serialized = [];
+    for (const gridItemFunc of saveDataFunctions) {
+      serialized.push(gridItemFunc());
+    }
+    return serialized;
+  }
+
+  let saveDataFunctions = [];
+  setContext("grid", {
+    /**
+     * @param fun {function}
+     */
+    setDataExportFunction(fun) {
+      saveDataFunctions.push(fun);
+    },
+  });
 </script>
 
 <div bind:this={rootElement} class="relative {className}">
   {#each newGridItems as item, i (item.id)}
     <!-- x-1 and y-1 are temporary, after collision detection they will be custom values-->
-    <GridItem x={item.x} y={item.y}  id="{item.id}" w={item.w} h={item.h}>
+    <GridItem x={item.x} y={item.y} id={item.id} w={item.w} h={item.h}>
       <svelte:component this={item.component} {...item.props}
       ></svelte:component>
     </GridItem>
@@ -320,5 +336,5 @@
       className="bg-slate-400"
     ></Shadow>
   {/if}
-  <slot/>
+  <slot />
 </div>

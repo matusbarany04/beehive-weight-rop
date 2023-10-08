@@ -180,7 +180,7 @@ export class Grid {
   _newItems = [];
 
   /**  functions for adding new items */
-  newGridItem(component, props, x = 0, y = 0, w= 1, h = 1) {
+  newGridItem(component, props, x = 0, y = 0, w = 1, h = 1) {
     // console.log("new grid component", component, props, x, y);
     this._newItems.push({
       id: generateUUID(),
@@ -208,9 +208,8 @@ export class Grid {
   get newItems() {
     return this._newItems;
   }
-  
-  serialize(){
+
+  serialize() {
     return JSON.stringify(this._gridItemRefs);
-    
   }
 }

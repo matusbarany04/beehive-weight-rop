@@ -128,6 +128,13 @@
       resizeObserver.disconnect();
     };
   });
+
+  let gridExport = getContext("gridItem");
+  if (gridExport !== undefined) {
+    gridExport.setDataExportFunction(() => {
+      return { props: { cardStates: cardStates }, component: component };
+    });
+  }
 </script>
 
 <div
@@ -136,7 +143,7 @@
   bind:this={cardRootRoot}
 >
   <div class="relative flex h-full w-full flex-col">
-    <div class="z-20 my-1 box-border flex h-8 w-full px-3 py-1">
+    <div class="z-20 my-1 box-border flex h-8 w-full px-3 py-1 pr-7">
       <h1
         class="no_wrap flex-1 text-ellipsis whitespace-nowrap text-base text-slate-500"
       >

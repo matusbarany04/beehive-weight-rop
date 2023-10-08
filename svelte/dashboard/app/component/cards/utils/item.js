@@ -169,10 +169,10 @@ export class Item {
     this.callback();
   }
 
-  callback(){
+  callback() {
     this.valueChangedEvent();
   }
-  valueChangedEvent = ()=>{}
+  valueChangedEvent = () => {};
   setValueChangedCallback(callback) {
     this.valueChangedEvent = callback;
   }

@@ -53,12 +53,15 @@
   });
   console.log("new items");
 
-  GridResolver.printGrid(4, 4, [...items, {
+  GridResolver.printGrid(4, 4, [
+    ...items,
+    {
       x: 1,
       y: 0,
       w: 1,
       h: 2,
-  }]);
+    },
+  ]);
 </script>
 
 <Button image="icons/android.svg" type="primary" text="android"></Button>
