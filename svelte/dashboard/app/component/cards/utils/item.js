@@ -15,8 +15,8 @@ export class Item {
   _draggable = false;
   _padding = 0;
 
-  constructor(x, y, w, h) {
-    this.id = generateUUID();
+  constructor(x, y, w, h, id = generateUUID()) {
+    this.id = id;
     this._x = x;
     this._y = y;
     this._w = w;

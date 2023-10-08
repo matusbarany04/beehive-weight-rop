@@ -3,18 +3,21 @@
    * @fileoverview This page shows graphs and charts related to beehives and their data
    * @module HomePage
    */
-  import { onMount, setContext, tick } from "svelte";
+  import {onMount, setContext, tick} from "svelte";
 
   import Button from "../../../components/Buttons/Button.svelte";
   import EditPanel from "../component/panel/EditPanel.svelte";
   import * as cardUtils from "../component/cards/cardUtilities";
-  import { generateUUID } from "../../../components/lib/utils/staticFuncs";
-  import shared, { onLoad } from "../stores/shared";
+  import {generateUUID} from "../../../components/lib/utils/staticFuncs";
+  import shared, {onLoad} from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
   import message from "../stores/message";
   import Grid from "../component/cards/utils/Grid.svelte";
   import GridItem from "../component/cards/utils/GridItem.svelte";
   import panelState from "../component/panel/panelState";
+  import PercentageCard from "../component/cards/PercentageCard.svelte";
+  import WeatherCard from "../component/cards/WeatherCard.svelte";
+  import MapCard from "../component/cards/MapCard.svelte";
 
   let cardList = [];
 
@@ -33,24 +36,41 @@
     renderCards = true;
   });
 
-  onMount(function () {});
+  onMount(function () {
+  });
 
   onLoad(["beehives", "statuses"], (beehives, statuses) => {
     // console.log("beehives, statuses", statuses, beehives);
     renderCards = true;
   });
+  //data that can be loaded into the grid
+  //   {
+  //   w: 2,
+  //   h: 1,
+  //   x:0,
+  //   y:0,
+  //   props: {
+  //   cardStates: {
+  //     id: "",
+  //       mode: "static",
+  //       title: "Vnútorná teplota váhy",
+  //       editing: false,
+  //       data: [],
+  //   }},
+  // component: WeatherCard
+  // }
 </script>
 
 <svelte:head>
   <title>DashBoard</title>
-  <meta name="description" content="Svelte demo app" />
+  <meta name="description" content="Svelte demo app"/>
 </svelte:head>
 
 <div class="absolute right-0 top-0 z-50 flex w-min justify-end gap-3 p-4">
   {#if editButton}
     <div class="flex gap-4">
       {#if editMode}
-        <Button text="Zahodiť zmeny" type="secondary" />
+        <Button text="Zahodiť zmeny" type="secondary"/>
       {/if}
       <!-- TODO spravit len disabled mozno v buducnosti, 
                                         pridat aj popup preco to zmizlo (ked sa zmensi sirka okna) -->
@@ -74,6 +94,7 @@
 
 <div class="flex min-h-screen w-full flex-1 flex-col">
   {#if renderCards}
+
     <Grid
       referenceName="dashboardGrid"
       draggable={editMode}
@@ -81,6 +102,7 @@
       yCount={4}
       padding={10}
       className="w-full aspect-square"
+      items={[]}
     >
       <!--{#each Array(2) as _, x}-->
       <!--  {#each Array(2) as _, y}-->
@@ -106,6 +128,6 @@
     </Grid>
     <div class="h-16 w-full"></div>
   {:else}
-    <Loading />
+    <Loading/>
   {/if}
 </div>

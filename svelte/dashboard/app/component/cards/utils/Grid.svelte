@@ -36,8 +36,8 @@
 
   export let padding = 100;
 
-  export let pairedGrid;
-
+  export let items;
+  
   export let referenceName;
 
   let rootElement;
@@ -48,6 +48,8 @@
   let resizeObserver;
 
   let grid = new Grid(width, height, xCount, yCount);
+
+    
   // setting reference name to grid object
   if (referenceName != null) grid.id = referenceName;
   // registering grid to a static array
@@ -75,12 +77,23 @@
   let shadowItem = null;
   const utilityFunctions = {
     deleteGridItem(item) {
+      for (let i = 0; i < grid.newItems.length; i++) {
+        let it = grid.newItems[i];
+        
+        if (it.id === item.id) {
+          grid.newItems.splice(i, 1);
+          grid.newItems = [...grid.newItems];
+        }
+      }
+      
       let index = grid.gridItemRefs.indexOf(item);
+
       if (index > -1) {
         grid.gridItemRefs.splice(index, 1);
       }
-      grid.gridItemRefs = grid.gridItemRefs;
-      refreshItems()
+
+      grid.gridItemRefs = [...grid.gridItemRefs];
+      refreshItems();
     },
     getRootElementRef() {
       return rootElement;
@@ -90,9 +103,7 @@
     },
     itemWidth: {...itemWidthFunctions},
     subscribeItem(gridItem) {
-      // console.log("new subscibe item ", gridItem);
       GridResolver.printGrid(xCount, yCount, grid.gridItemRefs);
-      // console.log(GridResolver.isPossible(xCount, yCount, grid.gridItemRefs));
       GridResolver.resolveAroundItem(
         xCount,
         yCount,
@@ -102,10 +113,8 @@
       grid.gridItemRefs.push(gridItem);
       gridItem.draggable = draggable;
 
-      // console.log("new resolved grid")
       GridResolver.printGrid(xCount, yCount, grid.gridItemRefs);
       refreshItems();
-      // console.log("subscribing item", JSON.stringify(gridItem));
     },
     /**
      * @return {number}
@@ -130,10 +139,8 @@
             {...item, _x: coords.x, _y: coords.y}
           ]
         )) {
-
           item.x = coords.x;
           item.y = coords.y;
-
         }
       }
       positionGridItem(item);
@@ -213,6 +220,17 @@
       newGridItems = gridItems;
     });
 
+    for (const newItems of items) {
+      grid.newGridItem(
+        newItems.component,
+        newItems.props,
+        newItems.x,
+        newItems.y,
+        newItems.w,
+        newItems.h,
+      )
+    }
+
     resizeObserver.observe(rootElement);
 
     // Cleanup observer on component destroy
@@ -282,15 +300,12 @@
 
     return {x: xCoord, y: yCoord};
   }
-
-  export const serialize = () => {
-  };
 </script>
 
 <div bind:this={rootElement} class="relative {className}">
   {#each newGridItems as item, i (item.id)}
     <!-- x-1 and y-1 are temporary, after collision detection they will be custom values-->
-    <GridItem x={1} y={1} w={1} h={1}>
+    <GridItem x={item.x} y={item.y}  id="{item.id}" w={item.w} h={item.h}>
       <svelte:component this={item.component} {...item.props}
       ></svelte:component>
     </GridItem>

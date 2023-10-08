@@ -180,18 +180,19 @@ export class Grid {
   _newItems = [];
 
   /**  functions for adding new items */
-  newGridItem(component, props, x = 0, y = 0) {
-    let id = generateUUID();
+  newGridItem(component, props, x = 0, y = 0, w= 1, h = 1) {
     // console.log("new grid component", component, props, x, y);
     this._newItems.push({
-      id: id,
+      id: generateUUID(),
       x: x,
       y: y,
+      w: w,
+      h: h,
       props: props,
       component: component,
     });
     this.newItems = this._newItems;
-    this.newGridItemCallback(this.newItems);
+    this.newGridItemCallback(this._newItems);
   }
 
   newGridItemCallback = () => {};
@@ -201,9 +202,15 @@ export class Grid {
 
   set newItems(value) {
     this._newItems = value;
+    this.newGridItemCallback(this.newItems);
   }
 
   get newItems() {
     return this._newItems;
+  }
+  
+  serialize(){
+    return JSON.stringify(this._gridItemRefs);
+    
   }
 }

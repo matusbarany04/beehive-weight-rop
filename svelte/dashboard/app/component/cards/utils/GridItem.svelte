@@ -19,12 +19,14 @@
   export let y = 1;
   export let w = 1;
   export let h = 1;
+  export let id = null;
 
   export let className = "";
 
   let gridRoot = getGridContext();
-
-  let item = new Item(x, y, w, h, gridRoot.getPadding());
+  
+  let item = new Item(x, y, w, h, id);
+  
   item.padding = gridRoot.getPadding();
 
   let gridItemRoot;
@@ -55,6 +57,7 @@
     });
   });
 
+  
   gridRoot.subscribeItem(item);
 
   onMount(() => {
@@ -129,6 +132,15 @@
       on:click={(event) => {
         console.log("clicked remove")
          gridRoot.deleteGridItem(item);
+         event.stopPropagation();
+      }}
+       on:mousemove={(event) => {
+         event.stopPropagation();
+      }}
+       on:mousedown={(event) => {
+         event.stopPropagation();
+      }}
+       on:mouseup={(event) => {
          event.stopPropagation();
       }}
     >
