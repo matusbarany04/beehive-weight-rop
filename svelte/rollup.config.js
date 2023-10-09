@@ -1,66 +1,51 @@
-import svelte from "rollup-plugin-svelte";
-import resolve from "@rollup/plugin-node-resolve"; // Updated import
-import commonjs from "@rollup/plugin-commonjs"; // Updated import
+import svelte from "rollup-plugin-svelte"; 
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
-import css from "rollup-plugin-css-only";
 import postcss from "rollup-plugin-postcss";
 import tailwindcss from "tailwindcss";
 import livereload from "rollup-plugin-livereload";
-import autoprefixer from "autoprefixer";
+
 const production = !process.env.ROLLUP_WATCH;
+
+const commonPlugins = [
+  postcss({
+    extract: false,
+    plugins: [tailwindcss()],
+    use: [["sass", { includePaths: ["./src/styles", "./node_modules"] }]],
+  }),
+  svelte({
+    dev: !production,
+  }),
+  resolve(),
+  commonjs(),
+  production && terser(),
+];
 
 const dashboardConfig = {
   input: "dashboard/main.js",
   output: {
-    sourcemap: true,
+    sourcemap: !production,
     format: "iife",
     name: "app",
     file: "../src/main/resources/bundle/bundle.js",
+    treeshake: true,
   },
-  plugins: [
-    postcss({
-      extract: false,
-      plugins: [tailwindcss()],
-      use: [["sass", { includePaths: ["./src/styles", "./node_modules"] }]],
-    }),
-    svelte({
-      // enable run-time checks when not in production
-      dev: !production,
-    }),
-    // css({ input:"../src/main/resources/static/bundle.css", output: 'bundle.css' }),
-    resolve({
-      exportConditions: ["browser"],
-    }),
-    commonjs(),
-    !production && livereload("public"),
-    // If we're building for production (npm run build
-    // instead of npm run dev), minify
-    production && terser(),
-  ],
+  plugins: [...commonPlugins, !production && livereload("public")],
+  // external: ['name-of-large-dependency'],  // Uncomment and list any large external dependencies here
 };
 
 const indexConfig = {
   input: "general/main.js",
   output: {
-    sourcemap: true,
+    sourcemap: !production,
     format: "iife",
     name: "app",
     file: "../src/main/resources/bundle/indexBundle.js",
+    treeshake: true,
   },
-  plugins: [
-    postcss({
-      extract: false,
-      plugins: [tailwindcss()],
-      use: [["sass", { includePaths: ["./src/styles", "./node_modules"] }]],
-    }),
-    svelte({
-      dev: !production,
-    }),
-    resolve(),
-    commonjs(),
-
-    production && terser(),
-  ],
+  plugins: commonPlugins,
+  // external: ['name-of-large-dependency'],  // Uncomment and list any large external dependencies here
 };
 
 export default [dashboardConfig, indexConfig];
