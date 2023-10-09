@@ -125,7 +125,14 @@
 
   let gridExport = getContext("grid");
   gridExport.setDataExportFunction(() => {
-    return { id: item.id,x: item.x, y: item.y, w: item.w, h: item.h, ...saveDataFunction() };
+    return {
+      id: item.id,
+      x: item.x,
+      y: item.y,
+      w: item.w,
+      h: item.h,
+      ...saveDataFunction(),
+    };
   });
 </script>
 

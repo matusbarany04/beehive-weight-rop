@@ -50,7 +50,7 @@
   });
 
   async function save(data) {
-    console.log("data", data)
+    console.log("data", data);
     try {
       let response = await fetch("/user/saveDashboard", {
         method: "POST",
