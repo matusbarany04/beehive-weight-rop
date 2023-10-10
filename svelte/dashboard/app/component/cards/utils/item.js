@@ -100,6 +100,8 @@ export class Item {
   get zIndex() {
     return this._zIndex;
   }
+  
+  
 
   set pixelHeight(value) {
     this._pixelHeight = value;

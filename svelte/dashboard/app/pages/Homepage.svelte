@@ -27,6 +27,22 @@
   let renderCards = false;
   let grid;
 
+  let resizeWindowEvent = (event) => {
+    if (TW_BREAKPOINTS.md > window.innerWidth) {
+      if(editMode){
+        renderCards = false;
+        tick().then(() => {
+          renderCards = true;
+        })
+      }
+      editMode = false;
+      editButton = false
+    }else{
+      editButton = true
+    }
+  }
+
+  
   let user;
   message.setMessage("Dobrý deň");
   onLoad(["user"], (userObj) => {
@@ -41,6 +57,8 @@
     onLoad(["beehives", "statuses"], (beehives, statuses) => {
       console.log("serialize, ", grid.serialize());
     });
+    
+    resizeWindowEvent();
   });
 
   onLoad(["beehives", "statuses"], (beehives, statuses) => {
@@ -70,19 +88,7 @@
     }
   }
 
-  let resizeWindowEvent = (event) => {
-    if (TW_BREAKPOINTS.md > window.innerWidth) {
-      editMode = false;
-      renderCards = false;
-      editButton = false
-      tick().then(() => {
-        renderCards = true;
-      })
-    }else{
-      editButton = true
-    }
-
-  }
+  
 </script>
 
 <svelte:window on:resize={resizeWindowEvent}></svelte:window>
