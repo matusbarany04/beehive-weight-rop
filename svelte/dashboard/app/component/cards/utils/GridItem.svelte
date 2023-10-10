@@ -7,7 +7,7 @@
   import { Grid } from "./grid";
   import { spring } from "svelte/motion";
   import { setContext, getContext } from "svelte";
-
+  
   /*
     TODO 
      
@@ -82,6 +82,8 @@
 
       dragger.setOnMouseMoveEvent((x, y) => {
         gridRoot.updateShadow(x, y);
+        item.zIndex = 5000;
+        
       });
 
       dragger.setOnMouseUpEvent((event) => {
@@ -91,7 +93,13 @@
           item,
           dragger.getMouseToItemPosition(event),
         );
+        
+        item.resetZIndex()
       });
+      
+      resizer.setOnMouseMoveEvent(()=>{
+        item.zIndex = 5000;
+      })
 
       resizer.setResizable(item.draggable);
 
@@ -109,6 +117,7 @@
             item.unitSize,
           ),
         );
+        item.resetZIndex()
       });
     });
   });
@@ -144,7 +153,7 @@
   style:height="{$pixelSize.pixelHeight}px"
   style:left="{$itemCoords.x}px"
   style:top="{$itemCoords.y}px"
-  style:z-index="500"
+  style:z-index="{item.zIndex}"
 >
   <slot />
 

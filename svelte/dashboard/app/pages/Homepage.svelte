@@ -91,6 +91,7 @@
         type={!editMode ? "primary" : "confirm"}
         onClick={() => {
           if (editMode) {
+            console.log("saving this ... ", grid.serialize());
             save(grid.serialize());
             panelState.resetMode();
           } else {

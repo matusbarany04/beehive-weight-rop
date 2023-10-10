@@ -1,9 +1,10 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
   import L from "leaflet";
+  import { onMount } from "svelte";
+  import { tick } from "svelte";
   export let cardStates;
-  export let onDragEnd; // function
-  export let onDragStart; // function
+
   let component = "MapCard";
   import "leaflet/dist/leaflet.css";
 
@@ -23,26 +24,23 @@
 
   function mapAction(container) {
     map = createMap(container);
+
+    tick().then(() => {});
+
     return {
       destroy: () => {
         map.remove();
       },
     };
   }
-  function resizeMap() {
-    if (map) {
-      map.invalidateSize();
-    }
-  }
+
 </script>
 
-<CardRoot {component} {cardStates} {onDragStart} {onDragEnd}>
-  <!-- TODO ked myska dragguje nad mapou mapa sa hybe -->
+<CardRoot {component} {cardStates}>
   {#if L}
     <div
       class="z-10 box-border h-full w-full rounded-md"
       use:mapAction
-      on:resize={resizeMap}
     />
   {/if}
 </CardRoot>
