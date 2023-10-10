@@ -41,6 +41,7 @@
     "file-saver": "^2.0.5",
     "node-watch": "^0.7.4",
     "postcss": "^8.4.29",
+    "process": "^0.11.10",
     "require": "^0.4.4",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
