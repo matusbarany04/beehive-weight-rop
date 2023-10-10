@@ -6,14 +6,22 @@
 
 <main class="min-h-screen w-screen overflow-y-scroll bg-primary-100">
   <section id="home" class="flex h-screen flex-col">
+    <!-- background -->
+    <div
+      class="absolute left-0 top-0 h-full w-full bg-cover bg-no-repeat"
+      style:background-image="url('img/pattern_home.png')"
+    ></div>
+
+
     <NavigationBar />
-    <div class="flex w-full flex-1 flex-row">
-      <div class="left flex flex-1 flex-col justify-center p-8">
-        <h1 class="text-4xl font-bold text-slate-100">
+    <div class="z-10 flex w-full flex-1 flex-row">
+      <div class="left flex flex-1 flex-col justify-center p-8 ">
+        <h1 class="text-4xl font-bold text-slate-50 mb-4">
           Moderné úľové váhy pre monitorovanie
         </h1>
+        
 
-        <h5 class="text-xl text-slate-100">
+        <h5 class="text-xl text-slate-50">
           BuzzyBees váhový systém včelieho úľa je monitorovací systém, ktorý
           okamžite informuje včelára o akýchkoľvek väčších zmenách v úli - váhe,
           teplote, vlhkosti a zvuku včiel.
@@ -26,15 +34,19 @@
           />
 
           <Button
-            type="transparent"
+            type="transparent-white"
             image="icons/arrow-right.svg"
             imagePosition="right"
             text="Zistiť viac"
           />
         </div>
       </div>
-      <div class="right hidden flex-1 md:block">
+      <div class="right hidden flex-1 md:grid place-items-center">
         <!-- Image of a beehive-->
+        <div
+          class="w-full h-full bg-contain bg-center bg-no-repeat"
+          style:background-image="url('img/beehive_token.svg')"
+        ></div>
       </div>
     </div>
   </section>
