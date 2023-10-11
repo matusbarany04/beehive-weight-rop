@@ -75,6 +75,7 @@
   let shadowItemRef = null;
   let shadowItem = null;
   const utilityFunctions = {
+    // BUG not really deleting, will fix later 
     deleteGridItem(item) {
       for (let i = 0; i < grid.newItems.length; i++) {
         let it = grid.newItems[i];

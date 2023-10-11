@@ -1,4 +1,4 @@
-import { generateUUID } from "../../../../../components/lib/utils/staticFuncs";
+import {generateUUID} from "../../../../../components/lib/utils/staticFuncs";
 
 export class Item {
   id;
@@ -14,6 +14,7 @@ export class Item {
   _mounted = false;
   _draggable = false;
   _padding = 0;
+  _zIndex = 1;
 
   constructor(x, y, w, h, id = generateUUID()) {
     this.id = id;
@@ -78,7 +79,8 @@ export class Item {
     return this._mounted;
   }
 
-  mountedChangedEvent = () => {};
+  mountedChangedEvent = () => {
+  };
 
   subscribeMounted(event) {
     this.mountedChangedEvent = event;
@@ -86,6 +88,20 @@ export class Item {
       this.mountedChangedEvent();
     }
   }
+
+  set zIndex(value) {
+    this._zIndex = value;
+  }
+  
+  resetZIndex(){
+    this._zIndex = 1;
+  }
+
+  get zIndex() {
+    return this._zIndex;
+  }
+  
+  
 
   set pixelHeight(value) {
     this._pixelHeight = value;
@@ -172,7 +188,10 @@ export class Item {
   callback() {
     this.valueChangedEvent();
   }
-  valueChangedEvent = () => {};
+
+  valueChangedEvent = () => {
+  };
+
   setValueChangedCallback(callback) {
     this.valueChangedEvent = callback;
   }
@@ -191,7 +210,8 @@ export class Item {
     return this._draggable;
   }
 
-  draggableChangedEvent = () => {};
+  draggableChangedEvent = () => {
+  };
 
   setDraggableChangedEvent(event) {
     this.draggableChangedEvent = event;

@@ -3,13 +3,13 @@
    * @fileoverview This page shows graphs and charts related to beehives and their data
    * @module HomePage
    */
-  import { onMount, setContext, tick } from "svelte";
+  import {onMount, setContext, tick} from "svelte";
 
   import Button from "../../../components/Buttons/Button.svelte";
   import EditPanel from "../component/panel/EditPanel.svelte";
   import * as cardUtils from "../component/cards/cardUtilities";
-  import { generateUUID } from "../../../components/lib/utils/staticFuncs";
-  import shared, { onLoad } from "../stores/shared";
+  import {generateUUID, TW_BREAKPOINTS} from "../../../components/lib/utils/staticFuncs";
+  import shared, {onLoad} from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
   import message from "../stores/message";
   import Grid from "../component/cards/utils/Grid.svelte";
@@ -18,7 +18,7 @@
   import PercentageCard from "../component/cards/PercentageCard.svelte";
   import WeatherCard from "../component/cards/WeatherCard.svelte";
   import MapCard from "../component/cards/MapCard.svelte";
-  import { getCardByFormat } from "../component/cards/cardUtilities";
+  import {getCardByFormat} from "../component/cards/cardUtilities";
 
   let cardList = [];
 
@@ -27,6 +27,22 @@
   let renderCards = false;
   let grid;
 
+  let resizeWindowEvent = (event) => {
+    if (TW_BREAKPOINTS.md > window.innerWidth) {
+      if(editMode){
+        renderCards = false;
+        tick().then(() => {
+          renderCards = true;
+        })
+      }
+      editMode = false;
+      editButton = false
+    }else{
+      editButton = true
+    }
+  }
+
+  
   let user;
   message.setMessage("Dobrý deň");
   onLoad(["user"], (userObj) => {
@@ -34,15 +50,15 @@
     message.setMessage("Dobrý deň, včelár " + user.name);
     cardList = JSON.parse(user.dashboardData);
     renderCards = true;
-    console.log(user.type);
-    console.log(user.dashboardData);
-    console.log(JSON.parse(user.dashboardData));
+
   });
 
   onMount(function () {
     onLoad(["beehives", "statuses"], (beehives, statuses) => {
       console.log("serialize, ", grid.serialize());
     });
+    
+    resizeWindowEvent();
   });
 
   onLoad(["beehives", "statuses"], (beehives, statuses) => {
@@ -57,7 +73,7 @@
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ data: JSON.stringify(data) }),
+        body: JSON.stringify({data: JSON.stringify(data)}),
       });
       console.log(response);
       if (!response.ok) {
@@ -71,26 +87,33 @@
       throw error;
     }
   }
+
+  
 </script>
+
+<svelte:window on:resize={resizeWindowEvent}></svelte:window>
 
 <svelte:head>
   <title>DashBoard</title>
-  <meta name="description" content="Dashboard" />
+  <meta name="description" content="Dashboard"/>
 </svelte:head>
 
-<div class="absolute right-0 top-0 z-50 flex w-min justify-end gap-3 p-4">
-  {#if editButton}
-    <div class="flex gap-4">
-      {#if editMode}
-        <Button text="Zahodiť zmeny" type="secondary" />
-      {/if}
-      <!-- TODO spravit len disabled mozno v buducnosti, 
-                                        pridat aj popup preco to zmizlo (ked sa zmensi sirka okna) -->
-      <Button
-        text={!editMode ? "upraviť" : "uložiť"}
-        type={!editMode ? "primary" : "confirm"}
-        onClick={() => {
+{#if editButton}
+
+  <div class="absolute right-0 top-0 z-50 flex w-min justify-end gap-3 p-4">
+    {#if editButton}
+      <div class="flex gap-4">
+        {#if editMode}
+          <Button text="Zahodiť zmeny" type="secondary"/>
+        {/if}
+        <!-- TODO spravit len disabled mozno v buducnosti, 
+                                          pridat aj popup preco to zmizlo (ked sa zmensi sirka okna) -->
+        <Button
+          text={!editMode ? "upraviť" : "uložiť"}
+          type={!editMode ? "primary" : "confirm"}
+          onClick={() => {
           if (editMode) {
+            console.log("saving this ... ", grid.serialize());
             save(grid.serialize());
             panelState.resetMode();
           } else {
@@ -99,10 +122,11 @@
 
           editMode = !editMode;
         }}
-      />
-    </div>
-  {/if}
-</div>
+        />
+      </div>
+    {/if}
+  </div>
+{/if}
 
 <div class="flex min-h-screen w-full flex-1 flex-col">
   {#if renderCards}
@@ -121,6 +145,6 @@
     ></Grid>
     <div class="h-16 w-full"></div>
   {:else}
-    <Loading />
+    <Loading/>
   {/if}
 </div>
