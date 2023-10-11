@@ -16,7 +16,6 @@
   /** @type {string} */
   export let className;
 
-  // let gridRoot = getGridContext()
 
   let gridAddItem;
 
@@ -24,8 +23,6 @@
     let grid = GridManager.getGridById(gridReference);
 
     function handleMouseDown(event) {
-      // console.log("Mouse down:", event);
-      // component, props, x = 0, y = 0
       grid.newGridItem(gridItemComponent, gridItemProps);
     }
 

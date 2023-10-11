@@ -192,7 +192,7 @@ export class RouterObj {
   resolve(siteRoute, defaultPage) {
     let resolvedRoute = defaultPage;
     const collapsedRoutes = this.collapse(this.routes);
-    console.log("collapsed ", collapsedRoutes);
+    
     for (let route of collapsedRoutes) {
       if (RouterObj.regexRoute(siteRoute, route.route)) {
         resolvedRoute = route.page;

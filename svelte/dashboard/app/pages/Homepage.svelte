@@ -22,7 +22,8 @@
   import WeatherCard from "../component/cards/WeatherCard.svelte";
   import MapCard from "../component/cards/MapCard.svelte";
   import { getCardByFormat } from "../component/cards/cardUtilities";
-
+  import toast from "../../../components/Toast/toast";
+  
   let cardList = [];
 
   let editMode = false;
@@ -55,9 +56,6 @@
   });
 
   onMount(function () {
-    onLoad(["beehives", "statuses"], (beehives, statuses) => {
-      console.log("serialize, ", grid.serialize());
-    });
 
     resizeWindowEvent();
   });
@@ -67,7 +65,6 @@
   });
 
   async function save(data) {
-    console.log("data", data);
     try {
       let response = await fetch("/user/saveDashboard", {
         method: "POST",
@@ -76,12 +73,14 @@
         },
         body: JSON.stringify({ data: JSON.stringify(data) }),
       });
-      console.log(response);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       let output = await response.json();
+      await shared.fetchUser();
+
+      toast.push("New layout saved!");
       return output;
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -111,7 +110,6 @@
           type={!editMode ? "primary" : "confirm"}
           onClick={() => {
             if (editMode) {
-              console.log("saving this ... ", grid.serialize());
               save(grid.serialize());
               panelState.resetMode();
             } else {

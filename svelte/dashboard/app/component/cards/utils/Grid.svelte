@@ -1,5 +1,5 @@
 <script context="module">
-  import { getContext } from "svelte";
+  import {getContext} from "svelte";
 
   const GRID_CONTEXT_NAME = Symbol("grid-context");
 
@@ -15,14 +15,14 @@
 </script>
 
 <script>
-  import { setContext } from "svelte";
-  import { onMount } from "svelte";
+  import {setContext} from "svelte";
+  import {onMount} from "svelte";
   import GridItem from "./GridItem.svelte";
-  import { Item } from "./item";
+  import {Item} from "./item";
   import Shadow from "./Shadow.svelte";
-  import { Grid } from "./grid";
-  import { GridManager } from "./gridManager";
-  import { GridResolver } from "./gridResolver";
+  import {Grid} from "./grid";
+  import {GridManager} from "./gridManager";
+  import {GridResolver} from "./gridResolver";
 
   /*
     Known possible bugs 
@@ -77,6 +77,7 @@
   const utilityFunctions = {
     // BUG not really deleting, will fix later
     deleteGridItem(item) {
+
       for (let i = 0; i < grid.newItems.length; i++) {
         let it = grid.newItems[i];
 
@@ -86,6 +87,8 @@
         }
       }
 
+      delete saveDataFunctions[item.id]
+
       let index = grid.gridItemRefs.indexOf(item);
 
       if (index > -1) {
@@ -93,6 +96,7 @@
       }
 
       grid.gridItemRefs = [...grid.gridItemRefs];
+      
       refreshItems();
     },
     getRootElementRef() {
@@ -101,7 +105,7 @@
     getGridObject() {
       return grid;
     },
-    itemWidth: { ...itemWidthFunctions },
+    itemWidth: {...itemWidthFunctions},
     subscribeItem(gridItem) {
       GridResolver.printGrid(xCount, yCount, grid.gridItemRefs);
       GridResolver.resolveAroundItem(
@@ -136,7 +140,7 @@
         if (
           GridResolver.isPossible(xCount, yCount, [
             ...grid.gridItemRefs.filter((it) => it !== item),
-            { ...item, _x: coords.x, _y: coords.y },
+            {...item, _x: coords.x, _y: coords.y},
           ])
         ) {
           item.x = coords.x;
@@ -149,10 +153,10 @@
       if (
         GridResolver.isPossible(xCount, yCount, [
           ...grid.gridItemRefs.filter((it) => it !== item),
-          { ...item, _w: width, _h: height },
+          {...item, _w: width, _h: height},
         ])
       ) {
-        item.wh = { w: width, h: height };
+        item.wh = {w: width, h: height};
       }
       positionGridItem(item);
     },
@@ -191,7 +195,7 @@
       positionGridItem(shadowItem);
     },
     getShadowPos() {
-      return { x: shadowItem.x, y: shadowItem.y };
+      return {x: shadowItem.x, y: shadowItem.y};
     },
     getShadowItem() {
       return shadowItem;
@@ -216,7 +220,6 @@
     });
 
     grid.setNewGridItemCallback((gridItems) => {
-      // console.log("gridItems", gridItems);
       newGridItems = gridItems;
     });
 
@@ -269,7 +272,7 @@
   function pointAsCoordinates(x, y) {
     let xCoord = Math.floor(x / (width / xCount));
     let yCoord = Math.floor(y / (height / yCount));
-    return { x: xCoord, y: yCoord };
+    return {x: xCoord, y: yCoord};
   }
 
   /**
@@ -297,24 +300,25 @@
         item.yCoordinate + mousePosition.y - (item.h - 1) * item.unitSize;
     }
 
-    return { x: xCoord, y: yCoord };
+    return {x: xCoord, y: yCoord};
   }
 
   export function serialize() {
     let serialized = [];
-    for (const gridItemFunc of saveDataFunctions) {
+    for (const gridItemFunc of Object.values(saveDataFunctions)) {
       serialized.push(gridItemFunc());
     }
     return serialized;
   }
 
-  let saveDataFunctions = [];
+  let saveDataFunctions = {};
   setContext("grid", {
     /**
      * @param fun {function}
+     * @param id gridItem id
      */
-    setDataExportFunction(fun) {
-      saveDataFunctions.push(fun);
+    setDataExportFunction(fun, id) {
+      saveDataFunctions[id] = fun;
     },
   });
 </script>
@@ -337,5 +341,5 @@
       className="bg-slate-400"
     ></Shadow>
   {/if}
-  <slot />
+  <slot/>
 </div>

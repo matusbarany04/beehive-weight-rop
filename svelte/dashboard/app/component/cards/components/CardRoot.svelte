@@ -87,7 +87,6 @@
 
     let title = data.get("title");
     if (!isEmpty(title)) {
-      console.log("settings new title", title);
       cardStates.title = title;
     }
 
