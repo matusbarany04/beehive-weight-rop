@@ -1,4 +1,4 @@
-import {generateUUID} from "../../../../../components/lib/utils/staticFuncs";
+import { generateUUID } from "../../../../../components/lib/utils/staticFuncs";
 
 export class Item {
   id;
@@ -79,8 +79,7 @@ export class Item {
     return this._mounted;
   }
 
-  mountedChangedEvent = () => {
-  };
+  mountedChangedEvent = () => {};
 
   subscribeMounted(event) {
     this.mountedChangedEvent = event;
@@ -92,16 +91,14 @@ export class Item {
   set zIndex(value) {
     this._zIndex = value;
   }
-  
-  resetZIndex(){
+
+  resetZIndex() {
     this._zIndex = 1;
   }
 
   get zIndex() {
     return this._zIndex;
   }
-  
-  
 
   set pixelHeight(value) {
     this._pixelHeight = value;
@@ -189,8 +186,7 @@ export class Item {
     this.valueChangedEvent();
   }
 
-  valueChangedEvent = () => {
-  };
+  valueChangedEvent = () => {};
 
   setValueChangedCallback(callback) {
     this.valueChangedEvent = callback;
@@ -210,8 +206,7 @@ export class Item {
     return this._draggable;
   }
 
-  draggableChangedEvent = () => {
-  };
+  draggableChangedEvent = () => {};
 
   setDraggableChangedEvent(event) {
     this.draggableChangedEvent = event;

@@ -33,14 +33,10 @@
       },
     };
   }
-
 </script>
 
 <CardRoot {component} {cardStates}>
   {#if L}
-    <div
-      class="z-10 box-border h-full w-full rounded-md"
-      use:mapAction
-    />
+    <div class="z-10 box-border h-full w-full rounded-md" use:mapAction />
   {/if}
 </CardRoot>

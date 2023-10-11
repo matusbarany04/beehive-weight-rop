@@ -4,7 +4,7 @@
     fetchLanguageData,
     setLanguageDataLoadedEvent,
     isValidLanguage,
-    initLanguage
+    initLanguage,
   } from "../components/language/languageRepository";
   import Loading from "../components/pages/Loading.svelte";
 
@@ -15,12 +15,11 @@
   });
 
   initLanguage("general");
-  
 </script>
 
 <div class="min-h-screen w-screen">
   {#if languageLoaded}
-    <Router/>
+    <Router />
   {:else}
     <div class="grid h-screen w-full place-items-center bg-slate-700">
       <p class="text-slate-50">loading language pack...</p>

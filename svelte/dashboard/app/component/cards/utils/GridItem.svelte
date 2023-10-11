@@ -1,12 +1,12 @@
 <script>
-  import {getGridContext} from "./Grid.svelte";
-  import {Item} from "./item";
-  import {Dragger} from "./dragger";
-  import {onMount} from "svelte";
-  import {Resizer} from "./resizer";
-  import {Grid} from "./grid";
-  import {spring} from "svelte/motion";
-  import {setContext, getContext} from "svelte";
+  import { getGridContext } from "./Grid.svelte";
+  import { Item } from "./item";
+  import { Dragger } from "./dragger";
+  import { onMount } from "svelte";
+  import { Resizer } from "./resizer";
+  import { Grid } from "./grid";
+  import { spring } from "svelte/motion";
+  import { setContext, getContext } from "svelte";
 
   /*
     TODO 
@@ -32,14 +32,14 @@
   let resizerElement;
 
   let pixelSize = spring(
-    {pixelHeight: item.pixelHeight, pixelWidth: item.pixelWidth},
+    { pixelHeight: item.pixelHeight, pixelWidth: item.pixelWidth },
     {
       stiffness: 0.1,
       damping: 0.4,
     },
   );
   let itemCoords = spring(
-    {x: item.xCoordinate, y: item.yCoordinate},
+    { x: item.xCoordinate, y: item.yCoordinate },
     {
       stiffness: 0.1,
       damping: 0.4,
@@ -49,7 +49,7 @@
   item.setValueChangedCallback(() => {
     // console.log("value changed");
     item = item;
-    itemCoords.set({x: item.xCoordinate, y: item.yCoordinate});
+    itemCoords.set({ x: item.xCoordinate, y: item.yCoordinate });
     pixelSize.set({
       pixelHeight: item.pixelHeight,
       pixelWidth: item.pixelWidth,
@@ -83,7 +83,6 @@
       dragger.setOnMouseMoveEvent((x, y) => {
         gridRoot.updateShadow(x, y);
         item.zIndex = 5000;
-
       });
 
       dragger.setOnMouseUpEvent((event) => {
@@ -94,12 +93,12 @@
           dragger.getMouseToItemPosition(event),
         );
 
-        item.resetZIndex()
+        item.resetZIndex();
       });
 
       resizer.setOnMouseMoveEvent(() => {
         item.zIndex = 5000;
-      })
+      });
 
       resizer.setResizable(item.draggable);
 
@@ -117,7 +116,7 @@
             item.unitSize,
           ),
         );
-        item.resetZIndex()
+        item.resetZIndex();
       });
     });
   });
@@ -153,14 +152,14 @@
   style:height="{$pixelSize.pixelHeight}px"
   style:left="{$itemCoords.x}px"
   style:top="{$itemCoords.y}px"
-  style:z-index="{item.zIndex}"
+  style:z-index={item.zIndex}
 >
+  <slot />
 
-  <slot/>
-
-  <div class="overlay absolute w-full h-full bg-none"
-       style:z-index="{item.zIndex + 1}">
-  </div>
+  <div
+    class="overlay absolute h-full w-full bg-none"
+    style:z-index={item.zIndex + 1}
+  ></div>
 
   <div class="absolute right-1 top-0 z-30 {!item.draggable ? 'hidden' : ''}">
     <button

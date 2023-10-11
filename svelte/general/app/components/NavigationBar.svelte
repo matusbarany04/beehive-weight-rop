@@ -1,9 +1,12 @@
 <script>
   import RouterLink from "../../../components/RouterLink.svelte";
-  import {TW_BREAKPOINTS} from "../../../components/lib/utils/staticFuncs";
-  import {onMount} from "svelte"
-  import {languages, getLanguageInstance} from "../../../components/language/languageRepository";
-  import {pushParam} from "../../../components/router/route.serv";
+  import { TW_BREAKPOINTS } from "../../../components/lib/utils/staticFuncs";
+  import { onMount } from "svelte";
+  import {
+    languages,
+    getLanguageInstance,
+  } from "../../../components/language/languageRepository";
+  import { pushParam } from "../../../components/router/route.serv";
 
   let toggle = false;
 
@@ -14,8 +17,8 @@
   };
 
   let pages = [
-    {name: "Domov", link: "/", selected: true},
-    {name: "Dev Docs", link: "/test", selected: false},
+    { name: "Domov", link: "/", selected: true },
+    { name: "Dev Docs", link: "/test", selected: false },
     { name: "Panel", link: "/panel", selected: false },
     { name: "Kontakt", link: "/kontakt", selected: false },
     { name: "Doprava", link: "/doprava", selected: false },
@@ -27,14 +30,12 @@
   let langDropdown = false;
   function changeLanguage(code) {
     langDropdown = false;
-    pushParam("language", code)
+    pushParam("language", code);
     location.reload();
   }
-
-
 </script>
 
-<svelte:window on:resize={resize}/>
+<svelte:window on:resize={resize} />
 
 <nav class="bg-gray-800">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -70,41 +71,45 @@
         </button>
       </div>
 
-
       <div
         class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
       >
         <div class="flex flex-shrink-0 items-center">
-          <img class="h-8 w-auto" src="/img/beeman.png" alt="BuzzyBees"/>
+          <img class="h-8 w-auto" src="/img/beeman.png" alt="BuzzyBees" />
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex flex-wrap space-x-4">
-            
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             {#each pages as page}
               <a
                 href={page.link}
                 class=" rounded-md px-3 py-2 text-sm font-medium text-slate-300"
-              >{page.name}</a
+                >{page.name}</a
               >
             {/each}
             <div class="relative">
-              <button 
-                on:click={()=>{langDropdown = !langDropdown}} 
-                class=" rounded-md px-3 py-2 text-sm font-medium text-slate-300">
+              <button
+                on:click={() => {
+                  langDropdown = !langDropdown;
+                }}
+                class=" rounded-md px-3 py-2 text-sm font-medium text-slate-300"
+              >
                 lan-{getLanguageInstance().getLanguage()}
               </button>
 
               {#if langDropdown}
-                <div class="absolute z-20 left-0 mt-2 w-16 rounded-md shadow-lg bg-gray-800 text-slate-300 text-sm">
+                <div
+                  class="bg-gray-800 absolute left-0 z-20 mt-2 w-16 rounded-md text-sm text-slate-300 shadow-lg"
+                >
                   <ul>
                     {#each Object.entries(languages) as [code, label]}
                       <li class="hover:bg-gray-700 px-4 py-2">
                         <button
-                          on:click={() =>{
-                            changeLanguage(code)}
-                            }
-                          class="block">
+                          on:click={() => {
+                            changeLanguage(code);
+                          }}
+                          class="block"
+                        >
                           {label}
                         </button>
                       </li>
@@ -121,10 +126,10 @@
       >
         <button type="button" class="bg-gray-800 relative rounded-full p-1">
           <RouterLink url="/login"
-          ><span
-            class="focus:ring-offset-gray-800 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
-          >Prihlásiť sa</span
-          >
+            ><span
+              class="focus:ring-offset-gray-800 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+              >Prihlásiť sa</span
+            >
           </RouterLink>
         </button>
       </div>
@@ -134,12 +139,12 @@
   <!-- Mobile menu, show/hide based on menu state. -->
   {#if toggle}
     <div class="absolute w-full bg-primary-100 sm:hidden" id="mobile-menu">
-      <div class="space-y-1 px-2 pb-3 pt-2 z-10">
+      <div class="z-10 space-y-1 px-2 pb-3 pt-2">
         {#each pages as page}
           <a
             href={page.link}
             class="hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium text-slate-300 hover:text-white"
-          >{page.name}</a
+            >{page.name}</a
           >
         {/each}
       </div>
