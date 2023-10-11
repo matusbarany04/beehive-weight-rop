@@ -1,0 +1,33 @@
+{
+  "home": {
+    "title": "Modern hive scales for monitoring",
+    "description": "BuzzyBees hive weighing system is a monitoring system that instantly informs the beekeeper about any major changes in the hive - weight, temperature, humidity, and the sound of bees.",
+    "button-buy": "Buy",
+    "button-more": "Learn More"
+  },
+  "pros": {
+    "first": "Satisfied beekeepers",
+    "second": "Increased productivity",
+    "third": "Guaranteed Reliability"
+  },
+  "join": {
+    "title": "Join the hive!",
+    "description": "Elevate your beekeeping to the next level with the latest hive management technologies. Don't miss out on sweeter yields. Experience the thrilling buzz!",
+    "button-buy": "Buy the scale"
+  },
+  "faq": {
+    "title": "Buzzing questions",
+    "first": {
+      "question": "How easy is the installation?",
+      "answer": "It's a breeze! Our step-by-step guide ensures seamless integration into your existing bee hive."
+    },
+    "second": {
+      "question": "Is it weather resistant?",
+      "answer": "Absolutely yes! Our scale is designed to withstand the elements, including extreme heat, cold, and humidity."
+    },
+    "third": {
+      "question": "Can I access the data remotely?",
+      "answer": "Yes! Our simple app syncs with your scale, allowing you to monitor your hive from anywhere."
+    }
+  }
+}
