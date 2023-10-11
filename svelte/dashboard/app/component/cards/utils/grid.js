@@ -1,11 +1,15 @@
 import { generateUUID } from "../../../../../components/lib/utils/staticFuncs";
 export class Grid {
+  
   /** @type {string} */
   _id;
+  
   /** @type {number} */
   _itemCount;
+  
   /** @type {number} */
   _width;
+  
   /** @type {number} */
   _height;
 
@@ -16,6 +20,7 @@ export class Grid {
 
   /** @type {number} */
   _xCount;
+  
   /** @type {number} */
   _yCount;
 
@@ -170,7 +175,6 @@ export class Grid {
    */
   static pixelSizeToUnitLength(pixelSize, padding, unitSize) {
     const totalSizePerUnit = unitSize + padding;
-    // console.log("padding", padding, "unitsize", unitSize, "pixel", pixelSize);
     return Math.max(1, Math.round(pixelSize / totalSizePerUnit));
   }
 
@@ -181,7 +185,6 @@ export class Grid {
 
   /**  functions for adding new items */
   newGridItem(component, props, x = 0, y = 0, w = 1, h = 1) {
-    // console.log("new grid component", component, props, x, y);
     this._newItems.push({
       id: generateUUID(),
       x: x,

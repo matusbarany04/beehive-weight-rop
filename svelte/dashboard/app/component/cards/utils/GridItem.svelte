@@ -47,7 +47,6 @@
   );
 
   item.setValueChangedCallback(() => {
-    // console.log("value changed");
     item = item;
     itemCoords.set({ x: item.xCoordinate, y: item.yCoordinate });
     pixelSize.set({
@@ -141,7 +140,7 @@
       h: item.h,
       ...saveDataFunction(),
     };
-  });
+  },  item.id);
 </script>
 
 <!--outline outline-primary-100 -->
