@@ -22,6 +22,7 @@ export default {
     "btn-confirm-disabled",
     "btn-error-disabled",
     "btn-transparent",
+    "btn-transparent-white",
     "no-scrollbar",
   ],
   theme: {
@@ -101,6 +102,10 @@ export default {
           "--text-color": theme("colors.primary.900"),
           "--icon-color": "black",
         },
+        ".btn-transparent-white": {
+          "--text-color": theme("colors.slate.50"),
+          "--icon-color": "white",
+        },
       };
       addUtilities(buttonUtilities);
 
@@ -128,6 +133,10 @@ export default {
         ".btn-transparent-disabled": {
           "--text-color": "#202325",
           "--icon-color": "#202325",
+        },
+        ".btn-transparent-white-disabled": {
+          "--text-color": "#7e8183",
+          "--icon-color": "#7E8183",
         },
       };
 

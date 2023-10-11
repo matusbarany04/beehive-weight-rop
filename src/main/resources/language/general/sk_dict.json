@@ -1,0 +1,33 @@
+{
+  "home": {
+    "title": "Moderné úľové váhy pre monitorovanie",
+    "description": "BuzzyBees váhový systém včelieho úľa je monitorovací systém, ktorý okamžite informuje včelára o akýchkoľvek väčších zmenách v úli - váhe, teplote, vlhkosti a zvuku včiel.",
+    "button-buy": "Kúpiť",
+    "button-more": "Zistiť viac"
+  },
+  "pros": {
+    "first": "Spokojných včelárov",
+    "second": "Zvýšená produktivita",
+    "third": "Garantovaná Spoľahlivosť"
+  },
+  "join": {
+    "title": "Pridajte sa k úľu!",
+    "description": "Posuň svoje včelárstvo na vyššiu úroveň s najnovšími technológiami na riadenie úľov. Nepremeškaj príležitosť na sladšie úrody. Zaži ten vzrušujúci bzukot!",
+    "button-buy": "Kúpiť váhu"
+  },
+  "faq": {
+    "title": "Bzučiace otázky",
+    "first": {
+      "question": "Ako jednoduchá je inštalácia?",
+      "answer": "Je to hračka! Náš postupný sprievodca zabezpečuje bezproblémovú integráciu do vášho existujúceho včelieho úľu."
+    },
+    "second": {
+      "question": "Je odolná voči poveternostným podmienkam?",
+      "answer": "Absolútne áno! Naša váha je navrhnutá tak, aby vydržala vplyv počasia, vrátane extrémneho tepla, chladu a vlhkosti."
+    },
+    "third": {
+      "question": "Môžem pristupovať k údajom na diaľku?",
+      "answer": "Áno! Naša jednoduchá aplikácia sa synchronizuje s vašou váhou, umožňujúc vám sledovať váš úľ z akéhokoľvek miesta."
+    }
+  }
+}

@@ -46,6 +46,8 @@
   /**
    * @param {function} onClick function when the button is clicked
    */
+
+  export let className = "";
   export let onClick = () => {
     console.log("Button action does not exist!");
   };
@@ -63,7 +65,7 @@
       }
     }
   }}
-  class="flex rounded-lg p-2 btn-{type}{enabled
+  class="flex rounded-lg p-2 {className} btn-{type}{enabled
     ? ''
     : '-disabled'} duration-200 hover:scale-[1.02]"
 >

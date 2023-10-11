@@ -21,6 +21,34 @@ prefix.subscribe((value) => {
 });
 
 /**
+ * Param holder and adjacent functions
+ */
+let urlParams = new URLSearchParams(window.location.search);
+
+export function pushParam(paramName, value) {
+  urlParams.set(paramName, value);
+  updateUrl();
+}
+
+export function removeParam(paramName) {
+  urlParams.delete(paramName);
+  updateUrl();
+}
+
+export function getParamValue(paramName) {
+  return urlParams.get(paramName);
+}
+
+export function isParamSet(name) {
+  return urlParams.has(name);
+}
+
+function resetParams() {
+  urlParams = new URLSearchParams(); // Resets the URLSearchParams object
+  updateUrl();
+}
+
+/**
  * An event listener that updates the `route` store when the browser's back/forward buttons are used.
  */
 window.addEventListener("popstate", () => {
@@ -38,10 +66,13 @@ export function navigate(path) {
     return;
   }
   //else route
-  window.history.pushState({}, "", path);
+  window.history.pushState({}, "", `${path}?${urlParams}`);
   route.set(path);
   //clear the data state to not interfere with other pages
   resetUnsavedData();
+}
+function updateUrl() {
+  window.history.replaceState({}, "", `${get(route)}?${urlParams}`);
 }
 
 /**
