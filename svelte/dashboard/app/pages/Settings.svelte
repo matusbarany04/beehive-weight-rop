@@ -68,6 +68,8 @@
         saveEnabled = false;
         resetUnsavedData();
         toast.push("Settings saved!");
+
+        shared.fetchUser();
       })
       .catch((error) => {
         toast.push(
@@ -88,6 +90,8 @@
         saveEnabled = false;
         resetUnsavedData();
         toast.push("User settings saved!");
+
+        shared.fetchUser();
       })
       .catch((error) => {
         toast.push("Something happened when saving user", "error");

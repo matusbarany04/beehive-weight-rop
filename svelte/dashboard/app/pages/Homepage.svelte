@@ -22,7 +22,8 @@
   import WeatherCard from "../component/cards/WeatherCard.svelte";
   import MapCard from "../component/cards/MapCard.svelte";
   import { getCardByFormat } from "../component/cards/cardUtilities";
-
+  import toast from "../../../components/Toast/toast";
+  
   let cardList = [];
 
   let editMode = false;
@@ -77,6 +78,9 @@
       }
 
       let output = await response.json();
+      await shared.fetchUser();
+
+      toast.push("New layout saved!");
       return output;
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
