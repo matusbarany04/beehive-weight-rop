@@ -1,6 +1,5 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
-  import { dataHandler } from "./dataHandler";
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
 

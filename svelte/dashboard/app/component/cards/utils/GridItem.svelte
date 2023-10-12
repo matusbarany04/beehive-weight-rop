@@ -156,8 +156,8 @@
   <slot />
 
   <div
-    class="overlay top-0 absolute h-full w-full bg-none"
-    style:z-index={(1 - (!item.draggable * 2)) * (item.zIndex + 1)}
+    class="overlay absolute top-0 h-full w-full bg-none"
+    style:z-index={(1 - !item.draggable * 2) * (item.zIndex + 1)}
   ></div>
 
   <div class="absolute right-1 top-0 z-30 {!item.draggable ? 'hidden' : ''}">

@@ -35,12 +35,6 @@
   });
 
   message.setMessage("Detail úľu");
-
-  // let temperatures = [];
-
-  // let beeData = dataHandler.getBeehiveData(props.beehive_id);
-
-  // let temperatures = dataHandler.getTemperatures(data.beehive_id)
 </script>
 
 <svelte:window bind:innerWidth />
