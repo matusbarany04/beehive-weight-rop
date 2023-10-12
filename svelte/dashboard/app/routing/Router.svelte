@@ -15,6 +15,7 @@
   import BeehiveAdd from "../pages/beehives/BeehiveAdd.svelte";
   import BeehiveToken from "../pages/beehives/BeehiveToken.svelte";
   import BeehiveEdit from "../pages/beehives/BeehiveEdit.svelte";
+  import ChangePassword from "../pages/ChangePassword.svelte";
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
@@ -33,7 +34,9 @@
       root.get("/", Homepage);
       root.get("/homepage", Homepage);
       root.get("/help", Help);
-      root.get("/settings", Settings);
+      root.groupGet("/settings", Settings, (settingsGroup) => {
+        settingsGroup.get("/newpassword", ChangePassword);
+      });
       root.get("/calendar", Calendar);
       root.get("/test", Test);
       root.get("/notifications", Notifications);

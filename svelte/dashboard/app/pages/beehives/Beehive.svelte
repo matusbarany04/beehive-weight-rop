@@ -24,10 +24,9 @@
   let beehive;
   let innerWidth;
 
-  onLoad(["statuses", "beehives"] , (_b) => {
+  onLoad(["statuses", "beehives"], (_b) => {
     beehive = shared.getBeehiveById(props.id);
     document.title = beehive.name;
-
   });
 
   message.setMessage("Detail úľu");
