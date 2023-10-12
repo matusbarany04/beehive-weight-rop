@@ -7,8 +7,6 @@
   import shared from "../../stores/shared";
   import ApexCharts from "apexcharts";
 
-  import { dataHandler } from "./dataHandler";
-
   export let cardStates;
   export let onDragEnd; // function
   export let onDragStart; // function

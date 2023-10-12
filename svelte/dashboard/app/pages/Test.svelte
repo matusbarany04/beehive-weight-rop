@@ -10,6 +10,8 @@
   import message from "../stores/message";
   import { GridResolver } from "../component/cards/utils/gridResolver";
   import panelState from "../component/panel/panelState";
+  import { onMount } from "svelte";
+  import shared, { onLoad } from "../stores/shared";
 
   message.setMessage("Test");
 
@@ -62,8 +64,26 @@
       h: 2,
     },
   ]);
+
+  /** @type {Array<BeehiveObj>} */
+  let beehives = "loading";
+  let beehiveId = "c677410a-3593-42f1-b12e-a0e2d1fa6d7a"
+  onMount(() => {
+    onLoad(["statuses", "beehives"], (statusesData, beehivesData) => {
+      beehives = shared.getBeehives();
+      console.log(beehives);
+    });
+  });
 </script>
 
+{#each Object.values(beehives) as  beehive, key}
+  <p>{beehive.beehive_id}</p>
+  <p>{key}</p>
+  <br>
+{/each}
+
+
+<br />
 <Button image="icons/android.svg" type="primary" text="android"></Button>
 <br />
 <ButtonSmall type="primary" text="android"></ButtonSmall>

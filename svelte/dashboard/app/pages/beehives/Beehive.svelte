@@ -21,26 +21,16 @@
 
   let user = shared.getUser();
   let showSettings = false;
-  let beeData;
   let beehive;
   let innerWidth;
 
-  onLoad("beehives", (beehives) => {
+  onLoad(["statuses", "beehives"] , (_b) => {
     beehive = shared.getBeehiveById(props.id);
     document.title = beehive.name;
-  });
 
-  onLoad("statuses", (statuses) => {
-    beeData = shared.getStatusesById(props.id);
   });
 
   message.setMessage("Detail úľu");
-
-  // let temperatures = [];
-
-  // let beeData = dataHandler.getBeehiveData(props.beehive_id);
-
-  // let temperatures = dataHandler.getTemperatures(data.beehive_id)
 </script>
 
 <svelte:window bind:innerWidth />
@@ -65,7 +55,7 @@
   <!--  <div class="mx-auto mb-4 grid grid-cols-1 justify-between gap-4 lg:w-5/6">-->
   <!--    <EChart></EChart>-->
   <!--  </div>-->
-  {#if beehive && beeData}
+  {#if beehive}
     <div
       class="mx-auto mb-4 grid grid-cols-2 justify-between gap-4 md:grid-cols-4 lg:w-5/6"
     >
