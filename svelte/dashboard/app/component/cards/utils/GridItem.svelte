@@ -199,8 +199,8 @@
     -webkit-mask-size: 100%;
     mask-size: 100%;
     background: red;
-    mask-image: url("icons/delete.svg");
-    -webkit-mask-image: url("icons/delete.svg");
+    mask-image: url("/icons/delete.svg");
+    -webkit-mask-image: url("/icons/delete.svg");
   }
 
   .headerIcon {
