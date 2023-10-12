@@ -140,7 +140,7 @@
       h: item.h,
       ...saveDataFunction(),
     };
-  },  item.id);
+  }, item.id);
 </script>
 
 <!--outline outline-primary-100 -->
@@ -156,7 +156,7 @@
   <slot />
 
   <div
-    class="overlay absolute h-full w-full bg-none"
+    class="overlay top-0 absolute h-full w-full bg-none"
     style:z-index={item.zIndex + 1}
   ></div>
 

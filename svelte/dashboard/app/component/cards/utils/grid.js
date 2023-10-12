@@ -1,15 +1,14 @@
 import { generateUUID } from "../../../../../components/lib/utils/staticFuncs";
 export class Grid {
-  
   /** @type {string} */
   _id;
-  
+
   /** @type {number} */
   _itemCount;
-  
+
   /** @type {number} */
   _width;
-  
+
   /** @type {number} */
   _height;
 
@@ -20,7 +19,7 @@ export class Grid {
 
   /** @type {number} */
   _xCount;
-  
+
   /** @type {number} */
   _yCount;
 

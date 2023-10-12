@@ -16,7 +16,6 @@
   /** @type {string} */
   export let className;
 
-
   let gridAddItem;
 
   onMount(() => {

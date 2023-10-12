@@ -57,10 +57,10 @@ export default {
     return userValue;
   },
   getStatuses: function () {
-    return savedData["statuses"];
+    return savedData?.["statuses"] || [];
   },
   getBeehives: function () {
-    return savedData["beehives"];
+    return savedData?.["beehives"] || [];
   },
   getBeehiveById: function (beehive_id) {
     let beehives = this.getBeehives();
@@ -104,31 +104,31 @@ export default {
   },
 
   getTemperatures: function (beehive_id) {
-    return savedData["statuses"][beehive_id]["temperature"];
+    return savedData?.["statuses"]?.[beehive_id]?.["temperature"] || [];
   },
   getWeights: function (beehive_id) {
-    return savedData["statuses"][beehive_id]["weight"];
+    return savedData?.["statuses"]?.[beehive_id]?.["weight"] || [];
   },
   getHumidities: function (beehive_id) {
-    return savedData["statuses"][beehive_id]["humidity"];
+    return savedData?.["statuses"]?.[beehive_id]?.["humidity"] || [];
   },
   getBatteries: function (beehive_id) {
-    return savedData["statuses"][beehive_id]["battery"];
+    return savedData?.["statuses"]?.[beehive_id]?.["battery"] || [];
   },
   getWeight: function (beehive_id) {
-    let weights = savedData["statuses"][beehive_id]["weight"];
-    return weights[weights.length - 1];
+    let weights = savedData?.["statuses"]?.[beehive_id]?.["weight"] || [];
+    return weights?.[weights.length - 1] || [];
   },
   getLastUpdateTime: function (beehive_id) {
-    let timestamps = savedData["statuses"][beehive_id]["timestamp"];
-    return timestamps[timestamps.length - 1];
+    let timestamps = savedData?.["statuses"]?.[beehive_id]?.["timestamp"] || [];
+    return timestamps?.[timestamps.length - 1] || [];
   },
   getTimestamps: function (beehive_id) {
-    return savedData["statuses"][beehive_id]["timestamp"];
+    return savedData?.["statuses"]?.[beehive_id]?.["timestamp"] || [];
   },
   getBattery: function (beehive_id) {
-    return savedData["statuses"][beehive_id]["battery"][
-      savedData["statuses"][beehive_id]["battery"].length - 1
+    return savedData?.["statuses"]?.[beehive_id]?.["battery"][
+      savedData?.["statuses"]?.[beehive_id]?.["battery"].length - 1 || -1
     ];
   },
 

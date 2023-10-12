@@ -23,7 +23,7 @@
   import MapCard from "../component/cards/MapCard.svelte";
   import { getCardByFormat } from "../component/cards/cardUtilities";
   import toast from "../../../components/Toast/toast";
-  
+
   let cardList = [];
 
   let editMode = false;
@@ -56,7 +56,6 @@
   });
 
   onMount(function () {
-
     resizeWindowEvent();
   });
 
