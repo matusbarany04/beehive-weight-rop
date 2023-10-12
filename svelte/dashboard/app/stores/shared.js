@@ -40,6 +40,7 @@ export default {
             for (const beehiveJson of response["beehives"]) {
                 beehiveList[beehiveJson["token"]] = new BeehiveObj(
                     beehiveJson["token"],
+                    beehiveJson["name"],
                     beehiveJson["location"],
                     beehiveJson["model"],
                     beehiveJson["connectionMode"],
@@ -90,6 +91,11 @@ export default {
     getBeehives: function () {
         return beehiveList;
     },
+    /**
+     * 
+     * @param beehive_id
+     * @return {BeehiveObj}
+     */
     getBeehiveById: function (beehive_id) {
         return this.getBeehives()[beehive_id];
     },

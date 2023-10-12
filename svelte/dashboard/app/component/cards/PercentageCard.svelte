@@ -25,10 +25,10 @@
       } else {
         value = 16;
         console.log("getStatusByType", element.type, element.beehive_id);
-        let beeData = shared.getStatusesByType(
-          element.type,
-          element.beehive_id,
-        );
+        let beeData = shared.getBeehiveById(
+          element.beehive_id
+        ).getAllDataByType(element.type)
+        
         if (beeData.length > 0) {
           // TODO make it so that i dont have to essentially cast to int here
           value = Number(beeData[beeData.length - 1]).toFixed() ?? "error";

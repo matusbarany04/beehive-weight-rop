@@ -1,12 +1,12 @@
 <script>
-  import { onMount } from "svelte";
+  import {onMount} from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
-  import shared, { onLoad } from "../../stores/shared";
+  import shared, {onLoad} from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
+  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { tick } from "svelte";
+  import {tick} from "svelte";
 
   /**
    * @type {object}
@@ -57,7 +57,9 @@
         console.log("element ", element);
         beehiveData.push({
           name: element.name,
-          data: shared.getDataByType(element.type, element.beehive_id, true),
+          data:
+            // wrong function, but it at least doesnt crash
+            shared.getBeehiveById(element.beehive_id).getAllDataByType(element.type),
         });
 
         console.log(beehiveData);
@@ -223,7 +225,8 @@
     });
   }
 
-  let resizeEvent = () => {};
+  let resizeEvent = () => {
+  };
 </script>
 
 <CardRoot
@@ -265,7 +268,7 @@
   </div>
 
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full" />
+    <div {id} class="h-full w-full"/>
   </div>
 
   <div class="" slot="customSettings">

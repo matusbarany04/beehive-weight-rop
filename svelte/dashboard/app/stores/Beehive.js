@@ -19,19 +19,21 @@ export class BeehiveObj {
 
     /** @type {Array<{name: string, port: string, id: number, type: string}>} Devices associated with the beehive. */
     devices;
-    
+
     /** @type {Object<Array>} stores all of the beehive data */
     data = {}
+
     /**
      * Creates a new Beehive instance.
      * @param {string} beehive_id Unique identifier for the beehive.
+     * @param name {string}
      * @param {string} location Location of the beehive.
      * @param {string} model Model of the beehive.
      * @param {number} connectionMode Connection mode of the beehive.
      * @param {number} interval Time interval for data collection.
      * @param {Array<{name: string, port: string, id: number, type: string}>} devices Devices associated with the beehive.
      */
-    constructor(beehive_id, location, model, connectionMode, interval, devices) {
+    constructor(beehive_id, name, location, model, connectionMode, interval, devices) {
         if (!beehive_id) throw new Error("Beehive ID is required. provided - " + beehive_id);
         if (location == null) throw new Error("Location is required. provided - " + location);
         if (!model) throw new Error("Model is required.");
@@ -40,6 +42,7 @@ export class BeehiveObj {
         if (!Array.isArray(devices)) throw new Error("Devices are required.");
 
         this.beehive_id = beehive_id;
+        this.name = name;
         this.location = location;
         this.model = model;
         this.connectionMode = connectionMode;
@@ -50,7 +53,7 @@ export class BeehiveObj {
             timestamp: []
         };
     }
-    
+
     /**
      * Sets data for a specific type. If the type doesn't exist, it creates one.
      * @param {string} type - The type of data.
@@ -98,6 +101,16 @@ export class BeehiveObj {
             console.warn('Invalid data type requested.');
             return []; // Return empty array for invalid type.
         }
+    }
+
+    /**
+     * Retrieves last data based on the given type.
+     * @param {string} type - The type of data ('temperature', 'humidity', 'weight', or 'timestamp').
+     * @returns {string|number} - last value from an array
+     */
+    getLastDataByType(type) {
+        let data = this.getAllDataByType(type)
+        return data[data.length - 1]
     }
 
     /**
