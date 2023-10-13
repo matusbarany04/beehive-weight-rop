@@ -67,7 +67,7 @@
 
   /** @type {Array<BeehiveObj>} */
   let beehives = "loading";
-  let beehiveId = "c677410a-3593-42f1-b12e-a0e2d1fa6d7a"
+  let beehiveId = "c677410a-3593-42f1-b12e-a0e2d1fa6d7a";
   onMount(() => {
     onLoad(["statuses", "beehives"], (statusesData, beehivesData) => {
       beehives = shared.getBeehives();
@@ -76,12 +76,11 @@
   });
 </script>
 
-{#each Object.values(beehives) as  beehive, key}
+{#each Object.values(beehives) as beehive, key}
   <p>{beehive.beehive_id}</p>
   <p>{key}</p>
-  <br>
+  <br />
 {/each}
-
 
 <br />
 <Button image="icons/android.svg" type="primary" text="android"></Button>
