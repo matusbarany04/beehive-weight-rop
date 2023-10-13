@@ -102,6 +102,47 @@ public class AuthController {
         return "redirect:/accountCreated";
     }
 
+    /**
+     * Route changes password of user with provided email address
+     *
+     * Example curl request:
+     *      curl -X POST   http://localhost:8080/changePassword
+     *      -H 'Content-Type: application/x-www-form-urlencoded'
+     *      -d 'email=admin@admin.com&currentPassword=newPassword123&newPassword=admin'
+     * @param email
+     * @param currentPassword
+     * @param newPassword
+     * @param response
+     * @return
+     */
+    @PostMapping(value = {"/changePassword"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String changePassword(
+            @RequestParam("email") String email,
+            @RequestParam("currentPassword") String currentPassword,
+            @RequestParam("newPassword") String newPassword,
+            HttpServletResponse response) {
+
+        try {
+            // Verify the current password
+            String currentPasswdHash = PasswordUtils.hashPasswd(currentPassword);
+            User user = userRepository.checkUser(email, currentPasswdHash);
+
+            if (user != null) {
+                // Hash the new password and update in the repository
+                String newPasswdHash = PasswordUtils.hashPasswd(newPassword);
+                userRepository.updateUserPassword(user.getId(), newPasswdHash);
+
+
+                return "redirect:/dashboard/settings/newpassword?passwordChanged=true";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/dashboard/settings/newpassword?passwordChanged=false";
+    }
+
     @RequestMapping(value = "/emailExists/{email}", method = RequestMethod.GET)
     public ResponseEntity<String> getUserByEmail(@PathVariable("email") String email) {
         JSONObject response = new JSONObject();
