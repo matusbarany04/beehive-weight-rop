@@ -132,7 +132,6 @@ public class AuthController {
                 String newPasswdHash = PasswordUtils.hashPasswd(newPassword);
                 userRepository.updateUserPassword(user.getId(), newPasswdHash);
 
-
                 return "redirect:/dashboard/settings/newpassword?passwordChanged=true";
             }
 
