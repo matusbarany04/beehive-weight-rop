@@ -93,6 +93,7 @@
     tick().then(() => {
       renderCards = true
     })
+    editMode = false
   };
 </script>
 
