@@ -94,6 +94,7 @@
       renderCards = true
     })
     editMode = false
+    panelState.resetMode();
   };
 </script>
 
