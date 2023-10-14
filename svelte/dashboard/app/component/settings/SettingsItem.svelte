@@ -1,18 +1,22 @@
 <script>
   export let detail;
   export let title;
+  
+  export let className = ''
+  export let detailClassName = '';
+  export let titleClassName = '';
 </script>
 
 <div
-  class="min-h-48 lg:min-h-24 mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 lg:w-5/6 lg:flex-row lg:justify-center"
+  class="{className} min-h-48 lg:min-h-24 mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 lg:w-5/6 lg:flex-row lg:justify-center"
 >
   <!-- title -->
   <div class="flex-1 justify-center lg:justify-normal">
     {#if title}
-      <h1 class="text-lg font-semibold">{title}</h1>
+      <h1 class="{titleClassName} text-lg font-semibold">{title}</h1>
     {/if}
     {#if detail}
-      <h4 class="text-base font-normal">
+      <h4 class="{detailClassName} text-base font-normal">
         {detail}
       </h4>
     {/if}

@@ -3,7 +3,7 @@
    * @fileoverview This page shows graphs and charts related to beehives and their data
    * @module HomePage
    */
-  import { onMount, setContext, tick } from "svelte";
+  import {onMount, setContext, tick} from "svelte";
 
   import Button from "../../../components/Buttons/Button.svelte";
   import EditPanel from "../component/panel/EditPanel.svelte";
@@ -12,7 +12,7 @@
     generateUUID,
     TW_BREAKPOINTS,
   } from "../../../components/lib/utils/staticFuncs";
-  import shared, { onLoad } from "../stores/shared";
+  import shared, {onLoad} from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
   import message from "../stores/message";
   import Grid from "../component/cards/utils/Grid.svelte";
@@ -21,7 +21,7 @@
   import PercentageCard from "../component/cards/PercentageCard.svelte";
   import WeatherCard from "../component/cards/WeatherCard.svelte";
   import MapCard from "../component/cards/MapCard.svelte";
-  import { getCardByFormat } from "../component/cards/cardUtilities";
+  import {getCardByFormat} from "../component/cards/cardUtilities";
   import toast from "../../../components/Toast/toast";
 
   let cardList = [];
@@ -70,7 +70,7 @@
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ data: JSON.stringify(data) }),
+        body: JSON.stringify({data: JSON.stringify(data)}),
       });
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -86,13 +86,23 @@
       throw error;
     }
   }
+
+  let restoreLayout = () => {
+    cardList = JSON.parse(user.dashboardData);
+    renderCards = false;
+    tick().then(() => {
+      renderCards = true
+    })
+    editMode = false
+    panelState.resetMode();
+  };
 </script>
 
-<svelte:window on:resize={resizeWindowEvent} />
+<svelte:window on:resize={resizeWindowEvent}/>
 
 <svelte:head>
   <title>DashBoard</title>
-  <meta name="description" content="Dashboard" />
+  <meta name="description" content="Dashboard"/>
 </svelte:head>
 
 {#if editButton}
@@ -100,7 +110,7 @@
     {#if editButton}
       <div class="flex gap-4">
         {#if editMode}
-          <Button text="Zahodiť zmeny" type="secondary" />
+          <Button text="Zahodiť zmeny" type="secondary" onClick="{restoreLayout}"/>
         {/if}
         <!-- TODO spravit len disabled mozno v buducnosti, 
                                           pridat aj popup preco to zmizlo (ked sa zmensi sirka okna) -->
@@ -140,6 +150,6 @@
     ></Grid>
     <div class="h-16 w-full"></div>
   {:else}
-    <Loading />
+    <Loading/>
   {/if}
 </div>

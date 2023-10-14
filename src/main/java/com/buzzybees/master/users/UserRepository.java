@@ -29,4 +29,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("UPDATE User u SET u.verified = true WHERE u.id = :id")
     void verifyUser(long id);
 
+
+    @Modifying
+    @Query("UPDATE User u SET u.password = :hash WHERE u.id = :userId")
+    void updateUserPassword(Long userId, String hash);
 }
