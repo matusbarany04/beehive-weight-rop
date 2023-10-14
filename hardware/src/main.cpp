@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
+#include <HX711.h>
 
 #include "sensors/SensorManager.h" 
 #include "network.h"
@@ -11,19 +12,18 @@ unsigned int check_value = 0;
 
 SensorManager sensorManager;
 NetworkManager networkManager;
+
+HX711 scale;
  
 void setup(void)
 {
   Serial.begin(9600);
 
-Serial.println();
-pinMode(19, OUTPUT);
-digitalWrite(19, LOW);
 
-Serial.println(analogRead(2));
+  scale.begin(22, 23);
+  scale.set_scale(-7050); //This value is obtained by using the SparkFun_HX711_Calibration sketch
+  scale.tare();
 
-pinMode(2, OUTPUT);
-digitalWrite(2, LOW);
 
 
   //sensorManager.resetSensor(0);
@@ -31,7 +31,7 @@ digitalWrite(2, LOW);
 
   delay(1000);
 
-  sensorManager.scan();
+ // sensorManager.scan();
 /*
   networkManager.connectDefault();
   networkManager.setContentType("application/json");
@@ -42,6 +42,7 @@ digitalWrite(2, LOW);
  
 void loop()
 {  
+  Serial.println(scale.get_units(), 1);
   delay(500);
  // Serial.println(analogRead(4));
 }

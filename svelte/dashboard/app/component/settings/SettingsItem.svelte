@@ -1,10 +1,10 @@
 <script>
   export let detail;
   export let title;
-  
-  export let className = ''
-  export let detailClassName = '';
-  export let titleClassName = '';
+
+  export let className = "";
+  export let detailClassName = "";
+  export let titleClassName = "";
 </script>
 
 <div

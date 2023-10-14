@@ -19,7 +19,9 @@ export class BeehiveObj {
   /** @type {Array<{name: string, port: string, id: number, type: string}>} Devices associated with the beehive. */
   devices;
 
-  /** @type {Object<Array>} stores all of the beehive data */
+  /**
+   * stores all of the beehive data 
+   * @type {Object<Array>}  */
   data = {};
 
   /**

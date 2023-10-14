@@ -4,34 +4,35 @@
    * @module Settings
    */
 
-  import {draw, slide} from 'svelte/transition';
+  import { draw, slide } from "svelte/transition";
   import SettingsHeader from "../component/settings/SettingsHeader.svelte";
   import SettingsItem from "../component/settings/SettingsItem.svelte";
   import message from "../stores/message";
-  import shared, {onLoad} from "../stores/shared";
+  import shared, { onLoad } from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
   import Button from "../../../components/Buttons/Button.svelte";
+  import { setUnsavedData } from "../../../components/router/route.serv";
   import {
-    setUnsavedData,
+    getParamValue,
+    removeParam,
   } from "../../../components/router/route.serv";
-  import {getParamValue, removeParam} from "../../../components/router/route.serv";
 
   message.setMessage("Nastavenia");
 
   let saveEnabled = false;
   let userObject;
 
-  import {onMount} from 'svelte';
+  import { onMount } from "svelte";
   import toast from "../../../components/Toast/toast";
 
   onMount(() => {
     // Check the 'passwordChanged' parameter and toast the appropriate message
-    if (getParamValue('passwordChanged') === 'true') {
-      toast.push('Password changed successfully!', "default");
-    } else if (getParamValue('passwordChanged') === 'false') {
-      toast.push('Failed to change password', "error");
+    if (getParamValue("passwordChanged") === "true") {
+      toast.push("Password changed successfully!", "default");
+    } else if (getParamValue("passwordChanged") === "false") {
+      toast.push("Failed to change password", "error");
     }
-    removeParam("passwordChanged")
+    removeParam("passwordChanged");
   });
 
   onLoad("user", (user) => {
@@ -41,11 +42,11 @@
   let newPassword = "";
   let oldPassword = "";
 
-  let validationError = '';
+  let validationError = "";
   let error = {
     oldPassword: false,
-    newPassword: false
-  }
+    newPassword: false,
+  };
 
   /**
    * Function that updates save button enabled state when some setting changes
@@ -54,29 +55,28 @@
   function triggerSave() {
     saveEnabled = oldPassword.length > 0 && newPassword.length > 0;
     if (saveEnabled) {
-      validationError = ''
+      validationError = "";
     }
-
   }
 
   triggerSave();
 
   function validateForm() {
     if (!oldPassword) {
-      validationError = 'Current password is required.';
+      validationError = "Current password is required.";
       error.oldPassword = true;
       return false;
     }
 
     // Validate new password length
     if (newPassword.length < 8) {
-      validationError = 'New password should be at least 8 characters long.';
+      validationError = "New password should be at least 8 characters long.";
       error.newPassword = true;
       return false;
     }
 
-    error = {...error};
-    validationError = '';  // Reset validation error
+    error = { ...error };
+    validationError = ""; // Reset validation error
     return true;
   }
 
@@ -86,24 +86,29 @@
       event.preventDefault();
     }
   }
-
 </script>
 
 <svelte:head>
   <title>Analytika</title>
-  <meta name="Analytika" content="Analytika"/>
+  <meta name="Analytika" content="Analytika" />
 </svelte:head>
 
-<form class="h-full w-full" action="/changePassword" method="post" on:submit={handleSubmit}>
+<form
+  class="h-full w-full"
+  action="/changePassword"
+  method="post"
+  on:submit={handleSubmit}
+>
   {#if userObject}
-    <SettingsHeader title="Zmena hesla"/>
-    <input type="email" value="{userObject.email}" name="email" class="hidden">
+    <SettingsHeader title="Zmena hesla" />
+    <input type="email" value={userObject.email} name="email" class="hidden" />
     {#if validationError}
       <div
         out:slide={{ duration: 500 }}
         in:slide={{ duration: 500 }}
-        class="min-h-48 lg:min-h-24 mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 lg:w-5/6 lg:flex-row lg:justify-center">
-          <p class="text-error-500 overflow-hidden">{validationError}</p>
+        class="min-h-48 lg:min-h-24 mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 lg:w-5/6 lg:flex-row lg:justify-center"
+      >
+        <p class="overflow-hidden text-error-500">{validationError}</p>
       </div>
     {/if}
     <SettingsItem
@@ -116,7 +121,9 @@
         name="currentPassword"
         bind:value={oldPassword}
         on:input={triggerSave}
-        class="{error.oldPassword ? 'border-error-500 ' : 'border-slate-300'} h-8 w-96 rounded-md border-2  px-4"
+        class="{error.oldPassword
+          ? 'border-error-500 '
+          : 'border-slate-300'} h-8 w-96 rounded-md border-2 px-4"
       />
     </SettingsItem>
 
@@ -130,7 +137,9 @@
         placeholder="Nové heslo"
         bind:value={newPassword}
         on:input={triggerSave}
-        class="{error.newPassword ? 'border-error-500 ' : 'border-slate-300'} h-8 w-96 rounded-md border-2 px-4"
+        class="{error.newPassword
+          ? 'border-error-500 '
+          : 'border-slate-300'} h-8 w-96 rounded-md border-2 px-4"
       />
     </SettingsItem>
     <div
@@ -141,7 +150,7 @@
         bind:enabled={saveEnabled}
         text={"Uložiť"}
         type="confirm"
-        clickType="{saveEnabled ? 'submit' : 'button' }"
+        clickType={saveEnabled ? "submit" : "button"}
       />
       <!-- 
       onClick={() => {
@@ -151,6 +160,6 @@
       }}-->
     </div>
   {:else}
-    <Loading/>
+    <Loading />
   {/if}
 </form>
