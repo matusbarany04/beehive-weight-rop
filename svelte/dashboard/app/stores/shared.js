@@ -59,15 +59,18 @@ export default {
     fetch("/dashboardApi/getData")
       .then((r) => r.json())
       .then((response) => {
+        console.log("/dashboardApi/getData", response);
         //  beehive_data.set(response);
         onLoad("beehives", (beehives) => {
           // Parsing the raw data into objects created in fetchBeehives
           for (const beehive_id in response.data) {
             const beehiveData = response.data[beehive_id];
+            /** @type{BeehiveObj} */
+            let beehiveObj = beehiveList[beehive_id];
+            beehiveObj.setData("battery", [beehiveData.battery]);
+            beehiveObj.setData("status", [beehiveData.currentStatus]);
             for (const key in beehiveData) {
               if (Array.isArray(beehiveData[key])) {
-                /** @type{BeehiveObj} */
-                let beehiveObj = beehiveList[beehive_id];
                 // check if beehive has any data posted
                 if (beehiveObj != null) {
                   // if so load data to beehive object

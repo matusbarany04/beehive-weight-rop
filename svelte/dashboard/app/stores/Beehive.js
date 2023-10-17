@@ -20,7 +20,7 @@ export class BeehiveObj {
   devices;
 
   /**
-   * stores all of the beehive data 
+   * stores all of the beehive data
    * @type {Object<Array>}  */
   data = {};
 
@@ -190,11 +190,23 @@ export class BeehiveObj {
    */
   getLastUpdateTime() {
     const timestamps = this.getAllDataByType("timestamp");
-    return timestamps[timestamps.length - 1];
+
+    let lastTime = timestamps[timestamps.length - 1];
+
+    // add language string instead of NoData
+    return lastTime != null ? new Date(lastTime).toLocaleString() : "Nedostatok dát"
+    
   }
 
   getBattery() {
     const battery = this.getAllDataByType("battery");
-    return battery[battery.length - 1];
+    return battery[battery.length - 1] || "0";
+  }
+
+
+  getCurrentStatus(){
+    const statuses = this.getAllDataByType("status");
+    return statuses[statuses.length - 1] || "Error";
+
   }
 }
