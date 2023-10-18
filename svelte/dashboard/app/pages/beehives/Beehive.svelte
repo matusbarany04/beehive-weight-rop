@@ -11,28 +11,64 @@
   import Input from "../../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
-  import shared, { onLoad } from "../../stores/shared";
+  import shared, {onLoad} from "../../stores/shared";
   import RouterLink from "../../../../components/RouterLink.svelte";
   import message from "../../stores/message";
-  import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
+  import {TW_BREAKPOINTS} from "../../../../components/lib/utils/staticFuncs";
   import EChart from "../../component/cards/EChart.svelte";
+  import {onMount, tick} from "svelte";
 
   export let props;
 
   let user = shared.getUser();
   let showSettings = false;
+  /** @type {BeehiveObj} */
   let beehive;
   let innerWidth;
 
   onLoad(["statuses", "beehives"], (_b) => {
     beehive = shared.getBeehiveById(props.id);
+    console.log("Beehive loaded", beehive)
     document.title = beehive.name;
   });
 
   message.setMessage("Detail úľu");
+
+
+  let container;
+  let rowHeight = '0px';
+
+  function updateRowHeight() {
+    console.log("container", container)
+    if (container) {
+      rowHeight = `${container.clientWidth / 4}px`;
+    }
+  }
+
+  let resizeObserver;
+
+  onMount(() => {
+    updateRowHeight(); // Initial update
+
+    resizeObserver = new ResizeObserver(() => {
+      updateRowHeight();
+    });
+
+    onLoad(["statuses", "beehives"], (_b) => {
+      // TODO this is hellishly slow, figure this out using some css classes  
+      tick().then(() => {
+        resizeObserver.observe(container)
+      });
+    });
+
+    return () => {
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
+  });
 </script>
 
-<svelte:window bind:innerWidth />
 <div id="chart"></div>
 
 <!-- {JSON.stringify(beeData)} -->
@@ -43,11 +79,11 @@
     class="mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
   >
     <h1 class=" text-2xl font-semibold">
-      Váha {beehive?.name ? beehive?.name : "Loading..."}
+      Váha {beehive?.name ? beehive?.name + " - " + beehive.devices.length : "Loading..."}
     </h1>
     <div class="mt-4 md:mt-0">
       <RouterLink url="/edit" append>
-        <Button text="Upraviť" />
+        <Button text="Upraviť"/>
       </RouterLink>
     </div>
   </div>
@@ -56,43 +92,15 @@
   <!--  </div>-->
   {#if beehive}
     <div
-      class="mx-auto mb-4 grid grid-cols-2 justify-between gap-4 md:grid-cols-4 lg:w-5/6"
+      class="mx-auto mb-4 grid grid-cols-2 justify-between gap-4 sm:grid-cols-4 lg:w-5/6"
     >
       <PercentageCard
         cardStates={{
-          id: "",
-          mode: "static",
-          title: "Vnútorná teplota váhy",
-          spanX: 1,
-          spanY: 1,
-          editing: false,
-          data: [
-            {
-              type: "temperature",
-              from: "week",
-              to: "now",
-              comparison: {
-                //TODO not implemented yet
-                shown: false,
-              },
-              beehive_id: props.id,
-            },
-          ],
-        }}
-      />
-      <PercentageCard
-        cardStates={{
-          id: "",
           mode: "static",
           title: "Váha váhy",
-          spanX: 1,
-          spanY: 1,
-          editing: false,
           data: [
             {
               type: "weight",
-              from: "week",
-              to: "now",
               beehive_id: props.id,
             },
           ],
@@ -100,25 +108,19 @@
       />
       <PercentageCard
         cardStates={{
-          title: "Vnútorná vlhkosť váhy",
-          id: "",
+          title: "Status zariadenia",
           mode: "static",
-          spanX: 1,
-          spanY: 1,
-          editing: false,
           data: [
             {
-              type: "humidity",
-              from: "week",
-              to: "now",
+              type: "status",
               beehive_id: props.id,
             },
           ],
         }}
       />
+
       <PercentageCard
         cardStates={{
-          id: "",
           mode: "static",
           title: "Stav batérie",
           spanX: 1,
@@ -134,63 +136,37 @@
           ],
         }}
       />
-    </div>
 
-    <div
-      class="mx-auto grid grid-cols-1 gap-4 md:aspect-video md:grid-cols-4 md:grid-rows-2 lg:w-5/6"
-    >
-      <EChart
-        className="col-span-2 row-span-1"
+      <PercentageCard
         cardStates={{
-          id: "",
-          x: TW_BREAKPOINTS.md < innerWidth ? 1 : 0,
-          y: TW_BREAKPOINTS.md < innerWidth ? 1 : 1,
-          spanX: 2,
           mode: "static",
+          title: "Dáta z pripojeného sensora",
+          spanX: 1,
           spanY: 1,
           editing: false,
-          title: "Vnútorná teplota váhy",
           data: [
             {
               type: "temperature",
-              timespan: "week",
+              from: "week",
+              to: "now",
               beehive_id: props.id,
             },
           ],
         }}
       />
+    </div>
+
+    <div
+      bind:this={container}
+      class="mx-auto grid grid-cols-1 gap-4 w-full md:grid-cols-4 lg:w-5/6"
+      style="grid-template-rows: repeat({1 + Math.ceil(beehive.getCurrentDataTypes(true).length/2)}, {rowHeight});"
+    >
 
       <EChart
-        className="col-span-2 row-span-1"
+        className="col-span-2 row-span-1 aspect-video"
         cardStates={{
           id: "",
-          x: TW_BREAKPOINTS.md < innerWidth ? 3 : 0,
-          y: TW_BREAKPOINTS.md < innerWidth ? 1 : 2,
-          spanX: 2,
           mode: "static",
-          spanY: 1,
-          editing: false,
-          title: "Vnútorná vlhkosť váhy",
-          data: [
-            {
-              type: "humidity",
-              timespan: "week",
-              beehive_id: props.id,
-            },
-          ],
-        }}
-      />
-
-      <EChart
-        className="col-span-2 row-span-1"
-        cardStates={{
-          id: "",
-          x: TW_BREAKPOINTS.md < innerWidth ? 1 : 0,
-          y: TW_BREAKPOINTS.md < innerWidth ? 2 : 3,
-          spanX: 2,
-          mode: "static",
-          spanY: 1,
-          editing: false,
           title: "Váha váhy",
           data: [
             {
@@ -207,8 +183,6 @@
         cardStates={{
           id: "",
           spanX: 2,
-          x: TW_BREAKPOINTS.md < innerWidth ? 3 : 0,
-          y: TW_BREAKPOINTS.md < innerWidth ? 2 : 4,
           mode: "static",
           spanY: 1,
           editing: false,
@@ -222,6 +196,29 @@
           ],
         }}
       />
+
+
+      {#each beehive.getCurrentDataTypes(true) as type}
+        <EChart
+          className="col-span-2 row-span-1"
+          cardStates={{
+          id: "",
+          spanX: 2,
+          mode: "static",
+          spanY: 1,
+          editing: false,
+          title: type + " váhy",
+          data: [
+            {
+              type: type,
+              timespan: "week",
+              beehive_id: props.id,
+            },
+          ],
+        }}
+        />
+
+      {/each}
     </div>
 
     <div class="mx-auto mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:w-5/6">
@@ -271,7 +268,7 @@
       name="name"
       value={beehive?.name}
     />
-    <input type="text" name="beehive_id" class="hidden" value={props.id} />
+    <input type="text" name="beehive_id" class="hidden" value={props.id}/>
 
     <Input
       label="Poloha váhy"

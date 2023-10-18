@@ -1,12 +1,13 @@
 <script>
-  import { onMount } from "svelte";
+  import {onMount} from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
-  import shared, { onLoad } from "../../stores/shared";
+  import shared, {onLoad} from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
+  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { tick } from "svelte";
+  import {tick} from "svelte";
+  import {BeehiveObj} from "../../stores/Beehive";
 
   /**
    * @type {object}
@@ -36,7 +37,6 @@
     error = "NoDataError";
   } else {
     cardStates.data.forEach((element) => {
-      console.log("eachart", element);
       if (element.type === "dummy") {
         // ONLY FOR DEBUG BUG BUG element.type ===  "dummy"
         beehiveData.push({
@@ -54,15 +54,27 @@
           ],
         });
       } else {
-        console.log("element ", element);
-        beehiveData.push({
-          name: element.name,
-          data:
-            // wrong function, but it at least doesnt crash
-            shared
-              .getBeehiveById(element.beehive_id)
-              .getAllDataByType(element.type),
-        });
+        let data = shared
+          .getBeehiveById(element.beehive_id)
+          .getDataByType(element.type, true, element.timespan)
+
+        // non-detachable types have array right under them 
+        if (!BeehiveObj.isTypeDetachable(element.type)) {
+          beehiveData.push({
+            name: element.name,
+            data: data,
+          });
+        }
+        // detachable - connector types have nested array underneath them 
+        else {
+          console.log("values", element)
+          for (const values of shared.getBeehiveById(element.beehive_id).getDetachableDataByType(element.type, true, element.timespan)) {
+            beehiveData.push({
+              name: element.name,
+              data: values
+            });
+          }
+        }
 
         console.log(beehiveData);
       }
@@ -227,7 +239,8 @@
     });
   }
 
-  let resizeEvent = () => {};
+  let resizeEvent = () => {
+  };
 </script>
 
 <CardRoot
@@ -267,9 +280,9 @@
       {/each}
     {/if}
   </div>
-
+  
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full" />
+    <div {id} class="h-full w-full"/>
   </div>
 
   <div class="" slot="customSettings">

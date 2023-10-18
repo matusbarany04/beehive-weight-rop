@@ -121,11 +121,17 @@ export class BeehiveObj {
   /**
    * Retrieves last data based on the given type.
    * @param {string} type - The type of data ('temperature', 'humidity', 'weight', or 'timestamp').
-   * @returns {string|number} - last value from an array
+   * @returns {string|number|null} - last value from an array
    */
   getLastDataByType(type) {
-    let data = this.getAllDataByType(type);
-    return data[data.length - 1];
+    const data = this.getAllDataByType(type);
+    if (data.length > 0) {
+      return data[data.length - 1];
+    }
+    if (type === 'status') {
+      return this.getCurrentStatus();
+    }
+    return null;
   }
 
   /**
@@ -143,6 +149,39 @@ export class BeehiveObj {
   hasData() {
     return this.getTimestamps().length > 0;
   }
+
+  /**
+   *
+   * @param type {string}
+   * @param beehive_id {string}
+   * @param with_timestamp {boolean}
+   * @param from {string}
+   * @return {[*,*][]}
+   */
+  getDetachableDataByType(type, with_timestamp, from = 0) {
+    
+    if (this.hasData()) {
+      let outputData = [];
+      let statuses = this.getAllDataByType(type);
+      let timestamps = this.getTimestamps();
+      
+      for (const statusPart of statuses) {
+        let timestampIndex =this.indexOfTimestamp(statusPart["from"])
+        let statusArray = statusPart["values"];
+        
+        //combine timestamps and detached value in the format desirable for the chart 
+        let out = statusArray.map((e, i) => [timestamps[timestampIndex + i],e]);
+        
+        outputData.push(out);
+      }
+      
+      return outputData;
+    } else {
+      return [];
+    }
+
+  }
+
 
   /**
    *
@@ -177,6 +216,7 @@ export class BeehiveObj {
     }
   }
 
+
   /**
    * @return {Array|[]}
    */
@@ -194,8 +234,9 @@ export class BeehiveObj {
     let lastTime = timestamps[timestamps.length - 1];
 
     // add language string instead of NoData
-    return lastTime != null ? new Date(lastTime).toLocaleString() : "Nedostatok dát"
-    
+    return lastTime != null
+      ? new Date(lastTime).toLocaleString()
+      : "Nedostatok dát";
   }
 
   getBattery() {
@@ -203,10 +244,57 @@ export class BeehiveObj {
     return battery[battery.length - 1] || "0";
   }
 
-
-  getCurrentStatus(){
+  getCurrentStatus() {
     const statuses = this.getAllDataByType("status");
     return statuses[statuses.length - 1] || "Error";
-
   }
+
+
+  static _nonDetachableKeys = ["timestamp", "status", "weight", "battery"];
+
+  /**
+   * Returns array of non-detachable types, like weight, status or battery
+   * @return {string[]}
+   */
+  static getNonDetachableTypes() {
+    return BeehiveObj._nonDetachableKeys
+  }
+
+  /**
+   * Checks if a type is detachable.
+   * @param {string} type
+   * @return {boolean}
+   */
+  static isTypeDetachable(type) {
+    return !BeehiveObj._nonDetachableKeys.includes(type);
+  }
+
+  /**
+   * Returns index of the provided timestamp in the timestamp array
+   * @param {number} timestamp
+   * @returns {number|undefined}
+   */
+  indexOfTimestamp(timestamp) {
+    const timestamps = this.getAllDataByType("timestamp");
+    const index = timestamps.indexOf(timestamp);
+
+    return index !== -1 ? index : undefined;
+  }
+
+  /**
+   * Retrieves all the keys from the data object.
+   * @param {boolean} onlyDetachable - If true, filter out non-detachable keys.
+   * @returns {Array<string>} An array of keys.
+   */
+  getCurrentDataTypes(onlyDetachable = false) {
+
+    let keys = Object.keys(this.data);
+
+    if (onlyDetachable) {
+      keys = keys.filter(key => !BeehiveObj.getNonDetachableTypes().includes(key));
+    }
+
+    return keys;
+  }
+
 }
