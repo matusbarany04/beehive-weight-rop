@@ -17,20 +17,20 @@ public class BeehiveData {
 
     private String currentStatus;
     private int battery;
-    private final LinkedHashSet<Long> timestamps = new LinkedHashSet<>();
-    private final List<Float> weights = new LinkedList<>();
+    private final LinkedHashSet<Long> timestamp = new LinkedHashSet<>();
+    private final List<Float> weight = new LinkedList<>();
     private List<DataGroup> temperature;
     private List<DataGroup> humidity;
     private List<DataGroup> light;
     private List<DataGroup> sound;
 
     public void push(Status status, SensorValue sensorValue) {
-        boolean newStatus = timestamps.add(status.getTimestamp());
+        boolean newStatus = timestamp.add(status.getTimestamp());
 
         if(newStatus) {
             currentStatus = status.getStatus();
             battery = status.getBattery();
-            weights.add(status.getWeight());
+            weight.add(status.getWeight());
         }
 
         if(sensorValue != null) {
@@ -51,8 +51,8 @@ public class BeehiveData {
     }
 
     private boolean addToGroup(DataGroup dataGroup, SensorValue sensorValue) {
-        ArrayList<Long> timestampList = new ArrayList<>(timestamps);
-        int emptyPlaces = timestamps.size() - (timestampList.indexOf(dataGroup.from()) + dataGroup.values().size());
+        ArrayList<Long> timestampList = new ArrayList<>(timestamp);
+        int emptyPlaces = timestamp.size() - (timestampList.indexOf(dataGroup.from()) + dataGroup.values().size());
         for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(0f);
         if (emptyPlaces >= 0) {
             dataGroup.values().add(sensorValue.getValue());
@@ -103,12 +103,12 @@ public class BeehiveData {
         return battery;
     }
 
-    public Set<Long> getTimestamps() {
-        return timestamps;
+    public Set<Long> getTimestamp() {
+        return timestamp;
     }
 
-    public List<Float> getWeights() {
-        return weights;
+    public List<Float> getWeight() {
+        return weight;
     }
 
     public List<DataGroup> getTemperature() {

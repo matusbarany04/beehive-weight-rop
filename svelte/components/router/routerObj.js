@@ -1,5 +1,3 @@
-
-
 /**
  * Represents a Router object that manages and resolves site routes.
  * @class
