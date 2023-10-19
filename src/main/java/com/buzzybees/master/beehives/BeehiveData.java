@@ -17,7 +17,7 @@ public class BeehiveData {
     public static final float SENSOR_NO_VALUE = -999;
 
     private String currentStatus;
-    private int battery;
+    private final List<Integer> batteryValues = new LinkedList<>();
     private final LinkedHashSet<Long> timestamps = new LinkedHashSet<>();
     private final List<Float> weights = new LinkedList<>();
     private List<DataGroup> temperature;
@@ -35,12 +35,11 @@ public class BeehiveData {
 
         if(newStatus) {
             currentStatus = status.getStatus();
-            battery = status.getBattery();
+            batteryValues.add(status.getBattery());
             weights.add(status.getWeight());
         }
 
         if(sensorValue != null) {
-
             List<DataGroup> list = getDataList(sensorValue.getType());
 
             DataGroup group = getGroupBySensorId(sensorValue.getSensorId(), list);
@@ -120,8 +119,8 @@ public class BeehiveData {
         return currentStatus;
     }
 
-    public int getBattery() {
-        return battery;
+    public List<Integer> getBatteryValues() {
+        return batteryValues;
     }
 
     public Set<Long> getTimestamps() {
