@@ -208,13 +208,12 @@ export const jsonToCsv = function (data) {
   ].join("\r\n");
 };
 
-
 export function getUnitByType(type) {
   const typeToUnitMap = {
-    "battery": "%",
-    "humidity": "%",
-    "weight": "kg",
-    "temperature": "°C"
+    battery: "%",
+    humidity: "%",
+    weight: "kg",
+    temperature: "°C",
   };
 
   return typeToUnitMap[type] || "";

@@ -6,6 +6,8 @@
 #include "network.h"
 #include "constants.h"
 
+#define WEIGHT_SCALE -34850
+
 int address = 0;
 unsigned int value = 0;
 unsigned int check_value = 0;
@@ -21,7 +23,7 @@ void setup(void)
 
 
   scale.begin(22, 23);
-  scale.set_scale(-7050); //This value is obtained by using the SparkFun_HX711_Calibration sketch
+  scale.set_scale(WEIGHT_SCALE); //This value is obtained by using the SparkFun_HX711_Calibration sketch
   scale.tare();
 
 
@@ -39,6 +41,8 @@ void setup(void)
   networkManager.POST(String(SERVER_URL) + "/updateStatus", sensorManager.buildJSON());
   Serial.println(networkManager.getRequestResult());*/
 }
+
+
  
 void loop()
 {  

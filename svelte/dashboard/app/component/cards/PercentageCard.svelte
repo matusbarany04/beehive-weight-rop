@@ -2,7 +2,7 @@
   import CardRoot from "./components/CardRoot.svelte";
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import {getUnitByType} from "../../../../components/lib/utils/staticFuncs";
+  import { getUnitByType } from "../../../../components/lib/utils/staticFuncs";
   export let cardStates;
 
   let component = "PercentageCard";
@@ -10,15 +10,14 @@
   let innerError = null;
   let w = 10;
   let h;
-  $: size = (Math.min(h, w) / 2) / (innerError  == null ? 1 : 1.8);
-  
+  $: size = Math.min(h, w) / 2 / (innerError == null ? 1 : 1.8);
+
   let value = 0;
-  
+
   if (!cardStates?.data) {
     error = "NoDataError";
   } else {
-
-    cardStates.data.forEach(element => {
+    cardStates.data.forEach((element) => {
       if (element.type === "dummy") {
         value = ":/";
         return; // continue to the next iteration
@@ -31,22 +30,20 @@
         .getLastDataByType(element.type);
 
       if (beeData != null) {
-        if(!isNaN(beeData)){
+        if (!isNaN(beeData)) {
           value = Number(beeData).toFixed() || "error";
           if (value !== "error") {
             value += getUnitByType(element.type);
           }
-        }else {
+        } else {
           value = beeData;
         }
-        
       } else {
         value = "NoData";
-        innerError  = "NoData";
+        innerError = "NoData";
       }
     });
   }
-
 </script>
 
 <!-- theme="dashed" -->

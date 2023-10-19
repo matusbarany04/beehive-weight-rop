@@ -11,12 +11,12 @@
   import Input from "../../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
-  import shared, {onLoad} from "../../stores/shared";
+  import shared, { onLoad } from "../../stores/shared";
   import RouterLink from "../../../../components/RouterLink.svelte";
   import message from "../../stores/message";
-  import {TW_BREAKPOINTS} from "../../../../components/lib/utils/staticFuncs";
+  import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
   import EChart from "../../component/cards/EChart.svelte";
-  import {onMount, tick} from "svelte";
+  import { onMount, tick } from "svelte";
 
   export let props;
 
@@ -28,18 +28,17 @@
 
   onLoad(["statuses", "beehives"], (_b) => {
     beehive = shared.getBeehiveById(props.id);
-    console.log("Beehive loaded", beehive)
+    console.log("Beehive loaded", beehive);
     document.title = beehive.name;
   });
 
   message.setMessage("Detail úľu");
 
-
   let container;
-  let rowHeight = '0px';
+  let rowHeight = "0px";
 
   function updateRowHeight() {
-    console.log("container", container)
+    console.log("container", container);
     if (container) {
       rowHeight = `${container.clientWidth / 4}px`;
     }
@@ -55,9 +54,9 @@
     });
 
     onLoad(["statuses", "beehives"], (_b) => {
-      // TODO this is hellishly slow, figure this out using some css classes  
+      // TODO this is hellishly slow, figure this out using some css classes
       tick().then(() => {
-        resizeObserver.observe(container)
+        resizeObserver.observe(container);
       });
     });
 
@@ -79,11 +78,13 @@
     class="mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
   >
     <h1 class=" text-2xl font-semibold">
-      Váha {beehive?.name ? beehive?.name + " - " + beehive.devices.length : "Loading..."}
+      Váha {beehive?.name
+        ? beehive?.name + " - " + beehive.devices.length
+        : "Loading..."}
     </h1>
     <div class="mt-4 md:mt-0">
       <RouterLink url="/edit" append>
-        <Button text="Upraviť"/>
+        <Button text="Upraviť" />
       </RouterLink>
     </div>
   </div>
@@ -158,10 +159,10 @@
 
     <div
       bind:this={container}
-      class="mx-auto grid grid-cols-1 gap-4 w-full md:grid-cols-4 lg:w-5/6"
-      style="grid-template-rows: repeat({1 + Math.ceil(beehive.getCurrentDataTypes(true).length/2)}, {rowHeight});"
+      class="mx-auto grid w-full grid-cols-1 gap-4 md:grid-cols-4 lg:w-5/6"
+      style="grid-template-rows: repeat({1 +
+        Math.ceil(beehive.getCurrentDataTypes(true).length / 2)}, {rowHeight});"
     >
-
       <EChart
         className="col-span-2 row-span-1 aspect-video"
         cardStates={{
@@ -197,27 +198,25 @@
         }}
       />
 
-
       {#each beehive.getCurrentDataTypes(true) as type}
         <EChart
           className="col-span-2 row-span-1"
           cardStates={{
-          id: "",
-          spanX: 2,
-          mode: "static",
-          spanY: 1,
-          editing: false,
-          title: type + " váhy",
-          data: [
-            {
-              type: type,
-              timespan: "week",
-              beehive_id: props.id,
-            },
-          ],
-        }}
+            id: "",
+            spanX: 2,
+            mode: "static",
+            spanY: 1,
+            editing: false,
+            title: type + " váhy",
+            data: [
+              {
+                type: type,
+                timespan: "week",
+                beehive_id: props.id,
+              },
+            ],
+          }}
         />
-
       {/each}
     </div>
 
@@ -268,7 +267,7 @@
       name="name"
       value={beehive?.name}
     />
-    <input type="text" name="beehive_id" class="hidden" value={props.id}/>
+    <input type="text" name="beehive_id" class="hidden" value={props.id} />
 
     <Input
       label="Poloha váhy"

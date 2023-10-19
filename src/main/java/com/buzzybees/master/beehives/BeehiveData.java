@@ -5,10 +5,9 @@ import com.buzzybees.master.beehives.devices.SensorValue;
 import com.buzzybees.master.tables.Status;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.lang.ref.Reference;
 import java.util.*;
 
-record DataGroup(long from, Set<Long> sensorIds, ArrayList<Float> values) {
+record DataGroup(int from, Set<Long> sensorIds, ArrayList<Float> values) {
 
 }
 
@@ -17,20 +16,20 @@ public class BeehiveData {
 
     private String currentStatus;
     private int battery;
-    private final LinkedHashSet<Long> timestamp = new LinkedHashSet<>();
-    private final List<Float> weight = new LinkedList<>();
+    private final LinkedHashSet<Long> timestamps = new LinkedHashSet<>();
+    private final List<Float> weights = new LinkedList<>();
     private List<DataGroup> temperature;
     private List<DataGroup> humidity;
     private List<DataGroup> light;
     private List<DataGroup> sound;
 
     public void push(Status status, SensorValue sensorValue) {
-        boolean newStatus = timestamp.add(status.getTimestamp());
+        boolean newStatus = timestamps.add(status.getTimestamp());
 
         if(newStatus) {
             currentStatus = status.getStatus();
             battery = status.getBattery();
-            weight.add(status.getWeight());
+            weights.add(status.getWeight());
         }
 
         if(sensorValue != null) {
@@ -46,13 +45,14 @@ public class BeehiveData {
 
             ArrayList<Float> values = new ArrayList<>(Collections.singletonList(sensorValue.getValue()));
             Set<Long> sensorIds = new HashSet<>(Collections.singletonList(sensorValue.getSensorId()));
-            list.add(new DataGroup(status.getTimestamp(), sensorIds, values));
+            ArrayList<Long> timestampList = new ArrayList<>(timestamps);
+            list.add(new DataGroup(timestampList.indexOf(status.getTimestamp()), sensorIds, values));
         }
     }
 
     private boolean addToGroup(DataGroup dataGroup, SensorValue sensorValue) {
-        ArrayList<Long> timestampList = new ArrayList<>(timestamp);
-        int emptyPlaces = timestamp.size() - (timestampList.indexOf(dataGroup.from()) + dataGroup.values().size());
+        ArrayList<Long> timestampList = new ArrayList<>(timestamps);
+        int emptyPlaces = timestamps.size() - (timestampList.indexOf(dataGroup.from()) + dataGroup.values().size());
         for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(0f);
         if (emptyPlaces >= 0) {
             dataGroup.values().add(sensorValue.getValue());
@@ -103,12 +103,12 @@ public class BeehiveData {
         return battery;
     }
 
-    public Set<Long> getTimestamp() {
-        return timestamp;
+    public Set<Long> getTimestamps() {
+        return timestamps;
     }
 
-    public List<Float> getWeight() {
-        return weight;
+    public List<Float> getWeights() {
+        return weights;
     }
 
     public List<DataGroup> getTemperature() {

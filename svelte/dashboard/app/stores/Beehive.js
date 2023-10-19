@@ -128,7 +128,7 @@ export class BeehiveObj {
     if (data.length > 0) {
       return data[data.length - 1];
     }
-    if (type === 'status') {
+    if (type === "status") {
       return this.getCurrentStatus();
     }
     return null;
@@ -159,29 +159,29 @@ export class BeehiveObj {
    * @return {[*,*][]}
    */
   getDetachableDataByType(type, with_timestamp, from = 0) {
-    
     if (this.hasData()) {
       let outputData = [];
       let statuses = this.getAllDataByType(type);
       let timestamps = this.getTimestamps();
-      
+
       for (const statusPart of statuses) {
-        let timestampIndex =this.indexOfTimestamp(statusPart["from"])
+        let timestampIndex = this.indexOfTimestamp(statusPart["from"]);
         let statusArray = statusPart["values"];
-        
-        //combine timestamps and detached value in the format desirable for the chart 
-        let out = statusArray.map((e, i) => [timestamps[timestampIndex + i],e]);
-        
+
+        //combine timestamps and detached value in the format desirable for the chart
+        let out = statusArray.map((e, i) => [
+          timestamps[timestampIndex + i],
+          e,
+        ]);
+
         outputData.push(out);
       }
-      
+
       return outputData;
     } else {
       return [];
     }
-
   }
-
 
   /**
    *
@@ -216,7 +216,6 @@ export class BeehiveObj {
     }
   }
 
-
   /**
    * @return {Array|[]}
    */
@@ -249,7 +248,6 @@ export class BeehiveObj {
     return statuses[statuses.length - 1] || "Error";
   }
 
-
   static _nonDetachableKeys = ["timestamp", "status", "weight", "battery"];
 
   /**
@@ -257,7 +255,7 @@ export class BeehiveObj {
    * @return {string[]}
    */
   static getNonDetachableTypes() {
-    return BeehiveObj._nonDetachableKeys
+    return BeehiveObj._nonDetachableKeys;
   }
 
   /**
@@ -287,14 +285,14 @@ export class BeehiveObj {
    * @returns {Array<string>} An array of keys.
    */
   getCurrentDataTypes(onlyDetachable = false) {
-
     let keys = Object.keys(this.data);
 
     if (onlyDetachable) {
-      keys = keys.filter(key => !BeehiveObj.getNonDetachableTypes().includes(key));
+      keys = keys.filter(
+        (key) => !BeehiveObj.getNonDetachableTypes().includes(key),
+      );
     }
 
     return keys;
   }
-
 }
