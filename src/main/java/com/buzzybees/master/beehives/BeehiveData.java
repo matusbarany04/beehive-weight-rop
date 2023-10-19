@@ -14,6 +14,8 @@ record DataGroup(int from, Set<Long> sensorIds, ArrayList<Float> values) {
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BeehiveData {
 
+    public static final float SENSOR_NO_VALUE = -999;
+
     private String currentStatus;
     private int battery;
     private final LinkedHashSet<Long> timestamps = new LinkedHashSet<>();
@@ -53,7 +55,7 @@ public class BeehiveData {
     private boolean addToGroup(DataGroup dataGroup, SensorValue sensorValue) {
         ArrayList<Long> timestampList = new ArrayList<>(timestamps);
         int emptyPlaces = timestamps.size() - (timestampList.indexOf(dataGroup.from()) + dataGroup.values().size());
-        for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(0f);
+        for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(SENSOR_NO_VALUE);
         if (emptyPlaces >= 0) {
             dataGroup.values().add(sensorValue.getValue());
             dataGroup.sensorIds().add(sensorValue.getSensorId());
