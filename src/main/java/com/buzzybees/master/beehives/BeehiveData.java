@@ -25,6 +25,11 @@ public class BeehiveData {
     private List<DataGroup> light;
     private List<DataGroup> sound;
 
+    /**
+     * pushes new status to dataset
+     * @param status status from database
+     * @param sensorValue sensor value from database
+     */
     public void push(Status status, SensorValue sensorValue) {
         boolean newStatus = timestamps.add(status.getTimestamp());
 
@@ -52,9 +57,14 @@ public class BeehiveData {
         }
     }
 
+    /**
+     * adds new sensor value to data group
+     * @param dataGroup data group
+     * @param sensorValue sensor value
+     * @return if operation was performed
+     */
     private boolean addToGroup(DataGroup dataGroup, SensorValue sensorValue) {
-        ArrayList<Long> timestampList = new ArrayList<>(timestamps);
-        int emptyPlaces = timestamps.size() - (timestampList.indexOf(dataGroup.from()) + dataGroup.values().size());
+        int emptyPlaces = timestamps.size() - (dataGroup.from() + dataGroup.values().size());
         for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(SENSOR_NO_VALUE);
         if (emptyPlaces >= 0) {
             dataGroup.values().add(sensorValue.getValue());
@@ -65,6 +75,11 @@ public class BeehiveData {
         return false;
     }
 
+    /**
+     * @param sensorId which sensor
+     * @param list data groups
+     * @return data group where the sensor is already added
+     */
     private DataGroup getGroupBySensorId(long sensorId, List<DataGroup> list) {
         for (DataGroup dataGroup : list) {
             if(dataGroup.sensorIds().contains(sensorId)) return dataGroup;
@@ -73,6 +88,10 @@ public class BeehiveData {
         return null;
     }
 
+    /**
+     * @param type type of data
+     * @return list by type
+     */
     private List<DataGroup> getDataList(int type) {
         List<DataGroup> list = switch (type) {
             case Device.TEMPERATURE -> temperature;
