@@ -9,8 +9,7 @@
 class SensorStorage {
 public:
   SensorStorage(int devAddress = 0x50);
-  bool Innit();
-  void Connect(unsigned int port);
+  void Connect(int pin);
   void Write(unsigned int address, uint8_t data);
   void Write(unsigned int address, uint8_t* data, uint8_t length);
   uint8_t Read(unsigned int address);
@@ -20,7 +19,6 @@ public:
   void operator=(uint8_t data);
   void operator=(const char* data);
   operator uint8_t() const;
-  bool initialized = false;
 private:
   int deviceAddress = 0x50;
   short indexToWrite = -1;

@@ -2,7 +2,7 @@
 #include <HTTPClient.h>
 
 #define SSID "SNPD"
-#define PASSWORD "ke257-NT_61_ab"
+#define PASSWORD "☺"
 
 
 class NetworkManager {

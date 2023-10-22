@@ -5,30 +5,53 @@
 #include "battery.h"
 #include "constants.h"
 
-#define PORT_COUNT 8
-
+#define EEPROM_ADDRESS 0x50
+const int SENSOR_PINS[] = {2, 15, 4};
 
 
 class SensorManager {
 
     public:
 
-        void setMode(int mode) {
-
-        }
-
         void scan() {
-            //TODO: detect all connected sensors
-            Sensor sensor = Sensor(0);
-            sensors[0] = &sensor;
+            disableAll();
+            Wire.begin(SDA_PIN, SCL_PIN);
+
+            for(int i = 0; i < sizeof(SENSOR_PINS) / sizeof(int); i++) {
+                digitalWrite(SENSOR_PINS[i], LOW);
+                Wire.beginTransmission(EEPROM_ADDRESS);
+
+                if(!Wire.endTransmission()) {
+                    sensors[i] = new Sensor(i, SENSOR_PINS[i]);
+                    char output[100];
+                    sprintf(output, "Sensor found on port %d, Device type: %d (%s)", i, sensors[i]->getType(), sensors[i]->getTypeName());
+                    Serial.println(output);
+                }
+            
+                digitalWrite(SENSOR_PINS[i], HIGH);
+            }
+           
+            Wire.end();
         }
 
-        void resetSensor(unsigned int port) {
-            SensorStorage storage;
-            storage.Connect(port);
-            Data data = {"", TEMPERATURE, 0};
+        void burnSensorId(unsigned int port, int id) {
+            Sensor* sensor = sensors[port];
+            sensor->setId(id);
+            sensor->saveData();
+        }
 
+        void burn(unsigned int port, Data data) {
+            disableAll();
+            SensorStorage storage;
+            storage.Connect(SENSOR_PINS[port]);
             storage.Write(STRUCT_ADDR, (uint8_t*) &data, sizeof(data));
+        }
+
+        void disableAll() {
+            for(int pin : SENSOR_PINS) {
+                pinMode(pin, OUTPUT);
+                digitalWrite(pin, HIGH);
+            }
         }
 
         String buildJSON() {
@@ -51,14 +74,14 @@ class SensorManager {
             json["status"] = "ok";
 
             String output;
-            serializeJson(json, output);
+            serializeJson(json, output);    
 
             return output;
         }
 
 
     private:
-        Sensor* sensors[PORT_COUNT];
+        Sensor* sensors[sizeof(SENSOR_PINS) / sizeof(int)];
         Battery battery = Battery(25);
 
 };

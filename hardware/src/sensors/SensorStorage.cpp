@@ -1,28 +1,16 @@
 #include "Arduino.h"
 #include "SensorStorage.h"
-
+#include "constants.h"
 
 
 SensorStorage::SensorStorage(int devAddress = 0x50) {
   deviceAddress = devAddress;
 }
 
-bool SensorStorage::Innit() {
-  Wire.begin(4, 19);
-  if (this->Read(connectivityCheckCell) != '@') {
-    this->Write(connectivityCheckCell, '@');
-    if (this->Read(connectivityCheckCell) != '@') {
-      Serial.println(F("No EEPROM found!"));
-      return false;
-    }
-  }
-  Serial.println(F("EEPROM found."));
-  this->initialized = true;
-  return true;
-}
-
-void SensorStorage::Connect(unsigned int port) {
-  if(!this->initialized) Innit();
+void SensorStorage::Connect(int pin) {
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
+  Wire.begin(SDA_PIN, SCL_PIN);
 }
 
 
