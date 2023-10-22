@@ -94,6 +94,7 @@ class Sensor {
         }
 
         void saveData() {
+            setMode(ACCESS_MEMORY);
             storage.Connect(inputPin);
             storage.Write(STRUCT_ADDR, (uint8_t*) &data, sizeof(data));
         }
