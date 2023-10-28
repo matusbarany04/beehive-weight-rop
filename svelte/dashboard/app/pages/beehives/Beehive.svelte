@@ -11,12 +11,12 @@
   import Input from "../../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
-  import shared, {onLoad} from "../../stores/shared";
+  import shared, { onLoad } from "../../stores/shared";
   import RouterLink from "../../../../components/RouterLink.svelte";
   import message from "../../stores/message";
-  import {TW_BREAKPOINTS} from "../../../../components/lib/utils/staticFuncs";
+  import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
   import EChart from "../../component/cards/EChart.svelte";
-  import {onMount, tick} from "svelte";
+  import { onMount, tick } from "svelte";
 
   export let props;
 
@@ -27,28 +27,29 @@
   let innerWidth;
   let container;
   let rowHeight = 0;
-  let rowCount = 0
+  let rowCount = 0;
   onLoad(["statuses", "beehives"], (_b) => {
     beehive = shared.getBeehiveById(props.id);
     console.log("Beehive loaded", beehive);
     document.title = beehive.name;
     tick().then(() => {
-      resize()
-    })
+      resize();
+    });
   });
 
   message.setMessage("Detail úľu");
   let small = undefined;
 
   let getRowCount = () => {
-    return !small ? 1 + Math.ceil(beehive.getCurrentDataTypes(true).length / 2) :
-      2 + Math.ceil(beehive.getCurrentDataTypes(true).length)
-  }
+    return !small
+      ? 1 + Math.ceil(beehive.getCurrentDataTypes(true).length / 2)
+      : 2 + Math.ceil(beehive.getCurrentDataTypes(true).length);
+  };
 
   const resize = (e) => {
     small = window.innerWidth <= TW_BREAKPOINTS.md;
-    rowCount = getRowCount()
-    updateRowHeight()
+    rowCount = getRowCount();
+    updateRowHeight();
   };
 
   function updateRowHeight() {
@@ -56,7 +57,7 @@
     if (container) {
       rowHeight = container.clientWidth / 4;
     } else {
-      console.error("error no container")
+      console.error("error no container");
     }
   }
 
@@ -86,7 +87,7 @@
 
 <div id="chart"></div>
 
-<svelte:window on:resize={resize}/>
+<svelte:window on:resize={resize} />
 <!-- {JSON.stringify(beeData)} -->
 <!-- <div class="pt-2 p-4" /> -->
 
@@ -96,12 +97,18 @@
   >
     <h1 class=" text-2xl font-semibold">
       Váha {beehive?.name
-      ? beehive?.name + " - " + beehive.devices.length + " " + rowCount + " " + rowHeight
-      : "Loading..."}
+        ? beehive?.name +
+          " - " +
+          beehive.devices.length +
+          " " +
+          rowCount +
+          " " +
+          rowHeight
+        : "Loading..."}
     </h1>
     <div class="mt-4 md:mt-0">
       <RouterLink url="/edit" append>
-        <Button text="Upraviť"/>
+        <Button text="Upraviť" />
       </RouterLink>
     </div>
   </div>
@@ -175,64 +182,63 @@
     <div
       bind:this={container}
       class="mx-auto grid w-full grid-cols-2 gap-4 md:grid-cols-4 lg:w-5/6"
-      style="grid-template-rows: repeat({rowCount}, {rowHeight + (rowHeight * small)}px) !important;"
+      style="grid-template-rows: repeat({rowCount}, {rowHeight +
+        rowHeight * small}px) !important;"
     >
       {#if small !== undefined}
-
         <EChart
           className="col-span-2 row-span-1"
-
           cardStates={{
-          id: "",
-          mode: "static",
-          title: "Váha váhy",
-          data: [
-            {
-              type: "weight",
-              timespan: "week",
-              beehive_id: props.id,
-            },
-          ],
-        }}
+            id: "",
+            mode: "static",
+            title: "Váha váhy",
+            data: [
+              {
+                type: "weight",
+                timespan: "week",
+                beehive_id: props.id,
+              },
+            ],
+          }}
         />
 
         <EChart
           className="col-span-2 row-span-1"
           cardStates={{
-          id: "",
-          spanX: 2,
-          mode: "static",
-          spanY: 1,
-          editing: false,
-          title: "Stav Batérie",
-          data: [
-            {
-              type: "battery",
-              timespan: "week",
-              beehive_id: props.id,
-            },
-          ],
-        }}
+            id: "",
+            spanX: 2,
+            mode: "static",
+            spanY: 1,
+            editing: false,
+            title: "Stav Batérie",
+            data: [
+              {
+                type: "battery",
+                timespan: "week",
+                beehive_id: props.id,
+              },
+            ],
+          }}
         />
 
         {#each beehive.getCurrentDataTypes(true) as type}
           <EChart
             className="col-span-2 row-span-1"
             cardStates={{
-            id: "",
-            spanX: 2,
-            mode: "static",
-            spanY: 1,
-            editing: false,
-            title: type + " váhy",
-            data: [
-              {
-                type: type,
-                timespan: "week",
-                beehive_id: props.id,
-              },
-            ],
-          }}
+              id: "",
+              spanX: 2,
+              mode: "static",
+              spanY: 1,
+              editing: false,
+              title: type + " váhy",
+              data: [
+                {
+                  type: type,
+                  timespan: "week",
+                  beehive_id: props.id,
+                },
+              ],
+            }}
           />
         {/each}
       {/if}
@@ -285,7 +291,7 @@
       name="name"
       value={beehive?.name}
     />
-    <input type="text" name="beehive_id" class="hidden" value={props.id}/>
+    <input type="text" name="beehive_id" class="hidden" value={props.id} />
 
     <Input
       label="Poloha váhy"
