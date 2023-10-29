@@ -17,9 +17,11 @@ public class BeehiveData {
     public static final float SENSOR_NO_VALUE = -999;
 
     private String currentStatus;
-    private final List<Integer> batteryValues = new LinkedList<>();
-    private final LinkedHashSet<Long> timestamps = new LinkedHashSet<>();
-    private final List<Float> weights = new LinkedList<>();
+    private final List<Integer> battery = new LinkedList<>();
+
+//    toto musi ostat timestamp a weight!!!
+    private final LinkedHashSet<Long> timestamp = new LinkedHashSet<>();
+    private final List<Float> weight = new LinkedList<>();
     private List<DataGroup> temperature;
     private List<DataGroup> humidity;
     private List<DataGroup> light;
@@ -31,12 +33,12 @@ public class BeehiveData {
      * @param sensorValue sensor value from database
      */
     public void push(Status status, SensorValue sensorValue) {
-        boolean newStatus = timestamps.add(status.getTimestamp());
+        boolean newStatus = timestamp.add(status.getTimestamp());
 
         if(newStatus) {
             currentStatus = status.getStatus();
-            batteryValues.add(status.getBattery());
-            weights.add(status.getWeight());
+            battery.add(status.getBattery());
+            weight.add(status.getWeight());
         }
 
         if(sensorValue != null) {
@@ -51,7 +53,7 @@ public class BeehiveData {
 
             ArrayList<Float> values = new ArrayList<>(Collections.singletonList(sensorValue.getValue()));
             Set<Long> sensorIds = new HashSet<>(Collections.singletonList(sensorValue.getSensorId()));
-            ArrayList<Long> timestampList = new ArrayList<>(timestamps);
+            ArrayList<Long> timestampList = new ArrayList<>(timestamp);
             list.add(new DataGroup(timestampList.indexOf(status.getTimestamp()), sensorIds, values));
         }
     }
@@ -63,7 +65,7 @@ public class BeehiveData {
      * @return if operation was performed
      */
     private boolean addToGroup(DataGroup dataGroup, SensorValue sensorValue) {
-        int emptyPlaces = timestamps.size() - (dataGroup.from() + dataGroup.values().size());
+        int emptyPlaces = timestamp.size() - (dataGroup.from() + dataGroup.values().size());
         for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(SENSOR_NO_VALUE);
         if (emptyPlaces >= 0) {
             dataGroup.values().add(sensorValue.getValue());
@@ -119,16 +121,16 @@ public class BeehiveData {
         return currentStatus;
     }
 
-    public List<Integer> getBatteryValues() {
-        return batteryValues;
+    public List<Integer> getBattery() {
+        return battery;
     }
 
-    public Set<Long> getTimestamps() {
-        return timestamps;
+    public Set<Long> getTimestamp() {
+        return timestamp;
     }
 
-    public List<Float> getWeights() {
-        return weights;
+    public List<Float> getWeight() {
+        return weight;
     }
 
     public List<DataGroup> getTemperature() {

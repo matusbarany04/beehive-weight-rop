@@ -3,6 +3,7 @@
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import { getUnitByType } from "../../../../components/lib/utils/staticFuncs";
+
   export let cardStates;
 
   let component = "PercentageCard";
@@ -25,15 +26,32 @@
 
       console.log("getStatusByType", element.type, element.beehive_id);
 
-      const beeData = shared
-        .getBeehiveById(element.beehive_id)
-        .getLastDataByType(element.type);
+      let beeData;
+      if (element.data === undefined) {
+        beeData = shared
+          .getBeehiveById(element.beehive_id)
+          .getLastDataByType(element.type);
+      } else {
+        beeData = element.data;
+      }
 
       if (beeData != null) {
         if (!isNaN(beeData)) {
-          value = Number(beeData).toFixed() || "error";
-          if (value !== "error") {
-            value += getUnitByType(element.type);
+          value =
+            Number(beeData) === parseInt(beeData)
+              ? Number(beeData)
+              : Number(beeData).toFixed(1);
+
+          value = value || "NoData";
+
+          if (value !== "error" && value !== "NoData") {
+            if (element.unit === undefined) {
+              value += getUnitByType(element.type);
+            } else {
+              value += element.unit;
+            }
+          } else {
+            innerError = "NoData";
           }
         } else {
           value = beeData;

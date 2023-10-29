@@ -25,22 +25,39 @@
   /** @type {BeehiveObj} */
   let beehive;
   let innerWidth;
-
+  let container;
+  let rowHeight = 0;
+  let rowCount = 0;
   onLoad(["statuses", "beehives"], (_b) => {
     beehive = shared.getBeehiveById(props.id);
     console.log("Beehive loaded", beehive);
     document.title = beehive.name;
+    tick().then(() => {
+      resize();
+    });
   });
 
   message.setMessage("Detail úľu");
+  let small = undefined;
 
-  let container;
-  let rowHeight = "0px";
+  let getRowCount = () => {
+    return !small
+      ? 1 + Math.ceil(beehive.getCurrentDataTypes(true).length / 2)
+      : 2 + Math.ceil(beehive.getCurrentDataTypes(true).length);
+  };
+
+  const resize = (e) => {
+    small = window.innerWidth <= TW_BREAKPOINTS.md;
+    rowCount = getRowCount();
+    updateRowHeight();
+  };
 
   function updateRowHeight() {
     console.log("container", container);
     if (container) {
-      rowHeight = `${container.clientWidth / 4}px`;
+      rowHeight = container.clientWidth / 4;
+    } else {
+      console.error("error no container");
     }
   }
 
@@ -70,6 +87,7 @@
 
 <div id="chart"></div>
 
+<svelte:window on:resize={resize} />
 <!-- {JSON.stringify(beeData)} -->
 <!-- <div class="pt-2 p-4" /> -->
 
@@ -78,9 +96,7 @@
     class="mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
   >
     <h1 class=" text-2xl font-semibold">
-      Váha {beehive?.name
-        ? beehive?.name + " - " + beehive.devices.length
-        : "Loading..."}
+      Váha {beehive?.name ? beehive?.name : "Loading..."}
     </h1>
     <div class="mt-4 md:mt-0">
       <RouterLink url="/edit" append>
@@ -88,9 +104,7 @@
       </RouterLink>
     </div>
   </div>
-  <!--  <div class="mx-auto mb-4 grid grid-cols-1 justify-between gap-4 lg:w-5/6">-->
-  <!--    <EChart></EChart>-->
-  <!--  </div>-->
+
   {#if beehive}
     <div
       class="mx-auto mb-4 grid grid-cols-2 justify-between gap-4 sm:grid-cols-4 lg:w-5/6"
@@ -141,15 +155,17 @@
       <PercentageCard
         cardStates={{
           mode: "static",
-          title: "Dáta z pripojeného sensora",
+          title: "Úspešnosť prenosu dát",
           spanX: 1,
           spanY: 1,
           editing: false,
           data: [
             {
-              type: "temperature",
-              from: "week",
-              to: "now",
+              unit: "%",
+              data: shared
+                .getBeehiveById(props.id)
+                .getTransmissionSuccessRate(),
+              type: "successRate",
               beehive_id: props.id,
             },
           ],
@@ -159,46 +175,27 @@
 
     <div
       bind:this={container}
-      class="mx-auto grid w-full grid-cols-1 gap-4 md:grid-cols-4 lg:w-5/6"
-      style="grid-template-rows: repeat({1 +
-        Math.ceil(beehive.getCurrentDataTypes(true).length / 2)}, {rowHeight});"
+      class="mx-auto grid w-full grid-cols-2 gap-4 md:grid-cols-4 lg:w-5/6"
+      style="grid-template-rows: repeat({rowCount}, {rowHeight +
+        rowHeight * small}px) !important;"
     >
-      <EChart
-        className="col-span-2 row-span-1 aspect-video"
-        cardStates={{
-          id: "",
-          mode: "static",
-          title: "Váha váhy",
-          data: [
-            {
-              type: "weight",
-              timespan: "week",
-              beehive_id: props.id,
-            },
-          ],
-        }}
-      />
+      {#if small !== undefined}
+        <EChart
+          className="col-span-2 row-span-1"
+          cardStates={{
+            id: "",
+            mode: "static",
+            title: "Váha váhy",
+            data: [
+              {
+                type: "weight",
+                timespan: "week",
+                beehive_id: props.id,
+              },
+            ],
+          }}
+        />
 
-      <EChart
-        className="col-span-2 row-span-1"
-        cardStates={{
-          id: "",
-          spanX: 2,
-          mode: "static",
-          spanY: 1,
-          editing: false,
-          title: "Stav Batérie",
-          data: [
-            {
-              type: "battery",
-              timespan: "week",
-              beehive_id: props.id,
-            },
-          ],
-        }}
-      />
-
-      {#each beehive.getCurrentDataTypes(true) as type}
         <EChart
           className="col-span-2 row-span-1"
           cardStates={{
@@ -207,17 +204,34 @@
             mode: "static",
             spanY: 1,
             editing: false,
-            title: type + " váhy",
+            title: "Stav Batérie",
             data: [
               {
-                type: type,
+                type: "battery",
                 timespan: "week",
                 beehive_id: props.id,
               },
             ],
           }}
         />
-      {/each}
+
+        {#each beehive.getCurrentDataTypes(true) as type}
+          <EChart
+            className="col-span-2 row-span-1"
+            cardStates={{
+              mode: "static",
+              editing: false,
+              title: type + " váhy",
+              data: [
+                {
+                  type: type,
+                  beehive_id: props.id,
+                },
+              ],
+            }}
+          />
+        {/each}
+      {/if}
     </div>
 
     <div class="mx-auto mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:w-5/6">

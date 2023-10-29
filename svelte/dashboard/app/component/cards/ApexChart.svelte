@@ -25,7 +25,10 @@
   ];
 
   function changeZoom(value) {
-    chart.zoomX(shared.nowMinusFrom(value).getTime(), new Date().getTime());
+    chart.zoomX(
+      shared.nowMinusFromString(value).getTime(),
+      new Date().getTime(),
+    );
   }
 
   if (cardStates.data == null) {

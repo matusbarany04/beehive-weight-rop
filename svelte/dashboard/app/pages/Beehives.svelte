@@ -119,7 +119,7 @@
               <Th {handler} orderBy="name">Názov váhy</Th>
               <Th {handler} orderBy="battery">Batéria</Th>
               <Th {handler}>Status</Th>
-              <Th {handler} orderBy="timestamp">Posledná aktualizácia</Th>
+              <Th {handler} orderBy="timestamps">Posledná aktualizácia</Th>
               <Th {handler} orderBy="weight">Hmotnosť</Th>
               <Th {handler} />
             </tr>

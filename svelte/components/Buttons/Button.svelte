@@ -39,6 +39,7 @@
    * @param {string} type button type when in forms
    */
   export let clickType = "none";
+
   /**
    * @param {string} formId to determine form
    */
