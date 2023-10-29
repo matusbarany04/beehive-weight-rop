@@ -96,15 +96,7 @@
     class="mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
   >
     <h1 class=" text-2xl font-semibold">
-      Váha {beehive?.name
-        ? beehive?.name +
-          " - " +
-          beehive.devices.length +
-          " " +
-          rowCount +
-          " " +
-          rowHeight
-        : "Loading..."}
+      Váha {beehive?.name ? beehive?.name : "Loading..."}
     </h1>
     <div class="mt-4 md:mt-0">
       <RouterLink url="/edit" append>
@@ -163,15 +155,17 @@
       <PercentageCard
         cardStates={{
           mode: "static",
-          title: "Dáta z pripojeného sensora",
+          title: "Úspešnosť prenosu dát",
           spanX: 1,
           spanY: 1,
           editing: false,
           data: [
             {
-              type: "temperature",
-              from: "week",
-              to: "now",
+              unit: "%",
+              data: shared
+                .getBeehiveById(props.id)
+                .getTransmissionSuccessRate(),
+              type: "successRate",
               beehive_id: props.id,
             },
           ],
@@ -225,16 +219,12 @@
           <EChart
             className="col-span-2 row-span-1"
             cardStates={{
-              id: "",
-              spanX: 2,
               mode: "static",
-              spanY: 1,
               editing: false,
               title: type + " váhy",
               data: [
                 {
                   type: type,
-                  timespan: "week",
                   beehive_id: props.id,
                 },
               ],

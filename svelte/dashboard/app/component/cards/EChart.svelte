@@ -55,7 +55,7 @@
       } else {
         let data = shared
           .getBeehiveById(element.beehive_id)
-          .getDataByType(element.type, true, element.timespan);
+          .getDataByType(element.type, true, "all"); // i guess we want all of the data
 
         // non-detachable types have array right under them
         if (!BeehiveObj.isTypeDetachable(element.type)) {
@@ -69,7 +69,7 @@
           console.log("values", element);
           for (const values of shared
             .getBeehiveById(element.beehive_id)
-            .getDetachableDataByType(element.type, true, element.timespan)) {
+            .getDataByType(element.type, true, element.timespan)) {
             beehiveData.push({
               name: element.name,
               data: values,
@@ -94,6 +94,7 @@
         tooltip: {
           trigger: "axis",
           formatter: function (params) {
+            console.log("paramsparams", params);
             // Assuming params[0].value[0] or params[0].value is the timestamp value
             let value = params[0].value[0]
               ? params[0].value[0]
@@ -188,7 +189,7 @@
 
             // TODO get data on index and display the date
             labelFormatter: function (value) {
-              console.log("label formatter " + value);
+              // console.log("label formatter " + value);
               const date = new Date(parseInt(value));
               return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
             },

@@ -20,8 +20,9 @@ export class BeehiveObj {
   devices;
 
   /**
-   * stores all of the beehive data
-   * @type {Object<Array>}  */
+    /**
+     * stores all of the beehive data
+     * @type {Object<Array>}  */
   data = {};
 
   /**
@@ -158,40 +159,8 @@ export class BeehiveObj {
    * @param from {string}
    * @return {[*,*][]}
    */
-  getDetachableDataByType(type, with_timestamp, from = 0) {
-    if (this.hasData()) {
-      let outputData = [];
-      let statuses = this.getAllDataByType(type);
-      let timestamps = this.getTimestamps();
-
-      for (const statusPart of statuses) {
-        let timestampIndex = this.indexOfTimestamp(statusPart["from"]);
-        let statusArray = statusPart["values"];
-
-        //combine timestamps and detached value in the format desirable for the chart
-        let out = statusArray.map((e, i) => [
-          timestamps[timestampIndex + i],
-          e,
-        ]);
-
-        outputData.push(out);
-      }
-
-      return outputData;
-    } else {
-      return [];
-    }
-  }
-
-  /**
-   *
-   * @param type {string}
-   * @param beehive_id {string}
-   * @param with_timestamp {boolean}
-   * @param from {string}
-   * @return {[*,*][]}
-   */
   getDataByType(type, with_timestamp, from = 0) {
+    console.log("fromfrom", from);
     if (this.hasData()) {
       let statuses = this.getAllDataByType(type);
       let timestamps = this.getTimestamps();
@@ -201,7 +170,7 @@ export class BeehiveObj {
       if (from != null) {
         out = [];
         for (let i = 0; i < statuses.length; i++) {
-          if (timestamps[i] > shared.nowMinusFrom(from)) {
+          if (timestamps[i] > shared.nowMinusFromString(from)) {
             if (with_timestamp) {
               out.push([timestamps[i], statuses[i]]);
             } else {
@@ -210,6 +179,7 @@ export class BeehiveObj {
           }
         }
       }
+      console.log("returning ", type, out);
       return out;
     } else {
       return [];
@@ -225,13 +195,12 @@ export class BeehiveObj {
 
   /**
    * Returns the most recent timestamp.
-   * @returns {number|null} - The last timestamp or null if no timestamps available.
+   * @returns {string} - The last timestamp or null if no timestamps available.
    */
   getLastUpdateTime() {
     const timestamps = this.getAllDataByType("timestamp");
 
     let lastTime = timestamps[timestamps.length - 1];
-
     // add language string instead of NoData
     return lastTime != null
       ? new Date(lastTime).toLocaleString()
@@ -248,7 +217,19 @@ export class BeehiveObj {
     return statuses[statuses.length - 1] || "Error";
   }
 
-  static _nonDetachableKeys = ["timestamp", "status", "weight", "battery"];
+  /**
+   * WARNING this array is there because detachable keys have different format,
+   * in other words these values can't have multiple connectors
+   * @type {string[]}
+   * @private
+   */
+  static _nonDetachableKeys = [
+    "timestamp",
+    "status",
+    "weight",
+    "battery",
+    "battery",
+  ];
 
   /**
    * Returns array of non-detachable types, like weight, status or battery
@@ -273,6 +254,7 @@ export class BeehiveObj {
    * @returns {number|undefined}
    */
   indexOfTimestamp(timestamp) {
+    // make so that it will get the closest one? might lead to bug be wary
     const timestamps = this.getAllDataByType("timestamp");
     const index = timestamps.indexOf(timestamp);
 
@@ -294,5 +276,17 @@ export class BeehiveObj {
     }
 
     return keys;
+  }
+
+  getTransmissionSuccessRate() {
+    let statuses = this.getAllDataByType("status");
+
+    let okCounter = 0;
+    for (const status of statuses) {
+      if (status === "ok") okCounter++;
+    }
+    let out = (okCounter / statuses.length) * 100;
+    if (isNaN(out)) return 0;
+    return out;
   }
 }

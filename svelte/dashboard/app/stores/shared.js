@@ -67,15 +67,15 @@ export default {
             const beehiveData = response.data[beehive_id];
             /** @type{BeehiveObj} */
             let beehiveObj = beehiveList[beehive_id];
-            beehiveObj.setData("battery", [beehiveData.battery]);
+
+            // beehiveObj.setData("battery", [beehiveData.battery]);
             beehiveObj.setData("status", [beehiveData.currentStatus]);
             for (const key in beehiveData) {
               if (Array.isArray(beehiveData[key])) {
                 // check if beehive has any data posted
-                if (beehiveObj != null) {
-                  // if so load data to beehive object
-                  beehiveObj.setData(key, beehiveData[key]);
-                }
+
+                // if so load data to beehive object
+                beehiveObj.setData(key, beehiveData[key]);
               }
             }
           }
@@ -108,7 +108,12 @@ export default {
       return [object.token, object.name];
     });
   },
-  nowMinusFrom: function (from) {
+  /**
+   *
+   * @param from {string}
+   * @returns {Date}
+   */
+  nowMinusFromString: function (from) {
     return new Date(new Date().getTime() - fromValueToTimestamp(from));
   },
 };
@@ -174,7 +179,7 @@ function fromValueToTimestamp(from) {
     case "year":
       return 1000 * 60 * 60 * 24 * 365;
     default:
-      console.error("Unknown from value: " + from);
-      break;
+      console.error("Unknown from value: " + from + " returning all - 0 ");
+      return 0;
   }
 }
