@@ -9,6 +9,7 @@ import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
 import com.buzzybees.master.exceptions.TimestampException;
 import com.buzzybees.master.tables.Status;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -42,28 +43,28 @@ public class BeeController extends DatabaseController {
      * @return status whether data is correct and successfully saved.
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiResponse updateStatus(@RequestBody Status status) {/*
-        List<SensorValue> valueList = status.getSensorValues();
+    public ApiResponse updateStatus(@RequestBody Status.Request statusRequest) {
         List<Action> actions = new LinkedList<>();
 
-        valueList.forEach(sensorValue -> {
-            sensorValue.setStatus(status);
+        statusRequest.setTimestamp(new Date().getTime());
+        Status savedStatus = statusRepo.save(statusRequest.getBase());
+
+        List<SensorValue> sensors = statusRequest.getSensorValues();
+        sensors.forEach(sensorValue -> {
+            sensorValue.setStatusId(savedStatus.getStatusId());
 
             if(sensorValue.getSensorId() == 0) {
                 BeehiveRepository beehiveRepository = getRepo(Beehive.class);
-                Beehive beehive = beehiveRepository.getBeehiveByToken(status.getBeehive());
+                Beehive beehive = beehiveRepository.getBeehiveByToken(statusRequest.getBeehive());
                 long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
                 actions.add(new Action("BURN_SENSOR_ID", id));
                 sensorValue.setSensorId(id);
             }
         });
 
-        status.setTimestamp(new Date().getTime());
+        sensorValueRepository.saveAll(sensors);
 
-        sensorValueRepository.saveAll(status.getSensorValues());
-        statusRepo.save(status);*/
-
-        return new ApiResponse("actions", null);
+        return new ApiResponse("actions", actions);
     }
 
     /**

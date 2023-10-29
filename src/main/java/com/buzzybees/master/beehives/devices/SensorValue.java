@@ -1,6 +1,7 @@
 package com.buzzybees.master.beehives.devices;
 
 import com.buzzybees.master.tables.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -9,12 +10,14 @@ import jakarta.persistence.*;
 public class SensorValue {
 
     @Id
+    @JsonIgnore
     @GeneratedValue
     private long id;
 
     @Column(name = "status_id")
     private long statusId;
 
+    @JsonProperty("id")
     @Column(name = "sensor_id")
     private long sensorId;
 
@@ -30,7 +33,6 @@ public class SensorValue {
     public long getId() {
         return id;
     }
-
 
     public long getSensorId() {
         return sensorId;
@@ -50,5 +52,9 @@ public class SensorValue {
 
     public int getType() {
         return type;
+    }
+
+    public void setStatusId(long statusId) {
+        this.statusId = statusId;
     }
 }
