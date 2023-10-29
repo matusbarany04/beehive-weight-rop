@@ -37,14 +37,12 @@ void setup(void)
   Serial.println("JSON:");
   Serial.println(sensorManager.buildJSON());
 
-  //sensorManager.burn(0, {"", LIGHT, 0});
 
-/*
   networkManager.connectDefault();
   networkManager.setContentType("application/json");
 
   networkManager.POST(String(SERVER_URL) + "/updateStatus", sensorManager.buildJSON());
-  Serial.println(networkManager.getRequestResult());*/
+  Serial.println(networkManager.getRequestResult());
 }
 
 
@@ -53,7 +51,7 @@ void loop()
 {  
  // Serial.println(scale.get_units(), 1);
   delay(500);
- // Serial.println(analogRead(4));
+  //Serial.println(sensorManager.getSensor(1)->readValue());
  /*byte error, address;
   int nDevices;
  

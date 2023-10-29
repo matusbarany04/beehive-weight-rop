@@ -26,7 +26,8 @@ class SensorManager {
                     char output[100];
                     sprintf(output, "Sensor found on port %d, Device type: %d (%s)", i, sensors[i]->getType(), sensors[i]->getTypeName());
                     Serial.println(output);
-                }
+                    
+                } else sensors[i] = nullptr;
             
                 digitalWrite(SENSOR_PINS[i], HIGH);
             }
@@ -79,6 +80,10 @@ class SensorManager {
             return output;
         }
 
+        Sensor* getSensor(unsigned int port) {
+            if(sensors[port] == nullptr) Serial.println("Sensor not found on port " + String(port));
+            return sensors[port];
+        }
 
     private:
         Sensor* sensors[sizeof(SENSOR_PINS) / sizeof(int)];
