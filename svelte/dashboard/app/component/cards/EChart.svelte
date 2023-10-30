@@ -109,7 +109,6 @@
         }
       }
 
-      // console.log(beehiveData);
       // }
     });
 
@@ -137,7 +136,6 @@
         });
       }
 
-      console.log("Series", series);
       return {
         title: {
           show: false,
@@ -192,7 +190,6 @@
             type: "time",
             formatter: function (value) {
               const date = new Date(parseInt(value));
-              console.log("val" , value[1] ,date.toLocaleDateString() )
               return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
             },
           },
@@ -256,7 +253,6 @@
 
             // TODO get data on index and display the date
             labelFormatter: function (value) {
-              // console.log("label formatter " + value);
               const date = new Date(parseInt(value));
               return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
             },
