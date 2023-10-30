@@ -11,12 +11,12 @@
   import Input from "../../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
-  import shared, {onLoad} from "../../stores/shared";
+  import shared, { onLoad } from "../../stores/shared";
   import RouterLink from "../../../../components/RouterLink.svelte";
   import message from "../../stores/message";
-  import {TW_BREAKPOINTS} from "../../../../components/lib/utils/staticFuncs";
+  import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
   import EChart from "../../component/cards/EChart.svelte";
-  import {onMount, tick} from "svelte";
+  import { onMount, tick } from "svelte";
 
   export let props;
 
@@ -87,7 +87,7 @@
 
 <div id="chart"></div>
 
-<svelte:window on:resize={resize}/>
+<svelte:window on:resize={resize} />
 <!-- {JSON.stringify(beeData)} -->
 <!-- <div class="pt-2 p-4" /> -->
 
@@ -100,7 +100,7 @@
     </h1>
     <div class="mt-4 md:mt-0">
       <RouterLink url="/edit" append>
-        <Button text="Upraviť"/>
+        <Button text="Upraviť" />
       </RouterLink>
     </div>
   </div>
@@ -196,24 +196,24 @@
           }}
         />
 
-                <EChart
-                  className="col-span-2 row-span-1"
-                  cardStates={{
-                    id: "",
-                    spanX: 2,
-                    mode: "static",
-                    spanY: 1,
-                    editing: false,
-                    title: "Stav Batérie",
-                    data: [
-                      {
-                        type: "battery",
-                        timespan: "week",
-                        beehive_id: props.id,
-                      },
-                    ],
-                  }}
-                />
+        <EChart
+          className="col-span-2 row-span-1"
+          cardStates={{
+            id: "",
+            spanX: 2,
+            mode: "static",
+            spanY: 1,
+            editing: false,
+            title: "Stav Batérie",
+            data: [
+              {
+                type: "battery",
+                timespan: "week",
+                beehive_id: props.id,
+              },
+            ],
+          }}
+        />
 
         {#each beehive.getCurrentDataTypes(true) as type}
           <!--{type}-->
@@ -235,25 +235,30 @@
 
         {#if !small && beehive.getCurrentDataTypes(true).length % 2 === 1}
           <div
-            class="relative outline outline-1 rounded-md outline-tertiary-500 col-span-2 row-span-1 flex items-center justify-center ">
+            class="relative col-span-2 row-span-1 flex items-center justify-center rounded-md outline outline-1 outline-tertiary-500"
+          >
             <div
-              class="absolute top-4 left-4 aspect-square h-[25%] bg-contain bg-center bg-no-repeat"
+              class="absolute left-4 top-4 aspect-square h-[25%] bg-contain bg-center bg-no-repeat"
               style="background-image: url('/img/bees/beeRight.png')"
             ></div>
             <!-- chart space-->
-            <div class="w-full h-full box-border p-4 flex ">
-              <svg class="flex-1" viewBox="0 0 178 67" fill="none"
-                   xmlns="http://www.w3.org/2000/svg">
+            <div class="box-border flex h-full w-full p-4">
+              <svg
+                class="flex-1"
+                viewBox="0 0 178 67"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M1 55.5L10 62L22 43L27.5 49.5L42 30L59 48L72.5 37L78.5 43L94 49.5L98.5 57.5L104.5 65.5L114.5 55.5L120 45H132.5L144 30L149 34C152.167 31.8333 158.8 27.1 160 25.5C161.2 23.9 164.167 18.8333 165.5 16.5L171.5 7L177.5 1"
                   stroke="#939598"
-                stroke-width="0.5"/>
+                  stroke-width="0.5"
+                />
               </svg>
-
             </div>
 
             <div
-              class="absolute right-4  -scale-x-100 bottom-4 aspect-square h-[25%] bg-contain bg-center bg-no-repeat"
+              class="absolute bottom-4 right-4 aspect-square h-[25%] -scale-x-100 bg-contain bg-center bg-no-repeat"
               style="background-image: url('/img/bees/beeRight.png')"
             ></div>
           </div>
@@ -308,7 +313,7 @@
       name="name"
       value={beehive?.name}
     />
-    <input type="text" name="beehive_id" class="hidden" value={props.id}/>
+    <input type="text" name="beehive_id" class="hidden" value={props.id} />
 
     <Input
       label="Poloha váhy"

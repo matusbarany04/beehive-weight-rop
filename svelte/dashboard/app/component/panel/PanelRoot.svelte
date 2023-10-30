@@ -37,7 +37,7 @@
 
 <svelte:window bind:innerWidth={screenWidth} />
 
-<div class="relative z-20 no-scrollbar">
+<div class="relative z-50 no-scrollbar">
   <section
     class="{visible
       ? 'overflow-x-visible'
