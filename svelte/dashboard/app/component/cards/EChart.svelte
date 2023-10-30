@@ -9,7 +9,7 @@
   import { BeehiveObj } from "../../stores/Beehive";
 
   /**
-   * @type {object}
+   * @type {Object}
    */
   export let cardStates;
 
@@ -26,7 +26,8 @@
     ["month", "1M"],
     ["year", "1R"],
   ];
-
+  // otrasne fraby ale zatial stačia na rozpoznanie čiarok
+  const chartColors = ["#db9834", "#3c7cdc", "#860707", "#245b00"];
   let myChart;
 
   const beehiveData = [];
@@ -36,52 +37,107 @@
     error = "NoDataError";
   } else {
     cardStates.data.forEach((element) => {
-      if (element.type === "dummy") {
-        // ONLY FOR DEBUG BUG BUG element.type ===  "dummy"
-        beehiveData.push({
-          name: "temperature",
-          data: [
-            [1717357190000, 10],
-            [1717357200000, 41],
-            [1717357210000, 35],
-            [1717357220000, 51],
-            [1717357230000, 49],
-            [1717357240000, 62],
-            [1717357250000, 69],
-            [1717357260000, 91],
-            [1717357270000, 148],
-          ],
-        });
-      } else {
-        let data = shared
-          .getBeehiveById(element.beehive_id)
-          .getDataByType(element.type, true, "all"); // i guess we want all of the data
+      // if (element.type === "dummy") {
+      //   // ONLY FOR DEBUG BUG BUG element.type ===  "dummy"
+      //   beehiveData.push({
+      //     name: "temperature",
+      //     data: [
+      //       [1717357190000, 10],
+      //       [1717357200000, 41],
+      //       [1717357210000, 35],
+      //       [1717357220000, 51],
+      //       [1717357230000, 49],
+      //       [1717357240000, 62],
+      //       [1717357250000, 69],
+      //       [1717357260000, 91],
+      //       [1717357270000, 148],
+      //     ],
+      //   });
+      // } else {
+      //we load all data
+      /** @type {BeehiveObj} */
+      let beehiveObject = shared.getBeehiveById(element.beehive_id);
 
-        // non-detachable types have array right under them
-        if (!BeehiveObj.isTypeDetachable(element.type)) {
+      // non-detachable types have array right under them
+      if (!BeehiveObj.isTypeDetachable(element.type)) {
+        let data = beehiveObject.getAllDataByType(element.type);
+        let timestamp = beehiveObject.getTimestamps();
+
+        // Check if data and timestamp arrays have the same length
+        if (data.length !== timestamp.length) {
+          throw new Error("Data and timestamp arrays have different lengths");
+        }
+
+        // join data and timestamp
+        let combinedData = data.map((item, index) => [
+          timestamp[index],
+          item === -999 ? null : item,
+        ]);
+
+        // join data and timestamp like so [[data, timestamp], [data,timestamp]]
+
+        beehiveData.push({
+          name: element.name,
+          data: combinedData,
+        });
+      }
+      // detachable - connector types have nested array underneath them
+      else {
+        let data = beehiveObject.getAllDataByType(element.type);
+        let timestamp = beehiveObject.getTimestamps();
+
+        for (const dataItem of data) {
+          // Check if data and timestamp arrays have the same length
+          if (dataItem.values.length + dataItem.from - 1 > timestamp.length) {
+            console.error(dataItem.values.length + dataItem.from - 1);
+            throw new Error(
+              `Data of length ${dataItem.values.length} from ts index ${dataItem.from} is longer than timestamp length ${timestamp.length}`,
+            );
+          }
+
+          // join data and timestamp
+          let combinedData = dataItem.values.map((item, index) => [
+            timestamp[index + parseInt(dataItem.from)],
+            item === -999 ? null : item,
+          ]);
+
+          console.warn("combined data of type", element.type, combinedData);
           beehiveData.push({
             name: element.name,
-            data: data,
+            data: combinedData,
           });
         }
-        // detachable - connector types have nested array underneath them
-        else {
-          console.log("values", element);
-          for (const values of shared
-            .getBeehiveById(element.beehive_id)
-            .getDataByType(element.type, true, element.timespan)) {
-            beehiveData.push({
-              name: element.name,
-              data: values,
-            });
-          }
-        }
-
-        console.log(beehiveData);
       }
+
+      // console.log(beehiveData);
+      // }
     });
 
     let initOptions = () => {
+      let series = [];
+      for (let index = 0; index < beehiveData.length; index++) {
+        const line = beehiveData[index];
+        series.push({
+          lineStyle: {
+            color: chartColors[index],
+          },
+          itemStyle: {
+            borderType: "solid",
+            color: chartColors[index],
+            borderCap: "butt",
+            emphasis: {
+              color: chartColors[index],
+            },
+          },
+          name: line.name,
+          type: "line",
+          data: line.data.map(function (item) {
+            return item[1];
+          }),
+        });
+      }
+
+      console.log("Series", series);
       return {
         title: {
           show: false,
@@ -94,7 +150,9 @@
         tooltip: {
           trigger: "axis",
           formatter: function (params) {
-            console.log("paramsparams", params);
+            if (!params[0] || !params[0].values) {
+              return "";
+            }
             // Assuming params[0].value[0] or params[0].value is the timestamp value
             let value = params[0].value[0]
               ? params[0].value[0]
@@ -127,8 +185,8 @@
           top: "4%",
         },
         xAxis: {
-          data: beehiveData[0]?.data.map(function (item) {
-            return item[0];
+          data: beehiveData[0]?.data?.map(function (item) {
+            return item[1] != null && item && item.length > 1 ? item[1] : "";
           }),
           axisLabel: {
             type: "time",
@@ -145,7 +203,7 @@
             type: "slider",
             show: true,
             // xAxisIndex: [0], // Controls the first xAxis by default
-            start: 80, // Initial start percentage
+            start: 0, // Initial start percentage
             end: 100, // Initial end percentage
 
             // Soft gray background for the slider
@@ -198,24 +256,7 @@
             },
           },
         ],
-        series: {
-          lineStyle: {
-            color: "#db9834", // Blue color, for example
-          },
-          itemStyle: {
-            borderType: "solid",
-            color: "#db9834",
-            borderCap: "butt",
-            emphasis: {
-              color: "#db9834",
-            },
-          },
-          name: beehiveData[0]?.name,
-          type: "line",
-          data: beehiveData[0]?.data.map(function (item) {
-            return item[1];
-          }),
-        },
+        series: series,
       };
     };
 
