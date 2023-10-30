@@ -1,12 +1,12 @@
 <script>
-  import { onMount, tick } from "svelte";
+  import {onMount, tick} from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
   import shared from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
+  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { BeehiveObj } from "../../stores/Beehive";
+  import {BeehiveObj} from "../../stores/Beehive";
 
   /**
    * @type {Object}
@@ -57,59 +57,62 @@
       //we load all data
       /** @type {BeehiveObj} */
       let beehiveObject = shared.getBeehiveById(element.beehive_id);
+      if (beehiveObject == null) {
+        error = "NoDataError";
 
-      // non-detachable types have array right under them
-      if (!BeehiveObj.isTypeDetachable(element.type)) {
-        let data = beehiveObject.getAllDataByType(element.type);
-        let timestamp = beehiveObject.getTimestamps();
+      } else {
 
-        // Check if data and timestamp arrays have the same length
-        if (data.length !== timestamp.length) {
-          throw new Error("Data and timestamp arrays have different lengths");
-        }
+        // non-detachable types have array right under them
+        if (!BeehiveObj.isTypeDetachable(element.type)) {
+          let data = beehiveObject.getAllDataByType(element.type);
+          let timestamp = beehiveObject.getTimestamps();
 
-        // join data and timestamp
-        let combinedData = data.map((item, index) => [
-          timestamp[index] ,
-          item === -999 ? null : item,
-        ]);
-
-        // join data and timestamp like so [[data, timestamp], [data,timestamp]]
-
-        beehiveData.push({
-          name: element.name,
-          data: combinedData,
-        });
-      }
-      // detachable - connector types have nested array underneath them
-      else {
-        let data = beehiveObject.getAllDataByType(element.type);
-        let timestamp = beehiveObject.getTimestamps();
-
-        for (const dataItem of data) {
           // Check if data and timestamp arrays have the same length
-          if (dataItem.values.length + dataItem.from - 1 > timestamp.length) {
-            console.error(dataItem.values.length + dataItem.from - 1);
-            throw new Error(
-              `Data of length ${dataItem.values.length} from ts index ${dataItem.from} is longer than timestamp length ${timestamp.length}`,
-            );
+          if (data.length !== timestamp.length) {
+            throw new Error("Data and timestamp arrays have different lengths");
           }
 
           // join data and timestamp
-          let combinedData = dataItem.values.map((item, index) => [
-            timestamp[index + parseInt(dataItem.from)],
+          let combinedData = data.map((item, index) => [
+            timestamp[index],
             item === -999 ? null : item,
           ]);
 
-          console.warn("combined data of type", element.type, combinedData);
+          // join data and timestamp like so [[data, timestamp], [data,timestamp]]
+
           beehiveData.push({
             name: element.name,
             data: combinedData,
           });
         }
-      }
+        // detachable - connector types have nested array underneath them
+        else {
+          let data = beehiveObject.getAllDataByType(element.type);
+          let timestamp = beehiveObject.getTimestamps();
 
-      // }
+          for (const dataItem of data) {
+            // Check if data and timestamp arrays have the same length
+            if (dataItem.values.length + dataItem.from - 1 > timestamp.length) {
+
+              throw new Error(
+                `Data of length ${dataItem.values.length} from ts index ${dataItem.from} is longer than timestamp length ${timestamp.length}`,
+              );
+            }
+
+            // join data and timestamp
+            let combinedData = dataItem.values.map((item, index) => [
+              timestamp[index + parseInt(dataItem.from)],
+              item === -999 ? null : item,
+            ]);
+
+            beehiveData.push({
+              name: element.name,
+              data: combinedData,
+            });
+          }
+        }
+
+      }
     });
 
     let initOptions = () => {
@@ -266,24 +269,27 @@
     };
 
     onMount(() => {
-      // Use a Svelte ref for the chart container
-      myChart = echarts.init(document.getElementById(id));
+      if (error == null) {
+        // Use a Svelte ref for the chart container
+        myChart = echarts.init(document.getElementById(id));
 
-      let option = initOptions();
+        let option = initOptions();
 
-      myChart.setOption(option);
-      myChart.resize();
-      tick().then(() => {
+        myChart.setOption(option);
         myChart.resize();
-      });
+        tick().then(() => {
+          myChart.resize();
+        });
 
-      resizeEvent = () => {
-        myChart.resize();
-      };
+        resizeEvent = () => {
+          myChart.resize();
+        };
+      }
     });
   }
 
-  let resizeEvent = () => {};
+  let resizeEvent = () => {
+  };
 </script>
 
 <CardRoot
@@ -325,7 +331,7 @@
   </div>
 
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full" />
+    <div {id} class="h-full w-full"/>
   </div>
 
   <div class="" slot="customSettings">
