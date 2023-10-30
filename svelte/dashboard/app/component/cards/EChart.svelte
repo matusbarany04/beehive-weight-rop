@@ -70,7 +70,7 @@
 
         // join data and timestamp
         let combinedData = data.map((item, index) => [
-          timestamp[index],
+          timestamp[index] ,
           item === -999 ? null : item,
         ]);
 
@@ -158,7 +158,7 @@
               ? params[0].value[0]
               : params[0].value;
 
-            let date = new Date(value / 1000);
+            let date = new Date(value);
 
             let hours = String(date.getHours()).padStart(2, "0");
             let minutes = String(date.getMinutes()).padStart(2, "0");
@@ -186,14 +186,23 @@
         },
         xAxis: {
           data: beehiveData[0]?.data?.map(function (item) {
-            return item[1] != null && item && item.length > 1 ? item[1] : "";
+            return item[0] != null && item && item.length > 1 ? item[0] : "";
           }),
           axisLabel: {
             type: "time",
             formatter: function (value) {
               const date = new Date(parseInt(value));
+              console.log("val" , value[1] ,date.toLocaleDateString() )
               return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
             },
+          },
+          axisPointer: {
+            label: {
+              formatter: function (params) {
+                const date = new Date(parseInt(params.value));
+                return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+              }
+            }
           },
           boundaryGap: false,
         },
