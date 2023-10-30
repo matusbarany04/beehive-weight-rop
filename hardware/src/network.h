@@ -1,8 +1,6 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
-
-#define SSID "SNPD"
-#define PASSWORD "ke257-NT_61_ab"
+#include "constants.h"
 
 
 class NetworkManager {
@@ -10,7 +8,7 @@ class NetworkManager {
     public:
 
         void connectDefault() {
-            connect(SSID, PASSWORD);
+            connect(WIFI_SSID, WIFI_PASSWORD);
         }
 
         void connect(String ssid, String password) {
@@ -26,7 +24,7 @@ class NetworkManager {
 
             Serial.println("");
             Serial.print("Connected to ");
-            Serial.println(SSID);
+            Serial.println(WIFI_SSID);
             Serial.print("IP address: ");
             Serial.println(WiFi.localIP());
         }
