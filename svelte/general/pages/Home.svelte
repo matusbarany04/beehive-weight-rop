@@ -43,8 +43,8 @@
       <div class="right hidden flex-1 place-items-center md:grid">
         <!-- Image of a beehive-->
         <div
-          class="h-full w-full bg-contain bg-center bg-no-repeat"
-          style:background-image="url('img/beehive_token.svg')"
+          class="h-full w-full -scale-x-100 bg-contain bg-center bg-no-repeat"
+          style:background-image="url('img/beeman/2.png')"
         ></div>
       </div>
     </div>

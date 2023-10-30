@@ -1,6 +1,8 @@
 <script>
   import RouterLink from "../../components/RouterLink.svelte";
   import Background from "../app/components/auth/Background.svelte";
+  import ButtonSmall from "../../components/Buttons/ButtonSmall.svelte";
+  import CircleButton from "../../components/Buttons/CircleButton.svelte";
 
   const urlParams = new URLSearchParams(window.location.search);
   const invalid = urlParams.get("invalid");
@@ -8,6 +10,10 @@
 
 <div class="bg-primary v-screen relative h-screen bg-primary-500">
   <Background></Background>
+  <div class="absolute left-0 top-0 p-4">
+    <CircleButton type="primary" link="/" image="icons/arrow-left.svg"
+    ></CircleButton>
+  </div>
   <div
     class="absolute right-0 flex h-screen w-full items-center p-1 sm:w-1/2 sm:min-w-[40rem] sm:justify-center"
   >

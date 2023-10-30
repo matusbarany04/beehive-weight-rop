@@ -1,12 +1,11 @@
 <script>
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
-  import shared, { onLoad } from "../../stores/shared";
+  import shared from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
   import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { tick } from "svelte";
   import { BeehiveObj } from "../../stores/Beehive";
 
   /**
@@ -56,7 +55,7 @@
       } else {
         let data = shared
           .getBeehiveById(element.beehive_id)
-          .getDataByType(element.type, true, element.timespan);
+          .getDataByType(element.type, true, "all"); // i guess we want all of the data
 
         // non-detachable types have array right under them
         if (!BeehiveObj.isTypeDetachable(element.type)) {
@@ -70,7 +69,7 @@
           console.log("values", element);
           for (const values of shared
             .getBeehiveById(element.beehive_id)
-            .getDetachableDataByType(element.type, true, element.timespan)) {
+            .getDataByType(element.type, true, element.timespan)) {
             beehiveData.push({
               name: element.name,
               data: values,
@@ -95,6 +94,7 @@
         tooltip: {
           trigger: "axis",
           formatter: function (params) {
+            console.log("paramsparams", params);
             // Assuming params[0].value[0] or params[0].value is the timestamp value
             let value = params[0].value[0]
               ? params[0].value[0]
@@ -133,14 +133,8 @@
           axisLabel: {
             type: "time",
             formatter: function (value) {
-              // Assuming value is in milliseconds
-              let date = new Date(value / 1000);
-
-              // Format it to HH:mm:ss or any format you prefer
-              let hours = String(date.getHours()).padStart(2, "0");
-              let minutes = String(date.getMinutes()).padStart(2, "0");
-              let seconds = String(date.getSeconds()).padStart(2, "0");
-              return `${hours}:${minutes}:${seconds}`;
+              const date = new Date(parseInt(value));
+              return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
             },
           },
           boundaryGap: false,
@@ -150,9 +144,9 @@
           {
             type: "slider",
             show: true,
-            xAxisIndex: [0], // Controls the first xAxis by default
-            start: 10, // Initial start percentage
-            end: 80, // Initial end percentage
+            // xAxisIndex: [0], // Controls the first xAxis by default
+            start: 80, // Initial start percentage
+            end: 100, // Initial end percentage
 
             // Soft gray background for the slider
             backgroundColor: "rgba(240, 240, 240, 0.6)",
@@ -193,9 +187,11 @@
               shadowColor: "rgba(150, 150, 150, 0.5)",
             },
 
-            // Label with soft gray text
+            // TODO get data on index and display the date
             labelFormatter: function (value) {
-              return "Value: " + value;
+              // console.log("label formatter " + value);
+              const date = new Date(parseInt(value));
+              return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
             },
             textStyle: {
               color: "rgba(100, 100, 100, 1)",
