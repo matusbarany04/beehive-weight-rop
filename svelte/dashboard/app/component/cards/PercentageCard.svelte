@@ -15,15 +15,16 @@
 
   let value = 0;
   if (cardStates.data == "dummy" || cardStates.data == []) {
-    
     cardStates.title = "Súčet všetkých váh";
-    cardStates.data = [{
-      type: "weight",
-      beehive_id: "all",
-      from: "week",
-      till: "now",
-      mergeType: "sum",
-    }];
+    cardStates.data = [
+      {
+        type: "weight",
+        beehive_id: "all",
+        from: "week",
+        till: "now",
+        mergeType: "sum",
+      },
+    ];
 
     let beehiveKeys = Object.keys(shared.getBeehives());
 
@@ -31,8 +32,7 @@
       let beehive = shared.getBeehives()[beehiveKey];
       value += beehive.getLastDataByType("weight");
     }
-    
-    
+
     value =
       Number(value) === parseInt(value)
         ? Number(value)

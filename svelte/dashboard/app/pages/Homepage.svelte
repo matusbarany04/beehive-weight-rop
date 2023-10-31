@@ -163,6 +163,30 @@
     ></Grid>
     <div class="h-16 w-full"></div>
   {:else}
-    <Loading />
+<!--    <Loading />-->
+    <div class="grid grid-cols-4 grid-rows-4 w-full aspect-square gap-4">
+
+      {#each Array.from({ length: 16 }) as _, i}
+        <div class="loading bg-tertiary-200 rounded-md">
+          
+        </div>
+      {/each}
+    </div>
   {/if}
 </div>
+
+
+<style>
+  .loading {
+    animation: flash 3s infinite;
+  }
+
+  @keyframes flash {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    25%,75% {
+      opacity: 1;
+    }
+  }
+</style>

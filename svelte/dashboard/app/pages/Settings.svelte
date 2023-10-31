@@ -409,7 +409,32 @@
       </select>
       <Toggle />
     </SettingsItem>
+  
+  
   {:else}
-    <Loading />
+
+    {#each Array.from({ length: 3 }) as _, i}
+      <div class="loading bg-tertiary-200 rounded-md h-24 mx-auto mb-4 flex flex-col justify-between p-4 lg:w-5/6"
+      >
+      </div>
+      <div class="loading bg-tertiary-200 rounded-md h-48 mx-auto mb-4 flex flex-col justify-between p-4 lg:w-5/6"
+        >
+      </div>
+    {/each}
   {/if}
 </form>
+
+<style>
+  .loading {
+    animation: flash 3s infinite;
+  }
+
+  @keyframes flash {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    25%,75% {
+      opacity: 1;
+    }
+  }
+</style>
