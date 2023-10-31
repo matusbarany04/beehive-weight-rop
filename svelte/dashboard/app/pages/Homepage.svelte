@@ -52,7 +52,7 @@
     user = userObj;
     message.setMessage("Dobrý deň, včelár " + user.name);
     cardList = JSON.parse(user.dashboardData);
-    renderCards = true;
+    // renderCards = true;
   });
 
   onMount(function () {
@@ -89,13 +89,22 @@
 
   let restoreLayout = () => {
     cardList = JSON.parse(user.dashboardData);
-    renderCards = false;
-    tick().then(() => {
-      renderCards = true;
-    });
+    if (renderCards) {
+      renderCards = false;
+      tick().then(() => {
+        renderCards = true;
+      });
+    }
     editMode = false;
     panelState.resetMode();
   };
+
+  setContext("dashboard", {
+    saveGrid: () => {
+      save(grid.serialize());
+      restoreLayout();
+    },
+  });
 </script>
 
 <svelte:window on:resize={resizeWindowEvent} />

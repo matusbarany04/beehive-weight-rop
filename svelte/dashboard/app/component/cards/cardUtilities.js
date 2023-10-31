@@ -19,11 +19,11 @@ export const getData = (id) => {};
 
 const cardtypes = [
   { format: "LineGraph", component: EChart },
-  { format: "DoubleGraph", component: DoubleGraph },
+  // { format: "DoubleGraph", component: DoubleGraph },
   { format: "PercentageCard", component: PercentageCard },
   { format: "MapCard", component: MapCard },
   { format: "WeatherCard", component: WeatherCard },
-  { format: "TestCard", component: TestCard },
+  // { format: "TestCard", component: TestCard },
 ];
 
 export function getCardTypes() {

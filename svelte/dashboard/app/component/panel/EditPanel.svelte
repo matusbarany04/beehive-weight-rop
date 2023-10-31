@@ -36,7 +36,7 @@
           cardStates: {
             mode: "add",
             title: item.format, // TODO zmenit na nejaky string z listu, aby bola mozna localizacia
-            data: [{ type: "dummy", from: "all", to: "now" }], //default type of data in card item
+            data: "dummy", //default type of data in card item
           },
         }}
         className="grid place-items-center flex-1"
@@ -46,7 +46,7 @@
           cardStates={{
             mode: "add",
             title: item.format, // TODO zmenit na nejaky string z listu, aby bola mozna localizacia
-            data: [{ type: "dummy", from: "all", to: "now" }], //default type of data in card item
+            data: "dummy", //default type of data in card item
           }}
         />
       </GridAdd>
