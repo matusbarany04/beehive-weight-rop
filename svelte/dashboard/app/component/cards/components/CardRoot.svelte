@@ -50,7 +50,7 @@
    */
   export let onCardStatesModified = () => {};
 
-  const dashboardEditor = getContext("dashboardEditor");
+  const dashboard = getContext("dashboard");
   // dashboardEditor.deleteCard("some dynamic id");
 
   if (!cardStates.mode) getDefaultMode();
@@ -101,7 +101,7 @@
 
     // dashboardEditor.updateCardStates(cardStates.id, cardStates);
 
-    await dashboardEditor.saveCardList();
+    await dashboard.saveGrid();
 
     showSettings = false;
 

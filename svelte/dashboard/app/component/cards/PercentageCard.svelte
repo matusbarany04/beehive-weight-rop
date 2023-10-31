@@ -2,7 +2,7 @@
   import CardRoot from "./components/CardRoot.svelte";
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import {getUnitByType} from "../../../../components/lib/utils/staticFuncs";
+  import { getUnitByType } from "../../../../components/lib/utils/staticFuncs";
 
   export let cardStates;
 
@@ -14,6 +14,32 @@
   $: size = Math.min(h, w) / 2 / (innerError == null ? 1 : 1.8);
 
   let value = 0;
+  if (cardStates.data == "dummy" || cardStates.data == []) {
+    
+    cardStates.title = "Súčet všetkých váh";
+    cardStates.data = [{
+      type: "weight",
+      beehive_id: "all",
+      from: "week",
+      till: "now",
+      mergeType: "sum",
+    }];
+
+    let beehiveKeys = Object.keys(shared.getBeehives());
+
+    for (const beehiveKey of beehiveKeys) {
+      let beehive = shared.getBeehives()[beehiveKey];
+      value += beehive.getLastDataByType("weight");
+    }
+    
+    
+    value =
+      Number(value) === parseInt(value)
+        ? Number(value)
+        : Number(value).toFixed(1);
+
+    value += getUnitByType("weight");
+  }
 
   if (!cardStates?.data) {
     error = "NoDataError";
@@ -92,7 +118,7 @@
     >
       <h1
         class="overflow-hidden text-ellipsis whitespace-nowrap text-center"
-        style="font-size: {(size * 5) / 6}px"
+        style="font-size: {(size * 4.5) / 6}px"
       >
         {value}
       </h1>
@@ -113,35 +139,30 @@
   <!--  </div>-->
   <!--{/if}-->
 
-
   <!--TODO might crash-->
-
 
   <div class="" slot="customSettings">
     {#if error == null && value !== "error" && value !== "NoData"}
       <DropdownInput
         label="Typ dát"
         name="data_type"
-        value={cardStates.data[0].type ?? "dummy"}
+        value={cardStates.data ?? [0].type ?? "weight"}
         options={[
-        ["dummy", "ukážkové dáta"],
-        ["temperature", "Teplota"],
-        ["weight", "Váha"],
-        ["humidity", "Vlhkosť"],
-      ]}
+          ["weight", "Váha"],
+          ["temperature", "Teplota"],
+          ["humidity", "Vlhkosť"],
+        ]}
       />
 
-<!--      <DropdownInput-->
-<!--        label="Váha"-->
-<!--        name="beehive_id"-->
-<!--        value={cardStates.data[0].beehive_id ?? "all"}-->
-<!--        small={"Váha pre ktorú sa budú zobrazovať dáta"}-->
-<!--      />-->
-<!--    TODO same as in eCharts, wait in homepage till beehives are loaded the render the cards 
-        options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}-->
+      <DropdownInput
+        label="Váha"
+        name="beehive_id"
+        value={cardStates.data ?? [0].beehive_id ?? "all"}
+        small={"Váha pre ktorú sa budú zobrazovať dáta"}
+        options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
+      />
     {/if}
   </div>
-
 </CardRoot>
 
 <style lang="scss">
