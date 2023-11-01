@@ -409,17 +409,14 @@
       </select>
       <Toggle />
     </SettingsItem>
-  
-  
   {:else}
-
     {#each Array.from({ length: 3 }) as _, i}
-      <div class="loading bg-tertiary-200 rounded-md h-24 mx-auto mb-4 flex flex-col justify-between p-4 lg:w-5/6"
-      >
-      </div>
-      <div class="loading bg-tertiary-200 rounded-md h-48 mx-auto mb-4 flex flex-col justify-between p-4 lg:w-5/6"
-        >
-      </div>
+      <div
+        class="loading mx-auto mb-4 flex h-24 flex-col justify-between rounded-md bg-tertiary-200 p-4 lg:w-5/6"
+      ></div>
+      <div
+        class="loading mx-auto mb-4 flex h-48 flex-col justify-between rounded-md bg-tertiary-200 p-4 lg:w-5/6"
+      ></div>
     {/each}
   {/if}
 </form>
@@ -430,10 +427,12 @@
   }
 
   @keyframes flash {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0.5;
     }
-    25%,75% {
+    25%,
+    75% {
       opacity: 1;
     }
   }

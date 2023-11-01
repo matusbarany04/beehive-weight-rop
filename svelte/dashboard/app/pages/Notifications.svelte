@@ -3,10 +3,10 @@
    * @fileoverview This page displays notifications from beehives
    * @module Notification
    */
-  import {onMount} from "svelte";
+  import { onMount } from "svelte";
   import Button from "../../../components/Buttons/Button.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
-  import {fade, fly} from "svelte/transition";
+  import { fade, fly } from "svelte/transition";
   import message from "../stores/message";
   /*
   var stompClient = null;
@@ -248,7 +248,8 @@
     });
   }
 </script>
-{#if messages} 
+
+{#if messages}
   <div
     class="mx-auto mb-4 flex h-32 flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
   >
@@ -258,11 +259,11 @@
     <Button
       text="Označiť všetky ako prečítané"
       onClick={() => {
-      // TODO mato spravi request pre viac precitanych
-      messages.forEach((element) => {
-        setRead(element.id);
-      });
-    }}
+        // TODO mato spravi request pre viac precitanych
+        messages.forEach((element) => {
+          setRead(element.id);
+        });
+      }}
     />
   </div>
 
@@ -270,9 +271,9 @@
     <div
       out:fly|local={{ x: 400, duration: 1000 }}
       class="  min-h-48 mx-auto mb-4 flex flex-col justify-between rounded-lg p-4 lg:w-5/6 {message.seen >
-    0.5
-      ? 'bg-slate-200'
-      : 'bg-white'}"
+      0.5
+        ? 'bg-slate-200'
+        : 'bg-white'}"
     >
       <!-- title -->
       <div class="group flex flex-1 flex-col justify-center lg:justify-normal">
@@ -303,16 +304,16 @@
                 image="envelope-check.svg"
                 type="secondary"
                 onClick={() => {
-                setRead(message.id);
-              }}
+                  setRead(message.id);
+                }}
               />
             {/if}
             <CircleButton
               image="icons/delete.svg"
               type="error"
               onClick={() => {
-              remove(message.id);
-            }}
+                remove(message.id);
+              }}
             />
           </div>
         </header>
@@ -325,15 +326,12 @@
   {/each}
 {:else}
   <div
-    class="loading h-16 mx-auto mb-4 flex flex-col justify-between rounded-lg p-4 lg:w-5/6 bg-tertiary-200"
-  >
-
-  </div>
+    class="loading mx-auto mb-4 flex h-16 flex-col justify-between rounded-lg bg-tertiary-200 p-4 lg:w-5/6"
+  ></div>
   {#each Array.from({ length: 3 }) as _, i}
     <div
-      class="loading h-24 mx-auto mb-4 flex flex-col justify-between rounded-lg p-4 lg:w-5/6 bg-tertiary-200 "
-    >
-    </div>
+      class="loading mx-auto mb-4 flex h-24 flex-col justify-between rounded-lg bg-tertiary-200 p-4 lg:w-5/6"
+    ></div>
   {/each}
 {/if}
 
@@ -359,10 +357,12 @@
   }
 
   @keyframes flash {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0.5;
     }
-    25%, 75% {
+    25%,
+    75% {
       opacity: 1;
     }
   }
