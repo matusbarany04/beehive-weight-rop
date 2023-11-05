@@ -2,7 +2,7 @@
   import CardRoot from "./components/CardRoot.svelte";
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { getUnitByType } from "../../../../components/lib/utils/staticFuncs";
+  import {getUnitByType} from "../../../../components/lib/utils/staticFuncs";
 
   export let cardStates;
 
@@ -12,80 +12,86 @@
   let w = 10;
   let h;
   $: size = Math.min(h, w) / 2 / (innerError == null ? 1 : 1.8);
-
   let value = 0;
-  if (cardStates.data == "dummy" || cardStates.data == []) {
-    cardStates.title = "Súčet všetkých váh";
-    cardStates.data = [
-      {
-        type: "weight",
-        beehive_id: "all",
-        from: "week",
-        till: "now",
-        mergeType: "sum",
-      },
-    ];
+  try {
 
-    let beehiveKeys = Object.keys(shared.getBeehives());
+ 
+    if (cardStates.data == "dummy" || cardStates.data == []) {
+      cardStates.title = "Súčet všetkých váh";
+      cardStates.data = [
+        {
+          type: "weight",
+          beehive_id: "all",
+          from: "week",
+          till: "now",
+          mergeType: "sum",
+        },
+      ];
 
-    for (const beehiveKey of beehiveKeys) {
-      let beehive = shared.getBeehives()[beehiveKey];
-      value += beehive.getLastDataByType("weight");
+      let beehiveKeys = Object.keys(shared.getBeehives());
+
+      for (const beehiveKey of beehiveKeys) {
+        let beehive = shared.getBeehives()[beehiveKey];
+        value += beehive.getLastDataByType("weight");
+      }
+
+      value =
+        Number(value) === parseInt(value)
+          ? Number(value)
+          : Number(value).toFixed(1);
+
+      value += getUnitByType("weight");
     }
 
-    value =
-      Number(value) === parseInt(value)
-        ? Number(value)
-        : Number(value).toFixed(1);
+    if (!cardStates?.data) {
+      error = "NoDataError";
+    } else {
+      cardStates.data.forEach((element) => {
+        if (element.type === "dummy") {
+          value = ":/";
+          return; // continue to the next iteration
+        }
 
-    value += getUnitByType("weight");
-  }
+        let beeData;
+        if (element.data === undefined) {
+          beeData = shared
+            .getBeehiveById(element.beehive_id)
+            .getLastDataByType(element.type);
+        } else {
+          beeData = element.data;
+        }
 
-  if (!cardStates?.data) {
-    error = "NoDataError";
-  } else {
-    cardStates.data.forEach((element) => {
-      if (element.type === "dummy") {
-        value = ":/";
-        return; // continue to the next iteration
-      }
+        if (beeData != null) {
+          if (!isNaN(beeData)) {
+            value =
+              Number(beeData) === parseInt(beeData)
+                ? Number(beeData)
+                : Number(beeData).toFixed(1);
 
-      let beeData;
-      if (element.data === undefined) {
-        beeData = shared
-          .getBeehiveById(element.beehive_id)
-          .getLastDataByType(element.type);
-      } else {
-        beeData = element.data;
-      }
+            value = value || "NoData";
 
-      if (beeData != null) {
-        if (!isNaN(beeData)) {
-          value =
-            Number(beeData) === parseInt(beeData)
-              ? Number(beeData)
-              : Number(beeData).toFixed(1);
-
-          value = value || "NoData";
-
-          if (value !== "error" && value !== "NoData") {
-            if (element.unit === undefined) {
-              value += getUnitByType(element.type);
+            if (value !== "error" && value !== "NoData") {
+              if (element.unit === undefined) {
+                value += getUnitByType(element.type);
+              } else {
+                value += element.unit;
+              }
             } else {
-              value += element.unit;
+              innerError = "NoData";
             }
           } else {
-            innerError = "NoData";
+            value = beeData;
           }
         } else {
-          value = beeData;
+          value = "NoData";
+          innerError = "NoData";
         }
-      } else {
-        value = "NoData";
-        innerError = "NoData";
-      }
-    });
+      });
+    }
+  } catch (e) {
+    console.error("Percentage card error ", e)
   }
+
 </script>
 
 <!-- theme="dashed" -->

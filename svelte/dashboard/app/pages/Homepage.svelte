@@ -31,6 +31,15 @@
   let renderCards = false;
   let grid;
 
+  /* this is only temporally, in future there should be a popup that will pause editing until user widens the website */
+  panelState.getOpenedRef().subscribe((panelOpened)=>{
+    if(!panelOpened){
+        editMode = false;
+    }
+  })
+  
+  
+
   let resizeWindowEvent = (event) => {
     if (TW_BREAKPOINTS.md > window.innerWidth) {
       if (editMode) {
@@ -50,8 +59,9 @@
   message.setMessage("Dobrý deň");
   onLoad(["user"], (userObj) => {
     user = userObj;
-    message.setMessage("Dobrý deň, včelár " + user.name);
+    message.setMessage("Dobrý deň, včelár " + user.name + "!");
     cardList = JSON.parse(user.dashboardData);
+    console.log(user)
     // renderCards = true;
   });
 
@@ -59,7 +69,7 @@
     resizeWindowEvent();
   });
 
-  onLoad(["beehives", "statuses"], (beehives, statuses) => {
+  onLoad(["beehives", "statuses", "user"], (beehives, statuses,user) => {
     renderCards = true;
   });
 
