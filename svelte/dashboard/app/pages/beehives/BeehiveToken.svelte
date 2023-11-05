@@ -40,6 +40,11 @@
   }
 </script>
 
+<svelte:head>
+  <title>Pridanie úľu cez token</title>
+  <meta name="Beehive from Token" content="This page provides one of the options to add new beehive with token" />
+</svelte:head>
+
 <div
   class="mb-5 rounded-lg bg-white p-5 md:border-0 md:border-r-2 md:border-slate-300 md:pr-2"
 >

@@ -89,8 +89,8 @@
 </script>
 
 <svelte:head>
-  <title>Analytika</title>
-  <meta name="Analytika" content="Analytika" />
+  <title>Zmena hesla</title>
+  <meta name="Password change" content="This page is for changing users password" />
 </svelte:head>
 
 <form

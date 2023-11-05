@@ -99,7 +99,10 @@
     else return "black";
   }
 </script>
-
+<svelte:head>
+  <title>Kalendár</title>
+  <meta name="Analytika" content="Analytika" />
+</svelte:head>
 <div class="flex h-4/5 flex-col" on:load={onload}>
   <div>
     <div class="flex items-center justify-end">

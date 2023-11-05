@@ -127,7 +127,7 @@
 <svelte:window on:resize={resizeWindowEvent} />
 
 <svelte:head>
-  <title>DashBoard</title>
+  <title>Hlavný Panel</title>
   <meta name="description" content="Dashboard" />
 </svelte:head>
 
