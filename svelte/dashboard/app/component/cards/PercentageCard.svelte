@@ -90,6 +90,7 @@
     }
   } catch (e) {
     console.error("Percentage card error ", e)
+    error = "CardStateProcessError";
   }
 
 </script>

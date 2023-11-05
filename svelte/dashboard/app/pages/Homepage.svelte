@@ -23,6 +23,7 @@
   import MapCard from "../component/cards/MapCard.svelte";
   import { getCardByFormat } from "../component/cards/cardUtilities";
   import toast from "../../../components/Toast/toast";
+  import Login from "../../../general/pages/Login.svelte";
 
   let cardList = [];
 
@@ -97,14 +98,18 @@
     }
   }
 
-  let restoreLayout = () => {
-    cardList = JSON.parse(user.dashboardData);
+  let refreshDashboard = () => {
     if (renderCards) {
       renderCards = false;
       tick().then(() => {
         renderCards = true;
       });
     }
+  };
+
+  let restoreLayout = () => {
+    cardList = JSON.parse(user.dashboardData);
+    refreshDashboard()
     editMode = false;
     panelState.resetMode();
   };
@@ -112,7 +117,9 @@
   setContext("dashboard", {
     saveGrid: () => {
       save(grid.serialize());
-      restoreLayout();
+      console.log("serialized grid", grid.serialize())
+      cardList = grid.serialize()
+      refreshDashboard()
     },
   });
 </script>
