@@ -84,7 +84,7 @@
     // we get form data
     const data = new FormData(this);
     form = {};
-
+    console.log("saving these data", data)
     let title = data.get("title");
     if (!isEmpty(title)) {
       cardStates.title = title;
@@ -98,9 +98,6 @@
     } else {
       form.error = "Chyba";
     }
-
-    // dashboardEditor.updateCardStates(cardStates.id, cardStates);
-
     await dashboard.saveGrid();
 
     showSettings = false;
@@ -146,14 +143,14 @@
       <h1
         class="no_wrap flex-1 text-ellipsis whitespace-nowrap text-base text-slate-500"
       >
-        {cardStates?.title || ""}
+        {error || cardStates?.title || ""}
       </h1>
       <slot name="header" />
 
       {#if cardStates.mode !== "add" && cardStates.mode !== "static"}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <button
-          class="headerIcon options"
+          class="headerIcon options" 
           on:click={() => {
             showSettings = true;
           }}

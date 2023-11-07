@@ -75,7 +75,10 @@
     });
   });
 </script>
-
+<svelte:head>
+  <title>Test</title>
+  <meta name="Analytika" content="Analytika" />
+</svelte:head>
 {#each Object.values(beehives) as beehive, key}
   <p>{beehive.beehive_id}</p>
   <p>{key}</p>

@@ -1,5 +1,12 @@
 const errorTypes = [
-  { type: "NoDataError", message: "Chyba pri načítaní dát to karty" },
+    {
+        type: "NoDataError",
+        message: "Chyba, dáta pre kartu neexistujú"
+    },
+    {
+        type: "CardStateProcessError",
+        message: "Chyba pri načítaní dát to karty"
+    },
 ];
 
 /**
@@ -7,7 +14,7 @@ const errorTypes = [
  * @function
  */
 export function getErrorTypes() {
-  return errorTypes;
+    return errorTypes;
 }
 
 /**
@@ -16,9 +23,9 @@ export function getErrorTypes() {
  * @param {string} type type of error message
  */
 export function getErrorMessageByType(type) {
-  let output = errorTypes.find((error) => error.type == type);
-  if (!output) {
-    return "Chyba pri načítaní chyby!";
-  }
-  return output.message;
+    let output = errorTypes.find((error) => error.type == type);
+    if (!output) {
+        return "Chyba pri načítaní chyby!";
+    }
+    return output.message;
 }

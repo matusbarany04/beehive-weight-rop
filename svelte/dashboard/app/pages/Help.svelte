@@ -11,6 +11,11 @@
   message.setMessage("Pomoc");
 </script>
 
+<svelte:head>
+  <title>Pomoc</title>
+  <meta name="help" content="This page is for resolving user related problem and providing explanations" />
+</svelte:head>
+
 <SettingsHeader
   title="Často kladené otázky"
   description="Nemôžete nájsť odpoveď, ktorú hľadáte? Obráťte sa na náš zákaznícky servis."

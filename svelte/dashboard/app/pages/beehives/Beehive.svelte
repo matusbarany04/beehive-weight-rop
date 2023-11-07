@@ -85,6 +85,11 @@
   });
 </script>
 
+<svelte:head>
+  <title>Úľ</title>
+  <meta name="Úľ" content="Úľ" />
+</svelte:head>
+
 <div id="chart"></div>
 
 <svelte:window on:resize={resize} />
