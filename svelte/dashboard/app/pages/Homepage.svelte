@@ -33,13 +33,11 @@
   let grid;
 
   /* this is only temporally, in future there should be a popup that will pause editing until user widens the website */
-  panelState.getOpenedRef().subscribe((panelOpened)=>{
-    if(!panelOpened){
-        editMode = false;
+  panelState.getOpenedRef().subscribe((panelOpened) => {
+    if (!panelOpened) {
+      editMode = false;
     }
-  })
-  
-  
+  });
 
   let resizeWindowEvent = (event) => {
     if (TW_BREAKPOINTS.md > window.innerWidth) {
@@ -62,7 +60,7 @@
     user = userObj;
     message.setMessage("Dobrý deň, včelár " + user.name + "!");
     cardList = JSON.parse(user.dashboardData);
-    console.log(user)
+    console.log(user);
     // renderCards = true;
   });
 
@@ -70,7 +68,7 @@
     resizeWindowEvent();
   });
 
-  onLoad(["beehives", "statuses", "user"], (beehives, statuses,user) => {
+  onLoad(["beehives", "statuses", "user"], (beehives, statuses, user) => {
     renderCards = true;
   });
 
@@ -109,7 +107,7 @@
 
   let restoreLayout = () => {
     cardList = JSON.parse(user.dashboardData);
-    refreshDashboard()
+    refreshDashboard();
     editMode = false;
     panelState.resetMode();
   };
@@ -117,9 +115,9 @@
   setContext("dashboard", {
     saveGrid: () => {
       save(grid.serialize());
-      console.log("serialized grid", grid.serialize())
-      cardList = grid.serialize()
-      refreshDashboard()
+      console.log("serialized grid", grid.serialize());
+      cardList = grid.serialize();
+      refreshDashboard();
     },
   });
 </script>

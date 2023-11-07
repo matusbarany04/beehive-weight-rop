@@ -99,6 +99,7 @@
     else return "black";
   }
 </script>
+
 <svelte:head>
   <title>Kalendár</title>
   <meta name="Analytika" content="Analytika" />

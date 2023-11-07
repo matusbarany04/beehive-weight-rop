@@ -84,7 +84,7 @@
     // we get form data
     const data = new FormData(this);
     form = {};
-    console.log("saving these data", data)
+    console.log("saving these data", data);
     let title = data.get("title");
     if (!isEmpty(title)) {
       cardStates.title = title;
@@ -150,7 +150,7 @@
       {#if cardStates.mode !== "add" && cardStates.mode !== "static"}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <button
-          class="headerIcon options" 
+          class="headerIcon options"
           on:click={() => {
             showSettings = true;
           }}

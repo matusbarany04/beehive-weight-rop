@@ -13,7 +13,10 @@
 
 <svelte:head>
   <title>Pomoc</title>
-  <meta name="help" content="This page is for resolving user related problem and providing explanations" />
+  <meta
+    name="help"
+    content="This page is for resolving user related problem and providing explanations"
+  />
 </svelte:head>
 
 <SettingsHeader

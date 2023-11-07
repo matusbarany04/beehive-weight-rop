@@ -12,7 +12,10 @@
 
 <svelte:head>
   <title>Pridanie úľu</title>
-  <meta name="Add beehive" content="This page allows beekeper to add new beehives to their account with multiple options" />
+  <meta
+    name="Add beehive"
+    content="This page allows beekeper to add new beehives to their account with multiple options"
+  />
 </svelte:head>
 <div
   class="mx-auto mb-4 justify-between gap-4 rounded-lg lg:w-5/6 lg:flex-row lg:justify-center"

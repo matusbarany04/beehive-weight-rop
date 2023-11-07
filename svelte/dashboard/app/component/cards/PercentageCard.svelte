@@ -13,9 +13,27 @@
   let h;
   $: size = Math.min(h, w) / 2 / (innerError == null ? 1 : 1.8);
   let value = 0;
+
+  function loadAllBeehives(type) {
+    let beehiveKeys = Object.keys(shared.getBeehives());
+
+    for (const beehiveKey of beehiveKeys) {
+      let beehive = shared.getBeehives()[beehiveKey];
+      console.log("beehive.getLastDataByType(type)", beehive.getLastDataByType(type))
+      value += beehive.getLastDataByType(type);
+    }
+
+    value =
+      Number(value) === parseInt(value)
+        ? Number(value)
+        : Number(value).toFixed(1);
+
+    value += getUnitByType(type);
+  }
+
   try {
 
- 
+
     if (cardStates.data == "dummy" || cardStates.data == []) {
       cardStates.title = "Súčet všetkých váh";
       cardStates.data = [
@@ -28,71 +46,64 @@
         },
       ];
 
-      let beehiveKeys = Object.keys(shared.getBeehives());
-
-      for (const beehiveKey of beehiveKeys) {
-        let beehive = shared.getBeehives()[beehiveKey];
-        value += beehive.getLastDataByType("weight");
-      }
-
-      value =
-        Number(value) === parseInt(value)
-          ? Number(value)
-          : Number(value).toFixed(1);
-
-      value += getUnitByType("weight");
+      loadAllBeehives("weight")
     }
 
     if (!cardStates?.data) {
       error = "NoDataError";
     } else {
       cardStates.data.forEach((element) => {
-        if (element.type === "dummy") {
-          value = ":/";
-          return; // continue to the next iteration
-        }
-
-        let beeData;
-        if (element.data === undefined) {
-          beeData = shared
-            .getBeehiveById(element.beehive_id)
-            .getLastDataByType(element.type);
+        if (element.beehive_id === "all") {
+          loadAllBeehives(element.type)
         } else {
-          beeData = element.data;
-        }
 
-        if (beeData != null) {
-          if (!isNaN(beeData)) {
-            value =
-              Number(beeData) === parseInt(beeData)
-                ? Number(beeData)
-                : Number(beeData).toFixed(1);
+          if (element.type === "dummy") {
+            value = ":/";
+            return; // continue to the next iteration
+          }
 
-            value = value || "NoData";
+          let beeData;
+          if (element.data === undefined) {
+            beeData = shared
+              .getBeehiveById(element.beehive_id)
+              .getLastDataByType(element.type);
+          } else {
+            beeData = element.data;
+          }
 
-            if (value !== "error" && value !== "NoData") {
-              if (element.unit === undefined) {
-                value += getUnitByType(element.type);
+          if (beeData != null) {
+            if (!isNaN(beeData)) {
+              value =
+                Number(beeData) === parseInt(beeData)
+                  ? Number(beeData)
+                  : Number(beeData).toFixed(1);
+
+              value = value || "NoData";
+
+              if (value !== "error" && value !== "NoData") {
+                if (element.unit === undefined) {
+                  value += getUnitByType(element.type);
+                } else {
+                  value += element.unit;
+                }
               } else {
-                value += element.unit;
+                innerError = "NoData";
               }
             } else {
-              innerError = "NoData";
+              value = beeData;
             }
           } else {
-            value = beeData;
+            value = "NoData";
+            innerError = "NoData";
           }
-        } else {
-          value = "NoData";
-          innerError = "NoData";
         }
+
       });
     }
   } catch (e) {
-    console.error("Percentage card error ", e)
+    console.error("Percentage card error ", e);
     error = "CardStateProcessError";
   }
-
 </script>
 
 <!-- theme="dashed" -->
@@ -100,7 +111,7 @@
   updateSettings={(formData) => {
     return {
       status: "success",
-
+      
       data: [
         {
           name: formData.get("data_type"), // TODO make translatable
@@ -153,7 +164,7 @@
       <DropdownInput
         label="Typ dát"
         name="data_type"
-        value={cardStates.data ?? [0].type ?? "weight"}
+        value={cardStates.data[0].type || "weight" }
         options={[
           ["weight", "Váha"],
           ["temperature", "Teplota"],
@@ -164,7 +175,7 @@
       <DropdownInput
         label="Váha"
         name="beehive_id"
-        value={cardStates.data ?? [0].beehive_id ?? "all"}
+        value={cardStates.data[0].beehive_id || "all"}
         small={"Váha pre ktorú sa budú zobrazovať dáta"}
         options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
       />
