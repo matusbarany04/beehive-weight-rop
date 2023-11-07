@@ -90,7 +90,10 @@
 
 <svelte:head>
   <title>Zmena hesla</title>
-  <meta name="Password change" content="This page is for changing users password" />
+  <meta
+    name="Password change"
+    content="This page is for changing users password"
+  />
 </svelte:head>
 
 <form

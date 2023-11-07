@@ -248,6 +248,7 @@
     });
   }
 </script>
+
 <svelte:head>
   <title>Upozornenia</title>
   <meta name="Analytika" content="Analytika" />

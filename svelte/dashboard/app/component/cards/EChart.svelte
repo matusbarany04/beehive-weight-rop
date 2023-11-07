@@ -1,12 +1,12 @@
 <script>
-  import {onMount, tick} from "svelte";
+  import { onMount, tick } from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
   import shared from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
+  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import {BeehiveObj} from "../../stores/Beehive";
+  import { BeehiveObj } from "../../stores/Beehive";
 
   /**
    * @type {Object}
@@ -33,8 +33,6 @@
   const beehiveData = [];
 
   try {
-
-
     if (
       cardStates.data == null ||
       cardStates.data === "dummy" ||
@@ -125,7 +123,7 @@
 
             // join data and timestamp
             let combinedData = dataItem.values.map((item, index) => [
-              timestamp[index + parseInt(dataItem.from)],
+              timestamp[index + parseInt(dataItem.from) -1 ],
               item === -999 ? null : item,
             ]);
 
@@ -178,7 +176,9 @@
               return "";
             }
             // Assuming params[0].value[0] or params[0].value is the timestamp value
-            let value = params[0].value[0] ? params[0].value[0] : params[0].value;
+            let value = params[0].value[0]
+              ? params[0].value[0]
+              : params[0].value;
 
             let date = new Date(value);
 
@@ -308,12 +308,11 @@
       }
     });
   } catch (e) {
-    console.error("LineChart error")
-    console.error(e)
+    console.error("LineChart error");
+    console.error(e);
   }
 
-  let resizeEvent = () => {
-  };
+  let resizeEvent = () => {};
 </script>
 
 <CardRoot
@@ -355,7 +354,7 @@
   </div>
 
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full"/>
+    <div {id} class="h-full w-full" />
   </div>
 
   <div class="" slot="customSettings">

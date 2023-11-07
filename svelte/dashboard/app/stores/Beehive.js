@@ -20,9 +20,9 @@ export class BeehiveObj {
   devices;
 
   /**
-    /**
-     * stores all of the beehive data
-     * @type {Object<Array>}  */
+   /**
+   * stores all of the beehive data
+   * @type {Object<Array>}  */
   data = {};
 
   /**
@@ -124,15 +124,26 @@ export class BeehiveObj {
    * @param {string} type - The type of data ('temperature', 'humidity', 'weight', or 'timestamp').
    * @returns {string|number|null} - last value from an array
    */
-  getLastDataByType(type) {
+  getLastDataByType(type, index = 0) {
     const data = this.getAllDataByType(type);
-    if (data.length > 0) {
-      return data[data.length - 1];
+    console.log("data.length", data.length)
+    if (BeehiveObj.isTypeDetachable(type)) {
+      if (data.length > 0) {
+        let typeData = data[index].sensorIds
+        if (typeData.length > 0) {
+          return typeData[typeData.length - 1]
+        }
+      }
+    } else {
+      if (data.length > 0) {
+        console.log("data", data[data.length - 1]);
+        return data[data.length - 1];
+      }
+      if (type === "status") {
+        return this.getCurrentStatus();
+      }
     }
-    if (type === "status") {
-      return this.getCurrentStatus();
-    }
-    return null;
+    return 0;
   }
 
   /**

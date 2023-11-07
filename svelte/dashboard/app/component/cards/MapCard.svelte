@@ -1,14 +1,13 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
   import L from "leaflet";
-  import {onMount} from "svelte";
-  import {tick} from "svelte";
+  import { onMount } from "svelte";
+  import { tick } from "svelte";
 
   export let cardStates;
 
   let component = "MapCard";
   import "leaflet/dist/leaflet.css";
-
 
   /**
    * Creates a Leaflet map and initializes it with a base tile layer.
@@ -17,7 +16,7 @@
    * @returns {L.Map} The created Leaflet map instance.
    */
   function createMap(container) {
-    let m = L.map(container)
+    let m = L.map(container);
 
     m.setView([48.7161175, 21.2527919], 12.25);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -43,10 +42,8 @@
     /** this is a workaround for map not fully loading, if this is not present, map loads only after window resize */
     tick().then(() => {
       setTimeout(() => {
-          map.invalidateSize();
-        },
-        300
-      )
+        map.invalidateSize();
+      }, 300);
     });
 
     return {
@@ -58,11 +55,10 @@
       },
     };
   }
-
 </script>
 
 <CardRoot {component} {cardStates}>
   {#if L}
-    <div class="z-10 box-border h-full w-full rounded-md" use:mapAction/>
+    <div class="z-10 box-border h-full w-full rounded-md" use:mapAction />
   {/if}
 </CardRoot>
