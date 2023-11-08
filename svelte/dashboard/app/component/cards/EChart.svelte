@@ -29,22 +29,31 @@
   // otrasne fraby ale zatial stačia na rozpoznanie čiarok
   const chartColors = ["#db9834", "#3c7cdc", "#860707", "#245b00"];
   let myChart;
-
+  let allSelected = false; 
   const beehiveData = [];
 
   try {
+    let beehives = shared.getBeehives();
+    // console.log("cardStates.data.length === beehives.length",cardStates.data, cardStates.data.length, Object.keys(beehives).length)
+    if(cardStates.data.length === Object.keys(beehives).length){
+      allSelected = true
+    }
+    
     if (
       cardStates.data == null ||
       cardStates.data === "dummy" ||
-      cardStates.data == []
+      cardStates.data == [] ||
+      cardStates.data[0].beehive_id === "all" ||
+      cardStates.data.length === beehives.length
     ) {
-      console.log("CardStates", cardStates);
+      allSelected = true
+      // console.log("CardStates", cardStates);
       // noDataError is replaced with all weight from all devices
       // error = "NoDataError";
       cardStates.data = [];
 
-      let beehives = shared.getBeehives();
-      console.log("beehives", beehives);
+
+      // console.log("beehives", beehives);
       for (const key of Object.keys(beehives)) {
         let beehive = beehives[key];
         cardStates.data.push({
@@ -54,7 +63,7 @@
           beehive_id: beehive.beehive_id,
         });
       }
-      console.log("cardstates", cardStates.data);
+      // console.log("cardstates", cardStates.data);
     }
 
     cardStates.data.forEach((element) => {
@@ -313,6 +322,9 @@
   }
 
   let resizeEvent = () => {};
+  
+  
+
 </script>
 
 <CardRoot
@@ -381,11 +393,11 @@
           ["year", "Posledný rok"],
         ]}
       />
-
+      {allSelected}
       <DropdownInput
         label="Váha"
         name="beehive_id"
-        value={cardStates.data[0]?.beehive_id ?? "all"}
+        value={allSelected ? "all" : (cardStates.data[0]?.beehive_id ?? "all")}
         small={"Váha pre ktorú sa budú zobrazovať dáta"}
         options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
       />

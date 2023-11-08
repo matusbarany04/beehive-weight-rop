@@ -126,7 +126,6 @@ export class BeehiveObj {
    */
   getLastDataByType(type, index = 0) {
     const data = this.getAllDataByType(type);
-    console.log("data.length", data.length);
     if (BeehiveObj.isTypeDetachable(type)) {
       if (data.length > 0) {
         let typeData = data[index].sensorIds;
@@ -136,7 +135,6 @@ export class BeehiveObj {
       }
     } else {
       if (data.length > 0) {
-        console.log("data", data[data.length - 1]);
         return data[data.length - 1];
       }
       if (type === "status") {
@@ -171,7 +169,6 @@ export class BeehiveObj {
    * @return {[*,*][]}
    */
   getDataByType(type, with_timestamp, from = 0) {
-    console.log("fromfrom", from);
     if (this.hasData()) {
       let statuses = this.getAllDataByType(type);
       let timestamps = this.getTimestamps();
@@ -190,7 +187,6 @@ export class BeehiveObj {
           }
         }
       }
-      console.log("returning ", type, out);
       return out;
     } else {
       return [];

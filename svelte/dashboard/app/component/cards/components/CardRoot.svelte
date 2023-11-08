@@ -84,7 +84,7 @@
     // we get form data
     const data = new FormData(this);
     form = {};
-    console.log("saving these data", data);
+    // console.log("saving these data", data);
     let title = data.get("title");
 
     // every child card has implemented their own handler
