@@ -13,7 +13,7 @@
 <dialog
   id={generateUUID()}
   bind:this={dialog}
-  class="max-w-lg overflow-visible rounded-md bg-[white]"
+  class="max-w-lg overflow-visible rounded-md bg-[white] overflow-y-scroll overflow-x-visible"
   on:close={() => (showModal = false)}
   on:click|self={() => dialog.close()}
 >

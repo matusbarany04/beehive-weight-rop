@@ -16,25 +16,28 @@
 
   function loadAllBeehives(type) {
     let beehiveKeys = Object.keys(shared.getBeehives());
+    let sum = 0;
+    let count = 0;
 
     for (const beehiveKey of beehiveKeys) {
       let beehive = shared.getBeehives()[beehiveKey];
-      console.log("beehive.getLastDataByType(type)", beehive.getLastDataByType(type))
-      value += beehive.getLastDataByType(type);
+      let lastData = beehive.getLastDataByType(type);
+
+      if (!isNaN(lastData)) {
+        sum += lastData;
+        count++;
+      }
     }
+    
+    let average = count > 0 ? sum / count : 0;
+    
+    average = Number(average) === parseInt(average) ? Number(average) : Number(average).toFixed(1);
 
-    value =
-      Number(value) === parseInt(value)
-        ? Number(value)
-        : Number(value).toFixed(1);
-
-    value += getUnitByType(type);
+    value = average + getUnitByType(type);
   }
 
   try {
-
-
-    if (cardStates.data == "dummy" || cardStates.data == []) {
+    if (cardStates.data === "dummy" || cardStates.data == []) {
       cardStates.title = "Súčet všetkých váh";
       cardStates.data = [
         {
@@ -42,11 +45,10 @@
           beehive_id: "all",
           from: "week",
           till: "now",
-          mergeType: "sum",
         },
       ];
 
-      loadAllBeehives("weight")
+      loadAllBeehives("weight");
     }
 
     if (!cardStates?.data) {
@@ -54,9 +56,8 @@
     } else {
       cardStates.data.forEach((element) => {
         if (element.beehive_id === "all") {
-          loadAllBeehives(element.type)
+          loadAllBeehives(element.type);
         } else {
-
           if (element.type === "dummy") {
             value = ":/";
             return; // continue to the next iteration
@@ -97,11 +98,10 @@
             innerError = "NoData";
           }
         }
-
       });
     }
   } catch (e) {
-    console.error("Percentage card error ", e);
+    console.error("Percentage card error ", e, cardStates);
     error = "CardStateProcessError";
   }
 </script>
@@ -109,9 +109,12 @@
 <!-- theme="dashed" -->
 <CardRoot
   updateSettings={(formData) => {
+    if (formData.title === cardStates.title) {
+      formData.title = "a";
+    }
     return {
       status: "success",
-      
+
       data: [
         {
           name: formData.get("data_type"), // TODO make translatable
@@ -164,7 +167,7 @@
       <DropdownInput
         label="Typ dát"
         name="data_type"
-        value={cardStates.data[0].type || "weight" }
+        value={cardStates.data[0].type || "weight"}
         options={[
           ["weight", "Váha"],
           ["temperature", "Teplota"],

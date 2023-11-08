@@ -126,12 +126,12 @@ export class BeehiveObj {
    */
   getLastDataByType(type, index = 0) {
     const data = this.getAllDataByType(type);
-    console.log("data.length", data.length)
+    console.log("data.length", data.length);
     if (BeehiveObj.isTypeDetachable(type)) {
       if (data.length > 0) {
-        let typeData = data[index].sensorIds
+        let typeData = data[index].sensorIds;
         if (typeData.length > 0) {
-          return typeData[typeData.length - 1]
+          return typeData[typeData.length - 1];
         }
       }
     } else {

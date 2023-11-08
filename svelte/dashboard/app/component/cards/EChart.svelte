@@ -123,7 +123,7 @@
 
             // join data and timestamp
             let combinedData = dataItem.values.map((item, index) => [
-              timestamp[index + parseInt(dataItem.from) -1 ],
+              timestamp[index + parseInt(dataItem.from) - 1],
               item === -999 ? null : item,
             ]);
 
