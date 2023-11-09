@@ -84,14 +84,15 @@
     // we get form data
     const data = new FormData(this);
     form = {};
-    console.log("saving these data", data);
+    // console.log("saving these data", data);
     let title = data.get("title");
-    if (!isEmpty(title)) {
-      cardStates.title = title;
-    }
 
     // every child card has implemented their own handler
     let output = updateSettings(data);
+
+    if (!isEmpty(title)) {
+      cardStates.title = title;
+    }
 
     if (output.status === "success") {
       cardStates.data = output.data;
@@ -198,6 +199,10 @@
 
     <slot name="customSettings" />
   </form>
+
+  <code>
+    {JSON.stringify(cardStates)}
+  </code>
 
   <button slot="footer" type="submit" form="cardRootForm{formID}">
     <Button

@@ -161,7 +161,7 @@
   </div>
 {/if}
 
-<div class="flex min-h-screen w-full flex-1 flex-col">
+<div class="flex min-h-screen w-full flex-1 flex-col overflow-hidden">
   {#if renderCards}
     <Grid
       bind:this={grid}

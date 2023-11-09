@@ -7,6 +7,7 @@ export let languages = {
   SK: "SK",
   EN: "EN",
   DE: "DE",
+  HU: "HU",
 };
 
 export function isValidLanguage(lang) {

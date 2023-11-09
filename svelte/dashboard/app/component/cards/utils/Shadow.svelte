@@ -22,6 +22,9 @@
   export let pixelWidth = 10;
   export let pixelHeight = 10;
 
+
+  
+
   _coordinates.set({ x: xCoordinate, y: yCoordinate });
   _pixelSize.set({ w: pixelWidth, h: pixelHeight });
 
