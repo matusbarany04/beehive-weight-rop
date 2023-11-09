@@ -6,29 +6,47 @@
 
   import Button from "../../../components/Buttons/Button.svelte";
 
-  import { DataHandler, Th, RowCount, Pagination } from "@vincjo/datatables";
+  import {DataHandler, Th, RowCount, Pagination} from "@vincjo/datatables";
   import Search from "../component/tables/Search.svelte";
   import RowsPerPage from "../component/tables/RowsPerPage.svelte";
 
-  import shared, { onLoad } from "../stores/shared";
+  import shared, {onLoad} from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
   import RouterLink from "../../../components/RouterLink.svelte";
   import message from "../stores/message";
-  import { navigate, route } from "../../../components/router/route.serv";
-  import { version } from "process";
+  import {navigate, route} from "../../../components/router/route.serv";
+  import { onMount, tick } from "svelte";
+  
 
   const user = shared.getUser();
   let rows, handler, statuses;
 
-  onLoad(["statuses", "beehives"], (_bee) => {
-    let beehives = Object.values(shared.getBeehives());
-    statuses = shared.getBeehives();
-    console.log("beehives in beehives", beehives);
+  onLoad(["statuses", "beehives", "user"], (_bee, status_data) => {
+    tick().then(() => {
 
-    handler = new DataHandler(beehives, {
-      rowsPerPage: 10,
+      let beehives = Object.values(shared.getBeehives());
+      let tableData = []
+
+      statuses = shared.getBeehives();
+
+      for (/** @type {BeehiveObj} */ const beehive of beehives) {
+        tableData.push({
+          "name": beehive.name,
+          "battery": beehive.getLastDataByType("battery"),
+          "status": beehive.getCurrentStatus(),
+          "weight": beehive.getLastDataByType("weight"),
+          "timestamp": beehive.getLastUpdateTime(),
+          "beehive_id": beehive.beehive_id,
+        })
+
+      }
+
+      handler = new DataHandler(tableData, {
+        rowsPerPage: 10,
+      });
+      rows = handler.getRows();
+
     });
-    rows = handler.getRows();
   });
 
   let showModal = false;
@@ -40,7 +58,7 @@
 
 <svelte:head>
   <title>Úle</title>
-  <meta name="Úle" content="Úle" />
+  <meta name="Úle" content="Úle"/>
 </svelte:head>
 
 <div class="box-border h-full w-full">
@@ -108,121 +126,121 @@
           {handler}
         />
 
-        <RowsPerPage {handler} />
+        <RowsPerPage {handler}/>
       </div>
       <div class="mt-3 h-[1px] w-full bg-slate-200"></div>
       <div class="flex max-h-[48rem] w-full flex-1 overflow-x-scroll">
         <table class="flex-1">
           <thead class="bg-white">
-            <tr class="h-12">
-              <th class="text-slate-500"></th>
-              <Th {handler} orderBy="name">Názov váhy</Th>
-              <Th {handler} orderBy="battery">Batéria</Th>
-              <Th {handler}>Status</Th>
-              <Th {handler} orderBy="timestamps">Posledná aktualizácia</Th>
-              <Th {handler} orderBy="weight">Hmotnosť</Th>
-              <Th {handler} />
-            </tr>
+          <tr class="h-12">
+            <th class="text-slate-500"></th>
+            <Th {handler} orderBy="name">Názov váhy</Th>
+            <Th {handler} orderBy="battery">Batéria</Th>
+            <Th {handler}>Status</Th>
+            <Th {handler} orderBy="timestamp">Posledná aktualizácia</Th>
+            <Th {handler} orderBy="weight">Hmotnosť</Th>
+            <Th {handler}/>
+          </tr>
           </thead>
           <tbody>
-            {#each $rows as row, index}
-              <tr class="h-20">
-                <td class="">
-                  <div
-                    class="aspect-square h-2 w-2 rounded-full bg-secondary-500"
-                  ></div>
-                </td>
+          {#each $rows as row, index}
+            <tr class="h-20">
+              <td class="">
+                <div
+                  class="aspect-square h-2 w-2 rounded-full bg-secondary-500"
+                ></div>
+              </td>
 
-                <td class="font-normal">{row.name}</td>
-                <td>
-                  {#if statuses}
-                    {row.getBattery()}%
-                  {:else}
-                    <img
-                      class="h-8 w-8"
-                      src="../../img/loading.gif"
-                      alt="loading..."
-                    />
-                  {/if}
-                </td>
-                <td>
-                  {#if row}
-                    <div
-                      class="box-content flex h-8 w-20 items-center justify-center rounded-full px-1 {row.getCurrentStatus() ===
+              <td class="font-normal">{row.name}</td>
+              <td>
+                {#if statuses}
+                  {row.battery}%
+                {:else}
+                  <img
+                    class="h-8 w-8"
+                    src="../../img/loading.gif"
+                    alt="loading..."
+                  />
+                {/if}
+              </td>
+              <td>
+                {#if row}
+                  <div
+                    class="box-content flex h-8 w-20 items-center justify-center rounded-full px-1 {row.status  ===
                       'ok'
                         ? 'bg-confirm-200'
                         : 'bg-error-200'}"
-                    >
-                      <p
-                        class="no_wrap text-ellipsis whitespace-nowrap font-semibold {row.getCurrentStatus() ===
+                  >
+                    <p
+                      class="no_wrap text-ellipsis whitespace-nowrap font-semibold {row.status ===
                         'ok'
                           ? 'text-confirm-600'
                           : 'text-error-500'}"
-                      >
-                        {row.getCurrentStatus()}
-                      </p>
-                    </div>
-                  {:else}
-                    <img
-                      class="h-8 w-8"
-                      src="../../img/loading.gif"
-                      alt="loading..."
-                    />
-                  {/if}
-                </td>
-                <td>
-                  {#if statuses}
-                    {row.getLastUpdateTime()}
-                  {:else}
-                    <img
-                      class="h-8 w-8"
-                      src="../../img/loading.gif"
-                      alt="loading..."
-                    />
-                  {/if}
-                  <!-- {#if row.statuses.length > 0}
-      {new Date(row.statuses[0].timestamp).toLocaleString()}
-    {:else}
-      Nedostatok dát
-    {/if} -->
-                </td>
-                <td class="font-bold">
-                  {#if statuses}
-                    {#if row.getLastDataByType("weight")}
-                      {row.getLastDataByType("weight")}kg
-                    {:else}
-                      Nedostatok dát
-                    {/if}
-                  {:else}
-                    <img
-                      class="h-8 w-8"
-                      src="../../img/loading.gif"
-                      alt="loading..."
-                    />
-                  {/if}
-                </td>
-                <td>
-                  <Button
-                    type="secondary"
-                    text="Detail"
-                    link={`/beehives/${row.beehive_id}`}
-                    onClick={() => {}}
+                    >
+                      {row.status}
+                    </p>
+                  </div>
+                {:else}
+                  <img
+                    class="h-8 w-8"
+                    src="../../img/loading.gif"
+                    alt="loading..."
                   />
-                </td>
-              </tr>
-            {/each}
+                {/if}
+              </td>
+              <td>
+                {#if statuses}
+                  {row.timestamp}
+                {:else}
+                  <img
+                    class="h-8 w-8"
+                    src="../../img/loading.gif"
+                    alt="loading..."
+                  />
+                {/if}
+                <!-- {#if row.statuses.length > 0}
+    {new Date(row.statuses[0].timestamp).toLocaleString()}
+  {:else}
+    Nedostatok dát
+  {/if} -->
+              </td>
+              <td class="font-bold">
+                {#if statuses}
+                  {#if row.weight}
+                    {row.weight}kg
+                  {:else}
+                    Nedostatok dát
+                  {/if}
+                {:else}
+                  <img
+                    class="h-8 w-8"
+                    src="../../img/loading.gif"
+                    alt="loading..."
+                  />
+                {/if}
+              </td>
+              <td>
+                <Button
+                  type="secondary"
+                  text="Detail"
+                  link={`/beehives/${row.beehive_id}`}
+                  onClick={() => {}}
+                />
+              </td>
+            </tr>
+          {/each}
           </tbody>
         </table>
       </div>
       <footer
         class="flex flex-col items-center justify-between pt-4 md:flex-row"
       >
-        <RowCount {handler} />
-        <Pagination {handler} />
+        <RowCount {handler}/>
+        <Pagination {handler}/>
       </footer>
     </div>
   {:else}
-    <Loading />
+    <Loading/>
   {/if}
 </div>
 

@@ -40,7 +40,7 @@
 
   try {
     if (cardStates.data === "dummy" || cardStates.data == []) {
-      cardStates.title = "Súčet všetkých váh";
+      cardStates.title = "Priemer všetkých váh";
       cardStates.data = [
         {
           type: "weight",
