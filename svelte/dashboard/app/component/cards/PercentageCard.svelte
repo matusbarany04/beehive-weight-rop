@@ -22,14 +22,13 @@
     for (const beehiveKey of beehiveKeys) {
       let beehive = shared.getBeehives()[beehiveKey];
       let lastData = beehive.getLastDataByType(type);
- 
+
       if (!isNaN(lastData)) {
         sum += lastData;
         count++;
       }
     }
     let average = count > 0 ? sum / count : 0;
-
 
     average =
       Number(average) === parseInt(average)

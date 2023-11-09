@@ -1,5 +1,5 @@
 <script context="module">
-  import { getContext } from "svelte";
+  import {getContext} from "svelte";
 
   const GRID_CONTEXT_NAME = Symbol("grid-context");
 
@@ -15,14 +15,14 @@
 </script>
 
 <script>
-  import { setContext } from "svelte";
-  import { onMount } from "svelte";
+  import {setContext} from "svelte";
+  import {onMount} from "svelte";
   import GridItem from "./GridItem.svelte";
-  import { Item } from "./item";
+  import {Item} from "./item";
   import Shadow from "./Shadow.svelte";
-  import { Grid } from "./grid";
-  import { GridManager } from "./gridManager";
-  import { GridResolver } from "./gridResolver";
+  import {Grid} from "./grid";
+  import {GridManager} from "./gridManager";
+  import {GridResolver} from "./gridResolver";
 
   /*
     Known possible bugs 
@@ -104,7 +104,7 @@
     getGridObject() {
       return grid;
     },
-    itemWidth: { ...itemWidthFunctions },
+    itemWidth: {...itemWidthFunctions},
     subscribeItem(gridItem) {
       GridResolver.printGrid(xCount, yCount, grid.gridItemRefs);
       GridResolver.resolveAroundItem(
@@ -135,11 +135,15 @@
         let collapsed = collapseMousePosition(item, mousePosition);
 
         let coords = pointAsCoordinates(collapsed.x, collapsed.y);
-
+        
+        // Min, max is for the item to not overflow out of the grid boundaries
+        coords.x = Math.max(0,Math.min(coords.x, xCount - item.w));
+        coords.y = Math.max(0,Math.min(coords.y, yCount - item.h));
+        
         if (
           GridResolver.isPossible(xCount, yCount, [
             ...grid.gridItemRefs.filter((it) => it !== item),
-            { ...item, _x: coords.x, _y: coords.y },
+            {...item, _x: coords.x, _y: coords.y},
           ])
         ) {
           item.x = coords.x;
@@ -152,10 +156,10 @@
       if (
         GridResolver.isPossible(xCount, yCount, [
           ...grid.gridItemRefs.filter((it) => it !== item),
-          { ...item, _w: width, _h: height },
+          {...item, _w: width, _h: height},
         ])
       ) {
-        item.wh = { w: width, h: height };
+        item.wh = {w: width, h: height};
       }
       positionGridItem(item);
     },
@@ -172,9 +176,15 @@
           x: itemRelativeMouseX,
           y: itemRelativeMouseY,
         });
-        let coords = pointAsCoordinates(collapsed.x, collapsed.y);
-        shadowItem.x = coords.x;
-        shadowItem.y = coords.y;
+        
+        let coords = pointAsCoordinates(
+          collapsed.x,
+          collapsed.y
+        )
+        
+        // Min, max is for the shadow to not overflow out of the grid boundaries
+        shadowItem.x = Math.max(0,Math.min(coords.x, xCount - shadowItem.w));
+        shadowItem.y = Math.max(0,Math.min(coords.y, yCount - shadowItem.h));
       }
 
       //otherwise we just update size by the reference item
@@ -194,7 +204,7 @@
       positionGridItem(shadowItem);
     },
     getShadowPos() {
-      return { x: shadowItem.x, y: shadowItem.y };
+      return {x: shadowItem.x, y: shadowItem.y};
     },
     getShadowItem() {
       return shadowItem;
@@ -271,7 +281,7 @@
   function pointAsCoordinates(x, y) {
     let xCoord = Math.floor(x / (width / xCount));
     let yCoord = Math.floor(y / (height / yCount));
-    return { x: xCoord, y: yCoord };
+    return {x: xCoord, y: yCoord};
   }
 
   /**
@@ -299,7 +309,7 @@
         item.yCoordinate + mousePosition.y - (item.h - 1) * item.unitSize;
     }
 
-    return { x: xCoord, y: yCoord };
+    return {x: xCoord, y: yCoord};
   }
 
   export function serialize() {
@@ -340,5 +350,5 @@
       className="bg-slate-400"
     ></Shadow>
   {/if}
-  <slot />
+  <slot/>
 </div>
