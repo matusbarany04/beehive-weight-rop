@@ -2,7 +2,7 @@
   import CardRoot from "./components/CardRoot.svelte";
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import {getUnitByType} from "../../../../components/lib/utils/staticFuncs";
+  import { getUnitByType } from "../../../../components/lib/utils/staticFuncs";
 
   export let cardStates;
 
@@ -22,16 +22,19 @@
     for (const beehiveKey of beehiveKeys) {
       let beehive = shared.getBeehives()[beehiveKey];
       let lastData = beehive.getLastDataByType(type);
-
+ 
       if (!isNaN(lastData)) {
         sum += lastData;
         count++;
       }
     }
-    
     let average = count > 0 ? sum / count : 0;
-    
-    average = Number(average) === parseInt(average) ? Number(average) : Number(average).toFixed(1);
+
+
+    average =
+      Number(average) === parseInt(average)
+        ? Number(average)
+        : Number(average).toFixed(1);
 
     value = average + getUnitByType(type);
   }
