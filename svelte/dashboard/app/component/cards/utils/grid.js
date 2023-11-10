@@ -1,5 +1,7 @@
 import { generateUUID } from "../../../../../components/lib/utils/staticFuncs";
-import {GridResolver} from "./gridResolver";
+import { GridResolver } from "./gridResolver";
+import toast from "../../../../../components/Toast/toast";
+
 export class Grid {
   /** @type {string} */
   _id;
@@ -166,6 +168,7 @@ export class Grid {
       item.draggable = draggable;
     }
   }
+
   /**
    * Function return the closest unit size * multiplier that pixelSize would occupy
    * @param {number} pixelSize - Absolute value from top or left of the grid.
@@ -193,19 +196,22 @@ export class Grid {
       h: h,
       props: props,
       component: component,
-    }
-    console.log(" this._gridItemRefs",  this._gridItemRefs)
+    };
+    console.log(" this._gridItemRefs", this._gridItemRefs);
     let pos = GridResolver.findSuitablePosition(
-        newItem,
-        this.gridItemRefs,
-        this.xCount,
-        this.yCount
-    )
-    
-    newItem.x = pos.x
-    newItem.y = pos.y
-    
-    
+      newItem,
+      this.gridItemRefs,
+      this.xCount,
+      this.yCount,
+    );
+    if (pos == null) {
+      //display error popup
+      toast.push("No space for new item", "error")  
+    } else {
+      newItem.x = pos.x;
+      newItem.y = pos.y;
+    }
+
     this._newItems.push(newItem);
 
     this.newItems = this._newItems;
@@ -213,6 +219,7 @@ export class Grid {
   }
 
   newGridItemCallback = () => {};
+
   setNewGridItemCallback(callback) {
     this.newGridItemCallback = callback;
   }

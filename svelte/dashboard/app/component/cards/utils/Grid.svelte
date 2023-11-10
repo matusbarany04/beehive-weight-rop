@@ -222,7 +222,7 @@
       return shadowItem;
     },
     /**
-     * Erases the shadow item 
+     * Erases the shadow item
      */
     resetShadow() {
       shadowItem = null;
