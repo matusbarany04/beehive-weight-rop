@@ -1,4 +1,5 @@
 import { generateUUID } from "../../../../../components/lib/utils/staticFuncs";
+import {GridResolver} from "./gridResolver";
 export class Grid {
   /** @type {string} */
   _id;
@@ -7,10 +8,10 @@ export class Grid {
   _itemCount;
 
   /** @type {number} */
-  _width;
+  _widthPixel;
 
   /** @type {number} */
-  _height;
+  _heightPixel;
 
   /**
    * @type array<Item>
@@ -33,8 +34,8 @@ export class Grid {
   constructor(width = 0, height = 0, xCount = 1, yCount = 1) {
     this._id = generateUUID();
     this._itemCount = 0;
-    this._width = width;
-    this._height = height;
+    this._widthPixel = width;
+    this._heightPixel = height;
     this._xCount = xCount;
     this._yCount = yCount;
     this._gridItemRefs = [];
@@ -76,32 +77,32 @@ export class Grid {
    * Getter for width.
    * @return {number}
    */
-  get width() {
-    return this._width;
+  get widthPixel() {
+    return this._widthPixel;
   }
 
   /**
    * Setter for width.
    * @param {number} value
    */
-  set width(value) {
-    this._width = value;
+  set widthPixel(value) {
+    this._widthPixel = value;
   }
 
   /**
    * Getter for height.
    * @return {number}
    */
-  get height() {
-    return this._height;
+  get heightPixel() {
+    return this._heightPixel;
   }
 
   /**
    * Setter for height.
    * @param {number} value
    */
-  set height(value) {
-    this._height = value;
+  set heightPixel(value) {
+    this._heightPixel = value;
   }
 
   get xCount() {
@@ -129,8 +130,8 @@ export class Grid {
   }
 
   pointAsCoordinates(x, y) {
-    let xCoord = Math.floor(x / (this._width / xCount));
-    let yCoord = Math.floor(y / (this._height / yCount));
+    let xCoord = Math.floor(x / (this._widthPixel / xCount));
+    let yCoord = Math.floor(y / (this._heightPixel / yCount));
     return { x: xCoord, y: yCoord };
   }
 
@@ -184,7 +185,7 @@ export class Grid {
 
   /**  functions for adding new items */
   newGridItem(component, props, x = 0, y = 0, w = 1, h = 1) {
-    this._newItems.push({
+    const newItem = {
       id: generateUUID(),
       x: x,
       y: y,
@@ -192,7 +193,21 @@ export class Grid {
       h: h,
       props: props,
       component: component,
-    });
+    }
+    console.log(" this._gridItemRefs",  this._gridItemRefs)
+    let pos = GridResolver.findSuitablePosition(
+        newItem,
+        this.gridItemRefs,
+        this.xCount,
+        this.yCount
+    )
+    
+    newItem.x = pos.x
+    newItem.y = pos.y
+    
+    
+    this._newItems.push(newItem);
+
     this.newItems = this._newItems;
     this.newGridItemCallback(this._newItems);
   }
