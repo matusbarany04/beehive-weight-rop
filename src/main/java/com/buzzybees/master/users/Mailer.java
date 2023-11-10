@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 public class Mailer {
 
     public static final String SENDER = "BuzzyBees";
-    public static final String ADDRESS = "noreply@dismounted.tech";
-    public static final String HOST = "dismounted.tech";
+    public static final String ADDRESS = "noreply@dismounted.space";
+    public static final String HOST = "dismounted.space";
     public static final String USERNAME = "root";
     public static final String PASSWORD = "vcelicky#258";
 

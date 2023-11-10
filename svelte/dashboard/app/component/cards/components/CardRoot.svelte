@@ -50,7 +50,7 @@
    */
   export let onCardStatesModified = () => {};
 
-  const dashboardEditor = getContext("dashboardEditor");
+  const dashboard = getContext("dashboard");
   // dashboardEditor.deleteCard("some dynamic id");
 
   if (!cardStates.mode) getDefaultMode();
@@ -84,24 +84,22 @@
     // we get form data
     const data = new FormData(this);
     form = {};
-
+    // console.log("saving these data", data);
     let title = data.get("title");
-    if (!isEmpty(title)) {
-      cardStates.title = title;
-    }
 
     // every child card has implemented their own handler
     let output = updateSettings(data);
+
+    if (!isEmpty(title)) {
+      cardStates.title = title;
+    }
 
     if (output.status === "success") {
       cardStates.data = output.data;
     } else {
       form.error = "Chyba";
     }
-
-    // dashboardEditor.updateCardStates(cardStates.id, cardStates);
-
-    await dashboardEditor.saveCardList();
+    await dashboard.saveGrid();
 
     showSettings = false;
 
@@ -146,7 +144,7 @@
       <h1
         class="no_wrap flex-1 text-ellipsis whitespace-nowrap text-base text-slate-500"
       >
-        {cardStates?.title || ""}
+        {error || cardStates?.title || ""}
       </h1>
       <slot name="header" />
 
@@ -201,6 +199,10 @@
 
     <slot name="customSettings" />
   </form>
+
+  <code>
+    {JSON.stringify(cardStates)}
+  </code>
 
   <button slot="footer" type="submit" form="cardRootForm{formID}">
     <Button

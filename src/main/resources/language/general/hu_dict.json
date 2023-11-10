@@ -1,0 +1,33 @@
+{
+  "home": {
+    "title": "Modern méhsúlymérlegek a monitorozáshoz",
+    "description": "A BuzzyBees méh súlymérő rendszere egy olyan monitorozási rendszer, amely azonnal értesíti a méhészetet a méhben bekövetkező jelentős változásokról - súly, hőmérséklet, páratartalom és a méhek zümmögése.",
+    "button-buy": "Vásárlás",
+    "button-more": "További információk"
+  },
+  "pros": {
+    "first": "Elégedett méhészek",
+    "second": "Növelt termelékenység",
+    "third": "Garantált megbízhatóság"
+  },
+  "join": {
+    "title": "Csatlakozzon a méhekhez!",
+    "description": "Emelje fel méhészetét a legújabb méhkezelési technológiákkal. Ne maradjon le az édesebb termésekről. Tapasztalja meg a izgalmas zümmögést!",
+    "button-buy": "Vásárolja meg a mérleget"
+  },
+  "faq": {
+    "title": "Zümmögő kérdések",
+    "first": {
+      "question": "Mennyire egyszerű a telepítés?",
+      "answer": "Ez gyerekjáték! Step-by-step útmutatónk biztosítja a zökkenőmentes integrációt meglévő méhkasával."
+    },
+    "second": {
+      "question": "Időjárásálló-e?",
+      "answer": "Abszolút igen! A mérleg tervezése során figyelembe vettük az időjárási viszonyokat, beleértve az extrém hőséget, hideget és nedvességet."
+    },
+    "third": {
+      "question": "Elérhetem-e adataimat távolról?",
+      "answer": "Igen! Egyszerű alkalmazásunk szinkronizál a mérleggel, lehetővé téve a méhkas távolról történő monitorozását bárhol is legyél."
+    }
+  }
+}

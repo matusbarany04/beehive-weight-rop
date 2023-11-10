@@ -23,6 +23,7 @@
   import MapCard from "../component/cards/MapCard.svelte";
   import { getCardByFormat } from "../component/cards/cardUtilities";
   import toast from "../../../components/Toast/toast";
+  import Login from "../../../general/pages/Login.svelte";
 
   let cardList = [];
 
@@ -30,6 +31,13 @@
   let editButton = true;
   let renderCards = false;
   let grid;
+
+  /* this is only temporally, in future there should be a popup that will pause editing until user widens the website */
+  panelState.getOpenedRef().subscribe((panelOpened) => {
+    if (!panelOpened) {
+      editMode = false;
+    }
+  });
 
   let resizeWindowEvent = (event) => {
     if (TW_BREAKPOINTS.md > window.innerWidth) {
@@ -50,16 +58,17 @@
   message.setMessage("Dobrý deň");
   onLoad(["user"], (userObj) => {
     user = userObj;
-    message.setMessage("Dobrý deň, včelár " + user.name);
+    message.setMessage("Dobrý deň, včelár " + user.name + "!");
     cardList = JSON.parse(user.dashboardData);
-    renderCards = true;
+    console.log(user);
+    // renderCards = true;
   });
 
   onMount(function () {
     resizeWindowEvent();
   });
 
-  onLoad(["beehives", "statuses"], (beehives, statuses) => {
+  onLoad(["beehives", "statuses", "user"], (beehives, statuses, user) => {
     renderCards = true;
   });
 
@@ -87,21 +96,36 @@
     }
   }
 
+  let refreshDashboard = () => {
+    if (renderCards) {
+      renderCards = false;
+      tick().then(() => {
+        renderCards = true;
+      });
+    }
+  };
+
   let restoreLayout = () => {
     cardList = JSON.parse(user.dashboardData);
-    renderCards = false;
-    tick().then(() => {
-      renderCards = true;
-    });
+    refreshDashboard();
     editMode = false;
     panelState.resetMode();
   };
+
+  setContext("dashboard", {
+    saveGrid: () => {
+      save(grid.serialize());
+      console.log("serialized grid", grid.serialize());
+      cardList = grid.serialize();
+      refreshDashboard();
+    },
+  });
 </script>
 
 <svelte:window on:resize={resizeWindowEvent} />
 
 <svelte:head>
-  <title>DashBoard</title>
+  <title>Hlavný Panel</title>
   <meta name="description" content="Dashboard" />
 </svelte:head>
 
@@ -137,7 +161,7 @@
   </div>
 {/if}
 
-<div class="flex min-h-screen w-full flex-1 flex-col">
+<div class="flex min-h-screen w-full flex-1 flex-col overflow-hidden">
   {#if renderCards}
     <Grid
       bind:this={grid}
@@ -154,6 +178,28 @@
     ></Grid>
     <div class="h-16 w-full"></div>
   {:else}
-    <Loading />
+    <!--    <Loading />-->
+    <div class="grid aspect-square w-full grid-cols-4 grid-rows-4 gap-4">
+      {#each Array.from({ length: 16 }) as _, i}
+        <div class="loading rounded-md bg-tertiary-200"></div>
+      {/each}
+    </div>
   {/if}
 </div>
+
+<style>
+  .loading {
+    animation: flash 3s infinite;
+  }
+
+  @keyframes flash {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    25%,
+    75% {
+      opacity: 1;
+    }
+  }
+</style>

@@ -12,61 +12,108 @@
   let w = 10;
   let h;
   $: size = Math.min(h, w) / 2 / (innerError == null ? 1 : 1.8);
-
   let value = 0;
 
-  if (!cardStates?.data) {
-    error = "NoDataError";
-  } else {
-    cardStates.data.forEach((element) => {
-      if (element.type === "dummy") {
-        value = ":/";
-        return; // continue to the next iteration
+  function loadAllBeehives(type) {
+    let beehiveKeys = Object.keys(shared.getBeehives());
+    let sum = 0;
+    let count = 0;
+
+    for (const beehiveKey of beehiveKeys) {
+      let beehive = shared.getBeehives()[beehiveKey];
+      let lastData = beehive.getLastDataByType(type);
+
+      if (!isNaN(lastData)) {
+        sum += lastData;
+        count++;
       }
+    }
+    let average = count > 0 ? sum / count : 0;
 
-      console.log("getStatusByType", element.type, element.beehive_id);
+    average =
+      Number(average) === parseInt(average)
+        ? Number(average)
+        : Number(average).toFixed(1);
 
-      let beeData;
-      if (element.data === undefined) {
-        beeData = shared
-          .getBeehiveById(element.beehive_id)
-          .getLastDataByType(element.type);
-      } else {
-        beeData = element.data;
-      }
+    value = average + getUnitByType(type);
+  }
 
-      if (beeData != null) {
-        if (!isNaN(beeData)) {
-          value =
-            Number(beeData) === parseInt(beeData)
-              ? Number(beeData)
-              : Number(beeData).toFixed(1);
+  try {
+    if (cardStates.data === "dummy" || cardStates.data == []) {
+      cardStates.title = "Priemer všetkých váh";
+      cardStates.data = [
+        {
+          type: "weight",
+          beehive_id: "all",
+          from: "week",
+          till: "now",
+        },
+      ];
 
-          value = value || "NoData";
+      loadAllBeehives("weight");
+    }
 
-          if (value !== "error" && value !== "NoData") {
-            if (element.unit === undefined) {
-              value += getUnitByType(element.type);
+    if (!cardStates?.data) {
+      error = "NoDataError";
+    } else {
+      cardStates.data.forEach((element) => {
+        if (element.beehive_id === "all") {
+          loadAllBeehives(element.type);
+        } else {
+          if (element.type === "dummy") {
+            value = ":/";
+            return; // continue to the next iteration
+          }
+
+          let beeData;
+          if (element.data === undefined) {
+            beeData = shared
+              .getBeehiveById(element.beehive_id)
+              .getLastDataByType(element.type);
+          } else {
+            beeData = element.data;
+          }
+
+          if (beeData != null) {
+            if (!isNaN(beeData)) {
+              value =
+                Number(beeData) === parseInt(beeData)
+                  ? Number(beeData)
+                  : Number(beeData).toFixed(1);
+
+              value = value || "NoData";
+
+              if (value !== "error" && value !== "NoData") {
+                if (element.unit === undefined) {
+                  value += getUnitByType(element.type);
+                } else {
+                  value += element.unit;
+                }
+              } else {
+                innerError = "NoData";
+              }
             } else {
-              value += element.unit;
+              value = beeData;
             }
           } else {
+            value = "NoData";
             innerError = "NoData";
           }
-        } else {
-          value = beeData;
         }
-      } else {
-        value = "NoData";
-        innerError = "NoData";
-      }
-    });
+      });
+    }
+  } catch (e) {
+    console.error("Percentage card error ", e, cardStates);
+    error = "CardStateProcessError";
   }
 </script>
 
 <!-- theme="dashed" -->
 <CardRoot
   updateSettings={(formData) => {
+    if (formData.title === cardStates.title) {
+      formData.title = "a";
+    }
     return {
       status: "success",
 
@@ -94,7 +141,7 @@
     >
       <h1
         class="overflow-hidden text-ellipsis whitespace-nowrap text-center"
-        style="font-size: {(size * 5) / 6}px"
+        style="font-size: {(size * 4.5) / 6}px"
       >
         {value}
       </h1>
@@ -114,27 +161,30 @@
   <!--    </small>-->
   <!--  </div>-->
   <!--{/if}-->
-  <!--TODO might crash-->
-  <div class="" slot="customSettings">
-    <DropdownInput
-      label="Typ dát"
-      name="data_type"
-      value={cardStates.data[0].type ?? "dummy"}
-      options={[
-        ["dummy", "ukážkové dáta"],
-        ["temperature", "Teplota"],
-        ["weight", "Váha"],
-        ["humidity", "Vlhkosť"],
-      ]}
-    />
 
-    <DropdownInput
-      label="Váha"
-      name="beehive_id"
-      value={cardStates.data[0].beehive_id ?? "all"}
-      small={"Váha pre ktorú sa budú zobrazovať dáta"}
-      options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
-    />
+  <!--TODO might crash-->
+
+  <div class="" slot="customSettings">
+    {#if error == null && value !== "error" && value !== "NoData"}
+      <DropdownInput
+        label="Typ dát"
+        name="data_type"
+        value={cardStates.data[0].type || "weight"}
+        options={[
+          ["weight", "Váha"],
+          ["temperature", "Teplota"],
+          ["humidity", "Vlhkosť"],
+        ]}
+      />
+
+      <DropdownInput
+        label="Váha"
+        name="beehive_id"
+        value={cardStates.data[0].beehive_id || "all"}
+        small={"Váha pre ktorú sa budú zobrazovať dáta"}
+        options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
+      />
+    {/if}
   </div>
 </CardRoot>
 

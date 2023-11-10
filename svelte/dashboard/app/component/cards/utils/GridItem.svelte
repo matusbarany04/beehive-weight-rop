@@ -20,6 +20,8 @@
   export let h = 1;
   export let id = null;
 
+  export let smooth;
+
   export let className = "";
 
   let gridRoot = getGridContext();
@@ -30,21 +32,29 @@
 
   let gridItemRoot;
   let resizerElement;
+  let stiffness = 1;
+  let damping = 1;
 
   let pixelSize = spring(
     { pixelHeight: item.pixelHeight, pixelWidth: item.pixelWidth },
     {
-      stiffness: 0.1,
-      damping: 0.4,
+      stiffness,
+      damping,
+      initial: { pixelHeight: item.pixelHeight, pixelWidth: item.pixelWidth },
     },
   );
   let itemCoords = spring(
     { x: item.xCoordinate, y: item.yCoordinate },
     {
-      stiffness: 0.1,
-      damping: 0.4,
+      stiffness,
+      damping,
     },
   );
+
+  function updateStiffnessAndDamping(spring, stiffness, damping) {
+    spring.stiffness = stiffness;
+    spring.damping = damping;
+  }
 
   item.setValueChangedCallback(() => {
     item = item;
@@ -77,6 +87,9 @@
         initialY = item.yCoordinate;
         initialX = item.xCoordinate;
         gridRoot.setShadow(item);
+
+        updateStiffnessAndDamping(pixelSize, 0.2, 0.7);
+        updateStiffnessAndDamping(itemCoords, 0.2, 0.7);
       });
 
       dragger.setOnMouseMoveEvent((x, y) => {
@@ -93,6 +106,9 @@
         );
 
         item.resetZIndex();
+
+        updateStiffnessAndDamping(pixelSize, 1, 1);
+        updateStiffnessAndDamping(itemCoords, 1, 1);
       });
 
       resizer.setOnMouseMoveEvent(() => {

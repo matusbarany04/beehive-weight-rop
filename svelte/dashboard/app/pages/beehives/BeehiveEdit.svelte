@@ -127,6 +127,14 @@
   }
 </script>
 
+<svelte:head>
+  <title>Upravenie úľu</title>
+  <meta
+    name="Edit beehive"
+    content="This page shows edit options for a particular beehive"
+  />
+</svelte:head>
+
 {#if beehive}
   <div>Model: {beehive.model}</div>
   <div class="flex w-full flex-row justify-center">

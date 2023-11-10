@@ -18,6 +18,8 @@
     setUnsavedData,
     resetUnsavedData,
   } from "../../../components/router/route.serv";
+  import { onMount } from "svelte";
+  import { nextTick } from "process";
 
   message.setMessage("Nastavenia");
 
@@ -25,16 +27,17 @@
   let originalSettings = null;
 
   onLoad("settings", (settings_json) => {
-    settings = { ...settings_json };
-    originalSettings = { ...settings_json };
+    console.log("settings loaded ", settings_json);
+    settings = JSON.parse(JSON.stringify(settings_json));
+    originalSettings = JSON.parse(JSON.stringify(settings_json));
   });
 
   let saveEnabled = false;
   let userObject;
   let originalUser;
   onLoad("user", (user) => {
-    userObject = { ...user };
-    originalUser = { ...user };
+    userObject = JSON.parse(JSON.stringify(user));
+    originalUser = JSON.parse(JSON.stringify(user));
   });
 
   /**
@@ -43,10 +46,8 @@
    */
   function triggerSave() {
     saveEnabled = !staticFuncs.jsonFlatEqual(settings, originalSettings);
-    console.log("save", saveEnabled, settings, originalSettings);
 
     if (userObject && originalUser) {
-      console.log("user", userObject["name"], originalUser["name"]);
       saveEnabled = saveEnabled || userObject["name"] !== originalUser["name"];
     }
 
@@ -64,12 +65,16 @@
       body: JSON.stringify(settings),
     })
       .then((response) => {
-        originalSettings = { ...settings };
-        saveEnabled = false;
-        resetUnsavedData();
-        toast.push("Settings saved!");
+        if (response.ok) {
+          originalSettings = { ...settings };
+          saveEnabled = false;
+          resetUnsavedData();
+          toast.push("Settings saved!");
 
-        shared.fetchUser();
+          shared.fetchUser();
+        } else {
+          toast.push("Settings probably not saved ... ");
+        }
       })
       .catch((error) => {
         toast.push(
@@ -98,16 +103,33 @@
       });
   }
 
+  onMount(() => {});
+
   function restoreSettings() {
-    userObject = { ...originalUser };
-    settings = { ...originalSettings };
+    for (let key in originalUser) {
+      userObject[key] = originalUser[key];
+    }
+    userObject = { ...userObject };
+
+    // Update properties of settings
+    for (let key in originalSettings) {
+      console.log(
+        "restoring ",
+        key,
+        "from " + settings[key] + " to " + originalSettings[key],
+      );
+      settings[key] = originalSettings[key];
+    }
+    settings = { ...settings };
+
     saveEnabled = false;
     resetUnsavedData();
+    triggerSave();
   }
 </script>
 
 <svelte:head>
-  <title>Analytika</title>
+  <title>Nastavenia</title>
   <meta name="Analytika" content="Analytika" />
 </svelte:head>
 
@@ -134,7 +156,7 @@
 </div>
 
 <form class="h-full w-full">
-  {#if settings}
+  {#if settings && userObject}
     <SettingsHeader title="Účet" />
 
     <SettingsItem
@@ -388,6 +410,30 @@
       <Toggle />
     </SettingsItem>
   {:else}
-    <Loading />
+    {#each Array.from({ length: 3 }) as _, i}
+      <div
+        class="loading mx-auto mb-4 flex h-24 flex-col justify-between rounded-md bg-tertiary-200 p-4 lg:w-5/6"
+      ></div>
+      <div
+        class="loading mx-auto mb-4 flex h-48 flex-col justify-between rounded-md bg-tertiary-200 p-4 lg:w-5/6"
+      ></div>
+    {/each}
   {/if}
 </form>
+
+<style>
+  .loading {
+    animation: flash 3s infinite;
+  }
+
+  @keyframes flash {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    25%,
+    75% {
+      opacity: 1;
+    }
+  }
+</style>

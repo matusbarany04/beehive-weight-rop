@@ -20,7 +20,7 @@
     });
   });*/
 
-  let messages = [];
+  let messages = null;
 
   message.setMessage("Upozornenia");
 
@@ -249,82 +249,97 @@
   }
 </script>
 
-<div
-  class="mx-auto mb-4 flex h-32 flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
->
-  <!-- title -->
-  <h1 class="text-2xl font-semibold">Vaše upozornenia</h1>
-
-  <Button
-    text="Označiť všetky ako prečítané"
-    onClick={() => {
-      // TODO mato spravi request pre viac precitanych
-      messages.forEach((element) => {
-        setRead(element.id);
-      });
-    }}
-  />
-</div>
-
-{#each messages as message, index}
+<svelte:head>
+  <title>Upozornenia</title>
+  <meta name="Analytika" content="Analytika" />
+</svelte:head>
+{#if messages}
   <div
-    out:fly|local={{ x: 400, duration: 1000 }}
-    class="  min-h-48 mx-auto mb-4 flex flex-col justify-between rounded-lg p-4 lg:w-5/6 {message.seen >
-    0.5
-      ? 'bg-slate-200'
-      : 'bg-white'}"
+    class="mx-auto mb-4 flex h-32 flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
   >
     <!-- title -->
-    <div class="group flex flex-1 flex-col justify-center lg:justify-normal">
-      <header class=" relative flex h-8 flex-row justify-between">
-        <div class="flex w-48 items-center">
-          <h1 class="mr-4 text-lg font-semibold">
-            {message.timestamp}
-          </h1>
-        </div>
-        <!-- <h1
-                    class="inline group-hover:hidden
-                opacity-100
-                    duration-500
-                    transition ease-in-out
-                    group-hover:opacity-0"
-                >
-                    {new Date(message.timestamp * 1000).toLocaleString()}
-                </h1> -->
-        <div
-          class="absolute right-0 top-0 flex gap-4 opacity-0
+    <h1 class="text-2xl font-semibold">Vaše upozornenia</h1>
+
+    <Button
+      text="Označiť všetky ako prečítané"
+      onClick={() => {
+        // TODO mato spravi request pre viac precitanych
+        messages.forEach((element) => {
+          setRead(element.id);
+        });
+      }}
+    />
+  </div>
+
+  {#each messages as message, index}
+    <div
+      out:fly|local={{ x: 400, duration: 1000 }}
+      class="  min-h-48 mx-auto mb-4 flex flex-col justify-between rounded-lg p-4 lg:w-5/6 {message.seen >
+      0.5
+        ? 'bg-slate-200'
+        : 'bg-white'}"
+    >
+      <!-- title -->
+      <div class="group flex flex-1 flex-col justify-center lg:justify-normal">
+        <header class=" relative flex h-8 flex-row justify-between">
+          <div class="flex w-48 items-center">
+            <h1 class="mr-4 text-lg font-semibold">
+              {message.timestamp}
+            </h1>
+          </div>
+          <!-- <h1
+                      class="inline group-hover:hidden
+                  opacity-100
+                      duration-500
+                      transition ease-in-out
+                      group-hover:opacity-0"
+                  >
+                      {new Date(message.timestamp * 1000).toLocaleString()}
+                  </h1> -->
+          <div
+            class="absolute right-0 top-0 flex gap-4 opacity-0
                     transition
                     duration-500 ease-in-out
                     group-hover:opacity-100
                     "
-        >
-          {#if !message.seen}
+          >
+            {#if !message.seen}
+              <CircleButton
+                image="envelope-check.svg"
+                type="secondary"
+                onClick={() => {
+                  setRead(message.id);
+                }}
+              />
+            {/if}
             <CircleButton
-              image="envelope-check.svg"
-              type="secondary"
+              image="icons/delete.svg"
+              type="error"
               onClick={() => {
-                setRead(message.id);
+                remove(message.id);
               }}
             />
-          {/if}
-          <CircleButton
-            image="icons/delete.svg"
-            type="error"
-            onClick={() => {
-              remove(message.id);
-            }}
-          />
-        </div>
-      </header>
+          </div>
+        </header>
 
-      <h4 class="text-base font-normal">
-        {message.message}
-      </h4>
+        <h4 class="text-base font-normal">
+          {message.message}
+        </h4>
+      </div>
     </div>
-  </div>
-{/each}
+  {/each}
+{:else}
+  <div
+    class="loading mx-auto mb-4 flex h-16 flex-col justify-between rounded-lg bg-tertiary-200 p-4 lg:w-5/6"
+  ></div>
+  {#each Array.from({ length: 3 }) as _, i}
+    <div
+      class="loading mx-auto mb-4 flex h-24 flex-col justify-between rounded-lg bg-tertiary-200 p-4 lg:w-5/6"
+    ></div>
+  {/each}
+{/if}
 
-{#if messages.length === 0}
+{#if messages != null && messages.length === 0}
   <div
     class="m-auto mt-4 flex h-24 flex-row items-center justify-center lg:w-5/6"
   >
@@ -339,3 +354,20 @@
     Pri novom upozornení dostanete správu emailom
   </h1>
 {/if}
+
+<style>
+  .loading {
+    animation: flash 3s infinite;
+  }
+
+  @keyframes flash {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    25%,
+    75% {
+      opacity: 1;
+    }
+  }
+</style>

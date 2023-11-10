@@ -85,6 +85,11 @@
   });
 </script>
 
+<svelte:head>
+  <title>Úľ</title>
+  <meta name="Úľ" content="Úľ" />
+</svelte:head>
+
 <div id="chart"></div>
 
 <svelte:window on:resize={resize} />
@@ -216,8 +221,9 @@
         />
 
         {#each beehive.getCurrentDataTypes(true) as type}
+          <!--{type}-->
           <EChart
-            className="col-span-2 row-span-1"
+            className=" col-span-2 row-span-1"
             cardStates={{
               mode: "static",
               editing: false,
@@ -231,6 +237,37 @@
             }}
           />
         {/each}
+
+        {#if !small && beehive.getCurrentDataTypes(true).length % 2 === 1}
+          <div
+            class="relative col-span-2 row-span-1 flex items-center justify-center rounded-md outline outline-1 outline-tertiary-500"
+          >
+            <div
+              class="absolute left-4 top-4 aspect-square h-[25%] bg-contain bg-center bg-no-repeat"
+              style="background-image: url('/img/bees/beeRight.png')"
+            ></div>
+            <!-- chart space-->
+            <div class="box-border flex h-full w-full p-4">
+              <svg
+                class="flex-1"
+                viewBox="0 0 178 67"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1 55.5L10 62L22 43L27.5 49.5L42 30L59 48L72.5 37L78.5 43L94 49.5L98.5 57.5L104.5 65.5L114.5 55.5L120 45H132.5L144 30L149 34C152.167 31.8333 158.8 27.1 160 25.5C161.2 23.9 164.167 18.8333 165.5 16.5L171.5 7L177.5 1"
+                  stroke="#939598"
+                  stroke-width="0.5"
+                />
+              </svg>
+            </div>
+
+            <div
+              class="absolute bottom-4 right-4 aspect-square h-[25%] -scale-x-100 bg-contain bg-center bg-no-repeat"
+              style="background-image: url('/img/bees/beeRight.png')"
+            ></div>
+          </div>
+        {/if}
       {/if}
     </div>
 

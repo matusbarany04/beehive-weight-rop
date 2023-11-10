@@ -106,7 +106,7 @@
     },
     itemWidth: { ...itemWidthFunctions },
     subscribeItem(gridItem) {
-      GridResolver.printGrid(xCount, yCount, grid.gridItemRefs);
+      // GridResolver.gridAsString(xCount, yCount, grid.gridItemRefs);
       GridResolver.resolveAroundItem(
         xCount,
         yCount,
@@ -116,7 +116,7 @@
       grid.gridItemRefs.push(gridItem);
       gridItem.draggable = draggable;
 
-      GridResolver.printGrid(xCount, yCount, grid.gridItemRefs);
+      // GridResolver.gridAsString(xCount, yCount, grid.gridItemRefs);
       refreshItems();
     },
     /**
@@ -135,6 +135,10 @@
         let collapsed = collapseMousePosition(item, mousePosition);
 
         let coords = pointAsCoordinates(collapsed.x, collapsed.y);
+
+        // Min, max is for the item to not overflow out of the grid boundaries
+        coords.x = Math.max(0, Math.min(coords.x, xCount - item.w));
+        coords.y = Math.max(0, Math.min(coords.y, yCount - item.h));
 
         if (
           GridResolver.isPossible(xCount, yCount, [
@@ -159,12 +163,21 @@
       }
       positionGridItem(item);
     },
+    /**
+     * Function sets shadow item that follows user when dragging a card
+     * @param itemRef
+     */
     setShadow(itemRef) {
       shadowItemRef = itemRef;
       shadowItem = new Item(itemRef.x, itemRef.y, itemRef.w, itemRef.h);
       shadowItem.padding = padding;
       this.updateShadow();
     },
+    /**
+     * Updates shadow coordinates
+     * @param itemRelativeMouseX
+     * @param itemRelativeMouseY
+     */
     updateShadow(itemRelativeMouseX, itemRelativeMouseY) {
       // if there is new relativeMouse value that means that we are moving
       if (itemRelativeMouseX != null && itemRelativeMouseY != null) {
@@ -172,9 +185,12 @@
           x: itemRelativeMouseX,
           y: itemRelativeMouseY,
         });
+
         let coords = pointAsCoordinates(collapsed.x, collapsed.y);
-        shadowItem.x = coords.x;
-        shadowItem.y = coords.y;
+
+        // Min, max is for the shadow to not overflow out of the grid boundaries
+        shadowItem.x = Math.max(0, Math.min(coords.x, xCount - shadowItem.w));
+        shadowItem.y = Math.max(0, Math.min(coords.y, yCount - shadowItem.h));
       }
 
       //otherwise we just update size by the reference item
@@ -193,12 +209,21 @@
       // then we position item at the right place
       positionGridItem(shadowItem);
     },
+    /**
+     * Returns shadow position
+     */
     getShadowPos() {
       return { x: shadowItem.x, y: shadowItem.y };
     },
+    /**
+     * Returns shadow reference
+     */
     getShadowItem() {
       return shadowItem;
     },
+    /**
+     * Erases the shadow item
+     */
     resetShadow() {
       shadowItem = null;
       shadowItemRef = null;

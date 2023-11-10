@@ -1,5 +1,12 @@
 const errorTypes = [
-  { type: "NoDataError", message: "Chyba pri načítaní dát to karty" },
+  {
+    type: "NoDataError",
+    message: "Chyba, dáta pre kartu neexistujú",
+  },
+  {
+    type: "CardStateProcessError",
+    message: "Chyba pri načítaní dát to karty",
+  },
 ];
 
 /**

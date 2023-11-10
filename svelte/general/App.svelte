@@ -21,7 +21,7 @@
   {#if languageLoaded}
     <Router />
   {:else}
-    <div class="grid h-screen w-full place-items-center bg-slate-700">
+    <div class="grid h-screen w-full place-items-center bg-primary-100">
       <p class="text-slate-50">loading language pack...</p>
     </div>
   {/if}
