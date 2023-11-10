@@ -5,21 +5,30 @@
 #include "sensors/SensorManager.h" 
 #include "network.h"
 #include "constants.h"
+#include "led.h"
+#include "Button.h"
 
 #define WEIGHT_SCALE -34850
+
+void pair();
 
 int address = 0;
 unsigned int value = 0;
 unsigned int check_value = 0;
 
+
 SensorManager sensorManager;
 NetworkManager networkManager;
+
+LED led(19);
+Button button(21);
 
 //HX711 scale;
  
 void setup(void)
 {
   Serial.begin(9600);
+  led.indicate(OK);
 
 /*
   scale.begin(22, 23);
@@ -28,9 +37,8 @@ void setup(void)
 
 
   //sensorManager.resetSensor(0);
+  led.indicate(CONNECTING);
 
-
-  delay(1000);
 
   sensorManager.scan();
 
@@ -43,6 +51,26 @@ void setup(void)
 
   networkManager.POST(String(SERVER_URL) + "/updateStatus", json);
   Serial.println(networkManager.getRequestResult());
+
+  led.indicate(REQUEST_SUCCESS);
+
+  button.setAction(pair);
+
+  delay(2000);
+
+  led.off();
+}
+
+void pair() {
+    DynamicJsonDocument data(150);
+    data["beehive"] = BEEHIVE_ID;
+    data["model"] = MODEL_NAME;
+
+    String json;
+    serializeJson(data, json);
+
+    networkManager.POST(String(SERVER_URL) + "/requestPair", json);
+    Serial.println(networkManager.getRequestResult());
 }
 
 
