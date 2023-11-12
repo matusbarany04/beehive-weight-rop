@@ -8,6 +8,7 @@ import com.buzzybees.master.beehives.export.ExcelService;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.CookieAuthController;
 import com.buzzybees.master.exceptions.ItemNotFoundException;
+import com.buzzybees.master.exceptions.NoPermissionException;
 import com.buzzybees.master.exceptions.OwnershipException;
 import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.notifications.NotificationRepository;
@@ -303,28 +304,18 @@ public class DashboardController extends CookieAuthController {
      * @return status whether action was successful
      */
     @PostMapping(value = "/saveDeviceSettings", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ApiResponse saveDeviceSettings(@RequestBody MultiValueMap<String, String> formData) {
-        DeviceRepository deviceRepository = getRepo(Device.class);
+    public ApiResponse saveDeviceSettings(@ModelAttribute Beehive beehive) throws OwnershipException, ItemNotFoundException {
+        Beehive targetBeehive = beehiveRepository.getBeehiveByToken(beehive.getToken());
 
-        Beehive beehive = beehiveRepository.getBeehiveByToken(formData.getFirst("beehive"));
-        beehive.setName(formData.getFirst("name"));
+        if(targetBeehive == null) throw new ItemNotFoundException();
+        if(targetBeehive.getUserId() != currentUserId) throw new OwnershipException();
 
-        String interval = formData.getFirst("interval");
-        if (interval != null) beehive.setInterval(Integer.parseInt(interval));
-
-        beehive.setLocation(formData.getFirst("location"));
-
-        String mode = Objects.requireNonNull(formData.getFirst("connectionMode"));
-        beehive.setConnectionMode(Integer.parseInt(mode));
-
-        JSONObject sensors = new JSONObject(formData.getFirst("sensors"));
-        for (String port : sensors.keySet()) {
-            Device device = Device.fromJSON(sensors.getJSONObject(port), port);
-            device.setBeehive(beehive);
-            deviceRepository.save(device);
-        }
-
+        beehive.setUserId(currentUserId);
+        beehive.setModel(targetBeehive.getModel());
         beehiveRepository.save(beehive);
+
+        DeviceRepository deviceRepository = getRepo(Device.class);
+        deviceRepository.saveAll(beehive.getDevices());
 
         return new ApiResponse();
     }

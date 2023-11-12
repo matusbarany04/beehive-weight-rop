@@ -7,6 +7,12 @@ export class BeehiveObj {
   /** @type {string} Location of the beehive. */
   location;
 
+  /** @type {float} Latitude of the beehive. */
+  latitude;
+
+  /** @type {float} Longitude of the beehive. */
+  longitude;
+
   /** @type {string} Model of the beehive. */
   model;
 
@@ -20,7 +26,6 @@ export class BeehiveObj {
   devices;
 
   /**
-   /**
    * stores all of the beehive data
    * @type {Object<Array>}  */
   data = {};
@@ -30,6 +35,8 @@ export class BeehiveObj {
    * @param {string} beehive_id Unique identifier for the beehive.
    * @param name {string}
    * @param {string} location Location of the beehive.
+   * @param latitude
+   * @param longitude
    * @param {string} model Model of the beehive.
    * @param {number} connectionMode Connection mode of the beehive.
    * @param {number} interval Time interval for data collection.
@@ -39,6 +46,8 @@ export class BeehiveObj {
     beehive_id,
     name,
     location,
+    latitude,
+    longitude,
     model,
     connectionMode,
     interval,
@@ -58,6 +67,8 @@ export class BeehiveObj {
     this.beehive_id = beehive_id;
     this.name = name;
     this.location = location;
+    this.latitude = latitude;
+    this.longitude = longitude;
     this.model = model;
     this.connectionMode = connectionMode;
     this.interval = interval;

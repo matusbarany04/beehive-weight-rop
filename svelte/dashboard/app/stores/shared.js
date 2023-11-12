@@ -42,6 +42,8 @@ export default {
           beehiveJson["token"],
           beehiveJson["name"],
           beehiveJson["location"],
+          beehiveJson["latitude"],
+          beehiveJson["longitude"],
           beehiveJson["model"],
           beehiveJson["connectionMode"],
           beehiveJson["interval"],

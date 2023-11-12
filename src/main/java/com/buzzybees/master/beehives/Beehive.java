@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "beehives")
@@ -23,6 +24,12 @@ public class Beehive {
 
     @Column(name = "location")
     private String location;
+
+    @Column(name = "latitude")
+    private float latitude;
+
+    @Column(name = "longitude")
+    private float longitude;
 
     @Column(name = "name")
     private String name;
@@ -90,6 +97,14 @@ public class Beehive {
         return interval;
     }
 
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
     public void setInterval(int interval) {
         this.interval = interval;
     }
@@ -118,4 +133,28 @@ public class Beehive {
         return devices;
     }
 
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setSensors(String devicesJSON) {
+        JSONObject jsonObject = new JSONObject(devicesJSON);
+        for (String key : jsonObject.keySet()) {
+            Device device = Device.fromJSON(jsonObject.getJSONObject(key), key);
+            device.setBeehive(this);
+            devices.add(device);
+        }
+    }
 }
