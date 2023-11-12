@@ -158,14 +158,9 @@ public class DashboardController extends CookieAuthController {
     public ResponseEntity<byte[]> downloadExcel() {
         StatusRepository statusRepository = getRepo(Status.class);
         Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
-        String[] tokens = beehiveRepository.getBeehiveTokens(currentUserId);
-        Status[] lastStatuses = statusRepository.getLastStatuses(Arrays.asList(tokens));
-
-        StringBuilder csv = new StringBuilder("Ul;Stav;Hmotnost;Bateria;Teplota;Vlhkost;Posledna aktualizacia;\n");
-
 
         ByteArrayInputStream in = excelService.exportToExcel(
-                Arrays.stream(csv.toString().split(";")).toList(),
+                Arrays.stream("Ul;Stav;Hmotnost;Bateria;Teplota;Vlhkost;Posledna aktualizacia;\n".split(";")).toList(),
 
 
                 Arrays.stream(beehives).map((beehive) -> {
