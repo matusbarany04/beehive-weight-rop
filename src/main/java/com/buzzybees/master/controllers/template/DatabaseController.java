@@ -23,7 +23,7 @@ public abstract class DatabaseController {
      * @return repository by entity
      */
     @SuppressWarnings("unchecked")
-    public <R extends CrudRepository<E, Long>, E> R getRepo(Class<E> entity) {
+    public <R, I extends CrudRepository<E, I>, E> R getRepo(Class<E> entity) {
         Repositories repositories = new Repositories(applicationContext);
         Optional<Object> repo = repositories.getRepositoryFor(entity);
         return (R) repo.orElse(null);

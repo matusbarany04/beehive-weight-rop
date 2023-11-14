@@ -34,6 +34,10 @@
    */
   export let results;
 
+  export let resultValues = {};
+
+  export let resultValue;
+
   /**
    * @param {boolean} required - If set, the input will be required. Optional.
    */
@@ -53,6 +57,12 @@
 
   function typeAction(node) {
     node.type = type;
+  }
+
+  function click(result) {
+    value = result;
+    const index = results.indexOf(result);
+    if (resultValues.length > 0) resultValue = resultValues[index];
   }
 </script>
 
@@ -84,7 +94,7 @@
         {#each results as result}
           <li
             class="cursor-pointer rounded p-1 hover:bg-slate-100"
-            on:mousedown={() => (value = result)}
+            on:mousedown={() => click(result)}
           >
             {result}
           </li>
