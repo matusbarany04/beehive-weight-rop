@@ -43,6 +43,14 @@
    */
   export let inline = false;
 
+
+  /**
+   * @param {function} onChange listener function, that is called when user changes the input inside 
+   */
+  export let onChange = () => {
+    console.warn("change not implemented!")
+  }
+
   function typeAction(node) {
     node.type = type;
   }
@@ -50,13 +58,14 @@
 
 <div class={inline ? "flex items-center gap-2" : ""}>
   {#if label}
-    <label for={name} class={inline ? "w-1/3" : ""}>{label}</label> <br />
+    <label for={name} class={inline ? "w-1/3" : ""}>{label}</label> <br/>
   {/if}
   {#if small}
-    <small>{small}</small><br />
+    <small>{small}</small><br/>
   {/if}
   <select
     class="h-8 w-full rounded-md border-2 border-slate-300 bg-white px-4"
+    on:change={onChange()}
     {name}
     {value}
     id="pet-select"

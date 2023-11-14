@@ -2,7 +2,7 @@
   import CardRoot from "./components/CardRoot.svelte";
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { getUnitByType } from "../../../../components/lib/utils/staticFuncs";
+  import {getUnitByType} from "../../../../components/lib/utils/staticFuncs";
 
   export let cardStates;
 
@@ -106,6 +106,21 @@
     console.error("Percentage card error ", e, cardStates);
     error = "CardStateProcessError";
   }
+  // key value pairs of data types of selected beehive 
+  // default with be non-detachable types 
+  let data_types = [
+    ["weight", "Váha"],
+    ["temperature", "Teplota"],
+    ["humidity", "Vlhkosť"],
+  ]
+
+  function onBeehiveInputChange() {
+    // get beehive id 
+    
+    // fetch all non-detachable and detachable data into key - value pairs 
+    
+    // update data_types
+  }
 </script>
 
 <!-- theme="dashed" -->
@@ -165,17 +180,9 @@
   <!--TODO might crash-->
 
   <div class="" slot="customSettings">
-    {#if error == null && value !== "error" && value !== "NoData"}
-      <DropdownInput
-        label="Typ dát"
-        name="data_type"
-        value={cardStates.data[0].type || "weight"}
-        options={[
-          ["weight", "Váha"],
-          ["temperature", "Teplota"],
-          ["humidity", "Vlhkosť"],
-        ]}
-      />
+    {#if true}
+      <!--error == null && value !== "error" && value !== "NoData"-->
+
 
       <DropdownInput
         label="Váha"
@@ -183,7 +190,16 @@
         value={cardStates.data[0].beehive_id || "all"}
         small={"Váha pre ktorú sa budú zobrazovať dáta"}
         options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
+        onChange={onBeehiveInputChange}
       />
+
+      <DropdownInput
+        label="Typ dát"
+        name="data_type"
+        value={cardStates.data[0].type || "weight"}
+        options={data_types}
+      />
+
     {/if}
   </div>
 </CardRoot>

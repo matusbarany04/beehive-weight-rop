@@ -31,31 +31,32 @@
   let myChart;
   let allSelected = false;
   const beehiveData = [];
-
+  let beehivelist = cardStates.data;
+  
   try {
     let beehives = shared.getBeehives();
     // console.log("cardStates.data.length === beehives.length",cardStates.data, cardStates.data.length, Object.keys(beehives).length)
-    if (cardStates.data.length === Object.keys(beehives).length) {
+    if (beehivelist.length === Object.keys(beehives).length) {
       allSelected = true;
     }
 
     if (
-      cardStates.data == null ||
-      cardStates.data === "dummy" ||
-      cardStates.data == [] ||
-      cardStates.data[0].beehive_id === "all" ||
-      cardStates.data.length === beehives.length
+      beehivelist == null ||
+      beehivelist === "dummy" ||
+      beehivelist == [] ||
+      beehivelist[0].beehive_id === "all" ||
+      beehivelist.length === beehives.length
     ) {
       allSelected = true;
       // console.log("CardStates", cardStates);
       // noDataError is replaced with all weight from all devices
       // error = "NoDataError";
-      cardStates.data = [];
+      beehivelist = [];
 
       // console.log("beehives", beehives);
       for (const key of Object.keys(beehives)) {
         let beehive = beehives[key];
-        cardStates.data.push({
+        beehivelist.push({
           timespan: "week",
           name: "Váha " + beehive.name,
           type: "weight",
@@ -65,7 +66,7 @@
       // console.log("cardstates", cardStates.data);
     }
 
-    cardStates.data.forEach((element) => {
+    beehivelist.forEach((element) => {
       // if (element.type === "dummy") {
       //   // ONLY FOR DEBUG BUG BUG element.type ===  "dummy"
       //   beehiveData.push({
@@ -89,7 +90,7 @@
       if (beehiveObject == null) {
         console.error(
           "No Data error ",
-          shared.getBeehiveById(element.beehive_id),
+          shared.getBeehiveById(element.beehive_id) + " " +   element.beehive_id,
         );
         error = "NoDataError";
       } else {
@@ -366,11 +367,11 @@
   </div>
 
   <div class="" slot="customSettings">
-    {#if cardStates.data != null}
+    {#if beehivelist != null}
       <DropdownInput
         label="Typ dát"
         name="data_type"
-        value={cardStates.data[0]?.type ?? "weight"}
+        value={beehivelist[0]?.type ?? "weight"}
         options={[
           ["weight", "Váha"],
           ["temperature", "Teplota"],
@@ -381,7 +382,7 @@
       <DropdownInput
         label="Úsek načítaných dát"
         name="timespan"
-        value={cardStates.data[0]?.timespan ?? "week"}
+        value={beehivelist[0]?.timespan ?? "week"}
         small={"Upozornenie: väčšieho množstva dát môže spôsobiť dlhšie načítanie stránky a problémy v systémoch s obmedzenými zdrojmi. Prosím, zvážte to pri výbere obdobia."}
         options={[
           ["week", "Posledný týždeň"],
@@ -393,7 +394,7 @@
       <DropdownInput
         label="Váha"
         name="beehive_id"
-        value={allSelected ? "all" : cardStates.data[0]?.beehive_id ?? "all"}
+        value={allSelected ? "all" : beehivelist[0]?.beehive_id ?? "all"}
         small={"Váha pre ktorú sa budú zobrazovať dáta"}
         options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
       />

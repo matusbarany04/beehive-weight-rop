@@ -19,12 +19,12 @@
   let loading = false;
 </script>
 
-<main class="box-border flex min-h-screen w-full flex-1">
+<main class="box-border flex min-h-screen w-full flex-1 select-none">
   <Panel />
   <div class="h-screen flex-1 overflow-y-scroll bg-tertiary-100 px-8">
     <header class="flex h-16 align-middle">
       {#if !loading}
-        <h1 class="my-auto text-3xl font-bold {leftPadding ? 'ml-8' : ''}">
+        <h1 class=" my-auto text-3xl font-bold {leftPadding ? 'ml-8' : ''}">
           {headerMessage}
         </h1>
       {:else}

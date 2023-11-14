@@ -1,8 +1,17 @@
 <script>
   import { spring } from "svelte/motion";
 
+ 
+
+  export let xCoordinate = 1;
+  export let yCoordinate = 1;
+  export let pixelWidth = 10;
+  export let pixelHeight = 10;
+
+
+
   let _coordinates = spring(
-    { x: 1, y: 1 },
+    { x: xCoordinate, y: yCoordinate },
     {
       stiffness: 0.1,
       damping: 0.6,
@@ -10,17 +19,12 @@
   );
 
   let _pixelSize = spring(
-    { w: 10, h: 10 },
+    { w: pixelWidth, h: pixelHeight },
     {
       stiffness: 0.1,
       damping: 0.6,
     },
   );
-
-  export let xCoordinate = 1;
-  export let yCoordinate = 1;
-  export let pixelWidth = 10;
-  export let pixelHeight = 10;
 
   _coordinates.set({ x: xCoordinate, y: yCoordinate });
   _pixelSize.set({ w: pixelWidth, h: pixelHeight });
