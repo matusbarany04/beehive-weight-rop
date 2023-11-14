@@ -7,6 +7,7 @@
   import Register from "../../pages/Register.svelte";
   import AccountCreated from "../../pages/AccountCreated.svelte";
   import { RouterObj } from "../../../components/router/routerObj";
+  import Shop from "../../pages/Shop.svelte";
 
   let value = Notfound;
   let props = {};
@@ -19,7 +20,7 @@
     routes.get("/register", Register);
     routes.get("/accountCreated", AccountCreated);
     routes.get("/test", TestGeneralSite);
-
+    routes.get("/obchod", Shop);
     value = routes.resolve(currentRoute, Notfound);
 
     props = routes.resolveProps(currentRoute);
