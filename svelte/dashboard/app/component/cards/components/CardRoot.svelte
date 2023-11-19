@@ -170,10 +170,11 @@
       {/if}
     </div>
     <div id="customContent" class="flex h-[calc(100%-2rem)] w-full">
-      {#if !error}
-        <slot />
-      {:else}
-        <CardError {error} />
+      <slot />
+      {#if error}
+        <div class="absolute left-0 top-0 h-full w-full">
+          <CardError {error} />
+        </div>
       {/if}
     </div>
   </div>
