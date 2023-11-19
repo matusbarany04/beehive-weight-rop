@@ -7,6 +7,7 @@
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import { BeehiveObj } from "../../stores/Beehive";
+  import BeehiveTypeForm from "./BeehiveTypeForm.svelte";
 
   /**
    * @type {Object}
@@ -32,7 +33,7 @@
   let allSelected = false;
   const beehiveData = [];
   let beehivelist = cardStates.data;
-  
+
   try {
     let beehives = shared.getBeehives();
     // console.log("cardStates.data.length === beehives.length",cardStates.data, cardStates.data.length, Object.keys(beehives).length)
@@ -90,7 +91,7 @@
       if (beehiveObject == null) {
         console.error(
           "No Data error ",
-          shared.getBeehiveById(element.beehive_id) + " " +   element.beehive_id,
+          shared.getBeehiveById(element.beehive_id) + " " + element.beehive_id,
         );
         error = "NoDataError";
       } else {
@@ -322,6 +323,8 @@
   }
 
   let resizeEvent = () => {};
+
+
 </script>
 
 <CardRoot
@@ -368,16 +371,11 @@
 
   <div class="" slot="customSettings">
     {#if beehivelist != null}
-      <DropdownInput
-        label="Typ dát"
-        name="data_type"
-        value={beehivelist[0]?.type ?? "weight"}
-        options={[
-          ["weight", "Váha"],
-          ["temperature", "Teplota"],
-          ["humidity", "Vlhkosť"],
-        ]}
-      />
+      <BeehiveTypeForm
+        typeChoice={beehivelist[0]?.type ?? "weight"}
+        beehive_value={allSelected ? "all" : beehivelist[0]?.beehive_id ?? "all"}
+        beehiveId={beehivelist[0]?.beehive_id}
+      ></BeehiveTypeForm>
 
       <DropdownInput
         label="Úsek načítaných dát"
@@ -390,16 +388,8 @@
           ["year", "Posledný rok"],
         ]}
       />
-      {allSelected}
-      <DropdownInput
-        label="Váha"
-        name="beehive_id"
-        value={allSelected ? "all" : beehivelist[0]?.beehive_id ?? "all"}
-        small={"Váha pre ktorú sa budú zobrazovať dáta"}
-        options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
-      />
-      <!--  TODO ERROR add back options without crashing the whole thing -->
-      <!--  -->
+
+
     {/if}
   </div>
 </CardRoot>

@@ -1,14 +1,10 @@
 <script>
   import { spring } from "svelte/motion";
 
- 
-
   export let xCoordinate = 1;
   export let yCoordinate = 1;
   export let pixelWidth = 10;
   export let pixelHeight = 10;
-
-
 
   let _coordinates = spring(
     { x: xCoordinate, y: yCoordinate },

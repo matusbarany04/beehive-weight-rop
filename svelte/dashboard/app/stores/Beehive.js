@@ -1,4 +1,5 @@
 import shared from "./shared";
+import staticFuncs from "../../../components/lib/utils/staticFuncs";
 
 export class BeehiveObj {
   /** @type {string} Unique identifier for the beehive. */
@@ -246,15 +247,51 @@ export class BeehiveObj {
     "status",
     "weight",
     "battery",
-    "battery",
   ];
+
+  static _nonGraphable = [
+    "timestamp",
+    "status",
+  ]
+  
+  static _nonDetachableKeysGraphable = [
+    "weight",
+    "battery",
+  ]
+  
+  static getPrimaryDataType(){
+    return "weight"
+  }
 
   /**
    * Returns array of non-detachable types, like weight, status or battery
    * @return {string[]}
    */
-  static getNonDetachableTypes() {
-    return BeehiveObj._nonDetachableKeys;
+  static getNonDetachableTypes(onlyGraphable = false) {
+    if(onlyGraphable){
+      return BeehiveObj._nonDetachableKeys;
+    }else {
+      return BeehiveObj._nonDetachableKeysGraphable;
+    }
+  }
+
+  /**
+   * Gets an array of non-detachable types.
+   * Each type is duplicated in the resulting array.
+   *
+   * @returns {Array<Array<String>>} An array of key-value pairs, where each item is duplicated.
+   * @static
+   */
+  static getNonDetachableTypesAsKeyValuePairs(onlyGraphable = false){
+    const original = this.getNonDetachableTypes(onlyGraphable)
+
+    const duplicatedPairs = [];
+
+    for (const item of original) {
+      duplicatedPairs.push([item, item]);
+    }
+    
+    return duplicatedPairs;
   }
 
   /**
@@ -295,6 +332,17 @@ export class BeehiveObj {
 
     return keys;
   }
+
+  getCurrentDataTypesAsKeyValuePairs(graphable = false){
+    let dataTypes = this.getCurrentDataTypes();
+
+    if (graphable) {
+      dataTypes = dataTypes.filter((type) => ! BeehiveObj._nonGraphable.includes(type));
+    }
+
+    return staticFuncs.arrayToKeyValuePairs(dataTypes);
+  }
+  
 
   getTransmissionSuccessRate() {
     let statuses = this.getAllDataByType("status");
