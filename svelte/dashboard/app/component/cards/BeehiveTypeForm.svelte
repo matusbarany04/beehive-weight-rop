@@ -1,39 +1,38 @@
 <script>
   export let beehive_value = false;
-  export let typeChoice = "weight"
-  
-  export let beehiveId = "all"
-  
-  import {BeehiveObj} from "../../stores/Beehive";
+  export let typeChoice = "weight";
+
+  export let beehiveId = "all";
+
+  import { BeehiveObj } from "../../stores/Beehive";
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
 
-
-  let typeChoiceList = []
+  let typeChoiceList = [];
 
   let updateDataTypeList = (beehive_id) => {
     if (beehive_id === "all") {
       // TODO this should be union of all types, for now this is okay
-      typeChoiceList = BeehiveObj.getNonDetachableTypesAsKeyValuePairs(true)
+      typeChoiceList = BeehiveObj.getNonDetachableTypesAsKeyValuePairs(true);
     } else {
-      typeChoiceList = shared.getBeehiveById(beehive_id).getCurrentDataTypesAsKeyValuePairs(true)
+      typeChoiceList = shared
+        .getBeehiveById(beehive_id)
+        .getCurrentDataTypesAsKeyValuePairs(true);
     }
 
     // if choice is not in new typeChoiceList reset back to primary
     if (!typeChoiceList.some(([key]) => key === typeChoice)) {
-      console.log("Not inside ", typeChoice, typeChoiceList)
+      console.log("Not inside ", typeChoice, typeChoiceList);
       typeChoice = BeehiveObj.getPrimaryDataType();
     }
-  }
+  };
 
   let typeChanged = (type) => {
-    typeChoice = type
-  }
+    typeChoice = type;
+  };
 
-  updateDataTypeList(beehiveId)
-
+  updateDataTypeList(beehiveId);
 </script>
-
 
 <DropdownInput
   label="Váha"

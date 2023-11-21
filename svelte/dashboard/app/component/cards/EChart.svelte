@@ -1,12 +1,12 @@
 <script>
-  import { onMount, tick } from "svelte";
+  import {onMount, tick} from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
   import shared from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
+  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { BeehiveObj } from "../../stores/Beehive";
+  import {BeehiveObj} from "../../stores/Beehive";
   import BeehiveTypeForm from "./BeehiveTypeForm.svelte";
 
   /**
@@ -169,7 +169,7 @@
           }),
         });
       }
-
+      console.log("beehiveData", beehiveData[0]);
       return {
         title: {
           show: false,
@@ -211,21 +211,22 @@
             },
           },
         },
+        calculable: true,
         grid: {
-          // left: "6%",
           right: "5%",
           top: "4%",
         },
         xAxis: {
-          data: beehiveData[0]?.data?.map(function (item) {
-            return item[0] != null && item && item.length > 1 ? item[0] : "";
-          }),
+          
           axisLabel: {
             type: "time",
             formatter: function (value) {
               const date = new Date(parseInt(value));
               return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
             },
+            interval: function (){
+              
+            }
           },
           axisPointer: {
             label: {
@@ -237,7 +238,12 @@
           },
           boundaryGap: false,
         },
-        yAxis: {},
+        yAxis: {
+          data: beehiveData[0]?.data?.map(function (item) {
+            return item[1] != null && item && item.length > 1 ? item[1] : "-";
+          }),
+          type: "value",
+        },
         dataZoom: [
           {
             type: "slider",
@@ -322,9 +328,8 @@
     console.error(e);
   }
 
-  let resizeEvent = () => {};
-
-
+  let resizeEvent = () => {
+  };
 </script>
 
 <CardRoot
@@ -366,14 +371,16 @@
   </div>
 
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full" />
+    <div {id} class="h-full w-full"/>
   </div>
 
   <div class="" slot="customSettings">
     {#if beehivelist != null}
       <BeehiveTypeForm
         typeChoice={beehivelist[0]?.type ?? "weight"}
-        beehive_value={allSelected ? "all" : beehivelist[0]?.beehive_id ?? "all"}
+        beehive_value={allSelected
+          ? "all"
+          : beehivelist[0]?.beehive_id ?? "all"}
         beehiveId={beehivelist[0]?.beehive_id}
       ></BeehiveTypeForm>
 
@@ -388,8 +395,6 @@
           ["year", "Posledný rok"],
         ]}
       />
-
-
     {/if}
   </div>
 </CardRoot>
