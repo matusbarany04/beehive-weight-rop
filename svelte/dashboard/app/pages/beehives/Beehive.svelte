@@ -6,7 +6,6 @@
   import PercentageCard from "../../component/cards/PercentageCard.svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
   import MapCard from "../../component/cards/MapCard.svelte";
-  import ApexChart from "../../component/cards/ApexChart.svelte";
   import Modal from "../../../../components/Modal.svelte";
   import Input from "../../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
