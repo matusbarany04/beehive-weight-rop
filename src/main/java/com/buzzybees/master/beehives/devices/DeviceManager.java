@@ -13,7 +13,7 @@ public class DeviceManager {
         Device device = new Device();
         device.setBeehive(beehive);
         device.setType(DEVICE_TYPES[type]);
-        device.setPort("S" + port);
+        device.setPort("S" + port + 1);
         device.setName(DEVICE_TYPES[type] + " 1");
         Device savedDevice = repository.save(device);
         return savedDevice.getId();

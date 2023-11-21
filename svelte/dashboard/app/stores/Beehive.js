@@ -242,25 +242,14 @@ export class BeehiveObj {
    * @type {string[]}
    * @private
    */
-  static _nonDetachableKeys = [
-    "timestamp",
-    "status",
-    "weight",
-    "battery",
-  ];
+  static _nonDetachableKeys = ["timestamp", "status", "weight", "battery"];
 
-  static _nonGraphable = [
-    "timestamp",
-    "status",
-  ]
-  
-  static _nonDetachableKeysGraphable = [
-    "weight",
-    "battery",
-  ]
-  
-  static getPrimaryDataType(){
-    return "weight"
+  static _nonGraphable = ["timestamp", "status"];
+
+  static _nonDetachableKeysGraphable = ["weight", "battery"];
+
+  static getPrimaryDataType() {
+    return "weight";
   }
 
   /**
@@ -268,9 +257,9 @@ export class BeehiveObj {
    * @return {string[]}
    */
   static getNonDetachableTypes(onlyGraphable = false) {
-    if(onlyGraphable){
+    if (!onlyGraphable) {
       return BeehiveObj._nonDetachableKeys;
-    }else {
+    } else {
       return BeehiveObj._nonDetachableKeysGraphable;
     }
   }
@@ -282,15 +271,15 @@ export class BeehiveObj {
    * @returns {Array<Array<String>>} An array of key-value pairs, where each item is duplicated.
    * @static
    */
-  static getNonDetachableTypesAsKeyValuePairs(onlyGraphable = false){
-    const original = this.getNonDetachableTypes(onlyGraphable)
+  static getNonDetachableTypesAsKeyValuePairs(onlyGraphable = false) {
+    const original = this.getNonDetachableTypes(onlyGraphable);
 
     const duplicatedPairs = [];
 
     for (const item of original) {
       duplicatedPairs.push([item, item]);
     }
-    
+
     return duplicatedPairs;
   }
 
@@ -333,16 +322,17 @@ export class BeehiveObj {
     return keys;
   }
 
-  getCurrentDataTypesAsKeyValuePairs(graphable = false){
+  getCurrentDataTypesAsKeyValuePairs(graphable = false) {
     let dataTypes = this.getCurrentDataTypes();
 
     if (graphable) {
-      dataTypes = dataTypes.filter((type) => ! BeehiveObj._nonGraphable.includes(type));
+      dataTypes = dataTypes.filter(
+        (type) => !BeehiveObj._nonGraphable.includes(type),
+      );
     }
 
     return staticFuncs.arrayToKeyValuePairs(dataTypes);
   }
-  
 
   getTransmissionSuccessRate() {
     let statuses = this.getAllDataByType("status");
