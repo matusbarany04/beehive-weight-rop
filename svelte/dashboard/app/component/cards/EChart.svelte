@@ -147,6 +147,11 @@
     });
 
     let initOptions = () => {
+
+      const months = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
       let series = [];
       for (let index = 0; index < beehiveData.length; index++) {
         const line = beehiveData[index];
@@ -164,13 +169,18 @@
           },
           name: line.name,
           type: "line",
+          smooth:true,
           data: line.data.map(function (item) {
-            return item[1];
+ 
+            let timestamp = item[0];
+            let val = item[1];
+            const isoString = new Date(timestamp).toISOString();
+            return [isoString, val];
           }),
         });
       }
-      console.log("beehiveData", beehiveData[0]);
-      return {
+      
+      let option =  {
         title: {
           show: false,
         },
@@ -217,13 +227,16 @@
           top: "4%",
         },
         xAxis: {
-          type:"category",
+          type:"time",
           axisLabel: {
             type: "time",
             formatter: function (value) {
+           
               const date = new Date(parseInt(value));
-              return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-            }
+              console.log("date", date)
+              return `${months[date.getMonth()]}.${date.getDate()}`; // should be like Nov 13
+            },
+
           },
           axisPointer: {
             label: {
@@ -233,7 +246,6 @@
               },
             },
           },
-          boundaryGap: false,
         },
         yAxis: {
           data: beehiveData[0]?.data?.map(function (item) {
@@ -300,6 +312,8 @@
         ],
         series: series,
       };
+      
+      return option;
     };
 
     onMount(() => {
