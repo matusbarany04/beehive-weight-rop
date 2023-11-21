@@ -1,10 +1,12 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <HX711.h>
+#include <ArduinoJson.h>
 
 #include "sensors/SensorManager.h" 
 #include "network.h"
 #include "constants.h"
+#include "actions.h"
 
 #define WEIGHT_SCALE -34850
 
@@ -14,8 +16,11 @@ unsigned int check_value = 0;
 
 SensorManager sensorManager;
 NetworkManager networkManager;
+ActionManager actionManager;
 
 //HX711 scale;
+
+void handleActions();
  
 void setup(void)
 {
@@ -41,10 +46,25 @@ void setup(void)
   networkManager.connectDefault();
   networkManager.setContentType("application/json");
 
+  handleActions();
+
   networkManager.POST(String(SERVER_URL) + "/updateStatus", json);
+  DynamicJsonDocument response = networkManager.getResponseJSON();
+  JsonArray actions = response["actions"];
+
+  for(int i = 0; i < actions.size(); i++) {
+    JsonObject action = actions[i];
+    actionManager.exec(action["name"]);
+  }
+
   Serial.println(networkManager.getRequestResult());
 }
 
+void handleActions() {
+  actionManager.addAction("BURN_SENSOR_ID", [] (float value, unsigned int port) {
+    sensorManager.burnSensorId(port, value);
+  });
+}
 
  
 void loop()

@@ -1,8 +1,7 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
-
-#define SSID "SNPD"
-#define PASSWORD "ke257-NT_61_ab"
+#include <ArduinoJson.h>
+#include "constants.h"
 
 
 class NetworkManager {
@@ -10,12 +9,12 @@ class NetworkManager {
     public:
 
         void connectDefault() {
-            connect(SSID, PASSWORD);
+            connect(WIFI_SSID, WIFI_PASSWORD);
         }
 
         void connect(String ssid, String password) {
             WiFi.mode(WIFI_STA);
-            WiFi.begin(ssid, password);
+            WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
             Serial.print("Connecting");
            
             while (WiFi.status() != WL_CONNECTED) {
@@ -26,7 +25,6 @@ class NetworkManager {
 
             Serial.println("");
             Serial.print("Connected to ");
-            Serial.println(SSID);
             Serial.print("IP address: ");
             Serial.println(WiFi.localIP());
         }
@@ -53,6 +51,12 @@ class NetworkManager {
 
         String getRequestResult() {
             return result;
+        }
+
+        DynamicJsonDocument getResponseJSON() {
+            DynamicJsonDocument doc(256);
+            deserializeJson(doc, getRequestResult());
+            return doc; 
         }
 
         bool isRequestSuccessful() {
