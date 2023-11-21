@@ -23,10 +23,13 @@ class ActionManager {
 
         void exec(String type, long id, JsonObject params = JsonObject()) {
             Action action = getAction(type);
-            action.function(params);
-            JsonObject json;
-            json["id"] = action.id;
-            executedActions.add(id);
+
+            if(action.id != 0) {
+                action.function(params);
+                JsonObject json;
+                json["id"] = action.id;
+                executedActions.add(id);
+            }
         }
 
         String getExecutedActions() {
