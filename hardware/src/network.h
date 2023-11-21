@@ -42,7 +42,7 @@ class NetworkManager {
 
         void POST(String url, String data) {
             if(url.indexOf('.') == -1) url = hostname + url;
-            http.begin(client, url.c_str());
+            http.begin(client, ("http://" + url).c_str());
             int httpResponseCode = http.POST(data);  
             result = http.getString();
             http.end();

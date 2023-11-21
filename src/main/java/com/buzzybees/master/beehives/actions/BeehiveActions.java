@@ -2,7 +2,7 @@ package com.buzzybees.master.beehives.actions;
 
 public enum BeehiveActions {
 
-    MOVE_MOTOR("MOVE_MOTOR"),
+    MOTOR_MOVE("MOTOR_MOVE"),
 
     WAKE_UP("WAKE_UP"),
 

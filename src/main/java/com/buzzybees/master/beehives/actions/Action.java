@@ -2,7 +2,12 @@ package com.buzzybees.master.beehives.actions;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
+import org.apache.tomcat.util.json.JSONParser;
+
+import java.util.HashMap;
 
 @Entity
 @Table(name = "actions")
@@ -16,7 +21,7 @@ public class Action {
     private long time = BeehiveActions.NOW;
 
     @Column(name = "params", columnDefinition = "json", nullable = false)
-    private String params = "[]";
+    private String params = "{}";
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "author_id")
@@ -50,8 +55,9 @@ public class Action {
         return author;
     }
 
-    public String getParams() {
-        return params;
+    @SuppressWarnings("unchecked")
+    public HashMap<String, Object> getParams() throws JsonProcessingException {
+        return new ObjectMapper().readValue(this.params, HashMap.class);
     }
 
     public Action(BeehiveActions actionName) {
@@ -94,7 +100,4 @@ public class Action {
     public Long getId() {
         return id;
     }
-
-
-
 }
