@@ -84,23 +84,21 @@
     // we get form data
     const data = new FormData(this);
     form = {};
-
+    // console.log("saving these data", data);
     let title = data.get("title");
-    if (!isEmpty(title)) {
-      cardStates.title = title;
-    }
 
     // every child card has implemented their own handler
     let output = updateSettings(data);
+
+    if (!isEmpty(title)) {
+      cardStates.title = title;
+    }
 
     if (output.status === "success") {
       cardStates.data = output.data;
     } else {
       form.error = "Chyba";
     }
-
-    // dashboardEditor.updateCardStates(cardStates.id, cardStates);
-
     await dashboard.saveGrid();
 
     showSettings = false;
@@ -146,7 +144,7 @@
       <h1
         class="no_wrap flex-1 text-ellipsis whitespace-nowrap text-base text-slate-500"
       >
-        {cardStates?.title || ""}
+        {error || cardStates?.title || ""}
       </h1>
       <slot name="header" />
 
@@ -172,10 +170,11 @@
       {/if}
     </div>
     <div id="customContent" class="flex h-[calc(100%-2rem)] w-full">
-      {#if !error}
-        <slot />
-      {:else}
-        <CardError {error} />
+      <slot />
+      {#if error}
+        <div class="absolute left-0 top-0 h-full w-full">
+          <CardError {error} />
+        </div>
       {/if}
     </div>
   </div>
@@ -201,6 +200,10 @@
 
     <slot name="customSettings" />
   </form>
+
+  <code>
+    {JSON.stringify(cardStates)}
+  </code>
 
   <button slot="footer" type="submit" form="cardRootForm{formID}">
     <Button

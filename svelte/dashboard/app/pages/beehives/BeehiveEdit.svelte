@@ -17,6 +17,7 @@
   import toast from "../../../../components/Toast/toast";
   import { setUnsavedData } from "../../../../components/router/route.serv";
   import { onMount } from "svelte";
+  import { writable } from "svelte/store";
 
   export let props;
   const MODEL_WITH_GSM = "BBIMZ-A";
@@ -25,6 +26,8 @@
   let token;
   let sensorWindow;
   let locationResults;
+  let coordinateList;
+  let coordinates = { latitude: 0, longitude: 0 };
   let connectionMode = "0";
   let sensors = {};
 
@@ -38,14 +41,14 @@
     [600, "10h"],
   ];
 
-  const ports = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"];
-
   message.setMessage("Nastavenia zariadenia");
 
   onMount(() => setUnsavedData(true));
 
   onLoad(["beehives"], () => {
     beehive = shared.getBeehiveById(props.id);
+    coordinates.latitude = beehive.latitude;
+    coordinates.longitude = beehive.longitude;
     connectionMode = beehive["connectionMode"] + "";
     document.title = beehive.name + " - " + message.getMessage();
 
@@ -54,21 +57,6 @@
       delete sensors[device["port"]]["port"];
     }
   });
-
-  function addSensor(type, name, connector) {
-    sensorWindow = false;
-    let port = findPort(connector);
-    sensors[port] = { type: type, name: generateName(name) };
-  }
-
-  function findPort(connector) {
-    if (connector === "W" && !sensors["W1"]) return "W1";
-    for (let port of ports) {
-      if (port.startsWith(connector) && !sensors[port]) return port;
-    }
-
-    toast.push("Už nemáte voľný port !", "error");
-  }
 
   function generateName(name) {
     if (!exist(name)) return name;
@@ -90,6 +78,7 @@
     console.log(e.target.value);
     const query = e.target.value;
     locationResults = [];
+    coordinateList = [];
 
     fetch(
       "https://geocoding-api.open-meteo.com/v1/search?count=10&name=" + query,
@@ -99,14 +88,19 @@
         console.log(response["results"]);
         for (let item of response["results"]) {
           locationResults.push(`${item["name"]} (${item["country"]})`);
+          coordinateList.push({
+            latitude: item["latitude"],
+            longitude: item["longitude"],
+          });
           locationResults = locationResults;
+          coordinateList = coordinateList;
         }
       });
   }
 
   function saveSettings(e) {
     let formData = new FormData(e.target);
-    formData.append("beehive", props.id);
+    formData.append("token", props.id);
     formData.append("connectionMode", connectionMode);
     formData.append("sensors", JSON.stringify(sensors));
 
@@ -126,6 +120,14 @@
       });
   }
 </script>
+
+<svelte:head>
+  <title>Upravenie úľu</title>
+  <meta
+    name="Edit beehive"
+    content="This page shows edit options for a particular beehive"
+  />
+</svelte:head>
 
 {#if beehive}
   <div>Model: {beehive.model}</div>
@@ -152,8 +154,12 @@
           value={beehive.location}
           results={locationResults}
           on:input={searchLocation}
+          resultValues={coordinateList}
+          bind:resultValue={coordinates}
           inline
         />
+        <input type="hidden" name="latitude" value={coordinates.latitude} />
+        <input type="hidden" name="longitude" value={coordinates.longitude} />
         <DropdownInput
           name="interval"
           label="Interval merania"
@@ -204,14 +210,8 @@
       <div class="m-4 rounded-lg bg-white p-4">
         <div class="m-4 flex items-center">
           <h3 class="w-full font-bold">Senzory</h3>
-          <Button
-            clickType="button"
-            type="secondary"
-            text="+ Pridať"
-            onClick={() => (sensorWindow = true)}
-          />
         </div>
-        <SensorView {ports} bind:devices={sensors} />
+        <SensorView bind:devices={sensors} />
       </div>
       <div class="m-4 flex justify-end gap-2">
         <Button type="primary" formId="device_settings" text="Uložiť zmeny" />
@@ -225,17 +225,6 @@
       </div>
     </form>
   </div>
-
-  <Modal bind:showModal={sensorWindow}>
-    <h2 slot="header" class="text-2xl font-bold">Pridať Senzor</h2>
-    <div class="my-5 grid grid-cols-3 gap-3">
-      <Sensor name="Hmotnosť" type="weight" action={addSensor} />
-      <Sensor name="Teplota" type="temp" action={addSensor} />
-      <Sensor name="Teplota, Vlhkosť" type="humidity" action={addSensor} />
-      <Sensor name="Svetlo" type="light" action={addSensor} />
-      <Sensor name="Zvuk" type="sound" action={addSensor} />
-    </div>
-  </Modal>
 {:else}
   <Loading />
 {/if}

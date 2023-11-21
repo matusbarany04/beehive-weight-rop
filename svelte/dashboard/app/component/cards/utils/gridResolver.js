@@ -1,4 +1,5 @@
 import { Item } from "./item";
+
 /**
  * GridResolver resolves xy grid -
  * resolver checks if items are not overflowing the grid
@@ -15,6 +16,7 @@ export class GridResolver {
    */
   static resolve(x, y, gridItems, item) {
     if (this.isPossible(x, y, [...gridItems, item])) {
+      console.log("Everything seems fine ");
       return gridItems;
     } else {
       let possibleItem = { ...item };
@@ -125,8 +127,70 @@ export class GridResolver {
     return true;
   }
 
-  static printGrid(x, y, items) {
+  /**
+   * @param newItem
+   * @param gridItems
+   * @param w
+   * @param h
+   */
+  static findSuitablePosition(newItem, gridItems, w, h) {
+    if (gridItems.length > 0) {
+      console.log(gridItems);
+      // Convert gridItems to a 2D array
+      const grid = this.gridAsArray(w, h, gridItems);
+
+      // Iterate through the grid to find a suitable position
+      for (let row = 0; row <= h - newItem.h; row++) {
+        for (let col = 0; col <= w - newItem.w; col++) {
+          let canPlace = true;
+
+          // Check if the space is empty in the grid
+          for (let i = row; i < row + newItem.h; i++) {
+            for (let j = col; j < col + newItem.w; j++) {
+              if (grid[i][j] !== " ") {
+                canPlace = false;
+                break;
+              }
+            }
+            if (!canPlace) {
+              break;
+            }
+          }
+
+          // If a suitable position is found, return the coordinates
+          if (canPlace) {
+            // console.log("Suitable position found at:", { x: col, y: row });
+            return { x: col, y: row };
+          }
+        }
+      }
+
+      // console.log("No suitable position found.");
+      return null;
+    } else {
+      // console.log("No items to cope with");
+      return { x: newItem.x, y: newItem.y };
+    }
+  }
+
+  static gridAsString(x, y, items) {
     // Create a blank grid matrix
+    const grid = this.gridAsArray(x, y, items);
+
+    // Construct the visual representation
+    const horizontalLine = "+---".repeat(x) + "+";
+    let output = horizontalLine + "\n";
+
+    grid.forEach((row) => {
+      const rowString = row.map((cell) => `| ${cell} `).join("") + "|";
+      output += rowString + "\n";
+      output += horizontalLine + "\n";
+    });
+
+    return output;
+  }
+
+  static gridAsArray(x, y, items) {
     const grid = Array.from({ length: y }).map(() => Array(x).fill(" "));
 
     // Assign labels for items (A, B, C, ...)
@@ -141,14 +205,6 @@ export class GridResolver {
       }
     });
 
-    // Construct the visual representation
-    const horizontalLine = "+---".repeat(x) + "+";
-    let output = horizontalLine + "\n";
-
-    grid.forEach((row) => {
-      const rowString = row.map((cell) => `| ${cell} `).join("") + "|";
-      output += rowString + "\n";
-      output += horizontalLine + "\n";
-    });
+    return grid;
   }
 }

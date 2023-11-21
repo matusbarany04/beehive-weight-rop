@@ -129,7 +129,7 @@
 </script>
 
 <svelte:head>
-  <title>Analytika</title>
+  <title>Nastavenia</title>
   <meta name="Analytika" content="Analytika" />
 </svelte:head>
 

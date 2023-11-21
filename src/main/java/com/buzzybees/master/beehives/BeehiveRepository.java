@@ -3,7 +3,7 @@ package com.buzzybees.master.beehives;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-public interface BeehiveRepository extends CrudRepository<Beehive, Long> {
+public interface BeehiveRepository extends CrudRepository<Beehive, String> {
 
     @Query("SELECT b FROM Beehive b WHERE b.userId = :userId")
     Beehive[] getAllByUser(long userId);

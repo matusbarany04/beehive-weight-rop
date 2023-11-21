@@ -1,4 +1,5 @@
 import shared from "./shared";
+import staticFuncs from "../../../components/lib/utils/staticFuncs";
 
 export class BeehiveObj {
   /** @type {string} Unique identifier for the beehive. */
@@ -6,6 +7,12 @@ export class BeehiveObj {
 
   /** @type {string} Location of the beehive. */
   location;
+
+  /** @type {float} Latitude of the beehive. */
+  latitude;
+
+  /** @type {float} Longitude of the beehive. */
+  longitude;
 
   /** @type {string} Model of the beehive. */
   model;
@@ -20,9 +27,8 @@ export class BeehiveObj {
   devices;
 
   /**
-    /**
-     * stores all of the beehive data
-     * @type {Object<Array>}  */
+   * stores all of the beehive data
+   * @type {Object<Array>}  */
   data = {};
 
   /**
@@ -30,6 +36,8 @@ export class BeehiveObj {
    * @param {string} beehive_id Unique identifier for the beehive.
    * @param name {string}
    * @param {string} location Location of the beehive.
+   * @param latitude
+   * @param longitude
    * @param {string} model Model of the beehive.
    * @param {number} connectionMode Connection mode of the beehive.
    * @param {number} interval Time interval for data collection.
@@ -39,6 +47,8 @@ export class BeehiveObj {
     beehive_id,
     name,
     location,
+    latitude,
+    longitude,
     model,
     connectionMode,
     interval,
@@ -58,6 +68,8 @@ export class BeehiveObj {
     this.beehive_id = beehive_id;
     this.name = name;
     this.location = location;
+    this.latitude = latitude;
+    this.longitude = longitude;
     this.model = model;
     this.connectionMode = connectionMode;
     this.interval = interval;
@@ -124,15 +136,24 @@ export class BeehiveObj {
    * @param {string} type - The type of data ('temperature', 'humidity', 'weight', or 'timestamp').
    * @returns {string|number|null} - last value from an array
    */
-  getLastDataByType(type) {
+  getLastDataByType(type, index = 0) {
     const data = this.getAllDataByType(type);
-    if (data.length > 0) {
-      return data[data.length - 1];
+    if (BeehiveObj.isTypeDetachable(type)) {
+      if (data.length > 0) {
+        let typeData = data[index].values;
+        if (typeData.length > 0) {
+          return typeData[typeData.length - 1];
+        }
+      }
+    } else {
+      if (data.length > 0) {
+        return data[data.length - 1];
+      }
+      if (type === "status") {
+        return this.getCurrentStatus();
+      }
     }
-    if (type === "status") {
-      return this.getCurrentStatus();
-    }
-    return null;
+    return 0;
   }
 
   /**
@@ -160,7 +181,6 @@ export class BeehiveObj {
    * @return {[*,*][]}
    */
   getDataByType(type, with_timestamp, from = 0) {
-    console.log("fromfrom", from);
     if (this.hasData()) {
       let statuses = this.getAllDataByType(type);
       let timestamps = this.getTimestamps();
@@ -179,7 +199,6 @@ export class BeehiveObj {
           }
         }
       }
-      console.log("returning ", type, out);
       return out;
     } else {
       return [];
@@ -223,20 +242,45 @@ export class BeehiveObj {
    * @type {string[]}
    * @private
    */
-  static _nonDetachableKeys = [
-    "timestamp",
-    "status",
-    "weight",
-    "battery",
-    "battery",
-  ];
+  static _nonDetachableKeys = ["timestamp", "status", "weight", "battery"];
+
+  static _nonGraphable = ["timestamp", "status"];
+
+  static _nonDetachableKeysGraphable = ["weight", "battery"];
+
+  static getPrimaryDataType() {
+    return "weight";
+  }
 
   /**
    * Returns array of non-detachable types, like weight, status or battery
    * @return {string[]}
    */
-  static getNonDetachableTypes() {
-    return BeehiveObj._nonDetachableKeys;
+  static getNonDetachableTypes(onlyGraphable = false) {
+    if (!onlyGraphable) {
+      return BeehiveObj._nonDetachableKeys;
+    } else {
+      return BeehiveObj._nonDetachableKeysGraphable;
+    }
+  }
+
+  /**
+   * Gets an array of non-detachable types.
+   * Each type is duplicated in the resulting array.
+   *
+   * @returns {Array<Array<String>>} An array of key-value pairs, where each item is duplicated.
+   * @static
+   */
+  static getNonDetachableTypesAsKeyValuePairs(onlyGraphable = false) {
+    const original = this.getNonDetachableTypes(onlyGraphable);
+
+    const duplicatedPairs = [];
+
+    for (const item of original) {
+      duplicatedPairs.push([item, item]);
+    }
+
+    return duplicatedPairs;
   }
 
   /**
@@ -276,6 +320,18 @@ export class BeehiveObj {
     }
 
     return keys;
+  }
+
+  getCurrentDataTypesAsKeyValuePairs(graphable = false) {
+    let dataTypes = this.getCurrentDataTypes();
+
+    if (graphable) {
+      dataTypes = dataTypes.filter(
+        (type) => !BeehiveObj._nonGraphable.includes(type),
+      );
+    }
+
+    return staticFuncs.arrayToKeyValuePairs(dataTypes);
   }
 
   getTransmissionSuccessRate() {

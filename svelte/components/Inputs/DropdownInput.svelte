@@ -43,12 +43,21 @@
    */
   export let inline = false;
 
+  export let className = "";
+
+  /**
+   * @param value
+   */
+  export let onChange = (value) => {
+    console.warn("change not implemented! " + value);
+  };
+
   function typeAction(node) {
     node.type = type;
   }
 </script>
 
-<div class={inline ? "flex items-center gap-2" : ""}>
+<div class={(inline ? "flex items-center gap-2" : "") + " mb-4 " + className}>
   {#if label}
     <label for={name} class={inline ? "w-1/3" : ""}>{label}</label> <br />
   {/if}
@@ -57,6 +66,7 @@
   {/if}
   <select
     class="h-8 w-full rounded-md border-2 border-slate-300 bg-white px-4"
+    on:change={(event) => onChange(event.target.value)}
     {name}
     {value}
     id="pet-select"

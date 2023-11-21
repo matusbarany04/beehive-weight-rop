@@ -249,6 +249,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Upozornenia</title>
+  <meta name="Analytika" content="Analytika" />
+</svelte:head>
 {#if messages}
   <div
     class="mx-auto mb-4 flex h-32 flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"

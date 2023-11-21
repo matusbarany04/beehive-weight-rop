@@ -20,6 +20,16 @@ export default {
   },
 
   /**
+   * Converts an array of keys into an array of key-value pairs.
+   * @param {Array<string>} keys - An array of keys.
+   * @param {any} value - The common value to be associated with each key.
+   * @returns {Array<Array<string, any>>} An array of key-value pairs.
+   */
+  arrayToKeyValuePairs(keys) {
+    return keys.map((key) => [key, key]);
+  },
+
+  /**
    * Function checks equality be looping over their values and returns boolean if they match
    * @param json1 {json}
    * @param json2 {json}

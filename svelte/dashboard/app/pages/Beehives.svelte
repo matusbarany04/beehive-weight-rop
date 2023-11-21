@@ -15,20 +15,34 @@
   import RouterLink from "../../../components/RouterLink.svelte";
   import message from "../stores/message";
   import { navigate, route } from "../../../components/router/route.serv";
-  import { version } from "process";
+  import { onMount, tick } from "svelte";
 
   const user = shared.getUser();
   let rows, handler, statuses;
 
-  onLoad(["statuses", "beehives"], (_bee) => {
-    let beehives = Object.values(shared.getBeehives());
-    statuses = shared.getBeehives();
-    console.log("beehives in beehives", beehives);
+  onLoad(["statuses", "beehives", "user"], (_bee, status_data) => {
+    tick().then(() => {
+      let beehives = Object.values(shared.getBeehives());
+      let tableData = [];
 
-    handler = new DataHandler(beehives, {
-      rowsPerPage: 10,
+      statuses = shared.getBeehives();
+
+      for (/** @type {BeehiveObj} */ const beehive of beehives) {
+        tableData.push({
+          name: beehive.name,
+          battery: beehive.getLastDataByType("battery"),
+          status: beehive.getCurrentStatus(),
+          weight: beehive.getLastDataByType("weight"),
+          timestamp: beehive.getLastUpdateTime(),
+          beehive_id: beehive.beehive_id,
+        });
+      }
+
+      handler = new DataHandler(tableData, {
+        rowsPerPage: 10,
+      });
+      rows = handler.getRows();
     });
-    rows = handler.getRows();
   });
 
   let showModal = false;
@@ -119,7 +133,7 @@
               <Th {handler} orderBy="name">Názov váhy</Th>
               <Th {handler} orderBy="battery">Batéria</Th>
               <Th {handler}>Status</Th>
-              <Th {handler} orderBy="timestamps">Posledná aktualizácia</Th>
+              <Th {handler} orderBy="timestamp">Posledná aktualizácia</Th>
               <Th {handler} orderBy="weight">Hmotnosť</Th>
               <Th {handler} />
             </tr>
@@ -136,7 +150,7 @@
                 <td class="font-normal">{row.name}</td>
                 <td>
                   {#if statuses}
-                    {row.getBattery()}%
+                    {row.battery}%
                   {:else}
                     <img
                       class="h-8 w-8"
@@ -148,18 +162,18 @@
                 <td>
                   {#if row}
                     <div
-                      class="box-content flex h-8 w-20 items-center justify-center rounded-full px-1 {row.getCurrentStatus() ===
+                      class="box-content flex h-8 w-20 items-center justify-center rounded-full px-1 {row.status ===
                       'ok'
                         ? 'bg-confirm-200'
                         : 'bg-error-200'}"
                     >
                       <p
-                        class="no_wrap text-ellipsis whitespace-nowrap font-semibold {row.getCurrentStatus() ===
+                        class="no_wrap text-ellipsis whitespace-nowrap font-semibold {row.status ===
                         'ok'
                           ? 'text-confirm-600'
                           : 'text-error-500'}"
                       >
-                        {row.getCurrentStatus()}
+                        {row.status}
                       </p>
                     </div>
                   {:else}
@@ -172,7 +186,7 @@
                 </td>
                 <td>
                   {#if statuses}
-                    {row.getLastUpdateTime()}
+                    {row.timestamp}
                   {:else}
                     <img
                       class="h-8 w-8"
@@ -181,15 +195,15 @@
                     />
                   {/if}
                   <!-- {#if row.statuses.length > 0}
-      {new Date(row.statuses[0].timestamp).toLocaleString()}
-    {:else}
-      Nedostatok dát
-    {/if} -->
+    {new Date(row.statuses[0].timestamp).toLocaleString()}
+  {:else}
+    Nedostatok dát
+  {/if} -->
                 </td>
                 <td class="font-bold">
                   {#if statuses}
-                    {#if row.getLastDataByType("weight")}
-                      {row.getLastDataByType("weight")}kg
+                    {#if row.weight}
+                      {row.weight}kg
                     {:else}
                       Nedostatok dát
                     {/if}

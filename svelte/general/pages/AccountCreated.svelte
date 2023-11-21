@@ -1,3 +1,7 @@
+<script>
+  import Button from "../../components/Buttons/Button.svelte";
+</script>
+
 <div class="bg-primary v-screen relative h-screen bg-primary-500">
   <div class="absolute h-screen w-full">
     <img alt="grass" class="absolute bottom-0" src="../img/grass.svg" />
@@ -9,14 +13,14 @@
   </div>
 
   <div
-    class="absolute right-0 flex h-screen w-1/2 min-w-[50rem] items-center justify-center"
+    class="absolute right-0 flex h-screen w-full items-center justify-center md:w-1/2 md:min-w-[50rem]"
   >
     <div class="box-border h-max w-9/12 rounded-xl bg-tertiary-100 p-8">
-      <p>
-        Váš účet bol úspešne vytvorený. Na Vašu emailovú schránku sme odoslali
-        potvrdzovací email.
-      </p>
+      <h1 class="mb-2 text-xl font-bold">Váš účet bol úspešne vytvorený.</h1>
+      <p>Na Vašu emailovú schránku sme odoslali potvrdzovací email.</p>
       <p>Túto kartu môžete zavrieť.</p>
+      <br />
+      <Button link="/login" type="primary" text="Prihlásiť sa"></Button>
     </div>
   </div>
 </div>

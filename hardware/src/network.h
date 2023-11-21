@@ -2,6 +2,8 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include "constants.h"
+#include "constants.h"
+#include "LED.h"
 
 
 class NetworkManager {
@@ -25,6 +27,7 @@ class NetworkManager {
 
             Serial.println("");
             Serial.print("Connected to ");
+            Serial.println(WIFI_SSID);
             Serial.print("IP address: ");
             Serial.println(WiFi.localIP());
         }

@@ -39,7 +39,6 @@ public class BeeController extends DatabaseController {
     /**
      * Checks timestamp and insert new data to the database.
      *
-     * @param status - JSON parsed data
      * @return status whether data is correct and successfully saved.
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

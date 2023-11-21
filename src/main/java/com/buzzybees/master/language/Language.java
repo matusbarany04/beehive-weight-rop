@@ -3,7 +3,8 @@ package com.buzzybees.master.language;
 public enum Language {
     DE("de"),
     EN("en"),
-    SK("sk");
+    SK("sk"),
+    HU("hu");
 
     final String prefix;
 
