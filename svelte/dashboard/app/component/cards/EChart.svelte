@@ -217,15 +217,12 @@
           top: "4%",
         },
         xAxis: {
-          
+          type:"category",
           axisLabel: {
             type: "time",
             formatter: function (value) {
               const date = new Date(parseInt(value));
               return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-            },
-            interval: function (){
-              
             }
           },
           axisPointer: {
