@@ -19,7 +19,7 @@ public class Action {
     @JsonProperty("params")
     @Column(name = "params", columnDefinition = "json", nullable = false)
     private String params = "[]";
-    @JsonIgnore
+
     @Column(name = "author_id")
     private long author;
 
@@ -33,7 +33,7 @@ public class Action {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JsonIgnore
+
     @JsonProperty("beehive_id")
     @Column(name = "beehive_id")
     private String beehive_id;

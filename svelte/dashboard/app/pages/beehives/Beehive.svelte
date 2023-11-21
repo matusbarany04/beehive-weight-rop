@@ -104,7 +104,7 @@
     </h1>
     <div class="mt-4 md:mt-0 flex flex-row gap-4">
       <RouterLink url="/action" append>
-        <Button text="Ovládať"/>
+        <Button text="Udalosti"/>
       </RouterLink>
       <RouterLink url="/edit" append>
         <Button text="Upraviť"/>
