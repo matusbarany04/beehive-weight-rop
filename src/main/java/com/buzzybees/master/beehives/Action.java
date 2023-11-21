@@ -20,6 +20,7 @@ public class Action {
     @Column(name = "params", columnDefinition = "json", nullable = false)
     private String params = "[]";
 
+    @JsonProperty(value = "author_id",access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "author_id")
     private long author;
 
@@ -34,7 +35,7 @@ public class Action {
     private Long id;
 
 
-    @JsonProperty("beehive_id")
+    @JsonProperty(value = "beehive_id" ,access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "beehive_id")
     private String beehive_id;
 
