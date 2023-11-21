@@ -1,17 +1,18 @@
 #pragma once
 
 struct Action {
-    String name;
-    void (*function)(float, unsigned int);
+    long id;
+    String type;
+    void (*function)(JsonObject);
 };
 
 class ActionManager {
 
     public:
 
-        void addAction(String name, void (*function)(float, unsigned int)) {
+        void addAction(String type, void (*function)(JsonObject)) {
             Action action;
-            action.name = name;
+            action.type = type;
             action.function = function;
 
             if(actions == nullptr) actions = (Action*) malloc(sizeof(Action));
@@ -20,18 +21,30 @@ class ActionManager {
             actions[sizeof(actions) / sizeof(Action) - 1] = action;
         }
 
-        void exec(String actionName) {
-            Action action = getAction(actionName);
-            action.function();
+        void exec(String type, long id, JsonObject params = JsonObject()) {
+            Action action = getAction(type);
+            action.function(params);
+            JsonObject json;
+            json["id"] = action.id;
+            executedActions.add(id);
+        }
+
+        String getExecutedActions() {
+            String output;
+            serializeJson(executedActions, output);
+            return output;
         }
 
     private:
         
         Action* actions;
+        JsonArray executedActions;
 
-        Action getAction(String name) {
+        Action getAction(String type) {
             for(int i = 0; i < sizeof(actions) / sizeof(Action); i += sizeof(Action)) {
-                if(actions[i].name.equals(name)) return actions[i];
+                if(actions[i].type.equals(type)) return actions[i];
             }
+
+            return Action();
         }
 };

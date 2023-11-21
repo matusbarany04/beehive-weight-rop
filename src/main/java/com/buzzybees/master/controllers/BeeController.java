@@ -1,23 +1,21 @@
 package com.buzzybees.master.controllers;
 
 import com.buzzybees.master.beehives.*;
-import com.buzzybees.master.beehives.action.ActionRepository;
+import com.buzzybees.master.beehives.actions.Action;
+import com.buzzybees.master.beehives.actions.ActionRepository;
+import com.buzzybees.master.beehives.actions.BeehiveActions;
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.beehives.devices.DeviceManager;
 import com.buzzybees.master.beehives.devices.SensorValue;
 import com.buzzybees.master.beehives.devices.SensorValueRepository;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
-import com.buzzybees.master.exceptions.TimestampException;
 import com.buzzybees.master.tables.Status;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -47,8 +45,8 @@ public class BeeController extends DatabaseController {
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateStatus(@RequestBody Status.Request statusRequest) {
-        actionRepository.removeDoneActions();
-        List<Action> actions  = List.of(actionRepository.getActionsByBeehiveId(statusRequest.getBeehive()));
+       // actionRepository.removeDoneActions();
+        List<Action> actions = List.of(actionRepository.getActionsByBeehiveId(statusRequest.getBeehive()));
 
         statusRequest.setTimestamp(new Date().getTime());
         Status savedStatus = statusRepo.save(statusRequest.getBase());

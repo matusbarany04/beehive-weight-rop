@@ -8,7 +8,6 @@
   import message from "../../stores/message";
 
   message.setMessage("Pridať úľ");
-  
 </script>
 
 <svelte:head>

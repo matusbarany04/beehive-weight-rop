@@ -36,7 +36,12 @@ class NetworkManager {
             http.addHeader("Content-Type", contentType);
         }
 
+        void setDefaultHostname(String hostname) {
+            this->hostname = hostname;
+        } 
+
         void POST(String url, String data) {
+            if(url.indexOf('.') == -1) url = hostname + url;
             http.begin(client, url.c_str());
             int httpResponseCode = http.POST(data);  
             result = http.getString();
@@ -44,6 +49,7 @@ class NetworkManager {
         }
 
         void GET(String url) {
+            if(url.indexOf('.') == -1) url = hostname + url;
             HTTPClient http;
             http.begin(client, url.c_str());
             int httpResponseCode = http.GET();  
@@ -75,5 +81,6 @@ class NetworkManager {
         WiFiClient client;
         HTTPClient http;
         String result;
+        String hostname;
         int httpResponseCode;
 };

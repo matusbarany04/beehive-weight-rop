@@ -53,19 +53,24 @@ void setup(void)
 
   networkManager.connectDefault();
   networkManager.setContentType("application/json");
+  networkManager.setDefaultHostname(SERVER_URL);
+
 
   handleActions();
 
-  networkManager.POST(String(SERVER_URL) + "/updateStatus", json);
+  networkManager.POST("/updateStatus", json);
   DynamicJsonDocument response = networkManager.getResponseJSON();
   JsonArray actions = response["actions"];
 
+  Serial.println(networkManager.getRequestResult());
+
   for(int i = 0; i < actions.size(); i++) {
     JsonObject action = actions[i];
-    actionManager.exec(action["name"]);
+    if(action["time"] == 0) actionManager.exec(action["type"], action["id"], action["params"]);
   }
 
-  Serial.println(networkManager.getRequestResult());
+  if(actions.size() > 0) networkManager.POST("/updateActionStatus", actionManager.getExecutedActions());
+  
 
   led.indicate(REQUEST_SUCCESS);
 
@@ -84,13 +89,13 @@ void pair() {
     String json;
     serializeJson(data, json);
 
-    networkManager.POST(String(SERVER_URL) + "/requestPair", json);
+    networkManager.POST("/requestPair", json);
     Serial.println(networkManager.getRequestResult());
 }
 
 void handleActions() {
-  actionManager.addAction("BURN_SENSOR_ID", [] (float value, unsigned int port) {
-    sensorManager.burnSensorId(port, value);
+  actionManager.addAction("BURN_SENSOR_ID", [] (JsonObject params) {
+    sensorManager.burnSensorId(params["port"], params["sensorId"]);
   });
 }
 

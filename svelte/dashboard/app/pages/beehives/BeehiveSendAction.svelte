@@ -1,5 +1,4 @@
 <script>
-
   import Button from "../../../../components/Buttons/Button.svelte";
   import message from "../../stores/message";
 
@@ -13,45 +12,45 @@
 
   const fetchPendingActions = async () => {
     try {
-      const response = await fetch(`/actions/getPending?beehiveId=${beehiveId}`);
+      const response = await fetch(
+        `/actions/getPending?beehiveId=${beehiveId}`,
+      );
       const data = await response.json();
       pendingActions = data;
     } catch (error) {
-      console.error('Error fetching pending actions:', error);
+      console.error("Error fetching pending actions:", error);
     }
   };
   function sendAction() {
     const actionData = {
       type: "MOTOR_MOVE",
-      execution_time:  new Date().getTime() + 20000, // Replace with your desired execution time
-      params: JSON.stringify({ 
-        id:8500
+      execution_time: new Date().getTime() + 20000, // Replace with your desired execution time
+      params: JSON.stringify({
+        id: 8500,
       }),
-      beehive_id: beehiveId
+      beehive_id: beehiveId,
     };
 
-    fetch('/actions/newAction', {
-      method: 'POST',
+    fetch("/actions/newAction", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(actionData),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        fetchPendingActions()
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        fetchPendingActions();
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   }
   fetchPendingActions();
 </script>
 
-
 <h1>Zaslať akcie</h1>
-
 
 <Button text="Send" onClick={sendAction}></Button>
 
@@ -62,8 +61,8 @@
   <ul>
     {#each Object.entries(pendingActions) as [id, action]}
       <li key={id}>
-        <p>{JSON.stringify(action, null, '\t')}</p>
-        <hr>
+        <p>{JSON.stringify(action, null, "\t")}</p>
+        <hr />
       </li>
     {/each}
   </ul>

@@ -1,4 +1,4 @@
-package com.buzzybees.master.beehives;
+package com.buzzybees.master.beehives.actions;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,40 +8,38 @@ import jakarta.persistence.*;
 @Table(name = "actions")
 public class Action {
 
-    @JsonProperty("type")
     @Column(name = "type")
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private BeehiveActions type;
 
-    @JsonProperty("execution_time")
     @Column(name = "execution_time")
     private long time = BeehiveActions.NOW;
 
-    @JsonProperty("params")
     @Column(name = "params", columnDefinition = "json", nullable = false)
     private String params = "[]";
 
-    @JsonProperty(value = "author_id",access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "author_id")
     private long author;
 
     @JsonIgnore
-    @Column(name = "done")
-    private boolean done = false;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private ActionStatus status = ActionStatus.PENDING;
 
-    @JsonProperty("id")
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
 
-    @JsonProperty(value = "beehive_id" ,access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "beehive_id")
     private String beehive_id;
 
 
-    public boolean getDone() {
-        return this.done;
+    public ActionStatus getStatus() {
+        return this.status;
     }
 
     public String getBeehive_id() {
@@ -57,7 +55,7 @@ public class Action {
     }
 
     public Action(BeehiveActions actionName) {
-        this.type = String.valueOf(actionName);
+        this.type = actionName;
     }
 
     public Action(BeehiveActions actionName, long time) {
@@ -70,14 +68,14 @@ public class Action {
         this.params = params;
         this.author = authorId;
         this.beehive_id = beehiveId;
-        this.done = false;
+        this.status = ActionStatus.PENDING;
     }
 
     public Action() {
 
     }
 
-    public String getType() {
+    public BeehiveActions getType() {
         return type;
     }
 

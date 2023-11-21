@@ -1,6 +1,5 @@
-package com.buzzybees.master.beehives.action;
+package com.buzzybees.master.beehives.actions;
 
-import com.buzzybees.master.beehives.Action;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,10 +23,10 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehiveId")
     Action[] getActionsByBeehiveId(String beehiveId);
 
-    @Modifying
+   /* @Modifying
     @Transactional
     @Query("DELETE FROM Action a WHERE a.done = true")
-    void removeDoneActions();
+    void removeDoneActions();*/
 
 
 

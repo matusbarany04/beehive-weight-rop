@@ -1,4 +1,4 @@
-package com.buzzybees.master.beehives;
+package com.buzzybees.master.beehives.actions;
 
 public enum BeehiveActions {
 
@@ -23,5 +23,4 @@ public enum BeehiveActions {
     public String getName() {
         return name;
     }
-
 }
