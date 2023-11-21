@@ -16,9 +16,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 @RestController
@@ -56,7 +54,12 @@ public class BeeController extends DatabaseController {
                 BeehiveRepository beehiveRepository = getRepo(Beehive.class);
                 Beehive beehive = beehiveRepository.getBeehiveByToken(statusRequest.getBeehive());
                 long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
-                actions.add(new Action("BURN_SENSOR_ID", id));
+
+                actions.add(new Action(BeehiveActions.BURN_SENSOR_ID, BeehiveActions.NOW, new HashMap<>() {{
+                    put("sensorId", id);
+                    put("port", sensorValue.getPort());
+                }}));
+
                 sensorValue.setSensorId(id);
             }
         });

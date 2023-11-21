@@ -3,8 +3,6 @@
 struct Action {
     String name;
     void (*function)(float, unsigned int);
-    float value;
-    unsigned int port;
 };
 
 class ActionManager {
@@ -15,13 +13,16 @@ class ActionManager {
             Action action;
             action.name = name;
             action.function = function;
-            actions = (Action*) realloc(actions, sizeof(actions) + sizeof(Action));
+
+            if(actions == nullptr) actions = (Action*) malloc(sizeof(Action));
+            else actions = (Action*) realloc(actions, sizeof(actions) + sizeof(Action));
+
             actions[sizeof(actions) / sizeof(Action) - 1] = action;
         }
 
         void exec(String actionName) {
             Action action = getAction(actionName);
-            action.function(action.value, action.port);
+            action.function();
         }
 
     private:
