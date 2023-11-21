@@ -1,6 +1,7 @@
 package com.buzzybees.master.controllers;
 
 import com.buzzybees.master.beehives.*;
+import com.buzzybees.master.beehives.action.ActionRepository;
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.beehives.devices.DeviceManager;
 import com.buzzybees.master.beehives.devices.SensorValue;
@@ -16,7 +17,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 
 @RestController
@@ -27,6 +30,9 @@ public class BeeController extends DatabaseController {
 
     @Autowired
     SensorValueRepository sensorValueRepository;
+
+    @Autowired
+    ActionRepository actionRepository;
 
     @GetMapping("/clk_sync")
     public long clk() {
@@ -41,24 +47,34 @@ public class BeeController extends DatabaseController {
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateStatus(@RequestBody Status.Request statusRequest) {
-        List<Action> actions = new LinkedList<>();
+        actionRepository.removeDoneActions();
+        List<Action> actions  = List.of(actionRepository.getActionsByBeehiveId(statusRequest.getBeehive()));
 
         statusRequest.setTimestamp(new Date().getTime());
         Status savedStatus = statusRepo.save(statusRequest.getBase());
 
         List<SensorValue> sensors = statusRequest.getSensorValues();
+
         sensors.forEach(sensorValue -> {
             sensorValue.setStatusId(savedStatus.getStatusId());
 
-            if(sensorValue.getSensorId() == 0) {
+            if (sensorValue.getSensorId() == 0) {
                 BeehiveRepository beehiveRepository = getRepo(Beehive.class);
                 Beehive beehive = beehiveRepository.getBeehiveByToken(statusRequest.getBeehive());
                 long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
 
-                actions.add(new Action(BeehiveActions.BURN_SENSOR_ID, BeehiveActions.NOW, new HashMap<>() {{
-                    put("sensorId", id);
-                    put("port", sensorValue.getPort());
-                }}));
+                // we create a new wake up call for the beehive to wake up next time ??
+                Action wakeUp = new Action(BeehiveActions.BURN_SENSOR_ID, BeehiveActions.NOW,
+                        new JSONObject() {{
+                            put("sensorId", id);
+                            put("port", sensorValue.getPort());
+                        }}.toString(),
+                        beehive.getToken(),
+                        -1
+                );
+                actions.add(wakeUp);
+                // we save it in case it won't go through??
+                actionRepository.save(wakeUp);
 
                 sensorValue.setSensorId(id);
             }

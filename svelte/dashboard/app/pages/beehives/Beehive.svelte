@@ -10,12 +10,12 @@
   import Input from "../../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
-  import shared, { onLoad } from "../../stores/shared";
+  import shared, {onLoad} from "../../stores/shared";
   import RouterLink from "../../../../components/RouterLink.svelte";
   import message from "../../stores/message";
-  import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
+  import {TW_BREAKPOINTS} from "../../../../components/lib/utils/staticFuncs";
   import EChart from "../../component/cards/EChart.svelte";
-  import { onMount, tick } from "svelte";
+  import {onMount, tick} from "svelte";
 
   export let props;
 
@@ -86,12 +86,12 @@
 
 <svelte:head>
   <title>Úľ</title>
-  <meta name="Úľ" content="Úľ" />
+  <meta name="Úľ" content="Úľ"/>
 </svelte:head>
 
 <div id="chart"></div>
 
-<svelte:window on:resize={resize} />
+<svelte:window on:resize={resize}/>
 <!-- {JSON.stringify(beeData)} -->
 <!-- <div class="pt-2 p-4" /> -->
 
@@ -102,9 +102,12 @@
     <h1 class=" text-2xl font-semibold">
       Váha {beehive?.name ? beehive?.name : "Loading..."}
     </h1>
-    <div class="mt-4 md:mt-0">
+    <div class="mt-4 md:mt-0 flex flex-row gap-4">
+      <RouterLink url="/action" append>
+        <Button text="Ovládať"/>
+      </RouterLink>
       <RouterLink url="/edit" append>
-        <Button text="Upraviť" />
+        <Button text="Upraviť"/>
       </RouterLink>
     </div>
   </div>
@@ -317,7 +320,7 @@
       name="name"
       value={beehive?.name}
     />
-    <input type="text" name="beehive_id" class="hidden" value={props.id} />
+    <input type="text" name="beehive_id" class="hidden" value={props.id}/>
 
     <Input
       label="Poloha váhy"
