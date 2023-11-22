@@ -3,7 +3,7 @@ package com.buzzybees.master.controllers;
 import com.buzzybees.master.beehives.*;
 import com.buzzybees.master.beehives.actions.Action;
 import com.buzzybees.master.beehives.actions.ActionRepository;
-import com.buzzybees.master.beehives.actions.BeehiveActions;
+import com.buzzybees.master.beehives.actions.ActionType;
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.beehives.devices.DeviceManager;
 import com.buzzybees.master.beehives.devices.SensorValue;
@@ -62,7 +62,7 @@ public class BeeController extends DatabaseController {
                 long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
 
                 // we create a new wake up call for the beehive to wake up next time ??
-                Action wakeUp = new Action(BeehiveActions.BURN_SENSOR_ID, BeehiveActions.NOW,
+                Action wakeUp = new Action(ActionType.BURN_SENSOR_ID, ActionType.NOW,
                         new JSONObject() {{
                             put("sensorId", id);
                             put("port", sensorValue.getPort());

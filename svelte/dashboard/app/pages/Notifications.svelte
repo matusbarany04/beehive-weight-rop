@@ -57,7 +57,7 @@
           },
           body: JSON.stringify({
             type: "update",
-            data: id,
+            id: id,
           }),
         })
           .then((response) => response.json())
@@ -81,15 +81,15 @@
       .indexOf(id);
 
     if (index > -1) {
-      //TODO rewrite remove
-      // POST(
-      //   "",
-      //   JSON.stringify({
-      //     type: "delete",
-      //     data: id,
-      //     token: data.sessionid,
-      //   }),
-      // ).then((data) => console.log(data));
+      fetch(`/dashboardApi/deleteNotification?id=${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error("Error:", error));
 
       messages.splice(index, 1);
     }

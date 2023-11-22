@@ -15,7 +15,8 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.crypto.Data;
 import java.nio.charset.StandardCharsets;
-import java.sql.Date;
+import java.util.Date;
+
 
 @Entity
 @Table(name = "notifications")
@@ -52,7 +53,7 @@ public class Notification {
     private boolean seen = false;
 
     @Column(name = "timestamp")
-    private Date timestamp;
+    private Date timestamp = new Date();
 
     public Notification() {
 
@@ -64,6 +65,13 @@ public class Notification {
         this.userId = userId;
         String template = readMessage(messageName);
         if(template != null) message = String.format(template, value);
+    }
+
+    public Notification(Type type, long userId, String title, String message) {
+        this.type = type.ordinal();
+        this.title = title;
+        this.userId = userId;
+        this.message = message;
     }
 
     private String readMessage(String name) {
