@@ -49,7 +49,8 @@
   const setRead = (id) => {
     messages.forEach((element) => {
       if (element.id === id) {
-        element.seen = !element.seen;
+        element.seen = 1;
+        // TODO we can also look if any were changed and not call fetch for nothing 
         fetch("/dashboardApi/updateNotification", {
           method: "POST",
           headers: {
@@ -179,7 +180,7 @@
   askPermission();
 
   onMount(() => {
-    registerServiceWorker();
+    // registerServiceWorker();
   });
 
   function initialiseState() {
@@ -220,7 +221,7 @@
 
           //TODO create method
           // Keep your server in sync with the latest subscriptionId
-          sendSubscriptionToServer(subscription);
+          // sendSubscriptionToServer(subscription);
 
           // Set your UI to show they have subscribed for
           // push messages
@@ -305,7 +306,7 @@
           >
             {#if !message.seen}
               <CircleButton
-                image="envelope-check.svg"
+                image="icons/envelope-check.svg"
                 type="secondary"
                 onClick={() => {
                   setRead(message.id);
