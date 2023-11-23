@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
-import org.apache.tomcat.util.json.JSONParser;
 
 import java.util.HashMap;
 
@@ -13,15 +12,19 @@ import java.util.HashMap;
 @Table(name = "actions")
 public class Action {
 
+    public static final int NOW = 0;
+
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private BeehiveActions type;
+    private ActionType type;
 
+    @JsonProperty("execution_time") // toto tu musi byt inak mi nejde routa, post
     @Column(name = "execution_time")
-    private long time = BeehiveActions.NOW;
+    private long execution_time = 0;
 
     @Column(name = "params", columnDefinition = "json", nullable = false)
     private String params = "{}";
+
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "author_id")
@@ -60,16 +63,16 @@ public class Action {
         return new ObjectMapper().readValue(this.params, HashMap.class);
     }
 
-    public Action(BeehiveActions actionName) {
+    public Action(ActionType actionName) {
         this.type = actionName;
     }
 
-    public Action(BeehiveActions actionName, long time) {
+    public Action(ActionType actionName, long time) {
         this(actionName);
-        this.time = time;
+        this.execution_time = time;
     }
 
-    public Action(BeehiveActions actionName, long time, String params, String beehiveId, long authorId) {
+    public Action(ActionType actionName, long time, String params, String beehiveId, long authorId) {
         this(actionName, time);
         this.params = params;
         this.author = authorId;
@@ -81,12 +84,12 @@ public class Action {
 
     }
 
-    public BeehiveActions getType() {
+    public ActionType getType() {
         return type;
     }
 
-    public long getTime() {
-        return time;
+    public long getExecution_time() {
+        return execution_time;
     }
 
     public void setAuthor(long author) {

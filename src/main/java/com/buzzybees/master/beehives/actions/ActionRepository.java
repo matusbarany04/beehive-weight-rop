@@ -10,10 +10,10 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     @Query("SELECT a FROM Action a WHERE a.author = :author")
     Action[] getAllByAuthor(long author);
 
-    @Query("SELECT a FROM Action a WHERE a.time = :time")
+    @Query("SELECT a FROM Action a WHERE a.execution_time = :time")
     Action[] getAllByTime(long time);
 
-    @Query("SELECT a FROM Action a WHERE a.author = :author AND a.time = :time")
+    @Query("SELECT a FROM Action a WHERE a.author = :author AND a.execution_time = :time")
     Action[] getAllByAuthorAndTime(long author, long time);
 
     @Query("SELECT a FROM Action a WHERE a.id = :id")

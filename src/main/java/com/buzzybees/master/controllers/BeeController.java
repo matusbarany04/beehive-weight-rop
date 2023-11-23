@@ -3,7 +3,7 @@ package com.buzzybees.master.controllers;
 import com.buzzybees.master.beehives.*;
 import com.buzzybees.master.beehives.actions.Action;
 import com.buzzybees.master.beehives.actions.ActionRepository;
-import com.buzzybees.master.beehives.actions.BeehiveActions;
+import com.buzzybees.master.beehives.actions.ActionType;
 import com.buzzybees.master.beehives.devices.*;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.List;
+
+import static com.buzzybees.master.beehives.actions.Action.NOW;
 
 
 @RestController
@@ -60,7 +62,7 @@ public class BeeController extends DatabaseController {
                 long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
 
                 // we create a new wake up call for the beehive to wake up next time ??
-                Action action = new Action(BeehiveActions.BURN_SENSOR_ID, BeehiveActions.NOW,
+                Action action = new Action(ActionType.BURN_SENSOR_ID, NOW,
                         new JSONObject() {{
                             put("sensorId", id);
                             put("port", sensorValue.getPort());
