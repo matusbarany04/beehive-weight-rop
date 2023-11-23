@@ -4,6 +4,7 @@ import com.buzzybees.master.beehives.Beehive;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.json.JSONObject;
 
 @Entity
@@ -70,6 +71,10 @@ public class Device {
 
     public void setPort(String port) {
         this.port = port;
+    }
+
+    public void setPort(int portIndex) {
+        this.port = "S" + (portIndex + 1);
     }
 
     public String getType() {

@@ -44,6 +44,8 @@ void setup(void)
   //sensorManager.resetSensor(0);
   led.indicate(CONNECTING);
 
+  //sensorManager.burn(1, {"", 1000, TEMPERATURE, 0});
+  //sensorManager.burn(2, {"", 1000, LIGHT, 0});
 
   sensorManager.scan();
 
@@ -66,6 +68,7 @@ void setup(void)
 
   for(int i = 0; i < actions.size(); i++) {
     JsonObject action = actions[i];
+    String type = action["type"];
     if(action["time"] == 0) actionManager.exec(action["type"], action["id"], action["params"]);
   }
 
@@ -74,7 +77,7 @@ void setup(void)
 
   led.indicate(REQUEST_SUCCESS);
 
-  button.setAction(pair);
+ // button.setAction(pair);
 
   delay(2000);
 

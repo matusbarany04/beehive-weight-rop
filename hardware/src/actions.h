@@ -1,7 +1,6 @@
 #pragma once
 
 struct Action {
-    long id;
     String type;
     void (*function)(JsonObject);
 };
@@ -11,23 +10,23 @@ class ActionManager {
     public:
 
         void addAction(String type, void (*function)(JsonObject)) {
-            Action action;
-            action.type = type;
-            action.function = function;
+            Action* action = new Action();
+            action->type = type;
+            action->function = function;
 
-            if(actions == nullptr) actions = (Action*) malloc(sizeof(Action));
-            else actions = (Action*) realloc(actions, sizeof(actions) + sizeof(Action));
+            if(actions == nullptr) actions = (Action**) malloc(sizeof(Action*));
+            else actions = (Action**) realloc(actions, sizeof(actions) + sizeof(Action*));
 
-            actions[sizeof(actions) / sizeof(Action) - 1] = action;
+            actions[sizeof(actions) / sizeof(Action*) - 1] = action;
         }
 
         void exec(String type, long id, JsonObject params = JsonObject()) {
-            Action action = getAction(type);
-
-            if(action.id != 0) {
-                action.function(params);
+            Action* action = getAction(type);
+            
+            if(action != NULL) {
+                action->function(params);
                 JsonObject json;
-                json["id"] = action.id;
+                json["id"] = id;
                 executedActions.add(id);
             }
         }
@@ -40,14 +39,14 @@ class ActionManager {
 
     private:
         
-        Action* actions;
+        Action** actions;
         JsonArray executedActions;
 
-        Action getAction(String type) {
-            for(int i = 0; i < sizeof(actions) / sizeof(Action); i += sizeof(Action)) {
-                if(actions[i].type.equals(type)) return actions[i];
+        Action* getAction(String type) {
+            for(int i = 0; i < sizeof(actions) / sizeof(Action*); i++) {
+                if(actions[i]->type.equals(type)) return actions[i];
             }
 
-            return Action();
+            return NULL;
         }
 };

@@ -5,6 +5,8 @@
 #include "constants.h"
 #include "LED.h"
 
+#define JSON_SIZE 1024
+
 
 class NetworkManager {
 
@@ -63,8 +65,11 @@ class NetworkManager {
         }
 
         DynamicJsonDocument getResponseJSON() {
-            DynamicJsonDocument doc(256);
-            deserializeJson(doc, getRequestResult());
+            String response = getRequestResult();
+            DynamicJsonDocument doc(JSON_SIZE);
+            Serial.println(measureJson(doc));
+            Serial.println(sizeof(response));
+            deserializeJson(doc, response);
             return doc; 
         }
 

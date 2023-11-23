@@ -4,12 +4,10 @@ import com.buzzybees.master.beehives.*;
 import com.buzzybees.master.beehives.actions.Action;
 import com.buzzybees.master.beehives.actions.ActionRepository;
 import com.buzzybees.master.beehives.actions.BeehiveActions;
-import com.buzzybees.master.beehives.devices.Device;
-import com.buzzybees.master.beehives.devices.DeviceManager;
-import com.buzzybees.master.beehives.devices.SensorValue;
-import com.buzzybees.master.beehives.devices.SensorValueRepository;
+import com.buzzybees.master.beehives.devices.*;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
+import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.tables.Status;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +44,7 @@ public class BeeController extends DatabaseController {
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateStatus(@RequestBody Status.Request statusRequest) {
        // actionRepository.removeDoneActions();
-        List<Action> actions = List.of(actionRepository.getActionsByBeehiveId(statusRequest.getBeehive()));
+        List<Action> actions = new ArrayList<>(List.of(actionRepository.getActionsByBeehiveId(statusRequest.getBeehive())));
 
         statusRequest.setTimestamp(new Date().getTime());
         Status savedStatus = statusRepo.save(statusRequest.getBase());
@@ -62,7 +60,7 @@ public class BeeController extends DatabaseController {
                 long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
 
                 // we create a new wake up call for the beehive to wake up next time ??
-                Action wakeUp = new Action(BeehiveActions.BURN_SENSOR_ID, BeehiveActions.NOW,
+                Action action = new Action(BeehiveActions.BURN_SENSOR_ID, BeehiveActions.NOW,
                         new JSONObject() {{
                             put("sensorId", id);
                             put("port", sensorValue.getPort());
@@ -70,11 +68,16 @@ public class BeeController extends DatabaseController {
                         beehive.getToken(),
                         -1
                 );
-                actions.add(wakeUp);
+                System.out.println(actions);
+                actions.add(action);
                 // we save it in case it won't go through??
-                actionRepository.save(wakeUp);
+                actionRepository.save(action);
 
                 sensorValue.setSensorId(id);
+
+            } else {
+                DeviceRepository deviceRepository = getRepo(Device.class);
+                DeviceManager.updatePort(deviceRepository, sensorValue.getSensorId(), sensorValue.getPort());
             }
         });
 
