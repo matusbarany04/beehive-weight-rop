@@ -11,10 +11,13 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Component;
 
 import javax.xml.crypto.Data;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -54,6 +57,7 @@ public class Notification {
 
     @Column(name = "timestamp")
     private Date timestamp = new Date();
+
 
     public Notification() {
 
@@ -120,6 +124,8 @@ public class Notification {
     public void setSeen(boolean seen) {
         this.seen = seen;
     }
+
+
 
     public void sendByMail() {
         UserRepository userRepository = UserService.getBean(UserRepository.class);
