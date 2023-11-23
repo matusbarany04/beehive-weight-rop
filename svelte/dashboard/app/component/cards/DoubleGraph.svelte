@@ -7,6 +7,7 @@
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import { BeehiveObj } from "../../stores/Beehive";
+
   import BeehiveTypeForm from "./BeehiveTypeForm.svelte";
 
   /**
@@ -147,7 +148,7 @@
     });
 
     let initOptions = () => {
-      const months = [
+    const months = [
         "Jan",
         "Feb",
         "Mar",
@@ -178,8 +179,10 @@
           },
           name: line.name,
           type: "line",
+
           smooth: true,
           data: line.data.map(function (item) {
+
             let timestamp = item[0];
             let val = item[1];
             const isoString = new Date(timestamp).toISOString();
@@ -187,6 +190,7 @@
           }),
         });
       }
+
 
       let option = {
         title: {
@@ -243,6 +247,7 @@
               console.log("date", date);
               return `${months[date.getMonth()]}.${date.getDate()}`; // should be like Nov 13
             },
+
           },
           axisPointer: {
             label: {
@@ -346,6 +351,7 @@
   }
 
   let resizeEvent = () => {};
+
 </script>
 
 <CardRoot
