@@ -5,7 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 
 @Entity
@@ -45,6 +49,14 @@ public class Action {
     @Column(name = "beehive_id")
     private String beehive_id;
 
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Date createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public ActionStatus getStatus() {
         return this.status;
@@ -107,4 +119,6 @@ public class Action {
     public void setStatus(ActionStatus status) {
         this.status = status;
     }
+
+
 }
