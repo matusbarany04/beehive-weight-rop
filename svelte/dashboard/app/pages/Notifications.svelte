@@ -50,7 +50,7 @@
     messages.forEach((element) => {
       if (element.id === id) {
         element.seen = 1;
-        // TODO we can also look if any were changed and not call fetch for nothing 
+        // TODO we can also look if any were changed and not call fetch for nothing
         fetch("/dashboardApi/updateNotification", {
           method: "POST",
           headers: {

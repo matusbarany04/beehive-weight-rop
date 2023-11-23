@@ -103,4 +103,8 @@ public class Action {
     public Long getId() {
         return id;
     }
+
+    public void setStatus(ActionStatus status) {
+        this.status = status;
+    }
 }

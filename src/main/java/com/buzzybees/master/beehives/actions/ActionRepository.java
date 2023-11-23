@@ -17,7 +17,7 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     Action[] getAllByAuthorAndTime(long author, long time);
 
     @Query("SELECT a FROM Action a WHERE a.id = :id")
-    Action[] getActionById(long id);
+    Action getActionById(long id);
 
 
     @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehiveId")

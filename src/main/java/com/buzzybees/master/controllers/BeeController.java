@@ -3,12 +3,13 @@ package com.buzzybees.master.controllers;
 import com.buzzybees.master.beehives.*;
 import com.buzzybees.master.beehives.actions.Action;
 import com.buzzybees.master.beehives.actions.ActionRepository;
+import com.buzzybees.master.beehives.actions.ActionStatus;
 import com.buzzybees.master.beehives.actions.ActionType;
 import com.buzzybees.master.beehives.devices.*;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
-import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.tables.Status;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -45,7 +46,7 @@ public class BeeController extends DatabaseController {
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateStatus(@RequestBody Status.Request statusRequest) {
-       // actionRepository.removeDoneActions();
+        // actionRepository.removeDoneActions();
         List<Action> actions = new ArrayList<>(List.of(actionRepository.getActionsByBeehiveId(statusRequest.getBeehive())));
 
         statusRequest.setTimestamp(new Date().getTime());
@@ -114,5 +115,44 @@ public class BeeController extends DatabaseController {
     @PostMapping("/test")
     public String test() {
         return "TEST";
+    }
+
+
+    /**
+     * accept data in this format
+     * [
+     * {
+     * id:52313,
+     * status: "DONE"
+     * }
+     * ]
+     *
+     * @param objects
+     * @return
+     */
+    @PostMapping(value = "/updateActionsStatuses", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiResponse updateActionsStatuses(@RequestBody List<HashMap<String, Object>> objects) {
+        ActionRepository actionRepository = getRepo(Action.class);
+        boolean invalidActions = false;
+        ArrayList<HashMap<String, Object>> invalidActionList = new ArrayList<>();
+
+        for (HashMap<String,Object> actionStatusChange : objects) {
+            Integer id = (Integer) actionStatusChange.get("id");
+
+            try {
+                Action action = actionRepository.getActionById(id);
+                ActionStatus newStatus = ActionStatus.valueOf((String) actionStatusChange.get("status"));
+                action.setStatus(newStatus);
+
+                actionRepository.save(action);
+            } catch (IllegalArgumentException | NullPointerException ignored){
+                invalidActions = true;
+                invalidActionList.add(actionStatusChange);
+            }
+        }
+        if(invalidActions)
+            return new ApiResponse("invalid", invalidActionList);
+        else
+            return ApiResponse.OK();
     }
 }
