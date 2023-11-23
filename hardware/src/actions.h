@@ -9,6 +9,10 @@ class ActionManager {
 
     public:
 
+        ActionManager() {
+            executedActions = new DynamicJsonDocument(JSON_OBJECT_SIZE(2));
+        }
+
         void addAction(String type, void (*function)(JsonObject)) {
             Action* action = new Action();
             action->type = type;
@@ -25,22 +29,26 @@ class ActionManager {
             
             if(action != NULL) {
                 action->function(params);
-                JsonObject json;
+                DynamicJsonDocument prevDoc = *executedActions;
+                executedActions = new DynamicJsonDocument(executedActions->capacity() + JSON_OBJECT_SIZE(3));
+                executedActions->set(prevDoc);
+                JsonObject json = executedActions->createNestedObject();
                 json["id"] = id;
-                executedActions.add(id);
+                json["status"] = "DONE";
             }
         }
 
         String getExecutedActions() {
             String output;
-            serializeJson(executedActions, output);
+            serializeJson(*executedActions, output);
+            Serial.println(output);
             return output;
         }
 
     private:
         
         Action** actions;
-        JsonArray executedActions;
+        DynamicJsonDocument* executedActions;
 
         Action* getAction(String type) {
             for(int i = 0; i < sizeof(actions) / sizeof(Action*); i++) {

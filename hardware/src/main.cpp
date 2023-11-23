@@ -68,11 +68,10 @@ void setup(void)
 
   for(int i = 0; i < actions.size(); i++) {
     JsonObject action = actions[i];
-    String type = action["type"];
-    if(action["time"] == 0) actionManager.exec(action["type"], action["id"], action["params"]);
+    if(action["execution_time"] == 0) actionManager.exec(action["type"], action["id"], action["params"]);
   }
 
-  if(actions.size() > 0) networkManager.POST("/updateActionStatus", actionManager.getExecutedActions());
+  if(actions.size() > 0) networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
   
 
   led.indicate(REQUEST_SUCCESS);

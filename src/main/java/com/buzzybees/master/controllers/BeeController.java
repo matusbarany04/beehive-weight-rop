@@ -130,7 +130,7 @@ public class BeeController extends DatabaseController {
      * @param objects
      * @return
      */
-    @PostMapping(value = "/updateActionsStatuses", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/updateActionsStatuses", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateActionsStatuses(@RequestBody List<HashMap<String, Object>> objects) {
         ActionRepository actionRepository = getRepo(Action.class);
         boolean invalidActions = false;

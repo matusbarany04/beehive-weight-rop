@@ -35,7 +35,7 @@ class NetworkManager {
         }
 
         void setContentType(String contentType) {
-            http.addHeader("Content-Type", contentType);
+            this->contentType = contentType;
         }
 
         void setDefaultHostname(String hostname) {
@@ -43,6 +43,7 @@ class NetworkManager {
         } 
 
         void POST(String url, String data) {
+            http.addHeader("Content-Type", contentType);
             if(url.indexOf('.') == -1) url = hostname + url;
             http.begin(client, ("http://" + url).c_str());
             int httpResponseCode = http.POST(data);  
@@ -51,6 +52,7 @@ class NetworkManager {
         }
 
         void GET(String url) {
+            http.addHeader("Content-Type", contentType);
             if(url.indexOf('.') == -1) url = hostname + url;
             HTTPClient http;
             http.begin(client, url.c_str());
@@ -87,5 +89,6 @@ class NetworkManager {
         HTTPClient http;
         String result;
         String hostname;
+        String contentType;
         int httpResponseCode;
 };
