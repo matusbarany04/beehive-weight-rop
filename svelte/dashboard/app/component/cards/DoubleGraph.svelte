@@ -1,12 +1,13 @@
 <script>
-  import {onMount, tick} from "svelte";
+  import { onMount, tick } from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
   import shared from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
+  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import {BeehiveObj} from "../../stores/Beehive";
+  import { BeehiveObj } from "../../stores/Beehive";
+
   import BeehiveTypeForm from "./BeehiveTypeForm.svelte";
 
   /**
@@ -147,10 +148,19 @@
     });
 
     let initOptions = () => {
-
-      const months = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
       ];
       let series = [];
       for (let index = 0; index < beehiveData.length; index++) {
@@ -169,7 +179,8 @@
           },
           name: line.name,
           type: "line",
-          smooth:true,
+
+          smooth: true,
           data: line.data.map(function (item) {
 
             let timestamp = item[0];
@@ -180,7 +191,8 @@
         });
       }
 
-      let option =  {
+
+      let option = {
         title: {
           show: false,
         },
@@ -227,13 +239,12 @@
           top: "4%",
         },
         xAxis: {
-          type:"time",
+          type: "time",
           axisLabel: {
             type: "time",
             formatter: function (value) {
-
               const date = new Date(parseInt(value));
-              console.log("date", date)
+              console.log("date", date);
               return `${months[date.getMonth()]}.${date.getDate()}`; // should be like Nov 13
             },
 
@@ -339,8 +350,8 @@
     console.error(e);
   }
 
-  let resizeEvent = () => {
-  };
+  let resizeEvent = () => {};
+
 </script>
 
 <CardRoot
@@ -364,7 +375,7 @@
   {error}
 >
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full"/>
+    <div {id} class="h-full w-full" />
   </div>
 
   <div class="" slot="customSettings">

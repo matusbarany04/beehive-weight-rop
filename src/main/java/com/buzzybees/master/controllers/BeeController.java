@@ -1,24 +1,24 @@
 package com.buzzybees.master.controllers;
 
 import com.buzzybees.master.beehives.*;
-import com.buzzybees.master.beehives.devices.Device;
-import com.buzzybees.master.beehives.devices.DeviceManager;
-import com.buzzybees.master.beehives.devices.SensorValue;
-import com.buzzybees.master.beehives.devices.SensorValueRepository;
+import com.buzzybees.master.beehives.actions.Action;
+import com.buzzybees.master.beehives.actions.ActionRepository;
+import com.buzzybees.master.beehives.actions.ActionStatus;
+import com.buzzybees.master.beehives.actions.ActionType;
+import com.buzzybees.master.beehives.devices.*;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
-import com.buzzybees.master.exceptions.TimestampException;
 import com.buzzybees.master.tables.Status;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
+
+import static com.buzzybees.master.beehives.actions.Action.NOW;
 
 
 @RestController
@@ -29,6 +29,9 @@ public class BeeController extends DatabaseController {
 
     @Autowired
     SensorValueRepository sensorValueRepository;
+
+    @Autowired
+    ActionRepository actionRepository;
 
     @GetMapping("/clk_sync")
     public long clk() {
@@ -43,21 +46,41 @@ public class BeeController extends DatabaseController {
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateStatus(@RequestBody Status.Request statusRequest) {
-        List<Action> actions = new LinkedList<>();
+        // actionRepository.removeDoneActions();
+        List<Action> actions = new ArrayList<>(List.of(actionRepository.getActionsByBeehiveId(statusRequest.getBeehive())));
 
         statusRequest.setTimestamp(new Date().getTime());
         Status savedStatus = statusRepo.save(statusRequest.getBase());
 
         List<SensorValue> sensors = statusRequest.getSensorValues();
+
         sensors.forEach(sensorValue -> {
             sensorValue.setStatusId(savedStatus.getStatusId());
 
-            if(sensorValue.getSensorId() == 0) {
+            if (sensorValue.getSensorId() == 0) {
                 BeehiveRepository beehiveRepository = getRepo(Beehive.class);
                 Beehive beehive = beehiveRepository.getBeehiveByToken(statusRequest.getBeehive());
                 long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
-                actions.add(new Action("BURN_SENSOR_ID", id));
+
+                // we create a new wake up call for the beehive to wake up next time ??
+                Action action = new Action(ActionType.BURN_SENSOR_ID, NOW,
+                        new JSONObject() {{
+                            put("sensorId", id);
+                            put("port", sensorValue.getPort());
+                        }}.toString(),
+                        beehive.getToken(),
+                        -1
+                );
+                System.out.println(actions);
+                actions.add(action);
+                // we save it in case it won't go through??
+                actionRepository.save(action);
+
                 sensorValue.setSensorId(id);
+
+            } else {
+                DeviceRepository deviceRepository = getRepo(Device.class);
+                DeviceManager.updatePort(deviceRepository, sensorValue.getSensorId(), sensorValue.getPort());
             }
         });
 
@@ -92,5 +115,44 @@ public class BeeController extends DatabaseController {
     @PostMapping("/test")
     public String test() {
         return "TEST";
+    }
+
+
+    /**
+     * accept data in this format
+     * [
+     * {
+     * id:52313,
+     * status: "DONE"
+     * }
+     * ]
+     *
+     * @param objects
+     * @return
+     */
+    @PostMapping(value = "/updateActionsStatuses", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ApiResponse updateActionsStatuses(@RequestBody List<HashMap<String, Object>> objects) {
+        ActionRepository actionRepository = getRepo(Action.class);
+        boolean invalidActions = false;
+        ArrayList<HashMap<String, Object>> invalidActionList = new ArrayList<>();
+
+        for (HashMap<String,Object> actionStatusChange : objects) {
+            Integer id = (Integer) actionStatusChange.get("id");
+
+            try {
+                Action action = actionRepository.getActionById(id);
+                ActionStatus newStatus = ActionStatus.valueOf((String) actionStatusChange.get("status"));
+                action.setStatus(newStatus);
+
+                actionRepository.save(action);
+            } catch (IllegalArgumentException | NullPointerException ignored){
+                invalidActions = true;
+                invalidActionList.add(actionStatusChange);
+            }
+        }
+        if(invalidActions)
+            return new ApiResponse("invalid", invalidActionList);
+        else
+            return ApiResponse.OK();
     }
 }

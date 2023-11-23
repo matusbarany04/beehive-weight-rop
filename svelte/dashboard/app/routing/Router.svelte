@@ -16,6 +16,7 @@
   import BeehiveToken from "../pages/beehives/BeehiveToken.svelte";
   import BeehiveEdit from "../pages/beehives/BeehiveEdit.svelte";
   import ChangePassword from "../pages/ChangePassword.svelte";
+  import BeehiveSendAction from "../pages/beehives/BeehiveSendAction.svelte";
 
   const BASE_PATH = "/dashboard";
   let value = Notfound;
@@ -50,6 +51,7 @@
 
         beeGroup.groupGet("/{id}", Beehive, (idGroup) => {
           idGroup.get("/edit", BeehiveEdit);
+          idGroup.get("/action", BeehiveSendAction);
         }); // Dynamic route
       });
     });

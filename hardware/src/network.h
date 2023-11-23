@@ -5,6 +5,8 @@
 #include "constants.h"
 #include "LED.h"
 
+#define JSON_SIZE 1024
+
 
 class NetworkManager {
 
@@ -33,17 +35,25 @@ class NetworkManager {
         }
 
         void setContentType(String contentType) {
-            http.addHeader("Content-Type", contentType);
+            this->contentType = contentType;
         }
 
+        void setDefaultHostname(String hostname) {
+            this->hostname = hostname;
+        } 
+
         void POST(String url, String data) {
-            http.begin(client, url.c_str());
+            http.addHeader("Content-Type", contentType);
+            if(url.indexOf('.') == -1) url = hostname + url;
+            http.begin(client, ("http://" + url).c_str());
             int httpResponseCode = http.POST(data);  
             result = http.getString();
             http.end();
         }
 
         void GET(String url) {
+            http.addHeader("Content-Type", contentType);
+            if(url.indexOf('.') == -1) url = hostname + url;
             HTTPClient http;
             http.begin(client, url.c_str());
             int httpResponseCode = http.GET();  
@@ -57,8 +67,11 @@ class NetworkManager {
         }
 
         DynamicJsonDocument getResponseJSON() {
-            DynamicJsonDocument doc(256);
-            deserializeJson(doc, getRequestResult());
+            String response = getRequestResult();
+            DynamicJsonDocument doc(JSON_SIZE);
+            Serial.println(measureJson(doc));
+            Serial.println(sizeof(response));
+            deserializeJson(doc, response);
             return doc; 
         }
 
@@ -75,5 +88,7 @@ class NetworkManager {
         WiFiClient client;
         HTTPClient http;
         String result;
+        String hostname;
+        String contentType;
         int httpResponseCode;
 };

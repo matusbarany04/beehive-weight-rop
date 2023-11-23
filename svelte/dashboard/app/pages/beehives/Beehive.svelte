@@ -102,7 +102,10 @@
     <h1 class=" text-2xl font-semibold">
       Váha {beehive?.name ? beehive?.name : "Loading..."}
     </h1>
-    <div class="mt-4 md:mt-0">
+    <div class="mt-4 flex flex-row gap-4 md:mt-0">
+      <RouterLink url="/action" append>
+        <Button text="Udalosti" />
+      </RouterLink>
       <RouterLink url="/edit" append>
         <Button text="Upraviť" />
       </RouterLink>

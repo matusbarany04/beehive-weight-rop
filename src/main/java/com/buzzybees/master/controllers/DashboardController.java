@@ -229,6 +229,9 @@ public class DashboardController extends CookieAuthController {
 
     @PostMapping(value = {"/updateNotification"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateNotification(@RequestBody Map<String, String> data) throws OwnershipException, ItemNotFoundException {
+        System.out.println(data.toString());
+        System.out.println(data.get("id"));
+        System.out.println(data.keySet());
         long notificationId = Long.parseLong(data.get("id"));
 
         NotificationRepository notificationRepository = getRepo(Notification.class);
@@ -260,7 +263,11 @@ public class DashboardController extends CookieAuthController {
 
         if (dbNotification.isPresent()) {
             Notification notification = dbNotification.get();
+            notificationRepository.delete(notification);
+
             if (notification.getUserId() != currentUserId) throw new OwnershipException();
+        } else {
+            return new ApiResponse("status", "nok");
         }
 
         return new ApiResponse();
@@ -295,15 +302,14 @@ public class DashboardController extends CookieAuthController {
     /**
      * saves beehive settings to database
      *
-     * @param formData device settings from frontend form
      * @return status whether action was successful
      */
     @PostMapping(value = "/saveDeviceSettings", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ApiResponse saveDeviceSettings(@ModelAttribute Beehive beehive) throws OwnershipException, ItemNotFoundException {
         Beehive targetBeehive = beehiveRepository.getBeehiveByToken(beehive.getToken());
 
-        if(targetBeehive == null) throw new ItemNotFoundException();
-        if(targetBeehive.getUserId() != currentUserId) throw new OwnershipException();
+        if (targetBeehive == null) throw new ItemNotFoundException();
+        if (targetBeehive.getUserId() != currentUserId) throw new OwnershipException();
 
         beehive.setUserId(currentUserId);
         beehive.setModel(targetBeehive.getModel());

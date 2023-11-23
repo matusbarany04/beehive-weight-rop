@@ -36,6 +36,7 @@ class SensorManager {
         }
 
         void burnSensorId(unsigned int port, int id) {
+            disableAll();
             Sensor* sensor = sensors[port];
             sensor->setId(id);
             sensor->saveData();

@@ -49,7 +49,8 @@
   const setRead = (id) => {
     messages.forEach((element) => {
       if (element.id === id) {
-        element.seen = !element.seen;
+        element.seen = 1;
+        // TODO we can also look if any were changed and not call fetch for nothing
         fetch("/dashboardApi/updateNotification", {
           method: "POST",
           headers: {
@@ -57,7 +58,7 @@
           },
           body: JSON.stringify({
             type: "update",
-            data: id,
+            id: id,
           }),
         })
           .then((response) => response.json())
@@ -81,15 +82,15 @@
       .indexOf(id);
 
     if (index > -1) {
-      //TODO rewrite remove
-      // POST(
-      //   "",
-      //   JSON.stringify({
-      //     type: "delete",
-      //     data: id,
-      //     token: data.sessionid,
-      //   }),
-      // ).then((data) => console.log(data));
+      fetch(`/dashboardApi/deleteNotification?id=${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error("Error:", error));
 
       messages.splice(index, 1);
     }
@@ -179,7 +180,7 @@
   askPermission();
 
   onMount(() => {
-    registerServiceWorker();
+    // registerServiceWorker();
   });
 
   function initialiseState() {
@@ -220,7 +221,7 @@
 
           //TODO create method
           // Keep your server in sync with the latest subscriptionId
-          sendSubscriptionToServer(subscription);
+          // sendSubscriptionToServer(subscription);
 
           // Set your UI to show they have subscribed for
           // push messages
@@ -282,20 +283,21 @@
       <!-- title -->
       <div class="group flex flex-1 flex-col justify-center lg:justify-normal">
         <header class=" relative flex h-8 flex-row justify-between">
-          <div class="flex w-48 items-center">
+          <div class="flex items-center">
             <h1 class="mr-4 text-lg font-semibold">
-              {message.timestamp}
+              {message.title}
             </h1>
           </div>
-          <!-- <h1
-                      class="inline group-hover:hidden
-                  opacity-100
+          <h1
+            class="inline opacity-100
+                  transition
+                         transition
                       duration-500
-                      transition ease-in-out
+                      ease-in-out group-hover:hidden
                       group-hover:opacity-0"
-                  >
-                      {new Date(message.timestamp * 1000).toLocaleString()}
-                  </h1> -->
+          >
+            {new Date(message.timestamp).toLocaleString()}
+          </h1>
           <div
             class="absolute right-0 top-0 flex gap-4 opacity-0
                     transition
@@ -305,7 +307,7 @@
           >
             {#if !message.seen}
               <CircleButton
-                image="envelope-check.svg"
+                image="icons/envelope-check.svg"
                 type="secondary"
                 onClick={() => {
                   setRead(message.id);

@@ -23,6 +23,10 @@ public class ApiResponse {
 
     }
 
+    public static ApiResponse OK(){
+        return new ApiResponse();
+    }
+
     /**
      * create default apiResponse with status
      * @param status - will add to json
