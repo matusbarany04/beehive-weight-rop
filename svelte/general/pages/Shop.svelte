@@ -22,16 +22,19 @@
         <img src="/img/sketches/3.png" />
       </div>
     </div>
-    <div class="box-border flex-1 p-16 pb-0 md:p-0 h-full">
+    <div class="box-border h-full flex-1 p-16 pb-0 md:p-0">
       <h1 class="title mb-2 text-6xl">BBMAP 2</h1>
-      <h5 class="mb-4 text-4xl"><b class="text-secondary-500">14.30€</b> (bez DPH <b class="text-secondary-500"> 11.92€</b> )</h5>
+      <h5 class="mb-4 text-4xl">
+        <b class="text-secondary-500">14.30€</b> (bez DPH
+        <b class="text-secondary-500"> 11.92€</b> )
+      </h5>
       <h1 class="description text-lg">
         Multifunkčné monitorovacie zariadenie pre včelie úle, komunikujúce cez
         wi-fi s možnosťou zapojenia rozličných senzorov a zariadení
       </h1>
       <Button className="my-4" text="Kúpiť" type="primary"></Button>
 
-      <img src="/img/beeman/5.png" class="md:h-64"/>
+      <img src="/img/beeman/5.png" class="md:h-64" />
     </div>
   </div>
 </Root>
