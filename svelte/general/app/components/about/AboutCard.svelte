@@ -9,7 +9,7 @@
   export let direction = "right";
 
   export let name = "";
-  export let description =  "";
+  export let description = "";
 </script>
 
 <div
