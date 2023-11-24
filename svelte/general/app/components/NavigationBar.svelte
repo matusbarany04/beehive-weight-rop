@@ -19,12 +19,10 @@
   let pages = [
     { name: "Domov", link: "/", selected: true },
     { name: "Dev Docs", link: "/test", selected: false },
-    { name: "Panel", link: "/panel", selected: false },
-    { name: "Kontakt", link: "/kontakt", selected: false },
-    { name: "Doprava", link: "/doprava", selected: false },
-    { name: "O nás", link: "/o-nas", selected: false },
-    { name: "Obchod", link: "/obchod", selected: false },
-    // { name: "Dokumentácia", link: "/dokumentacia", selected: false },
+    { name: "FaQ", link: "/faq", selected: false },
+    { name: "Kontakt", link: "/contact", selected: false },
+    { name: "O nás", link: "/about", selected: false },
+    { name: "Obchod", link: "/shop", selected: false },
   ];
 
   let langDropdown = false;
@@ -41,7 +39,7 @@
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-        <!-- Mobile menu button--> 
+        <!-- Mobile menu button-->
         <button
           type="button"
           class="relative inline-flex items-center justify-center rounded-md p-2 text-slate-300 hover:bg-primary-900 hover:text-white focus:text-slate-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"

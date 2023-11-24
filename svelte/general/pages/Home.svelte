@@ -3,19 +3,20 @@
   import NavigationBar from "../app/components/NavigationBar.svelte";
   import Button from "../../components/Buttons/Button.svelte";
   import { getLanguageInstance } from "../../components/language/languageRepository";
+  import Root from "../layout/Root.svelte";
 
   const LI = getLanguageInstance();
 </script>
 
-<main class="min-h-screen w-screen overflow-y-scroll bg-primary-100">
-  <section id="home" class="flex h-screen flex-col">
-    <!-- background -->
-    <div
-      class="absolute left-0 top-0 h-full w-full bg-cover bg-no-repeat"
-      style:background-image="url('img/pattern_home.png')"
-    ></div>
+<Root>
+  <!-- background -->
+  <div
+    slot="beforeNavBar"
+    class="absolute left-0 top-0 h-full w-full bg-cover bg-no-repeat"
+    style:background-image="url('img/pattern_home.png')"
+  ></div>
 
-    <NavigationBar />
+  <section id="home" class="flex h-screen flex-col">
     <div class="z-10 flex w-full flex-1 flex-row">
       <div class="left flex flex-1 flex-col justify-center p-8">
         <h1 class="mb-4 text-4xl font-bold text-slate-50">
@@ -140,4 +141,4 @@
       </div>
     </div>
   </section>
-</main>
+</Root>

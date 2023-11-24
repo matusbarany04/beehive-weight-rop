@@ -3,7 +3,7 @@
    * @fileoverview This page is for resolving user related problem and providing explanations
    * @module Help
    */
-  import HelpDropdown from "../component/help/HelpDropdown.svelte";
+  import HelpDropdown from "../../../components/help/HelpDropdown.svelte";
   import SettingsHeader from "../component/settings/SettingsHeader.svelte";
 
   import message from "../stores/message";

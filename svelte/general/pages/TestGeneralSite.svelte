@@ -4,8 +4,8 @@
   import Button from "../../components/Buttons/Button.svelte";
 </script>
 
-<main class="min-h-screen w-full flex-1 bg-slate-200 pt-10">
-  <section class="mx-auto my-4 w-11/12 rounded-lg bg-white p-4">
+<main class="min-h-screen w-full flex-1 bg-primary-200 pt-10">
+  <section class="mx-auto my-4 w-11/12 rounded-lg bg-tertiary-100 p-4">
     <h1 class="my-4 text-4xl font-bold">Router Link</h1>
     <p>
       This link takes advantage of the javascript router and tries to find
@@ -35,7 +35,7 @@
   </pre>
   </section>
 
-  <section class="mx-auto my-4 w-11/12 rounded-lg bg-white p-4">
+  <section class="mx-auto my-4 w-11/12 rounded-lg bg-tertiary-100 p-4">
     <h1 class="my-4 text-4xl font-bold">Toasts</h1>
     <div class="flex flex-col gap-4 md:flex-row">
       <Button onClick={() => toast.push("Meh. Meh.")} text="default"></Button>

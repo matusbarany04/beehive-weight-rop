@@ -8,6 +8,9 @@
   import AccountCreated from "../../pages/AccountCreated.svelte";
   import { RouterObj } from "../../../components/router/routerObj";
   import Shop from "../../pages/Shop.svelte";
+  import FaQ from "../../pages/FaQ.svelte";
+  import Contact from "../../pages/Contact.svelte";
+  import About from "../../pages/About.svelte";
 
   let value = Notfound;
   let props = {};
@@ -20,7 +23,10 @@
     routes.get("/register", Register);
     routes.get("/accountCreated", AccountCreated);
     routes.get("/test", TestGeneralSite);
-    routes.get("/obchod", Shop);
+    routes.get("/contact", Contact);
+    routes.get("/about", About);
+    routes.get("/shop", Shop);
+    routes.get("/faq", FaQ);
     value = routes.resolve(currentRoute, Notfound);
 
     props = routes.resolveProps(currentRoute);

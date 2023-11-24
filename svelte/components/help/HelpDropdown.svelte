@@ -1,9 +1,13 @@
 <script>
   export let question = "";
   export let answer = "";
+  export let className = "";
+  export let bgClass = "bg-white";
 </script>
 
-<div class="min-h-16 mx-auto mb-4 rounded-lg bg-white p-4 lg:w-5/6">
+<div
+  class="min-h-16 mx-auto mb-4 rounded-lg {bgClass} p-4 lg:w-5/6 {className}"
+>
   <details class="group">
     <summary
       class="flex cursor-pointer list-none items-center justify-between font-medium"
