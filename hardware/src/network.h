@@ -32,6 +32,8 @@ class NetworkManager {
             Serial.println(WIFI_SSID);
             Serial.print("IP address: ");
             Serial.println(WiFi.localIP());
+
+            return WiFi.status();
         }
 
         void setContentType(String contentType) {
