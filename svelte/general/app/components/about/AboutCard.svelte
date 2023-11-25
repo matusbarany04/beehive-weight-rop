@@ -18,7 +18,7 @@
     : 'md:flex-row-reverse flex-col'}  mx-auto my-4 min-h-min md:h-64 max-w-4xl rounded-md"
 >
   <div
-    class="mx-5 aspect-square mx-auto  w-5/6 md:w-min md:h-full rounded-full border border-tertiary-100 bg-contain bg-center bg-no-repeat"
+    class="md:mx-5 aspect-square mx-auto  w-5/6 md:w-min md:h-full rounded-full border border-tertiary-100 bg-contain bg-center bg-no-repeat"
     style="background-image: url({image})"
   ></div>
 
