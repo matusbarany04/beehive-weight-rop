@@ -1,6 +1,7 @@
 package com.buzzybees.master.controllers;
 
 import com.buzzybees.master.beehives.*;
+import com.buzzybees.master.beehives.actions.*;
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.beehives.devices.DeviceRepository;
 import com.buzzybees.master.beehives.devices.SensorValue;
@@ -57,38 +58,6 @@ public class DashboardController extends CookieAuthController {
         Beehive[] beehives = beehiveRepository.getAllByUser(currentUserId);
         return new ApiResponse("beehives", beehives);
     }
-/*
-    @GetMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getData(@RequestParam(value = "fromDate", defaultValue = "all") String date) throws ParseException, JsonProcessingException {
-        BeehiveRepository beehiveRepository = getRepo(Beehive.class);
-        StatusRepository statusRepository = getRepo(Status.class);
-
-            long timestamp = date.equals("all") ? 0 : dateToTimestamp(date);
-
-                JSONObject jsonObject = new JSONObject();
-                String[] tokens = beehiveRepository.getBeehiveTokens(currentUserId);
-                Status[] statuses = statusRepository.getAllStatusesSince(tokens, timestamp);
-
-                for (String token : tokens) {
-                    JSONObject beehive = new JSONObject();
-                    jsonObject.put(token, beehive);
-                }
-
-                for (Status status : statuses) {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    JSONObject json = new JSONObject(objectMapper.writeValueAsString(status));
-
-                    for(String key : json.keySet()) {
-                        JSONObject beehive = jsonObject.getJSONObject(status.getBeehive());
-                        beehive.put("currentStatus", status.getStatus());
-                        JSONArray array = Optional.ofNullable(beehive.optJSONArray(key)).orElse(new JSONArray());
-                        array.put(json.get(key));
-                        beehive.put(key + 's', array);
-                    }
-                }
-
-        return ApiResponse.json("data", jsonObject);
-    }*/
 
     /**
      * @param date start date from which statuses will be collected.
@@ -311,9 +280,16 @@ public class DashboardController extends CookieAuthController {
         if (targetBeehive == null) throw new ItemNotFoundException();
         if (targetBeehive.getUserId() != currentUserId) throw new OwnershipException();
 
+        List<Action> actions = Actions.createConfigActions(targetBeehive, beehive);
+        ActionRepository actionRepository = getRepo(Action.class);
+        actionRepository.saveOrUpdateAll(actions);
+
         beehive.setUserId(currentUserId);
         beehive.setModel(targetBeehive.getModel());
-        beehiveRepository.save(beehive);
+
+        Actions.handleResponse(beehive, ActionType.CHANGE_BEEHIVE_CONFIG, action -> {
+            if(action.getStatus() == ActionStatus.DONE) beehiveRepository.save(beehive);
+        });
 
         DeviceRepository deviceRepository = getRepo(Device.class);
         deviceRepository.saveAll(beehive.getDevices());

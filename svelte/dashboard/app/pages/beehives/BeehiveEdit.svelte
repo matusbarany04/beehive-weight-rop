@@ -27,10 +27,11 @@
   let sensorWindow;
   let locationResults;
   let coordinateList;
+  let oldInterval;
   let coordinates = { latitude: 0, longitude: 0 };
-  let connectionMode = "0";
+  let connectionMode = "GSM";
   let sensors = {};
-
+  
   let intervals = [
     [10, "10min"],
     [30, "30min"],
@@ -47,16 +48,35 @@
 
   onLoad(["beehives"], () => {
     beehive = shared.getBeehiveById(props.id);
+    oldInterval = beehive.interval;
     coordinates.latitude = beehive.latitude;
     coordinates.longitude = beehive.longitude;
     connectionMode = beehive["connectionMode"] + "";
     document.title = beehive.name + " - " + message.getMessage();
+    fetchActions();
 
     for (let device of beehive.devices) {
       sensors[device["port"]] = device;
       delete sensors[device["port"]]["port"];
     }
   });
+
+  function fetchActions() {
+    fetch("/actions/getPending?beehiveId=" + props.id)
+      .then((r) => r.json())
+      .then((actions) => {
+        console.log(beehive);
+        for (let id in actions) {
+          let action = actions[id];
+          if (action.type === "CHANGE_BEEHIVE_CONFIG") {
+            if (action.params["wifi_ssid"])
+              beehive["wifiSSID"] = action.params["wifi_ssid"];
+            if (action.params["interval"])
+              beehive.interval = action.params["interval"];
+          }
+        }
+      });
+  }
 
   function generateName(name) {
     if (!exist(name)) return name;
@@ -119,6 +139,12 @@
           );
       });
   }
+  
+  function onChange(e) {
+    console.log(beehive.interval);
+    console.log(oldInterval)
+    intervalMsg = oldInterval !== beehive.interval
+  }
 </script>
 
 <svelte:head>
@@ -164,9 +190,16 @@
           name="interval"
           label="Interval merania"
           options={intervals}
-          value={beehive.interval}
+          bind:value={beehive.interval}
           inline
         />
+
+        {#if beehive.interval !== oldInterval}
+          <div class="flex items-center gap-2">
+            <img class="w-4 h-4" src="../../../icons/warning.png"  alt="warning"/>Zmeny sa aplikujú až pri
+            najbližšom prebudení váhy
+          </div>
+        {/if}
       </div>
 
       <div class="m-4 rounded-lg bg-white">
@@ -176,23 +209,28 @@
           <SelectableOption
             name="Mobilná sieť"
             bind:selection={connectionMode}
-            value="0"
+            value="GSM"
           >
             <Input
               type="password"
               name="sim_password"
               label="Heslo na SIM kartu"
-              value="0000"
+              value=""
               inline
             />
           </SelectableOption>
         {/if}
 
-        <SelectableOption name="WiFi" bind:selection={connectionMode} value="1">
+        <SelectableOption
+          name="WiFi"
+          bind:selection={connectionMode}
+          value="WIFI"
+        >
           <Input
             type="text"
             name="wifi_ssid"
             label="Názov WiFi siete (SSID)"
+            value={beehive["wifiSSID"]}
             inline
           />
           <Input type="password" name="wifi_password" label="Heslo" inline />
@@ -201,7 +239,7 @@
         <SelectableOption
           name="Iná váha"
           bind:selection={connectionMode}
-          value="2"
+          value="OTHER_BEEHIVE"
         >
           <div>Práve pripravujeme</div>
         </SelectableOption>

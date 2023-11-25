@@ -1,10 +1,7 @@
 package com.buzzybees.master.controllers;
 
 import com.buzzybees.master.beehives.*;
-import com.buzzybees.master.beehives.actions.Action;
-import com.buzzybees.master.beehives.actions.ActionRepository;
-import com.buzzybees.master.beehives.actions.ActionStatus;
-import com.buzzybees.master.beehives.actions.ActionType;
+import com.buzzybees.master.beehives.actions.*;
 import com.buzzybees.master.beehives.devices.*;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
@@ -17,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.List;
-
-import static com.buzzybees.master.beehives.actions.Action.NOW;
 
 
 @RestController
@@ -62,19 +57,8 @@ public class BeeController extends DatabaseController {
                 Beehive beehive = beehiveRepository.getBeehiveByToken(statusRequest.getBeehive());
                 long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
 
-                // we create a new wake up call for the beehive to wake up next time ??
-                Action action = new Action(ActionType.BURN_SENSOR_ID, NOW,
-                        new JSONObject() {{
-                            put("sensorId", id);
-                            put("port", sensorValue.getPort());
-                        }}.toString(),
-                        beehive.getToken(),
-                        -1
-                );
                 System.out.println(actions);
-                actions.add(action);
-                // we save it in case it won't go through??
-                actionRepository.save(action);
+                actions.add(Actions.createBurnAction(beehive, id, sensorValue.getPort()));
 
                 sensorValue.setSensorId(id);
 
@@ -84,6 +68,7 @@ public class BeeController extends DatabaseController {
             }
         });
 
+        actionRepository.saveAll(actions);
         sensorValueRepository.saveAll(sensors);
 
         return new ApiResponse("actions", actions);
@@ -144,7 +129,9 @@ public class BeeController extends DatabaseController {
                 ActionStatus newStatus = ActionStatus.valueOf((String) actionStatusChange.get("status"));
                 action.setStatus(newStatus);
 
-                actionRepository.save(action);
+                Action newAction = actionRepository.save(action);
+                Actions.invokeCallbacks(newAction);
+
             } catch (IllegalArgumentException | NullPointerException ignored){
                 invalidActions = true;
                 invalidActionList.add(actionStatusChange);

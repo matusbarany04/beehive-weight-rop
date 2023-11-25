@@ -46,10 +46,11 @@
   export let className = "";
 
   /**
-   * @param value
+   * @param newValue
    */
-  export let onChange = (value) => {
-    console.warn("change not implemented! " + value);
+  export let onChange = (newValue) => {
+    value = newValue;
+    console.warn("change not implemented! " + newValue);
   };
 
   function typeAction(node) {
@@ -66,7 +67,7 @@
   {/if}
   <select
     class="h-8 w-full rounded-md border-2 border-slate-300 bg-white px-4"
-    on:change={(event) => onChange(event.target.value)}
+    on:change={(event) => onChange(parseInt(event.target.value))}
     {name}
     {value}
     id="pet-select"

@@ -42,7 +42,7 @@ public class ActionController extends CookieAuthController {
      */
     @PostMapping(value = "/newAction", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse newAction(@RequestBody Action action) {
-        System.out.println("Received Action: " + action.toString() + " " + action.getExecution_time());
+        System.out.println("Received Action: " + action.toString() + " " + action.getExecutionTime());
 
         actionRepository.save(action);
 

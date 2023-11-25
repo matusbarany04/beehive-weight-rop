@@ -7,13 +7,17 @@ public enum ActionType {
 
     MOTOR_MOVE("MOTOR_MOVE"),
 
-    WAKE_UP("WAKE_UP"),
+    WAKE_UP("WAKE_UP", false, true),
+    HIBERNATE("HIBERNATE", false, true),
+    ENABLE_SHARING_CONNECTION("ENABLE_SHARING_CONNECTION", true, true),
 
-    BURN_SENSOR_ID("BURN_SENSOR_ID", true);
+    BURN_SENSOR_ID("BURN_SENSOR_ID", true),
+    CHANGE_BEEHIVE_CONFIG("CHANGE_CONFIG", true, true);
 
     public final String name;
 
     boolean systemAction = false;
+    boolean singleInstance = false;
 
     ActionType(String string){
         name = string;
@@ -22,6 +26,11 @@ public enum ActionType {
     ActionType(String string, boolean systemAction){
         name = string;
         this.systemAction = systemAction;
+    }
+
+    ActionType(String string, boolean systemAction, boolean singleInstance){
+        this(string, systemAction);
+        this.singleInstance = singleInstance;
     }
 
     ActionType(){
