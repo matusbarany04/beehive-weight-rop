@@ -97,19 +97,19 @@
 
               {#if langDropdown}
                 <div
-                  class="bg-gray-800 absolute left-0 z-20 mt-2 w-16 rounded-md text-sm text-slate-300 shadow-lg"
+                  class="absolute left-0 z-20 mt-2 w-16 rounded-md bg-tertiary-100 text-sm text-primary-100 shadow-lg"
                 >
                   <ul>
                     {#each Object.entries(languages) as [code, label]}
-                      <li class="hover:bg-gray-700 px-4 py-2">
-                        <button
-                          on:click={() => {
-                            changeLanguage(code);
-                          }}
-                          class="block"
-                        >
+                      <li
+                        on:click={() => {
+                          changeLanguage(code);
+                        }}
+                        class="cursor-pointer rounded-md px-4 py-2 hover:bg-tertiary-400"
+                      >
+                        <p class="block text-center">
                           {label}
-                        </button>
+                        </p>
                       </li>
                     {/each}
                   </ul>
