@@ -20,7 +20,10 @@ public class LanguageController {
         String prefix = "";
         if(pagetype.equals("general")){
             prefix = "general/";
+        }else if(pagetype.equals("dashboard")){
+            prefix = "dashboard/";
         }
+
         dictionary = LanguageParser.getDictionary(prefix, Language.valueOf(language));
         if (dictionary == null) {
             dictionary = new JSONObject();

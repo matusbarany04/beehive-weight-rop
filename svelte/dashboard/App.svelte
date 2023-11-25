@@ -6,6 +6,10 @@
   import { SvelteToast } from "@zerodevx/svelte-toast";
   import "../components/Toast/toastStyles.css";
   import settingsLoader from "./app/stores/settingsLoader";
+  import {
+    initLanguage,
+    setLanguageDataLoadedEvent,
+  } from "../components/language/languageRepository";
   // Initiate all fetch operations in an async function
   async function loadData() {
     //sets prefix for all route links
@@ -20,6 +24,14 @@
   }
 
   loadData();
+
+  let languageLoaded = false;
+  setLanguageDataLoadedEvent((json) => {
+    languageLoaded = true;
+    console.log("language loaded", json);
+  });
+
+  initLanguage("dashboard");
 </script>
 
 <SvelteToast />
@@ -27,7 +39,13 @@
   <!-- Uncomment these if you want to include them -->
   <!-- <Sidenav class="sidenav" />
   <Panel /> -->
-  <Router />
+  {#if languageLoaded}
+    <Router />
+  {:else}
+    <div class="grid h-screen w-full place-items-center bg-primary-100">
+      <p class="text-slate-50">loading language pack...</p>
+    </div>
+  {/if}
 </div>
 
 <style>

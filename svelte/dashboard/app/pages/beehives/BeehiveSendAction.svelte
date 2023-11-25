@@ -3,6 +3,10 @@
   import message from "../../stores/message";
   import SettingsHeader from "../../component/settings/SettingsHeader.svelte";
   import SettingsItem from "../../component/settings/SettingsItem.svelte";
+  import {
+    getLanguageInstance,
+    languages,
+  } from "../../../../components/language/languageRepository";
 
   export let props;
 
@@ -52,12 +56,14 @@
   }
 
   fetchPendingActions();
+
+  let li = getLanguageInstance();
 </script>
 
 <SettingsHeader title="Zaslať akcie" />
 
 <SettingsItem>
-  <Button text="Poslať akciu" onClick={sendAction} />
+  <Button text="Sledovanie akcií zariadenia" onClick={sendAction} />
 </SettingsItem>
 
 <div class="min-h-48 lg:min-h-24 mx-auto mb-4 rounded-lg bg-white p-4 lg:w-5/6">
@@ -68,10 +74,14 @@
     <ul>
       {#each Object.entries(pendingActions) as [id, action]}
         <li key={id}>
-          <p class="mb-4 font-bold">{action.type}</p>
-          <p>{new Date(action.execution_time)}</p>
+          <p class="mb-4 font-bold">{li.get(`actions.${action.type}`)}</p>
+          <p>{new Date(action.execution_time).toISOString().split("T")[0]}</p>
 
-          <p>{JSON.stringify(action.params)}</p>
+          {#each Object.entries(action.params) as [paramKey, paramValue]}
+            <div>
+              <strong>{paramKey}:</strong> {JSON.stringify(paramValue)}
+            </div>
+          {/each}
           <hr class="my-4" />
         </li>
       {/each}
