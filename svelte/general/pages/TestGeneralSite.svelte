@@ -6,13 +6,14 @@
   import CircleButton from "../../components/Buttons/CircleButton.svelte";
 </script>
 
-
 <main class="min-h-screen w-full flex-1 bg-primary-200 pt-10">
   <div class="absolute left-0 top-0 p-4">
     <CircleButton type="primary" link="/" image="icons/arrow-left.svg"
     ></CircleButton>
   </div>
-  <h1 class="text-5xl font-bold text-center text-tertiary-100">Router Link Docs</h1>
+  <h1 class="text-center text-5xl font-bold text-tertiary-100">
+    Router Link Docs
+  </h1>
   <section class="mx-auto my-4 w-11/12 rounded-lg bg-tertiary-100 p-4">
     <h1 class="my-4 text-4xl font-bold">Router Link</h1>
     <p>
@@ -21,12 +22,12 @@
     </p>
 
     <RouterLink url="/dashboard" baseRoute="true"
-    >Dashboard Home trough RouterLink
+      >Dashboard Home trough RouterLink
     </RouterLink>
 
     <p>That's why we need to use a tag</p>
     <a class="text-error-600 underline" href="/dashboard"
-    >Dashboard Home trough anchor tag</a
+      >Dashboard Home trough anchor tag</a
     >
 
     <pre

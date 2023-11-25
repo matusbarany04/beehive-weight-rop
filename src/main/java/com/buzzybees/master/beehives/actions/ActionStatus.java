@@ -4,6 +4,7 @@ public enum ActionStatus {
 
     DONE("DONE"),
     PENDING("PENDING"),
+    SENT("SENT"),
     DEVICE_NOT_FOUND("DEVICE_NOT_FOUND"),
     BEEHIVE_IS_OFFLINE("BEEHIVE_IS_OFFLINE");
 

@@ -1,8 +1,10 @@
 package com.buzzybees.master.beehives.actions;
 
+import org.json.JSONObject;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,13 +26,19 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehiveId")
     Action[] getActionsByBeehiveId(String beehiveId);
 
-    @Query("SELECT a.id FROM Action a WHERE a.beehive_id = :beehive AND a.type = :actionType AND a.execution_time = :time")
-    Optional<Long> getExistingActionId(String beehive, ActionType actionType, long time);
+    @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehive AND a.type = :actionType AND a.execution_time = :time")
+    Optional<Action> getExistingActionId(String beehive, ActionType actionType, long time);
 
     default Action saveOrUpdate(Action action) {
         if(action.getType().singleInstance) {
-            Optional<Long> existingId = getExistingActionId(action.getBeehive(), action.getType(), action.getExecutionTime());
-            existingId.ifPresent(action::setId);
+            Optional<Action> actionDB = getExistingActionId(action.getBeehive(), action.getType(), action.getExecutionTime());
+            actionDB.ifPresent(oldAction -> {
+                action.setId(oldAction.getId());
+                System.out.println(action.getParams());
+                HashMap<String, Object> params = oldAction.getParams();
+                params.putAll(action.getParams());
+                action.setParams(params);
+            });
         }
 
         return save(action);

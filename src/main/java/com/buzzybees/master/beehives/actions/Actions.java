@@ -52,7 +52,6 @@ public class Actions {
                 if(passwd.length() > 0) params.put("wifi_password", passwd);
             }
             case OTHER_BEEHIVE -> actions.add(new Action(ActionType.ENABLE_SHARING_CONNECTION, null, newBeehive.getLinkedTo()));
-
         }
 
         if(params.keySet().size() > 0) {

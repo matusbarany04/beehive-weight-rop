@@ -68,6 +68,8 @@ public class BeeController extends DatabaseController {
             }
         });
 
+        for(Action action : actions) action.setStatus(ActionStatus.SENT);
+
         actionRepository.saveAll(actions);
         sensorValueRepository.saveAll(sensors);
 

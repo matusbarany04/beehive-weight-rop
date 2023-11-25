@@ -72,8 +72,13 @@ public class Action {
     }
 
     @SuppressWarnings("unchecked")
-    public HashMap<String, Object> getParams() throws JsonProcessingException {
-        return new ObjectMapper().readValue(this.params, HashMap.class);
+    public HashMap<String, Object> getParams() {
+        try {
+            return new ObjectMapper().readValue(this.params, HashMap.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new HashMap<>();
+        }
     }
 
     public String getParamsJSON() {
@@ -129,6 +134,13 @@ public class Action {
         this.status = status;
     }
 
+    public void setParams(HashMap<String, Object> params) {
+        try {
+            this.params = new ObjectMapper().writeValueAsString(params);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Date getCreatedAt() {
         return createdAt;
