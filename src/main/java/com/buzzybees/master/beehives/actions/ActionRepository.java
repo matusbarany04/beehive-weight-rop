@@ -1,9 +1,10 @@
 package com.buzzybees.master.beehives.actions;
 
-import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface ActionRepository extends CrudRepository<Action, Long> {
 
@@ -22,6 +23,24 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
 
     @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehiveId")
     Action[] getActionsByBeehiveId(String beehiveId);
+
+    @Query("SELECT a.id FROM Action a WHERE a.beehive_id = :beehive AND a.type = :actionType AND a.execution_time = :time")
+    Optional<Long> getExistingActionId(String beehive, ActionType actionType, long time);
+
+    default Action saveOrUpdate(Action action) {
+        if(action.getType().singleInstance) {
+            Optional<Long> existingId = getExistingActionId(action.getBeehive(), action.getType(), action.getExecutionTime());
+            existingId.ifPresent(action::setId);
+        }
+
+        return save(action);
+    }
+
+    default void saveOrUpdateAll(List<Action> actions) {
+        for(Action action : actions) saveOrUpdate(action);
+    }
+
+
 
    /* @Modifying
     @Transactional

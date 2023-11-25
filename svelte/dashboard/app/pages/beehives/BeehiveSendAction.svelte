@@ -8,7 +8,7 @@
 
   const beehiveId = props.id;
 
-  message.setMessage("Ovládať váhu");
+  message.setMessage("Udalosti");
 
   let pendingActions = {};
 
@@ -54,10 +54,10 @@
   fetchPendingActions();
 </script>
 
-<SettingsHeader title="Zaslať akcie"></SettingsHeader>
+<SettingsHeader title="Zaslať akcie" />
 
 <SettingsItem>
-  <Button text="Poslať akciu" onClick={sendAction}></Button>
+  <Button text="Poslať akciu" onClick={sendAction} />
 </SettingsItem>
 
 <div class="min-h-48 lg:min-h-24 mx-auto mb-4 rounded-lg bg-white p-4 lg:w-5/6">

@@ -4,6 +4,7 @@ import com.buzzybees.master.users.Mailer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.messaging.handler.invocation.HandlerMethodReturnValueHandler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableJpaAuditing
 public class MasterApplication implements WebMvcConfigurer  {
 
     public static void main(String[] args) {

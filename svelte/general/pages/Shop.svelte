@@ -9,7 +9,7 @@
   <meta name="Shop" content="Shop" />
 </svelte:head>
 
-<Root>
+<Root title="Obchod">
   <div
     class="relative mx-auto mt-16 box-border flex max-w-7xl flex-col p-4 text-white md:flex-row"
   >

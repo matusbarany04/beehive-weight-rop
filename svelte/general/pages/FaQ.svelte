@@ -5,9 +5,9 @@
   import HelpDropdown from "../../components/help/HelpDropdown.svelte";
 </script>
 
-<Root>
+<Root title="FaQ">
   <div
-    class="relative mx-auto mt-16 box-border max-w-7xl p-4 text-primary-100 md:flex-row"
+    class="relative mx-auto  box-border max-w-7xl p-4 text-primary-100 md:flex-row"
   >
     <SettingsHeader
       bgClass="bg-tertiary-100"

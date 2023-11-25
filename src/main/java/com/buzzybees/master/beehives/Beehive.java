@@ -2,6 +2,7 @@ package com.buzzybees.master.beehives;
 
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.tables.Status;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,10 +14,6 @@ import java.util.Map;
 @Entity
 @Table(name = "beehives")
 public class Beehive {
-
-    public static final int SIM_MODE = 0;
-    public static final int WIFI_MODE = 1;
-    public static final int OTHER_BEEHIVE_MODE = 2;
 
     @Id
     @Column(name = "token")
@@ -44,13 +41,27 @@ public class Beehive {
     private String otherUsers = "{}";
 
     @Column(name = "connection_mode")
-    private int connectionMode = SIM_MODE;
+    @Enumerated(EnumType.STRING)
+    private ConnectionMode connectionMode = ConnectionMode.GSM;
 
     @Column(name = "interval_min")
     private int interval = 60;
 
+    @Column(name = "linked_to")
+    private String linkedTo;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "beehive")
     private final List<Device> devices = new LinkedList<>();
+
+    @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String sim_password;
+
+    @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String wifi_password;
+
+    private String wifi_ssid;
 
     public Beehive() {
 
@@ -117,11 +128,11 @@ public class Beehive {
         return null;
     }
 
-    public void setConnectionMode(int connectionMode) {
+    public void setConnectionMode(ConnectionMode connectionMode) {
         this.connectionMode = connectionMode;
     }
 
-    public int getConnectionMode() {
+    public ConnectionMode getConnectionMode() {
         return connectionMode;
     }
 
@@ -156,5 +167,37 @@ public class Beehive {
             device.setBeehive(this);
             devices.add(device);
         }
+    }
+
+    public String getWifiSSID() {
+        return wifi_ssid;
+    }
+
+    public void setWifi_ssid(String wifi_ssid) {
+        this.wifi_ssid = wifi_ssid;
+    }
+
+    public String getSim_password() {
+        return sim_password;
+    }
+
+    public void setSim_password(String sim_password) {
+        this.sim_password = sim_password;
+    }
+
+    public String getWifi_password() {
+        return wifi_password;
+    }
+
+    public void setWifi_password(String wifi_password) {
+        this.wifi_password = wifi_password;
+    }
+
+    public String getLinkedTo() {
+        return linkedTo;
+    }
+
+    public void setLinkedTo(String linkedTo) {
+        this.linkedTo = linkedTo;
     }
 }

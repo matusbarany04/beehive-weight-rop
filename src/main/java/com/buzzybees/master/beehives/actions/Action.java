@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -14,9 +15,8 @@ import java.util.HashMap;
 
 @Entity
 @Table(name = "actions")
+@EntityListeners(AuditingEntityListener.class)
 public class Action {
-
-    public static final int NOW = 0;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
@@ -58,11 +58,12 @@ public class Action {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+
     public ActionStatus getStatus() {
         return this.status;
     }
 
-    public String getBeehive_id() {
+    public String getBeehive() {
         return beehive_id;
     }
 
@@ -73,6 +74,14 @@ public class Action {
     @SuppressWarnings("unchecked")
     public HashMap<String, Object> getParams() throws JsonProcessingException {
         return new ObjectMapper().readValue(this.params, HashMap.class);
+    }
+
+    public String getParamsJSON() {
+        return params;
+    }
+
+    public Action() {
+
     }
 
     public Action(ActionType actionName) {
@@ -92,15 +101,15 @@ public class Action {
         this.status = ActionStatus.PENDING;
     }
 
-    public Action() {
-
+    public Action(ActionType actionType, String params, String beehiveId) {
+        this(actionType, Actions.NOW, params, beehiveId, Actions.AUTHOR_SYSTEM);
     }
 
     public ActionType getType() {
         return type;
     }
 
-    public long getExecution_time() {
+    public long getExecutionTime() {
         return execution_time;
     }
 
@@ -121,4 +130,15 @@ public class Action {
     }
 
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
