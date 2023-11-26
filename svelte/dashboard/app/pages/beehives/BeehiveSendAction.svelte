@@ -77,7 +77,7 @@
           {JSON.stringify(action)}
           <p class="mb-4 font-bold">{li.get(`actions.${action.type}`)}</p>
           <!--          .toISOString().split("T")[0]-->
-          <p>{new Date(action.execution_time)}</p>
+          <p>{action.executionTime}</p>
 
           {#each Object.entries(JSON.parse(action.params)) as [paramKey, paramValue]}
             <div>

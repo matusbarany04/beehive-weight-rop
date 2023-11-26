@@ -121,7 +121,7 @@ public class Action {
         output.put("createdAt", createdAt);
         output.put("updatedAt", updatedAt);
         output.put("params", params);
-        output.put("execution_time", execution_time);
+        output.put("executionTime", execution_time);
 
         return output;
     }
