@@ -95,13 +95,13 @@ public class Action {
         this.type = actionName;
     }
 
-    public Action(ActionType actionName, long execution_time) {
+    public Action(ActionType actionName, long executionTime) {
         this(actionName);
-        this.execution_time = execution_time;
+        this.execution_time = executionTime;
     }
 
-    public Action(ActionType actionName, long execution_time, String params, String beehiveId, long authorId) {
-        this(actionName, execution_time);
+    public Action(ActionType actionName, long executionTime, String params, String beehiveId, long authorId) {
+        this(actionName, executionTime);
         this.params = params;
         this.author = authorId;
         this.beehive = beehiveId;
