@@ -150,7 +150,7 @@ public class Action {
         this.status = status;
     }
 
-    public void setParams(HashMap<String, Object> params) {
+    public void setParamsMap(HashMap<String, Object> params) {
         try {
             this.params = new ObjectMapper().writeValueAsString(params);
         } catch (JsonProcessingException e) {

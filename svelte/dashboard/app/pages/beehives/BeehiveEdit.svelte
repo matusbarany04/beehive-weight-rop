@@ -68,7 +68,10 @@
         console.log(beehive);
         for (let id in actions) {
           let action = actions[id];
-          if (action.type === "CHANGE_BEEHIVE_CONFIG") {
+          if (
+            action.type === "CHANGE_BEEHIVE_CONFIG" &&
+            (action.status === "PENDING" || action.status === "SENT")
+          ) {
             if (action.params["wifi_ssid"])
               beehive["wifiSSID"] = action.params["wifi_ssid"];
             if (action.params["interval"])

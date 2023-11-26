@@ -38,7 +38,7 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
                 action.setId(oldAction.getId());
                 HashMap<String, Object> params = oldAction.getParams();
                 params.putAll(action.getParams());
-                action.setParams(params);
+                action.setParamsMap(params);
             });
         }
 
