@@ -50,7 +50,7 @@
     {actionObject.description ?? "Akcia nemá žiaden popis"}
   </h1>
 
-  <h1 class="absolute right-2 top-2 text-lg ">
+  <h1 class="absolute right-2 top-2 text-lg">
     {actionObject.status}
   </h1>
 

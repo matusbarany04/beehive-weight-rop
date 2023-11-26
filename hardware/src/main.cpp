@@ -10,6 +10,7 @@
 #include "led.h"
 #include "Button.h"
 #include "configuration.h"
+#include "power.h"
 
 #define WEIGHT_SCALE -34850
 
@@ -28,7 +29,8 @@ ActionManager actionManager;
 LED led(19);
 Button button(21);
 
-Config config;
+Config config = {};
+bool wakeUp = false;
 
 //HX711 scale;
 
@@ -39,10 +41,21 @@ void setup(void)
   Serial.begin(9600);
   led.indicate(OK);
 
-  load(config);
+ /* Config newConfig;
+  newConfig.interval = 10;
+  memcpy(newConfig.connectionMode, "WIFI", sizeof(newConfig.connectionMode));
+  memcpy(newConfig.wifi_ssid, "SNPD", sizeof(newConfig.wifi_ssid));
+  memcpy(newConfig.wifi_password, "ke257-NT_61_ab", sizeof(newConfig.wifi_password));
+  save(newConfig);*/
+  load(&config);
 
-  config.wifi_ssid = WIFI_SSID;
-  config.wifi_password = WIFI_PASSWORD;
+  Serial.println();
+  Serial.println(config.interval);
+  Serial.println(config.wifi_ssid);
+  Serial.println(config.wifi_password);
+
+ // config.wifi_ssid = WIFI_SSID;
+ // config.wifi_password = WIFI_PASSWORD;
 
 /*
   scale.begin(22, 23);
@@ -51,8 +64,8 @@ void setup(void)
 
 
   //sensorManager.resetSensor(0);
+ 
   led.indicate(CONNECTING);
-
   //sensorManager.burn(1, {"", 1000, TEMPERATURE, 0});
   //sensorManager.burn(2, {"", 1000, LIGHT, 0});
 
@@ -62,7 +75,7 @@ void setup(void)
   String json = sensorManager.buildJSON();
   Serial.println(json);
 
-  networkManager.connectDefault();
+  networkManager.connect(config.wifi_ssid, config.wifi_password);
   networkManager.setContentType("application/json");
   networkManager.setDefaultHostname(SERVER_URL);
 
@@ -91,6 +104,9 @@ void setup(void)
   delay(2000);
 
   led.off();
+
+  networkManager.turn_wifi_off();
+  //if(!wakeUp) Power::sleep(config.interval * 60);
 }
 
 void pair() {
@@ -124,13 +140,17 @@ void handleActions() {
   actionManager.addAction("CHANGE_BEEHIVE_CONFIG", [](JsonObject params) -> String { 
     return changeConfig(params);
   });
+  actionManager.addAction("WAKE_UP", [](JsonObject params) -> String { 
+    wakeUp = true;
+    return "DONE";
+  });
 }
 
 String changeConfig(JsonObject params) {
-    String interval =  params["interval"];
+    String interval = params["interval"];
     Serial.println(interval);
     if(params["interval"] != "null") config.interval = params["interval"];
-    if(params["connectionMode"] != "null") config.connectionMode = params["connectionMode"].as<String>();
+    if(params["connectionMode"] != "null") memcpy(config.connectionMode, params["connectionMode"].as<String>().c_str(), sizeof(config.connectionMode));
 
     save(config);
     
@@ -142,8 +162,8 @@ String changeConfig(JsonObject params) {
       String status = testConnection(ssid, wifi_passwd);
       
       if(status.equals("DONE")) {
-        config.wifi_ssid = ssid;
-        config.wifi_password = wifi_passwd;
+        memcpy(config.wifi_ssid, ssid.c_str(), sizeof(config.wifi_ssid));
+        memcpy(config.wifi_password, wifi_passwd.c_str(), sizeof(config.wifi_password));
         save(config);
 
       } else networkManager.connect(config.wifi_ssid, config.wifi_password);
