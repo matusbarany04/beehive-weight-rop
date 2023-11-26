@@ -66,11 +66,13 @@ public class ActionController extends CookieAuthController {
      */
 
     @GetMapping(value = "/getPending", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<Long, Action> getPending(@RequestParam(value = "beehiveId", defaultValue = "all") String beehiveId) {
+    public Map<Long, Map<String,Object>> getPending(@RequestParam(value = "beehiveId", defaultValue = "all") String beehiveId) {
         System.out.println("getPending was called " + beehiveId);
         Action[] output = actionRepository.getPendingActionsByBeehiveId(beehiveId);
-        Map<Long, Action> actions = new HashMap<>();
-        Arrays.stream(output).toList().forEach((act -> actions.put(act.getId(), act)));
+        Map<Long, Map<String, Object>> actions = new HashMap<>();
+
+        Arrays.stream(output).toList().forEach((act -> actions.put(act.getId(), act.jsonifyForFrontend().toMap() )));
+
         return actions;
     }
 

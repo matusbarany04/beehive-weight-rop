@@ -74,10 +74,12 @@
     <ul>
       {#each Object.entries(pendingActions) as [id, action]}
         <li key={id}>
+          {JSON.stringify(action)}
           <p class="mb-4 font-bold">{li.get(`actions.${action.type}`)}</p>
-          <p>{new Date(action.execution_time).toISOString().split("T")[0]}</p>
-
-          {#each Object.entries(action.params) as [paramKey, paramValue]}
+          <!--          .toISOString().split("T")[0]-->
+          <p>{new Date(action.execution_time)}</p>
+        
+          {#each Object.entries(JSON.parse(action.params)) as [paramKey, paramValue]}
             <div>
               <strong>{paramKey}:</strong>
               {JSON.stringify(paramValue)}
