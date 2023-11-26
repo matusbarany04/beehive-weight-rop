@@ -35,7 +35,7 @@ public class User {
 
     @Column(name = "language")
     @Enumerated(EnumType.STRING)
-    private Language language;
+    private Language language = Language.SK;
 
     @Column(name = "dashboard_data", columnDefinition = "json", nullable = false)
     private String dashboardData = "[]";

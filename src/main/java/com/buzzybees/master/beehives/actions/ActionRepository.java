@@ -22,6 +22,8 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     @Query("SELECT a FROM Action a WHERE a.id = :id")
     Action getActionById(long id);
 
+    @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehiveId")
+    Action[] getActionsByBeehiveId(String beehiveId);
 
     @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehiveId AND (a.status = 'PENDING' OR a.status = 'SENT')")
     Action[] getPendingActionsByBeehiveId(String beehiveId);

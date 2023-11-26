@@ -78,8 +78,8 @@
           <p class="mb-4 font-bold">{li.get(`actions.${action.type}`)}</p>
           <!--          .toISOString().split("T")[0]-->
           <p>{new Date(action.execution_time)}</p>
-
-          {#each Object.entries(action.params) as [paramKey, paramValue]}
+        
+          {#each Object.entries(JSON.parse(action.params)) as [paramKey, paramValue]}
             <div>
               <strong>{paramKey}:</strong>
               {JSON.stringify(paramValue)}
