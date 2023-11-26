@@ -23,18 +23,17 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     Action getActionById(long id);
 
 
-    @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehiveId AND (a.status = 'PENDING' OR a.status = 'SENT')")
+    @Query("SELECT a FROM Action a WHERE a.beehive = :beehiveId AND (a.status = 'PENDING' OR a.status = 'SENT')")
     Action[] getPendingActionsByBeehiveId(String beehiveId);
 
-    @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehive AND a.type = :actionType AND a.execution_time = :time")
-    Optional<Action> getExistingActionId(String beehive, ActionType actionType, long time);
+    @Query("SELECT a FROM Action a WHERE a.beehive = :beehive AND a.type = :actionType AND a.execution_time = :time AND a.status = :status")
+    Optional<Action> getExistingActionId(String beehive, ActionType actionType, long time, ActionStatus status);
 
     default Action saveOrUpdate(Action action) {
         if(action.getType().singleInstance) {
-            Optional<Action> actionDB = getExistingActionId(action.getBeehive(), action.getType(), action.getExecutionTime());
+            Optional<Action> actionDB = getExistingActionId(action.getBeehive(), action.getType(), action.getExecutionTime(), action.getStatus());
             actionDB.ifPresent(oldAction -> {
                 action.setId(oldAction.getId());
-                System.out.println(action.getParams());
                 HashMap<String, Object> params = oldAction.getParams();
                 params.putAll(action.getParams());
                 action.setParams(params);

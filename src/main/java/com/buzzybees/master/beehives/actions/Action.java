@@ -22,7 +22,6 @@ public class Action {
     @Enumerated(EnumType.STRING)
     private ActionType type;
 
-    @JsonProperty("execution_time") // toto tu musi byt inak mi nejde routa, post
     @Column(name = "execution_time")
     private long execution_time = 0;
 
@@ -47,7 +46,7 @@ public class Action {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "beehive_id")
-    private String beehive_id;
+    private String beehive;
 
     @JsonIgnore
     @CreatedDate
@@ -65,7 +64,7 @@ public class Action {
     }
 
     public String getBeehive() {
-        return beehive_id;
+        return beehive;
     }
 
     public long getAuthor() {
@@ -82,6 +81,7 @@ public class Action {
         }
     }
 
+    @JsonIgnore
     public String getParamsJSON() {
         return params;
     }
@@ -94,16 +94,16 @@ public class Action {
         this.type = actionName;
     }
 
-    public Action(ActionType actionName, long time) {
+    public Action(ActionType actionName, long execution_time) {
         this(actionName);
-        this.execution_time = time;
+        this.execution_time = execution_time;
     }
 
-    public Action(ActionType actionName, long time, String params, String beehiveId, long authorId) {
-        this(actionName, time);
+    public Action(ActionType actionName, long execution_time, String params, String beehiveId, long authorId) {
+        this(actionName, execution_time);
         this.params = params;
         this.author = authorId;
-        this.beehive_id = beehiveId;
+        this.beehive = beehiveId;
         this.status = ActionStatus.PENDING;
     }
 

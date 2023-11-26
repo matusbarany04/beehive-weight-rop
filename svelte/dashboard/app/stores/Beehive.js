@@ -26,6 +26,12 @@ export class BeehiveObj {
   /** @type {Array<{name: string, port: string, id: number, type: string}>} Devices associated with the beehive. */
   devices;
 
+  /** @type {string} other beehive which this beehive is connected with*/
+  linkedTo;
+
+  /** @type {string} current WiFi SSID if available*/
+  wifiSSID;
+
   /**
    * stores all of the beehive data
    * @type {Object<Array>}  */
@@ -42,6 +48,8 @@ export class BeehiveObj {
    * @param {number} connectionMode Connection mode of the beehive.
    * @param {number} interval Time interval for data collection.
    * @param {Array<{name: string, port: string, id: number, type: string}>} devices Devices associated with the beehive.
+   * @param linkedTo
+   * @param wifiSSID
    */
   constructor(
     beehive_id,
@@ -53,6 +61,8 @@ export class BeehiveObj {
     connectionMode,
     interval,
     devices,
+    linkedTo,
+    wifiSSID,
   ) {
     if (!beehive_id)
       throw new Error("Beehive ID is required. provided - " + beehive_id);
@@ -74,6 +84,8 @@ export class BeehiveObj {
     this.connectionMode = connectionMode;
     this.interval = interval;
     this.devices = devices;
+    this.linkedTo = linkedTo;
+    this.wifiSSID = wifiSSID;
     this.data = {
       weight: [],
       timestamp: [],

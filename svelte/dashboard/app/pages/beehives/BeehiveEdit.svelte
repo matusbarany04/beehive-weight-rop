@@ -139,12 +139,6 @@
           );
       });
   }
-
-  function onChange(e) {
-    console.log(beehive.interval);
-    console.log(oldInterval);
-    intervalMsg = oldInterval !== beehive.interval;
-  }
 </script>
 
 <svelte:head>

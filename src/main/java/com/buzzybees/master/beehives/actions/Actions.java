@@ -47,7 +47,7 @@ public class Actions {
                 if(newBeehive.getSim_password().length() > 0) params.put("sim_password", newBeehive.getSim_password());
             }
             case WIFI -> {
-                params.put("wifi_ssid", newBeehive.getWifiSSID());
+                if(!oldBeehive.getWifiSSID().equals(newBeehive.getWifiSSID())) params.put("wifi_ssid", newBeehive.getWifiSSID());
                 String passwd = newBeehive.getWifi_password();
                 if(passwd.length() > 0) params.put("wifi_password", passwd);
             }

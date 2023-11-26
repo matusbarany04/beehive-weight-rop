@@ -14,6 +14,7 @@
 #define WEIGHT_SCALE -34850
 
 void pair();
+String changeConfig(JsonObject params);
 
 int address = 0;
 unsigned int value = 0;
@@ -77,7 +78,7 @@ void setup(void)
   for(int i = 0; i < actions.size(); i++) {
     JsonObject action = actions[i];
     String type = action["type"];
-    if(action["execution_time"] == 0) actionManager.exec(action["type"], action["id"], action["params"]);
+    if(action["executionTime"] == 0) actionManager.exec(action["type"], action["id"], action["params"]);
   }
 
   if(actions.size() > 0) networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
@@ -121,9 +122,11 @@ void handleActions() {
     return success ? "DONE" : "DEVICE_NOT_FOUND";
   });
   actionManager.addAction("CHANGE_BEEHIVE_CONFIG", [](JsonObject params) -> String { 
+    return changeConfig(params);
+  });
+}
 
-   /* Config config = {params["interval"], params["sim_password"], params["wifi_ssid"], params["wifi_password"]};
-    save(config);*/
+String changeConfig(JsonObject params) {
     String interval =  params["interval"];
     Serial.println(interval);
     if(params["interval"] != "null") config.interval = params["interval"];
@@ -151,7 +154,6 @@ void handleActions() {
    // led.indicate(OK);
 
     return "DONE";
-  });
 }
 
 

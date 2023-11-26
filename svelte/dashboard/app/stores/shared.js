@@ -48,6 +48,8 @@ export default {
           beehiveJson["connectionMode"],
           beehiveJson["interval"],
           beehiveJson["devices"],
+          beehiveJson["linkedTo"],
+          beehiveJson["wifiSSID"],
         );
       }
 

@@ -31,7 +31,7 @@
   function sendAction() {
     const actionData = {
       type: "MOTOR_MOVE",
-      execution_time: new Date().getTime() + 1000 * 60 * 60, // Replace with your desired execution time
+      executionTime: new Date().getTime() + 1000 * 60 * 60, // Replace with your desired execution time
       params: JSON.stringify({
         id: 8500,
       }),
