@@ -7,6 +7,8 @@
     getLanguageInstance,
     languages,
   } from "../../../../components/language/languageRepository";
+  import { onLoad } from "../../stores/shared";
+  import ActionCard from "../../component/beehives/ActionCard.svelte";
 
   export let props;
 
@@ -28,14 +30,18 @@
     }
   };
 
+  let user;
+  onLoad(["user"], (userObj) => {
+    user = userObj;
+  });
+
   function sendAction() {
     const actionData = {
+      author: user.id,
       type: "MOTOR_MOVE",
-      executionTime: new Date().getTime() + 1000 * 60 * 60, // Replace with your desired execution time
-      params: JSON.stringify({
-        id: 8500,
-      }),
-      beehive_id: beehiveId,
+      beehive: beehiveId,
+      params: '{"id": 8500}',
+      executionTime: new Date().getTime() + 1000 * 60 * 60,
     };
 
     fetch("/actions/newAction", {
@@ -66,30 +72,10 @@
   <Button text="Sledovanie akcií zariadenia" onClick={sendAction} />
 </SettingsItem>
 
-<div class="min-h-48 lg:min-h-24 mx-auto mb-4 rounded-lg bg-white p-4 lg:w-5/6">
-  <label for="beehiveId">Beehive ID:</label>
-  <button on:click={fetchPendingActions}>Fetch Pending Actions</button>
-
-  {#if Object.keys(pendingActions).length > 0}
-    <ul>
-      {#each Object.entries(pendingActions) as [id, action]}
-        <li key={id}>
-          {JSON.stringify(action)}
-          <p class="mb-4 font-bold">{li.get(`actions.${action.type}`)}</p>
-          <!--          .toISOString().split("T")[0]-->
-          <p>{new Date(action.execution_time)}</p>
-
-          {#each Object.entries(JSON.parse(action.params)) as [paramKey, paramValue]}
-            <div>
-              <strong>{paramKey}:</strong>
-              {JSON.stringify(paramValue)}
-            </div>
-          {/each}
-          <hr class="my-4" />
-        </li>
-      {/each}
-    </ul>
-  {:else}
-    <p>No pending actions found.</p>
-  {/if}
-</div>
+{#if Object.keys(pendingActions).length > 0}
+  {#each Object.entries(pendingActions) as [id, action]}
+    <ActionCard actionObject={action}></ActionCard>
+  {/each}
+{:else}
+  <p>No pending actions found.</p>
+{/if}

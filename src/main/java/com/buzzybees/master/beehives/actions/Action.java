@@ -24,7 +24,7 @@ public class Action {
     private ActionType type;
 
     @Column(name = "execution_time")
-    private long execution_time = 0;
+    private long executionTime = 0;
 
     @Column(name = "params", columnDefinition = "json", nullable = false)
     private String params = "{}";
@@ -95,16 +95,16 @@ public class Action {
         this.type = actionName;
     }
 
-    public Action(ActionType actionName, long executionTime) {
-        this(actionName);
-        this.execution_time = executionTime;
+    public Action(ActionType type, long executionTime) {
+        this(type);
+        this.executionTime = executionTime;
     }
 
-    public Action(ActionType actionName, long executionTime, String params, String beehiveId, long authorId) {
-        this(actionName, executionTime);
+    public Action(ActionType type, long executionTime, String params, String beehive, long author) {
+        this(type, executionTime);
         this.params = params;
-        this.author = authorId;
-        this.beehive = beehiveId;
+        this.author = author;
+        this.beehive = beehive;
         this.status = ActionStatus.PENDING;
     }
 
@@ -117,11 +117,12 @@ public class Action {
 
         output.put("type", type);
         output.put("id", id);
+        output.put("status", status);
         output.put("beehive_id", beehive);
         output.put("createdAt", createdAt);
         output.put("updatedAt", updatedAt);
         output.put("params", params);
-        output.put("execution_time", execution_time);
+        output.put("executionTime", executionTime);
 
         return output;
     }
@@ -131,7 +132,7 @@ public class Action {
     }
 
     public long getExecutionTime() {
-        return execution_time;
+        return executionTime;
     }
 
     public void setAuthor(long author) {
