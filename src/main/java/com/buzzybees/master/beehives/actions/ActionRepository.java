@@ -13,10 +13,10 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     @Query("SELECT a FROM Action a WHERE a.author = :author")
     Action[] getAllByAuthor(long author);
 
-    @Query("SELECT a FROM Action a WHERE a.execution_time = :time")
+    @Query("SELECT a FROM Action a WHERE a.executionTime = :time")
     Action[] getAllByTime(long time);
 
-    @Query("SELECT a FROM Action a WHERE a.author = :author AND a.execution_time = :time")
+    @Query("SELECT a FROM Action a WHERE a.author = :author AND a.executionTime = :time")
     Action[] getAllByAuthorAndTime(long author, long time);
 
     @Query("SELECT a FROM Action a WHERE a.id = :id")
@@ -28,7 +28,7 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     @Query("SELECT a FROM Action a WHERE a.beehive = :beehiveId AND (a.status = 'PENDING' OR a.status = 'SENT')")
     Action[] getPendingActionsByBeehiveId(String beehiveId);
 
-    @Query("SELECT a FROM Action a WHERE a.beehive = :beehive AND a.type = :actionType AND a.execution_time = :time AND a.status = :status")
+    @Query("SELECT a FROM Action a WHERE a.beehive = :beehive AND a.type = :actionType AND a.executionTime = :time AND a.status = :status")
     Optional<Action> getExistingActionId(String beehive, ActionType actionType, long time, ActionStatus status);
 
     default Action saveOrUpdate(Action action) {

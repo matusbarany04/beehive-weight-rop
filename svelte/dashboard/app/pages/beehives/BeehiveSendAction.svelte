@@ -7,6 +7,7 @@
     getLanguageInstance,
     languages,
   } from "../../../../components/language/languageRepository";
+  import { onLoad } from "../../stores/shared";
 
   export let props;
 
@@ -28,14 +29,18 @@
     }
   };
 
+  let user;
+  onLoad(["user"], (userObj) => {
+    user = userObj;
+  });
+
   function sendAction() {
     const actionData = {
+      author: user.id,
       type: "MOTOR_MOVE",
-      executionTime: new Date().getTime() + 1000 * 60 * 60, // Replace with your desired execution time
-      params: JSON.stringify({
-        id: 8500,
-      }),
-      beehive_id: beehiveId,
+      beehive: beehiveId,
+      params: '{"id": 8500}',
+      executionTime: new Date().getTime() + 1000 * 60 * 60,
     };
 
     fetch("/actions/newAction", {
