@@ -18,20 +18,24 @@ class NetworkManager {
 
         wl_status_t connect(String ssid, String password) {
             WiFi.mode(WIFI_STA);
-            WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+            WiFi.begin(ssid, password);
             Serial.print("Connecting");
            
-            while (WiFi.status() == WL_DISCONNECTED || WiFi.status() == WL_IDLE_STATUS) {
+            do {
                 delay(500);
                 Serial.print(".");
-                Serial.println("Status: " + String(WiFi.status()));
-            }
+                //Serial.println("Status: " + String(WiFi.status()));
 
-            Serial.println("");
-            Serial.print("Connected to ");
-            Serial.println(WIFI_SSID);
-            Serial.print("IP address: ");
-            Serial.println(WiFi.localIP());
+            } while (WiFi.status() == WL_DISCONNECTED || WiFi.status() == WL_IDLE_STATUS);
+
+            if(WiFi.status() == WL_CONNECTED) {
+                Serial.println();
+                Serial.print("Connected to ");
+                Serial.println(ssid);
+                Serial.print("IP address: ");
+                Serial.println(WiFi.localIP());
+
+            }
 
             return WiFi.status();
         }
@@ -56,7 +60,6 @@ class NetworkManager {
         void GET(String url) {
             http.addHeader("Content-Type", contentType);
             if(url.indexOf('.') == -1) url = hostname + url;
-            HTTPClient http;
             http.begin(client, url.c_str());
             int httpResponseCode = http.GET();  
             result = http.getString();
@@ -71,8 +74,6 @@ class NetworkManager {
         DynamicJsonDocument getResponseJSON() {
             String response = getRequestResult();
             DynamicJsonDocument doc(JSON_SIZE);
-            Serial.println(measureJson(doc));
-            Serial.println(sizeof(response));
             deserializeJson(doc, response);
             return doc; 
         }

@@ -49,11 +49,12 @@ public class Action {
     @Column(name = "beehive_id")
     private String beehive_id;
 
-
+    @JsonIgnore
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
 
+    @JsonIgnore
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;

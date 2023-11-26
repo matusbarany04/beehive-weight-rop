@@ -35,11 +35,15 @@ class SensorManager {
             Wire.end();
         }
 
-        void burnSensorId(unsigned int port, int id) {
+        bool burnSensorId(unsigned int port, int id) {
             disableAll();
             Sensor* sensor = sensors[port];
+            if(sensor == nullptr) return false;
+            
             sensor->setId(id);
             sensor->saveData();
+
+            return true;
         }
 
         void burn(unsigned int port, Data data) {

@@ -40,6 +40,9 @@ void setup(void)
 
   load(config);
 
+  config.wifi_ssid = WIFI_SSID;
+  config.wifi_password = WIFI_PASSWORD;
+
 /*
   scale.begin(22, 23);
   scale.set_scale(WEIGHT_SCALE); //This value is obtained by using the SparkFun_HX711_Calibration sketch
@@ -73,6 +76,7 @@ void setup(void)
 
   for(int i = 0; i < actions.size(); i++) {
     JsonObject action = actions[i];
+    String type = action["type"];
     if(action["execution_time"] == 0) actionManager.exec(action["type"], action["id"], action["params"]);
   }
 
@@ -102,20 +106,26 @@ void pair() {
 
 String testConnection(String wifiSSID, String wifiPasswd) {
   wl_status_t status = networkManager.connect(wifiSSID, wifiPasswd);
-  if(status == WL_CONNECTED) return "DONE";
-  else if(status == WL_CONNECT_FAILED) return "WIFI_CONNECTION_FAILED";
-  else if(status == WL_NO_SSID_AVAIL) return "WIFI_NO_SSID_AVAIL";
+  
+  switch(status) {
+    case WL_CONNECTED: return "DONE";
+    case WL_CONNECT_FAILED: return "WIFI_CONNECTION_FAILED";
+    case WL_NO_SSID_AVAIL: return "WIFI_NO_SSID_AVAIL";
+    default: return "UNKOWN_ERROR";
+  }
 }
 
 void handleActions() {
   actionManager.addAction("BURN_SENSOR_ID", [] (JsonObject params) -> String {
-    sensorManager.burnSensorId(params["port"], params["sensorId"]);
-    return "DONE";
+    bool success = sensorManager.burnSensorId(params["port"], params["sensorId"]);
+    return success ? "DONE" : "DEVICE_NOT_FOUND";
   });
   actionManager.addAction("CHANGE_BEEHIVE_CONFIG", [](JsonObject params) -> String { 
 
    /* Config config = {params["interval"], params["sim_password"], params["wifi_ssid"], params["wifi_password"]};
     save(config);*/
+    String interval =  params["interval"];
+    Serial.println(interval);
     if(params["interval"] != "null") config.interval = params["interval"];
     if(params["connectionMode"] != "null") config.connectionMode = params["connectionMode"].as<String>();
 
@@ -125,14 +135,20 @@ void handleActions() {
     String wifi_passwd = params["wifi_password"];
 
     if(ssid != "null" && wifi_passwd != "null") {
+      led.indicate(CONNECTING);
       String status = testConnection(ssid, wifi_passwd);
-      if(status != "DONE") {
+      
+      if(status.equals("DONE")) {
         config.wifi_ssid = ssid;
         config.wifi_password = wifi_passwd;
         save(config);
-      }
+
+      } else networkManager.connect(config.wifi_ssid, config.wifi_password);
+
       return status;
     }
+
+   // led.indicate(OK);
 
     return "DONE";
   });

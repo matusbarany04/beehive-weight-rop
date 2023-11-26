@@ -28,13 +28,13 @@ class ActionManager {
             Action* action = getAction(type);
             
             if(action != NULL) {
-                action->function(params);
+                String status = action->function(params);
                 DynamicJsonDocument prevDoc = *executedActions;
                 executedActions = new DynamicJsonDocument(executedActions->capacity() + JSON_OBJECT_SIZE(3));
                 executedActions->set(prevDoc);
                 JsonObject json = executedActions->createNestedObject();
                 json["id"] = id;
-                json["status"] = "DONE";
+                json["status"] = status;
             }
         }
 

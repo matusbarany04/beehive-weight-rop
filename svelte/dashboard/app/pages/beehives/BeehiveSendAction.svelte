@@ -79,7 +79,8 @@
 
           {#each Object.entries(action.params) as [paramKey, paramValue]}
             <div>
-              <strong>{paramKey}:</strong> {JSON.stringify(paramValue)}
+              <strong>{paramKey}:</strong>
+              {JSON.stringify(paramValue)}
             </div>
           {/each}
           <hr class="my-4" />

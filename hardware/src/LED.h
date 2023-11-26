@@ -8,6 +8,7 @@
 #define ERROR -1
 
 #define TASK_NAME "blink"
+#define STACK_SIZE 128
 
 struct Params {
     int duration;
@@ -38,22 +39,22 @@ class LED {
 
                 case IDLE:
                     params = {250, 3, false, this->pin}; 
-                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE, &params, 1, &blinkTask);
+                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 1, &blinkTask);
                     break;
 
                 case REQUEST_SUCCESS:
                     params = {250, 2, false, this->pin}; 
-                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE, &params, 1, &blinkTask);
+                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 1, &blinkTask);
                     break;
 
                 case CONNECTING:
                     params = {500, 1, true, this->pin}; 
-                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE, &params, 1, &blinkTask);
+                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 1, &blinkTask);
                     break;
 
                 case ERROR:
                     params = {250, 2, true, this->pin};
-                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE, &params, 1, &blinkTask);
+                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 1, &blinkTask);
            } 
         }
 
