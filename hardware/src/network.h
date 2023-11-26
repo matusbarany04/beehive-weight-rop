@@ -16,12 +16,12 @@ class NetworkManager {
             connect(WIFI_SSID, WIFI_PASSWORD);
         }
 
-        void connect(String ssid, String password) {
+        wl_status_t connect(String ssid, String password) {
             WiFi.mode(WIFI_STA);
             WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
             Serial.print("Connecting");
            
-            while (WiFi.status() != WL_CONNECTED) {
+            while (WiFi.status() == WL_DISCONNECTED || WiFi.status() == WL_IDLE_STATUS) {
                 delay(500);
                 Serial.print(".");
                 Serial.println("Status: " + String(WiFi.status()));
@@ -32,6 +32,8 @@ class NetworkManager {
             Serial.println(WIFI_SSID);
             Serial.print("IP address: ");
             Serial.println(WiFi.localIP());
+
+            return WiFi.status();
         }
 
         void setContentType(String contentType) {

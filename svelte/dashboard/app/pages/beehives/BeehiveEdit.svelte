@@ -31,7 +31,7 @@
   let coordinates = { latitude: 0, longitude: 0 };
   let connectionMode = "GSM";
   let sensors = {};
-  
+
   let intervals = [
     [10, "10min"],
     [30, "30min"],
@@ -139,11 +139,11 @@
           );
       });
   }
-  
+
   function onChange(e) {
     console.log(beehive.interval);
-    console.log(oldInterval)
-    intervalMsg = oldInterval !== beehive.interval
+    console.log(oldInterval);
+    intervalMsg = oldInterval !== beehive.interval;
   }
 </script>
 
@@ -196,8 +196,11 @@
 
         {#if beehive.interval !== oldInterval}
           <div class="flex items-center gap-2">
-            <img class="w-4 h-4" src="../../../icons/warning.png"  alt="warning"/>Zmeny sa aplikujú až pri
-            najbližšom prebudení váhy
+            <img
+              class="h-4 w-4"
+              src="../../../icons/warning.png"
+              alt="warning"
+            />Zmeny sa aplikujú až pri najbližšom prebudení váhy
           </div>
         {/if}
       </div>

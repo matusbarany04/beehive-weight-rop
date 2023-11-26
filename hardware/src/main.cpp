@@ -9,6 +9,7 @@
 #include "actions.h"
 #include "led.h"
 #include "Button.h"
+#include "configuration.h"
 
 #define WEIGHT_SCALE -34850
 
@@ -26,6 +27,8 @@ ActionManager actionManager;
 LED led(19);
 Button button(21);
 
+Config config;
+
 //HX711 scale;
 
 void handleActions();
@@ -34,6 +37,8 @@ void setup(void)
 {
   Serial.begin(9600);
   led.indicate(OK);
+
+  load(config);
 
 /*
   scale.begin(22, 23);
@@ -95,55 +100,50 @@ void pair() {
     Serial.println(networkManager.getRequestResult());
 }
 
+String testConnection(String wifiSSID, String wifiPasswd) {
+  wl_status_t status = networkManager.connect(wifiSSID, wifiPasswd);
+  if(status == WL_CONNECTED) return "DONE";
+  else if(status == WL_CONNECT_FAILED) return "WIFI_CONNECTION_FAILED";
+  else if(status == WL_NO_SSID_AVAIL) return "WIFI_NO_SSID_AVAIL";
+}
+
 void handleActions() {
-  actionManager.addAction("BURN_SENSOR_ID", [] (JsonObject params) {
+  actionManager.addAction("BURN_SENSOR_ID", [] (JsonObject params) -> String {
     sensorManager.burnSensorId(params["port"], params["sensorId"]);
+    return "DONE";
+  });
+  actionManager.addAction("CHANGE_BEEHIVE_CONFIG", [](JsonObject params) -> String { 
+
+   /* Config config = {params["interval"], params["sim_password"], params["wifi_ssid"], params["wifi_password"]};
+    save(config);*/
+    if(params["interval"] != "null") config.interval = params["interval"];
+    if(params["connectionMode"] != "null") config.connectionMode = params["connectionMode"].as<String>();
+
+    save(config);
+    
+    String ssid = params["wifi_ssid"];
+    String wifi_passwd = params["wifi_password"];
+
+    if(ssid != "null" && wifi_passwd != "null") {
+      String status = testConnection(ssid, wifi_passwd);
+      if(status != "DONE") {
+        config.wifi_ssid = ssid;
+        config.wifi_password = wifi_passwd;
+        save(config);
+      }
+      return status;
+    }
+
+    return "DONE";
   });
 }
+
+
 
  
 void loop()
 {  
  // Serial.println(scale.get_units(), 1);
   delay(500);
-  //Serial.println(sensorManager.getSensor(1)->readValue());
- /*byte error, address;
-  int nDevices;
- 
-  Serial.println("Scanning...");
- 
-  nDevices = 0;
-  for(address = 1; address < 127; address++ )
-  {
-    // The i2c_scanner uses the return value of
-    // the Write.endTransmisstion to see if
-    // a device did acknowledge to the address.
-    Wire.beginTransmission(address);
-    error = Wire.endTransmission();
- 
-    if (error == 0)
-    {
-      Serial.print("I2C device found at address 0x");
-      if (address<16)
-        Serial.print("0");
-      Serial.print(address,HEX);
-      Serial.println("  !");
- 
-      nDevices++;
-    }
-    else if (error==4)
-    {
-      Serial.print("Unknown error at address 0x");
-      if (address<16)
-        Serial.print("0");
-      Serial.println(address,HEX);
-    }    
-  }
-  if (nDevices == 0)
-    Serial.println("No I2C devices found\n");
-  else
-    Serial.println("done\n");
- 
-  delay(5000);           // wait 5 seconds for next sca*/
 }
  

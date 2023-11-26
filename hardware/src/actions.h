@@ -2,7 +2,7 @@
 
 struct Action {
     String type;
-    void (*function)(JsonObject);
+    String (*function)(JsonObject);
 };
 
 class ActionManager {
@@ -13,7 +13,7 @@ class ActionManager {
             executedActions = new DynamicJsonDocument(JSON_OBJECT_SIZE(2));
         }
 
-        void addAction(String type, void (*function)(JsonObject)) {
+        void addAction(String type, String (*function)(JsonObject)) {
             Action* action = new Action();
             action->type = type;
             action->function = function;

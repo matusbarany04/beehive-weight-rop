@@ -3,8 +3,7 @@
   import AboutCard from "../app/components/about/AboutCard.svelte";
 </script>
 
-<Root
-  title="O nás">
+<Root title="O nás">
   <AboutCard
     name="Martin"
     description="Lorem ipsum dolor sit amet. Et vitae autem qui distinctio excepturi ut ratione impedit in sunt facilis aut eligendi consectetur. In architecto itaque et delectus sequi ut quia voluptate aut nobis iure."

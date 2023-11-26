@@ -1,0 +1,10 @@
+{
+  "actions": {
+    "MOTOR_MOVE": "Pohyb motora",
+    "WAKE_UP": "Zobudenie váhy",
+    "HIBERNATE" : "Hibernácia" ,
+    "ENABLE_SHARING_CONNECTION" : "Povoliť zdieľanie spojenia",
+    "BURN_SENSOR_ID" : "Uložiť id senzora",
+    "CHANGE_BEEHIVE_CONFIG" : "Zmena konfigurácie zariadenia"
+  }
+}

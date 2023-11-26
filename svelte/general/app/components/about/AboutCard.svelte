@@ -14,11 +14,11 @@
 
 <div
   class="{className}  flex {direction === 'left'
-    ? 'md:flex-row flex-col'
-    : 'md:flex-row-reverse flex-col'}  mx-auto my-4 min-h-min md:h-64 max-w-4xl rounded-md"
+    ? 'flex-col md:flex-row'
+    : 'flex-col md:flex-row-reverse'}  mx-auto my-4 min-h-min max-w-4xl rounded-md md:h-64"
 >
   <div
-    class="md:mx-5 aspect-square mx-auto  w-5/6 md:w-min md:h-full rounded-full border border-tertiary-100 bg-contain bg-center bg-no-repeat"
+    class="mx-auto aspect-square w-5/6 rounded-full border border-tertiary-100 bg-contain bg-center bg-no-repeat md:mx-5 md:h-full md:w-min"
     style="background-image: url({image})"
   ></div>
 
