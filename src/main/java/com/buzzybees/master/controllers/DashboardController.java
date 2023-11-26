@@ -288,7 +288,7 @@ public class DashboardController extends CookieAuthController {
         beehive.setModel(targetBeehive.getModel());
 
         Actions.handleResponse(beehive, ActionType.CHANGE_BEEHIVE_CONFIG, action -> {
-            if(action.getStatus() == ActionStatus.DONE) beehiveRepository.save(beehive);
+             if(action.getStatus() == ActionStatus.DONE) beehiveRepository.save(beehive);
         });
 
         DeviceRepository deviceRepository = getRepo(Device.class);

@@ -54,9 +54,7 @@ public class Actions {
             case OTHER_BEEHIVE -> actions.add(new Action(ActionType.ENABLE_SHARING_CONNECTION, null, newBeehive.getLinkedTo()));
         }
 
-        if(params.keySet().size() > 0) {
-            actions.add(new Action(ActionType.CHANGE_BEEHIVE_CONFIG, params.toString(), newBeehive.getToken()));
-        }
+        actions.add(new Action(ActionType.CHANGE_BEEHIVE_CONFIG, params.toString(), newBeehive.getToken()));
 
        return actions;
     }

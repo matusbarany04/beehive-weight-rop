@@ -28,6 +28,7 @@
   let locationResults;
   let coordinateList;
   let oldInterval;
+  let actions;
   let coordinates = { latitude: 0, longitude: 0 };
   let connectionMode = "GSM";
   let sensors = {};
@@ -46,6 +47,10 @@
 
   onMount(() => setUnsavedData(true));
 
+  fetch("/actions/getPending?beehiveId=" + props.id)
+    .then((r) => r.json())
+    .then((response) => (actions = response));
+
   onLoad(["beehives"], () => {
     beehive = shared.getBeehiveById(props.id);
     oldInterval = beehive.interval;
@@ -53,7 +58,8 @@
     coordinates.longitude = beehive.longitude;
     connectionMode = beehive["connectionMode"] + "";
     document.title = beehive.name + " - " + message.getMessage();
-    fetchActions();
+
+    showFutureValues();
 
     for (let device of beehive.devices) {
       sensors[device["port"]] = device;
@@ -61,24 +67,15 @@
     }
   });
 
-  function fetchActions() {
-    fetch("/actions/getPending?beehiveId=" + props.id)
-      .then((r) => r.json())
-      .then((actions) => {
-        console.log(beehive);
-        for (let id in actions) {
-          let action = actions[id];
-          if (
-            action.type === "CHANGE_BEEHIVE_CONFIG" &&
-            (action.status === "PENDING" || action.status === "SENT")
-          ) {
-            if (action.params["wifi_ssid"])
-              beehive["wifiSSID"] = action.params["wifi_ssid"];
-            if (action.params["interval"])
-              beehive.interval = action.params["interval"];
-          }
-        }
-      });
+  function showFutureValues() {
+    if (actions) {
+      for (let id in actions) {
+        let action = actions[id];
+        let params = JSON.parse(action.params);
+        if (params["wifi_ssid"]) beehive["wifiSSID"] = params["wifi_ssid"];
+        if (params["interval"]) beehive.interval = params["interval"];
+      }
+    } else setTimeout(showFutureValues, 1000);
   }
 
   function generateName(name) {

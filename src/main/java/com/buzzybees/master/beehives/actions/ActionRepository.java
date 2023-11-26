@@ -31,18 +31,22 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     @Query("SELECT a FROM Action a WHERE a.beehive = :beehive AND a.type = :actionType AND a.execution_time = :time AND a.status = :status")
     Optional<Action> getExistingActionId(String beehive, ActionType actionType, long time, ActionStatus status);
 
+
     default Action saveOrUpdate(Action action) {
         if(action.getType().singleInstance) {
             Optional<Action> actionDB = getExistingActionId(action.getBeehive(), action.getType(), action.getExecutionTime(), action.getStatus());
             actionDB.ifPresent(oldAction -> {
-                action.setId(oldAction.getId());
-                HashMap<String, Object> params = oldAction.getParams();
-                params.putAll(action.getParams());
-                action.setParamsMap(params);
+                if(action.getParams().size() == 0) delete(oldAction);
+                else {
+                    action.setId(oldAction.getId());
+                    HashMap<String, Object> params = oldAction.getParams();
+                    params.putAll(action.getParams());
+                    action.setParamsMap(params);
+                }
             });
         }
 
-        return save(action);
+        return action.getParams().size() > 0 ? save(action) : null;
     }
 
     default void saveOrUpdateAll(List<Action> actions) {
