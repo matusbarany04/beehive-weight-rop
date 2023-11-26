@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
+import org.json.JSONObject;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -109,6 +110,20 @@ public class Action {
 
     public Action(ActionType actionType, String params, String beehiveId) {
         this(actionType, Actions.NOW, params, beehiveId, Actions.AUTHOR_SYSTEM);
+    }
+
+    public JSONObject jsonifyForFrontend(){
+        JSONObject output = new JSONObject();
+
+        output.put("type", type);
+        output.put("id", id);
+        output.put("beehive_id", beehive_id);
+        output.put("createdAt", createdAt);
+        output.put("updatedAt", updatedAt);
+        output.put("params", params);
+        output.put("execution_time", execution_time);
+
+        return output;
     }
 
     public ActionType getType() {

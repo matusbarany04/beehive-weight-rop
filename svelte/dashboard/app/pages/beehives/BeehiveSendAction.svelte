@@ -60,10 +60,10 @@
   let li = getLanguageInstance();
 </script>
 
-<SettingsHeader title="Zaslať akcie" />
+<SettingsHeader title="Zaslať akcie"/>
 
 <SettingsItem>
-  <Button text="Sledovanie akcií zariadenia" onClick={sendAction} />
+  <Button text="Sledovanie akcií zariadenia" onClick={sendAction}/>
 </SettingsItem>
 
 <div class="min-h-48 lg:min-h-24 mx-auto mb-4 rounded-lg bg-white p-4 lg:w-5/6">
@@ -74,8 +74,10 @@
     <ul>
       {#each Object.entries(pendingActions) as [id, action]}
         <li key={id}>
+          {JSON.stringify(action)}
           <p class="mb-4 font-bold">{li.get(`actions.${action.type}`)}</p>
-          <p>{new Date(action.execution_time).toISOString().split("T")[0]}</p>
+          <!--          .toISOString().split("T")[0]-->
+          <p>{new Date(action.execution_time) }</p>
 
           {#each Object.entries(action.params) as [paramKey, paramValue]}
             <div>
@@ -83,7 +85,7 @@
               {JSON.stringify(paramValue)}
             </div>
           {/each}
-          <hr class="my-4" />
+          <hr class="my-4"/>
         </li>
       {/each}
     </ul>
