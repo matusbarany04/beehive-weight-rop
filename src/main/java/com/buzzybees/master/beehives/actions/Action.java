@@ -117,7 +117,7 @@ public class Action {
 
         output.put("type", type);
         output.put("id", id);
-        output.put("beehive_id", beehive_id);
+        output.put("beehive_id", beehive);
         output.put("createdAt", createdAt);
         output.put("updatedAt", updatedAt);
         output.put("params", params);
