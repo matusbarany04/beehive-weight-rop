@@ -9,8 +9,9 @@
 #include "actions.h"
 #include "led.h"
 #include "Button.h"
-#include "configuration.h"
+#include "memory.h"
 #include "power.h"
+#include "enums.h"
 
 #define WEIGHT_SCALE -34850
 
@@ -43,7 +44,7 @@ void setup(void)
 
  /* Config newConfig;
   newConfig.interval = 10;
-  memcpy(newConfig.connectionMode, "WIFI", sizeof(newConfig.connectionMode));
+  newConfig.connectionMode = WIFI;
   memcpy(newConfig.wifi_ssid, "SNPD", sizeof(newConfig.wifi_ssid));
   memcpy(newConfig.wifi_password, "ke257-NT_61_ab", sizeof(newConfig.wifi_password));
   save(newConfig);*/
@@ -90,8 +91,10 @@ void setup(void)
 
   for(int i = 0; i < actions.size(); i++) {
     JsonObject action = actions[i];
-    String type = action["type"];
-    if(action["executionTime"] == 0) actionManager.exec(action["type"], action["id"], action["params"]);
+    ActionType actionType = parseActionType(action["type"]);
+
+    if(action["executionTime"] == 0) actionManager.exec(actionType, action["id"], action["params"]);
+    else actionManager.schedule(actionType, action["id"], action["executionTime"], action["params"]);
   }
 
   if(actions.size() > 0) networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
@@ -133,25 +136,28 @@ String testConnection(String wifiSSID, String wifiPasswd) {
 }
 
 void handleActions() {
-  actionManager.addAction("BURN_SENSOR_ID", [] (JsonObject params) -> String {
+  actionManager.addAction(BURN_SENSOR_ID, [] (JsonObject params) -> String {
     bool success = sensorManager.burnSensorId(params["port"], params["sensorId"]);
     return success ? "DONE" : "DEVICE_NOT_FOUND";
   });
-  actionManager.addAction("CHANGE_BEEHIVE_CONFIG", [](JsonObject params) -> String { 
+  actionManager.addAction(CHANGE_BEEHIVE_CONFIG, [](JsonObject params) -> String {
     return changeConfig(params);
   });
-  actionManager.addAction("WAKE_UP", [](JsonObject params) -> String { 
+  actionManager.addAction(WAKE_UP, [](JsonObject params) -> String { 
     wakeUp = true;
+    return "DONE";
+  });
+  actionManager.addAction(FACTORY_RESET, [](JsonObject params) -> String {
+    factoryReset();
+    load(&config);
     return "DONE";
   });
 }
 
 String changeConfig(JsonObject params) {
     String interval = params["interval"];
-    Serial.println(interval);
-    if(params["interval"] != "null") config.interval = params["interval"];
-    if(params["connectionMode"] != "null") memcpy(config.connectionMode, params["connectionMode"].as<String>().c_str(), sizeof(config.connectionMode));
-
+    if(params.containsKey("interval")) config.interval = params["interval"];
+    if(params.containsKey("connectionMode")) config.connectionMode = parseConnectionMode(params["connectionMode"]);
     save(config);
     
     String ssid = params["wifi_ssid"];

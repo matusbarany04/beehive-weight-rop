@@ -132,10 +132,10 @@ public class BeeController extends DatabaseController {
                 ActionStatus newStatus = ActionStatus.valueOf((String) actionStatusChange.get("status"));
                 action.setStatus(newStatus);
 
-                if(newStatus != ActionStatus.DONE) Notifications.errorAlert(action);
-
                 Actions.invokeCallbacks(action);
                 actionRepository.save(action);
+
+                if(newStatus != ActionStatus.DONE) Notifications.errorAlert(action);
 
             } catch (IllegalArgumentException | NullPointerException ignored){
                 invalidActions = true;
