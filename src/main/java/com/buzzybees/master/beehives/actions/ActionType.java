@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 public enum ActionType {
 
+    UPDATE_STATUS("UPDATE_STATUS"),
     MOTOR_MOVE("MOTOR_MOVE"),
 
     WAKE_UP("WAKE_UP", false, true),

@@ -32,17 +32,19 @@ class ActionManager {
             
             if(action != NULL) {
                 String status = action->function(params);
-                DynamicJsonDocument prevDoc = *executedActions;
-                executedActions = new DynamicJsonDocument(executedActions->capacity() + JSON_OBJECT_SIZE(3));
-                executedActions->set(prevDoc);
-                JsonObject json = executedActions->createNestedObject();
-                json["id"] = id;
-                json["status"] = status;
+                if(id != 0) {
+                    DynamicJsonDocument prevDoc = *executedActions;
+                    executedActions = new DynamicJsonDocument(executedActions->capacity() + JSON_OBJECT_SIZE(3));
+                    executedActions->set(prevDoc);
+                    JsonObject json = executedActions->createNestedObject();
+                    json["id"] = id;
+                    json["status"] = status;
+                }
             }
         }
 
         void schedule(ActionType type, long id, long executionTime, JsonObject params = JsonObject()) {
-            ScheduledAction action = {type, "", executionTime};
+            ScheduledAction action = {id, type, "", executionTime};
             serializeJson(params, action.params);
             bool success = saveAction(action);
 
@@ -69,6 +71,7 @@ class ActionManager {
 
         Action* getAction(ActionType type) {
             for(int i = 0; i < actionCount; i++) {
+                Serial.println(actions[i]->type);
                 if(actions[i]->type == type) return actions[i];
             }
 

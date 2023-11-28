@@ -80,7 +80,7 @@ class SensorManager {
             json["status"] = "ok";
 
             String output;
-            serializeJson(json, output);    
+            serializeJson(json, output); 
 
             return output;
         }

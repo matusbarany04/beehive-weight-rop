@@ -16,6 +16,9 @@
 #define WEIGHT_SCALE -34850
 
 void pair();
+void connect();
+void updateStatus();
+void executeActions(JsonArray actions);
 String changeConfig(JsonObject params);
 
 int address = 0;
@@ -31,74 +34,64 @@ LED led(19);
 Button button(21);
 
 Config config = {};
+long wakeUpTime;
 bool wakeUp = false;
+bool isConnected = false;
 
 //HX711 scale;
 
 void handleActions();
  
-void setup(void)
+void setup()
 {
   Serial.begin(9600);
   led.indicate(OK);
+  handleActions();
 
- /* Config newConfig;
-  newConfig.interval = 10;
-  newConfig.connectionMode = WIFI;
-  memcpy(newConfig.wifi_ssid, "SNPD", sizeof(newConfig.wifi_ssid));
-  memcpy(newConfig.wifi_password, "ke257-NT_61_ab", sizeof(newConfig.wifi_password));
-  save(newConfig);*/
   load(&config);
 
-  Serial.println();
-  Serial.println(config.interval);
-  Serial.println(config.wifi_ssid);
-  Serial.println(config.wifi_password);
+  wakeUpTime = 1701187047;
 
- // config.wifi_ssid = WIFI_SSID;
- // config.wifi_password = WIFI_PASSWORD;
+ // factoryReset();
+  /*ScheduledAction updateStatus = {0, UPDATE_STATUS, "{}", wakeUpTime};
+  saveAction(updateStatus);*/
+
+  long minTimestamp = 0;
+
+  uint8_t actionCount;
+  Serial.println("reading actions");
+  ScheduledAction** scheduledActions = loadScheduledActions(&actionCount);
+
+  for (int i = 0; i < actionCount; i++) {
+    ScheduledAction* action = scheduledActions[i];
+
+    if(action->executionTime <= wakeUpTime) {
+      DynamicJsonDocument params(128);
+      deserializeJson(params, action->params);
+      Serial.println(action->type);
+      actionManager.exec(action->type, action->id, params.as<JsonObject>());
+      
+      deleteAction(action);
+      free(scheduledActions[i]);
+
+    } else if(minTimestamp == 0 || action->executionTime < minTimestamp) minTimestamp = action->executionTime;
+  }
+
+  free(scheduledActions);
+
+  //updateStatus();
+ // 
+
+  //networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
 
 /*
   scale.begin(22, 23);
   scale.set_scale(WEIGHT_SCALE); //This value is obtained by using the SparkFun_HX711_Calibration sketch
   scale.tare();*/
 
-
-  //sensorManager.resetSensor(0);
- 
-  led.indicate(CONNECTING);
   //sensorManager.burn(1, {"", 1000, TEMPERATURE, 0});
   //sensorManager.burn(2, {"", 1000, LIGHT, 0});
 
-  sensorManager.scan();
-
-  Serial.println("JSON:");
-  String json = sensorManager.buildJSON();
-  Serial.println(json);
-
-  networkManager.connect(config.wifi_ssid, config.wifi_password);
-  networkManager.setContentType("application/json");
-  networkManager.setDefaultHostname(SERVER_URL);
-
-
-  handleActions();
-
-  networkManager.POST("/updateStatus", json);
-  DynamicJsonDocument response = networkManager.getResponseJSON();
-  JsonArray actions = response["actions"];
-
-  Serial.println(networkManager.getRequestResult());
-
-  for(int i = 0; i < actions.size(); i++) {
-    JsonObject action = actions[i];
-    ActionType actionType = parseActionType(action["type"]);
-
-    if(action["executionTime"] == 0) actionManager.exec(actionType, action["id"], action["params"]);
-    else actionManager.schedule(actionType, action["id"], action["executionTime"], action["params"]);
-  }
-
-  if(actions.size() > 0) networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
-  
 
   led.indicate(REQUEST_SUCCESS);
 
@@ -109,7 +102,59 @@ void setup(void)
   led.off();
 
   networkManager.turn_wifi_off();
-  //if(!wakeUp) Power::sleep(config.interval * 60);
+  saveNextTime(minTimestamp);
+  if(!wakeUp) Power::sleep(wakeUpTime + millis() / 1000 - minTimestamp);
+}
+
+
+
+void connect() {
+ // led.indicate(CONNECTING);
+  switch (config.connectionMode) {
+    case GSM:
+        break;
+
+    case WIFI:
+      networkManager.connect(config.wifi_ssid, config.wifi_password);
+      networkManager.setContentType("application/json");
+      networkManager.setDefaultHostname(SERVER_URL);
+      
+    case OTHER_BEEHIVE:
+      break;
+  }
+  isConnected = true;
+}
+
+void updateStatus() {
+  sensorManager.scan();
+
+  String json = sensorManager.buildJSON();
+  Serial.println(json);
+
+  if(!isConnected) connect();
+
+  Serial.println("Connected");
+
+  networkManager.POST("/updateStatus", json);
+  DynamicJsonDocument response = networkManager.getResponseJSON();
+  executeActions(response["actions"]);
+  Serial.println(networkManager.getRequestResult());
+}
+
+
+void executeActions(JsonArray actions) {
+  for(int i = 0; i < actions.size(); i++) {
+    JsonObject action = actions[i];
+    ActionType actionType = parseActionType(action["type"]);
+
+    if(action["executionTime"] == 0) actionManager.exec(actionType, action["id"], action["params"]);
+    else actionManager.schedule(actionType, action["id"], action["executionTime"], action["params"]);
+  }
+
+  if(actions.size() > 0) networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
+
+  ScheduledAction updateStatus = {0, UPDATE_STATUS, "{}", wakeUpTime + millis() / 1000 + config.interval * 60};
+  saveAction(updateStatus);
 }
 
 void pair() {
@@ -136,6 +181,10 @@ String testConnection(String wifiSSID, String wifiPasswd) {
 }
 
 void handleActions() {
+  actionManager.addAction(UPDATE_STATUS, [] (JsonObject params) -> String {
+    updateStatus();
+    return "DONE";
+  });
   actionManager.addAction(BURN_SENSOR_ID, [] (JsonObject params) -> String {
     bool success = sensorManager.burnSensorId(params["port"], params["sensorId"]);
     return success ? "DONE" : "DEVICE_NOT_FOUND";
@@ -172,7 +221,7 @@ String changeConfig(JsonObject params) {
         memcpy(config.wifi_password, wifi_passwd.c_str(), sizeof(config.wifi_password));
         save(config);
 
-      } else networkManager.connect(config.wifi_ssid, config.wifi_password);
+      } else connect();
 
       return status;
     }
@@ -183,8 +232,6 @@ String changeConfig(JsonObject params) {
 }
 
 
-
- 
 void loop()
 {  
  // Serial.println(scale.get_units(), 1);
