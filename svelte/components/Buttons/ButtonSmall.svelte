@@ -17,6 +17,9 @@
    * @param {string} link optional, if specified button will redirect before action
    */
   export let link;
+
+  export let className = "";
+
   /**
    * @param {function} onClick function when the button is clicked
    */
@@ -26,7 +29,7 @@
 </script>
 
 <button
-  class="root flex h-min w-min rounded-lg px-2 btn-{type}"
+  class="{className} root flex h-min w-min rounded-lg px-2 btn-{type}"
   on:click={() => {
     onClick();
     if (link) {

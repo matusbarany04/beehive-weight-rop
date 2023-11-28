@@ -36,7 +36,6 @@
 
   try {
     let beehives = shared.getBeehives();
-    // console.log("cardStates.data.length === beehives.length",cardStates.data, cardStates.data.length, Object.keys(beehives).length)
     if (beehivelist.length === Object.keys(beehives).length) {
       allSelected = true;
     }
@@ -49,7 +48,6 @@
       beehivelist.length === beehives.length
     ) {
       allSelected = true;
-      // console.log("CardStates", cardStates);
       // noDataError is replaced with all weight from all devices
       // error = "NoDataError";
       beehivelist = [];
@@ -240,7 +238,6 @@
             type: "time",
             formatter: function (value) {
               const date = new Date(parseInt(value));
-              console.log("date", date);
               return `${months[date.getMonth()]}.${date.getDate()}`; // should be like Nov 13
             },
           },

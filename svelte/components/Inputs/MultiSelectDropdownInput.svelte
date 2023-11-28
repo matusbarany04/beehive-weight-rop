@@ -1,7 +1,11 @@
 <script>
   import {onMount, tick} from "svelte";
-
-
+  import ButtonSmall from "../Buttons/ButtonSmall.svelte";
+  import {clickOutside} from "../lib/clickOutside";
+  import {BeehiveObj} from "../../dashboard/app/stores/Beehive";
+  import shared from "../../dashboard/app/stores/shared";
+  
+  
   /**
    * @param {string} type - Type attribute for the select, although not used in the template. Defaults to 'text'.
    */
@@ -41,6 +45,9 @@
    */
   export let options;
 
+
+  export let default_option;
+
   /**
    * @param {boolean} inline - If set, the label will be on the left and the input on the right. Optional.
    */
@@ -57,25 +64,70 @@
 
   let innerOnChange = () => {
     tick().then(() => {
-      value = selectValue
-      console.log("values was changed to ", selectValue)
-      // onChange(values)
-    })
+      // changing value
+      value = Object.keys(selectValue);
+      onChange(Object.keys(selectValue))
+    });
+  };
 
+  let selectValue = {};
+  
+  if (Array.isArray(value)) {
+    for (const val of value) {
+      selectValue[val] = shared.getBeehiveById(val)?.name ;
+    }
+  } else if (value == null) {
+    selectValue[default_option[0]] = default_option[1]
+  } else {
+    selectValue[value] = value;
+  }
+
+
+  let optionList = {};
+  for (const optionListKey of options) {
+    optionList[optionListKey[0]] = optionListKey[1];
   }
 
   function typeAction(node) {
     node.type = type;
   }
 
-  let selectValue = [];
+  let focused = false;
 
-  // if (Array.isArray(value)) {
-  //   selectValue = value;
-  // } else {
-  //   selectValue = [value];
-  // }
+  function handleClickOutside(event) {
+    focused = false;
+  }
 
+  function clickInside(event) {
+    focused = true;
+    if (Object.entries(optionList).length === 0) {
+      focused = false;
+    }
+  }
+
+  $: {
+    // if (Object.entries(optionList).length > 0){
+    //   optionList[default_option[0]] = default_option[1]; 
+    // } 
+
+    if (Object.keys(selectValue).length === 0) {
+      selectValue[default_option[0]] = default_option[1]
+    }
+
+    if (Object.keys(selectValue).length === 0) {
+      optionList[default_option[0]] = default_option[1];
+    }
+
+    if (Object.keys(selectValue).length > 1) {
+      delete selectValue[default_option[0]]
+      delete optionList[default_option[0]]
+    }
+
+    if (Object.keys(optionList).length < options.length) {
+      delete optionList[default_option[0]]
+    }
+
+  }
 </script>
 
 <div class={(inline ? "flex items-center gap-2" : "") + " mb-4 " + className}>
@@ -85,21 +137,63 @@
   {#if small}
     <small>{small}</small><br/>
   {/if}
-  <!-- selected -->
-  <div class="w-full h-8 rounded-md border-2 border-slate-300 bg-white px-4">
-    {#each selectValue as beehive_id}
-        <strong>{beehive_id}</strong>
-    {/each}
-  </div>
-  <select  class="min-h-24 w-full rounded-md border-2 border-slate-300 bg-white px-4"
+
+  <div
+    class="relative"
+    on:click={clickInside}
+    use:clickOutside
+    on:click_outside={handleClickOutside}
+  >
+    <div
+      class="relative block min-h-[32px] w-full rounded-md border-2 border-slate-300 bg-white px-4"
+    >
+      {#each Object.entries(selectValue) as [param, displayValue] (param)}
+        <div class="m-1 inline-block" key={param}>
+          <ButtonSmall
+            className="inline-block"
+            text={displayValue}
+            onClick={() => {
+              delete selectValue[param];
+              optionList[param] = displayValue;
+              
+               innerOnChange()
+            }}
+          ></ButtonSmall>
+        </div>
+      {/each}
+      {#if focused}
+        <div
+          class="absolute -bottom-[6.25rem] left-0 z-50 h-24 w-full overflow-y-scroll rounded-md border-2 border-slate-300 bg-white px-4"
           on:change={(event) => innerOnChange()}
           {name}
-          bind:value={selectValue}
           id="pet-select"
+        >
+          {#each Object.entries(optionList) as [optionKey, optionValue]}
+            <option
+              on:click={() => {
+                selectValue[optionKey] = optionValue;
+                delete optionList[optionKey];
+                optionList = optionList;
+                innerOnChange()
+              }}
+              value={optionKey}>{optionList[optionKey]}
+
+            </option
+            >
+          {/each}
+        </div>
+      {/if}
+    </div>
+  </div>
+  <select id="multipleSelect"
+          multiple
+          {name}
+          value={value}
+          class="invisible w-0 h-0"
   >
     {#each options as option}
       <option value={option[0]}>{option[1]}</option>
     {/each}
   </select>
-  <p>{selectValue}</p>
+
 </div>
