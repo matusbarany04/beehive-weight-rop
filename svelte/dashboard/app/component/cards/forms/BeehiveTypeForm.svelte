@@ -4,9 +4,9 @@
 
   export let beehiveId = "all";
 
-  import { BeehiveObj } from "../../stores/Beehive";
-  import shared from "../../stores/shared";
-  import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
+  import { BeehiveObj } from "../../../stores/Beehive";
+  import shared from "../../../stores/shared";
+  import DropdownInput from "../../../../../components/Inputs/DropdownInput.svelte";
 
   let typeChoiceList = [];
 

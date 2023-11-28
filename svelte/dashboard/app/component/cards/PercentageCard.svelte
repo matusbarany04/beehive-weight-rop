@@ -3,7 +3,7 @@
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import { getUnitByType } from "../../../../components/lib/utils/staticFuncs";
-  import BeehiveTypeForm from "./BeehiveTypeForm.svelte";
+  import BeehiveTypeForm from "./forms/BeehiveTypeForm.svelte";
 
   export let cardStates;
 

@@ -60,7 +60,7 @@
     user = userObj;
     message.setMessage("Dobrý deň, včelár " + user.name + "!");
     cardList = JSON.parse(user.dashboardData);
-    console.log(user);
+    // console.log(user);
     // renderCards = true;
   });
 

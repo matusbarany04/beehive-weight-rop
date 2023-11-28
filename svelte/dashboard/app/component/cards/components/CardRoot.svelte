@@ -62,7 +62,7 @@
   export let onDragStart; // function
 
   let dragDisabled = false;
-  let showSettings = false;
+  let showSettings = true; // todo change to false
 
   let coords = spring(
     { x: 0, y: 0 },

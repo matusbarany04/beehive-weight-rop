@@ -7,7 +7,7 @@
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import { BeehiveObj } from "../../stores/Beehive";
-  import BeehiveTypeForm from "./BeehiveTypeForm.svelte";
+  import BeehiveTypeForm from "./forms/BeehiveTypeForm.svelte";
 
   /**
    * @type {Object}
