@@ -144,7 +144,7 @@
       });
   }
   
-  setInterval(refreshSensorView, 3000);
+  setInterval(refreshSensorView, 5000);
 </script>
 
 <svelte:head>
