@@ -105,8 +105,6 @@ export default {
    * @return {BeehiveObj}
    */
   getBeehiveById: function (beehive_id) {
-    console.log("getBeehiveById", beehive_id);
-    console.log("getBeehiveById", this.getBeehives());
     return this.getBeehives()[beehive_id];
   },
 

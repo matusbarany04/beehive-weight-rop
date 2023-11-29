@@ -16,7 +16,7 @@
   /**
    * @param {string} link optional, if specified button will redirect before action
    */
-  export let link;
+  export let link = null;
 
   export let className = "";
 
@@ -34,7 +34,7 @@
     onClick();
     if (link) {
       navigateWithPrefix(link);
-    }
+    } 
   }}
 >
   {#if image}
