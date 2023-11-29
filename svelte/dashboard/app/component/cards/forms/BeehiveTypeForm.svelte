@@ -4,9 +4,9 @@
 
   export let beehiveId = "all";
 
-  import { BeehiveObj } from "../../stores/Beehive";
-  import shared from "../../stores/shared";
-  import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
+  import { BeehiveObj } from "../../../stores/Beehive";
+  import shared from "../../../stores/shared";
+  import DropdownInput from "../../../../../components/Inputs/DropdownInput.svelte";
 
   let typeChoiceList = [];
 
@@ -22,7 +22,6 @@
 
     // if choice is not in new typeChoiceList reset back to primary
     if (!typeChoiceList.some(([key]) => key === typeChoice)) {
-      console.log("Not inside ", typeChoice, typeChoiceList);
       typeChoice = BeehiveObj.getPrimaryDataType();
     }
   };
@@ -39,7 +38,7 @@
   className=""
   name="beehive_id"
   onChange={updateDataTypeList}
-  value={beehive_value}
+  value={beehiveId}
   small={"Váha pre ktorú sa budú zobrazovať dáta"}
   options={[["all", "all"], ...shared.getBeehiveIdsWithNames()]}
 />

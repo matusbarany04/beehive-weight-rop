@@ -5,6 +5,18 @@
     "HIBERNATE" : "Hibernácia" ,
     "ENABLE_SHARING_CONNECTION" : "Povoliť zdieľanie spojenia",
     "BURN_SENSOR_ID" : "Uložiť id senzora",
-    "CHANGE_BEEHIVE_CONFIG" : "Zmena konfigurácie zariadenia"
+    "CHANGE_BEEHIVE_CONFIG" : "Zmena konfigurácie zariadenia",
+    "FACTORY_RESET": "Obnoviť všetky nastavenia na predvolené"
+  },
+  "statuses": {
+    "DONE": "DOKONČENÉ",
+    "PENDING": "ČAKÁ SA",
+    "SENT": "ODOSLANÉ",
+    "SCHEDULED": "NAPLÁNOVANÉ",
+    "WIFI_CONNECTION_FAILED": "Nesprávne heslo alebo chyba pri pripojení k WiFi",
+    "WIFI_NO_SSID_AVAIL": "WiFi sieť nebola nájdená",
+    "DEVICE_NOT_FOUND": "Senzor alebo iné zariadenie nebolo nenájdené",
+    "UNKNOWN_ERROR": "Neznáma chyba",
+    "BEEHIVE_IS_OFFLINE": "Včelí úľ je offline"
   }
 }

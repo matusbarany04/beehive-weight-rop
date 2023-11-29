@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
+import org.json.JSONObject;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,9 +23,8 @@ public class Action {
     @Enumerated(EnumType.STRING)
     private ActionType type;
 
-    @JsonProperty("execution_time") // toto tu musi byt inak mi nejde routa, post
     @Column(name = "execution_time")
-    private long execution_time = 0;
+    private long executionTime = 0;
 
     @Column(name = "params", columnDefinition = "json", nullable = false)
     private String params = "{}";
@@ -47,13 +47,14 @@ public class Action {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "beehive_id")
-    private String beehive_id;
+    private String beehive;
 
-
+    @JsonIgnore
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
 
+    @JsonIgnore
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
@@ -64,7 +65,7 @@ public class Action {
     }
 
     public String getBeehive() {
-        return beehive_id;
+        return beehive;
     }
 
     public long getAuthor() {
@@ -81,6 +82,7 @@ public class Action {
         }
     }
 
+    @JsonIgnore
     public String getParamsJSON() {
         return params;
     }
@@ -93,16 +95,16 @@ public class Action {
         this.type = actionName;
     }
 
-    public Action(ActionType actionName, long time) {
-        this(actionName);
-        this.execution_time = time;
+    public Action(ActionType type, long executionTime) {
+        this(type);
+        this.executionTime = executionTime;
     }
 
-    public Action(ActionType actionName, long time, String params, String beehiveId, long authorId) {
-        this(actionName, time);
+    public Action(ActionType type, long executionTime, String params, String beehive, long author) {
+        this(type, executionTime);
         this.params = params;
-        this.author = authorId;
-        this.beehive_id = beehiveId;
+        this.author = author;
+        this.beehive = beehive;
         this.status = ActionStatus.PENDING;
     }
 
@@ -110,12 +112,27 @@ public class Action {
         this(actionType, Actions.NOW, params, beehiveId, Actions.AUTHOR_SYSTEM);
     }
 
+    public JSONObject jsonifyForFrontend(){
+        JSONObject output = new JSONObject();
+
+        output.put("type", type);
+        output.put("id", id);
+        output.put("status", status);
+        output.put("beehive_id", beehive);
+        output.put("createdAt", createdAt);
+        output.put("updatedAt", updatedAt);
+        output.put("params", params);
+        output.put("executionTime", executionTime);
+
+        return output;
+    }
+
     public ActionType getType() {
         return type;
     }
 
     public long getExecutionTime() {
-        return execution_time;
+        return executionTime;
     }
 
     public void setAuthor(long author) {
@@ -134,7 +151,7 @@ public class Action {
         this.status = status;
     }
 
-    public void setParams(HashMap<String, Object> params) {
+    public void setParamsMap(HashMap<String, Object> params) {
         try {
             this.params = new ObjectMapper().writeValueAsString(params);
         } catch (JsonProcessingException e) {

@@ -47,16 +47,15 @@ public class Actions {
                 if(newBeehive.getSim_password().length() > 0) params.put("sim_password", newBeehive.getSim_password());
             }
             case WIFI -> {
-                params.put("wifi_ssid", newBeehive.getWifiSSID());
+                String oldSSID = oldBeehive.getWifiSSID();
+                if(oldSSID == null || !oldSSID.equals(newBeehive.getWifiSSID())) params.put("wifi_ssid", newBeehive.getWifiSSID());
                 String passwd = newBeehive.getWifi_password();
                 if(passwd.length() > 0) params.put("wifi_password", passwd);
             }
             case OTHER_BEEHIVE -> actions.add(new Action(ActionType.ENABLE_SHARING_CONNECTION, null, newBeehive.getLinkedTo()));
         }
 
-        if(params.keySet().size() > 0) {
-            actions.add(new Action(ActionType.CHANGE_BEEHIVE_CONFIG, params.toString(), newBeehive.getToken()));
-        }
+        actions.add(new Action(ActionType.CHANGE_BEEHIVE_CONFIG, params.toString(), newBeehive.getToken()));
 
        return actions;
     }

@@ -58,7 +58,7 @@
 <button
   form={formId}
   type={clickType}
-  on:click={() => {
+  on:click|preventDefault={() => {
     if (enabled) {
       onClick();
       if (link) {

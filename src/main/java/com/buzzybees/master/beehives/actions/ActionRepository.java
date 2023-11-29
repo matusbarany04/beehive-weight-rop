@@ -13,35 +13,40 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     @Query("SELECT a FROM Action a WHERE a.author = :author")
     Action[] getAllByAuthor(long author);
 
-    @Query("SELECT a FROM Action a WHERE a.execution_time = :time")
+    @Query("SELECT a FROM Action a WHERE a.executionTime = :time")
     Action[] getAllByTime(long time);
 
-    @Query("SELECT a FROM Action a WHERE a.author = :author AND a.execution_time = :time")
+    @Query("SELECT a FROM Action a WHERE a.author = :author AND a.executionTime = :time")
     Action[] getAllByAuthorAndTime(long author, long time);
 
     @Query("SELECT a FROM Action a WHERE a.id = :id")
     Action getActionById(long id);
 
-
-    @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehiveId")
+    @Query("SELECT a FROM Action a WHERE a.beehive = :beehiveId")
     Action[] getActionsByBeehiveId(String beehiveId);
 
-    @Query("SELECT a FROM Action a WHERE a.beehive_id = :beehive AND a.type = :actionType AND a.execution_time = :time")
-    Optional<Action> getExistingActionId(String beehive, ActionType actionType, long time);
+    @Query("SELECT a FROM Action a WHERE a.beehive = :beehiveId AND (a.status = 'PENDING' OR a.status = 'SENT')")
+    Action[] getPendingActionsByBeehiveId(String beehiveId);
+
+    @Query("SELECT a FROM Action a WHERE a.beehive = :beehive AND a.type = :actionType AND a.executionTime = :time AND a.status = :status")
+    Optional<Action> getExistingActionId(String beehive, ActionType actionType, long time, ActionStatus status);
+
 
     default Action saveOrUpdate(Action action) {
         if(action.getType().singleInstance) {
-            Optional<Action> actionDB = getExistingActionId(action.getBeehive(), action.getType(), action.getExecutionTime());
+            Optional<Action> actionDB = getExistingActionId(action.getBeehive(), action.getType(), action.getExecutionTime(), action.getStatus());
             actionDB.ifPresent(oldAction -> {
-                action.setId(oldAction.getId());
-                System.out.println(action.getParams());
-                HashMap<String, Object> params = oldAction.getParams();
-                params.putAll(action.getParams());
-                action.setParams(params);
+                if(action.getParams().size() == 0) delete(oldAction);
+                else {
+                    action.setId(oldAction.getId());
+                    HashMap<String, Object> params = oldAction.getParams();
+                    params.putAll(action.getParams());
+                    action.setParamsMap(params);
+                }
             });
         }
 
-        return save(action);
+        return action.getParams().size() > 0 ? save(action) : null;
     }
 
     default void saveOrUpdateAll(List<Action> actions) {

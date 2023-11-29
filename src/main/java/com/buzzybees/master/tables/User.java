@@ -1,5 +1,6 @@
 package com.buzzybees.master.tables;
 
+import com.buzzybees.master.language.Language;
 import com.buzzybees.master.security.PasswordUtils;
 import com.buzzybees.master.users.UserRepository;
 import jakarta.persistence.*;
@@ -31,6 +32,10 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "language")
+    @Enumerated(EnumType.STRING)
+    private Language language = Language.SK;
 
     @Column(name = "dashboard_data", columnDefinition = "json", nullable = false)
     private String dashboardData = "[]";
@@ -86,11 +91,20 @@ public class User {
         return String.format("name = %s, id = %d, type = %s, email = %s", name, id, type, email);
     }
 
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", name);
         jsonObject.put("email", email);
         jsonObject.put("id", id);
+        jsonObject.put("language", language.toString());
         jsonObject.put("type", type);
         jsonObject.put("verified", verified);
         jsonObject.put("dashboardData", dashboardData);

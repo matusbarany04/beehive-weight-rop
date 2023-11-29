@@ -1,5 +1,6 @@
 package com.buzzybees.master.controllers.template;
 
+import com.buzzybees.master.beehives.actions.Action;
 import org.attoparser.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
@@ -19,11 +20,11 @@ public abstract class DatabaseController implements ApplicationContextAware {
     @Autowired
     private ApplicationContext applicationContext;
 
-    private static ApplicationContext staticContext;
+    private static Repositories repositories;
 
     @Override
     public void setApplicationContext(@NotNull ApplicationContext applicationContext) throws BeansException {
-        staticContext = applicationContext;
+        repositories = new Repositories(applicationContext);
     }
 
     /**
@@ -47,7 +48,6 @@ public abstract class DatabaseController implements ApplicationContextAware {
      */
     @SuppressWarnings("unchecked")
     public static <R, I extends CrudRepository<E, I>, E> R accessRepo(Class<E> entity) {
-        Repositories repositories = new Repositories(staticContext);
         Optional<Object> repo = repositories.getRepositoryFor(entity);
         return (R) repo.orElse(null);
     }

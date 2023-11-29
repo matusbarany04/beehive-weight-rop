@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 public enum ActionType {
 
+    UPDATE_STATUS("UPDATE_STATUS"),
     MOTOR_MOVE("MOTOR_MOVE"),
 
     WAKE_UP("WAKE_UP", false, true),
@@ -12,7 +13,8 @@ public enum ActionType {
     ENABLE_SHARING_CONNECTION("ENABLE_SHARING_CONNECTION", true, true),
 
     BURN_SENSOR_ID("BURN_SENSOR_ID", true),
-    CHANGE_BEEHIVE_CONFIG("CHANGE_CONFIG", true, true);
+    CHANGE_BEEHIVE_CONFIG("CHANGE_CONFIG", true, true),
+    FACTORY_RESET("FACTORY_RESET", false, true);
 
     public final String name;
 

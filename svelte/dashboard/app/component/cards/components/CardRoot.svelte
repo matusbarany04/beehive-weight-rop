@@ -83,6 +83,7 @@
   async function handleSubmit(event) {
     // we get form data
     const data = new FormData(this);
+
     form = {};
     // console.log("saving these data", data);
     let title = data.get("title");

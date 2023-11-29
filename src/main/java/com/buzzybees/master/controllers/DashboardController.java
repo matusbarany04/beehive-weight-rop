@@ -268,6 +268,13 @@ public class DashboardController extends CookieAuthController {
         return new ApiResponse();
     }
 
+    @GetMapping("/getDeviceConfig")
+    public ApiResponse getDeviceConfig(@RequestParam("beehive") String beehiveToken) throws OwnershipException {
+        Beehive beehive = beehiveRepository.getBeehiveByToken(beehiveToken);
+        if(currentUserId != beehive.getUserId()) throw new OwnershipException();
+        return new ApiResponse("devices", beehive.getDevices());
+    }
+
     /**
      * saves beehive settings to database
      *
@@ -288,7 +295,7 @@ public class DashboardController extends CookieAuthController {
         beehive.setModel(targetBeehive.getModel());
 
         Actions.handleResponse(beehive, ActionType.CHANGE_BEEHIVE_CONFIG, action -> {
-            if(action.getStatus() == ActionStatus.DONE) beehiveRepository.save(beehive);
+             if(action.getStatus() == ActionStatus.DONE) beehiveRepository.save(beehive);
         });
 
         DeviceRepository deviceRepository = getRepo(Device.class);

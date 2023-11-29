@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
 import javax.xml.crypto.Data;
@@ -23,6 +24,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "notifications")
+@EntityListeners(AuditingEntityListener.class)
 public class Notification {
 
     public enum Type {
@@ -55,8 +57,9 @@ public class Notification {
     @Column(name = "seen")
     private boolean seen = false;
 
+    @CreatedDate
     @Column(name = "timestamp")
-    private Date timestamp = new Date();
+    private Date timestamp;
 
 
     public Notification() {

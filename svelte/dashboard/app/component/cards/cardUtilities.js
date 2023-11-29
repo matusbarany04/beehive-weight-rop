@@ -5,6 +5,7 @@ import MapCard from "./MapCard.svelte";
 import WeatherCard from "./WeatherCard.svelte";
 import DoubleGraph from "./DoubleGraph.svelte";
 import EChart from "./EChart.svelte";
+import Doughnut from "./Doughnut.svelte";
 /**
  *  this method will return title, span, position and other attributes of the element
  * @param {*} id of the card
@@ -24,6 +25,7 @@ const cardtypes = [
   { format: "MapCard", component: MapCard },
   { format: "WeatherCard", component: WeatherCard },
   { format: "TestCard", component: TestCard },
+  { format: "Doughnut", component: Doughnut },
 ];
 
 export function getCardTypes() {

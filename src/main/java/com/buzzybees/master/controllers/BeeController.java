@@ -5,6 +5,7 @@ import com.buzzybees.master.beehives.actions.*;
 import com.buzzybees.master.beehives.devices.*;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
+import com.buzzybees.master.notifications.Notifications;
 import com.buzzybees.master.tables.Status;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.json.JSONObject;
@@ -42,7 +43,7 @@ public class BeeController extends DatabaseController {
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateStatus(@RequestBody Status.Request statusRequest) {
         // actionRepository.removeDoneActions();
-        List<Action> actions = new ArrayList<>(List.of(actionRepository.getActionsByBeehiveId(statusRequest.getBeehive())));
+        List<Action> actions = new ArrayList<>(List.of(actionRepository.getPendingActionsByBeehiveId(statusRequest.getBeehive())));
 
         statusRequest.setTimestamp(new Date().getTime());
         Status savedStatus = statusRepo.save(statusRequest.getBase());
@@ -131,8 +132,10 @@ public class BeeController extends DatabaseController {
                 ActionStatus newStatus = ActionStatus.valueOf((String) actionStatusChange.get("status"));
                 action.setStatus(newStatus);
 
-                Action newAction = actionRepository.save(action);
-                Actions.invokeCallbacks(newAction);
+                Actions.invokeCallbacks(action);
+                actionRepository.save(action);
+
+                if(newStatus != ActionStatus.DONE) Notifications.errorAlert(action);
 
             } catch (IllegalArgumentException | NullPointerException ignored){
                 invalidActions = true;

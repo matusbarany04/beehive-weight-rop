@@ -48,6 +48,8 @@ export default {
           beehiveJson["connectionMode"],
           beehiveJson["interval"],
           beehiveJson["devices"],
+          beehiveJson["linkedTo"],
+          beehiveJson["wifiSSID"],
         );
       }
 
@@ -96,6 +98,7 @@ export default {
   getBeehives: function () {
     return beehiveList;
   },
+
   /**
    *
    * @param beehive_id
@@ -104,6 +107,17 @@ export default {
   getBeehiveById: function (beehive_id) {
     return this.getBeehives()[beehive_id];
   },
+
+  /**
+   *
+   * @param beehive_id_array
+   * @return {Array<BeehiveObj>}
+   */
+  getBeehivesByIds: function (beehive_id_array) {
+    const beehives = this.getBeehives();
+    return beehive_id_array.map((beehive_id) => beehives[beehive_id]);
+  },
+
   /* might not work properly */
   getBeehiveIdsWithNames: function () {
     return savedData["beehives"].map((object) => {

@@ -28,6 +28,7 @@
   let locationResults;
   let coordinateList;
   let oldInterval;
+  let actions;
   let coordinates = { latitude: 0, longitude: 0 };
   let connectionMode = "GSM";
   let sensors = {};
@@ -46,6 +47,10 @@
 
   onMount(() => setUnsavedData(true));
 
+  fetch("/actions/getPending?beehiveId=" + props.id)
+    .then((r) => r.json())
+    .then((response) => (actions = response));
+
   onLoad(["beehives"], () => {
     beehive = shared.getBeehiveById(props.id);
     oldInterval = beehive.interval;
@@ -53,7 +58,8 @@
     coordinates.longitude = beehive.longitude;
     connectionMode = beehive["connectionMode"] + "";
     document.title = beehive.name + " - " + message.getMessage();
-    fetchActions();
+
+    showFutureValues();
 
     for (let device of beehive.devices) {
       sensors[device["port"]] = device;
@@ -61,37 +67,15 @@
     }
   });
 
-  function fetchActions() {
-    fetch("/actions/getPending?beehiveId=" + props.id)
-      .then((r) => r.json())
-      .then((actions) => {
-        console.log(beehive);
-        for (let id in actions) {
-          let action = actions[id];
-          if (action.type === "CHANGE_BEEHIVE_CONFIG") {
-            if (action.params["wifi_ssid"])
-              beehive["wifiSSID"] = action.params["wifi_ssid"];
-            if (action.params["interval"])
-              beehive.interval = action.params["interval"];
-          }
-        }
-      });
-  }
-
-  function generateName(name) {
-    if (!exist(name)) return name;
-    let newName = name + " 1";
-    for (let i = 2; exist(newName); i++) newName = name + " " + i;
-    return newName;
-  }
-
-  function exist(name) {
-    console.log(sensors);
-    for (let connector in sensors) {
-      console.log(connector);
-      if (sensors[connector].name === name) return true;
-    }
-    return false;
+  function showFutureValues() {
+    if (actions) {
+      for (let id in actions) {
+        let action = actions[id];
+        let params = JSON.parse(action.params);
+        if (params["wifi_ssid"]) beehive["wifiSSID"] = params["wifi_ssid"];
+        if (params["interval"]) beehive.interval = params["interval"];
+      }
+    } else setTimeout(showFutureValues, 1000);
   }
 
   function searchLocation(e) {
@@ -140,11 +124,27 @@
       });
   }
 
-  function onChange(e) {
-    console.log(beehive.interval);
-    console.log(oldInterval);
-    intervalMsg = oldInterval !== beehive.interval;
+  function refreshSensorView() {
+    fetch("/dashboardApi/getDeviceConfig?beehive=" + props.id)
+      .then((r) => r.json())
+      .then((response) => {
+        let usedPorts = [];
+        for (let device of response.devices) {
+          let port = device["port"];
+          usedPorts.push(port);
+          if (!sensors[port] || sensors[port]["id"] !== device.id) {
+            sensors[device["port"]] = device;
+            delete sensors[device["port"]]["port"];
+          }
+        }
+
+        for (let port in sensors) {
+          if (!usedPorts.includes(port)) delete sensors[port];
+        }
+      });
   }
+
+  setInterval(refreshSensorView, 5000);
 </script>
 
 <svelte:head>
@@ -251,6 +251,12 @@
       <div class="m-4 rounded-lg bg-white p-4">
         <div class="m-4 flex items-center">
           <h3 class="w-full font-bold">Senzory</h3>
+          <Button
+            type="secondary"
+            text="Refresh"
+            image="./../../icons/refresh.svg"
+            onClick={refreshSensorView}
+          />
         </div>
         <SensorView bind:devices={sensors} />
       </div>
