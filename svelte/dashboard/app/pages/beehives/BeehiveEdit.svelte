@@ -5,7 +5,7 @@
    */
   import SettingsItem from "../../component/settings/SettingsItem.svelte";
   import Input from "../../../../components/Inputs/Input.svelte";
-  import shared, { onLoad } from "../../stores/shared";
+  import shared, {onLoad} from "../../stores/shared";
   import Loading from "../../../../components/pages/Loading.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import SelectableOption from "../../../../components/Inputs/SelectableOption.svelte";
@@ -15,9 +15,9 @@
   import Modal from "../../../../components/Modal.svelte";
   import SensorView from "../../component/beehives/SensorView.svelte";
   import toast from "../../../../components/Toast/toast";
-  import { setUnsavedData } from "../../../../components/router/route.serv";
-  import { onMount } from "svelte";
-  import { writable } from "svelte/store";
+  import {setUnsavedData} from "../../../../components/router/route.serv";
+  import {onMount} from "svelte";
+  import {writable} from "svelte/store";
 
   export let props;
   const MODEL_WITH_GSM = "BBIMZ-A";
@@ -29,7 +29,7 @@
   let coordinateList;
   let oldInterval;
   let actions;
-  let coordinates = { latitude: 0, longitude: 0 };
+  let coordinates = {latitude: 0, longitude: 0};
   let connectionMode = "GSM";
   let sensors = {};
 
@@ -109,7 +109,7 @@
     formData.append("sensors", JSON.stringify(sensors));
 
     fetch("/dashboardApi/saveDeviceSettings", {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: {"Content-Type": "application/x-www-form-urlencoded"},
       method: "POST",
       body: new URLSearchParams(formData),
     })
@@ -184,12 +184,13 @@
           bind:resultValue={coordinates}
           inline
         />
-        <input type="hidden" name="latitude" value={coordinates.latitude} />
-        <input type="hidden" name="longitude" value={coordinates.longitude} />
+        <input type="hidden" name="latitude" value={coordinates.latitude}/>
+        <input type="hidden" name="longitude" value={coordinates.longitude}/>
         <DropdownInput
           name="interval"
           label="Interval merania"
           options={intervals}
+          onChange="{(newValue)=>{beehive.interval = parseInt(newValue)}}"
           bind:value={beehive.interval}
           inline
         />
@@ -236,7 +237,7 @@
             value={beehive["wifiSSID"]}
             inline
           />
-          <Input type="password" name="wifi_password" label="Heslo" inline />
+          <Input type="password" name="wifi_password" label="Heslo" inline/>
         </SelectableOption>
 
         <SelectableOption
@@ -258,10 +259,10 @@
             onClick={refreshSensorView}
           />
         </div>
-        <SensorView bind:devices={sensors} />
+        <SensorView bind:devices={sensors}/>
       </div>
       <div class="m-4 flex justify-end gap-2">
-        <Button type="primary" formId="device_settings" text="Uložiť zmeny" />
+        <Button type="primary" formId="device_settings" text="Uložiť zmeny"/>
 
         <Button
           type="secondary"
@@ -273,5 +274,5 @@
     </form>
   </div>
 {:else}
-  <Loading />
+  <Loading/>
 {/if}

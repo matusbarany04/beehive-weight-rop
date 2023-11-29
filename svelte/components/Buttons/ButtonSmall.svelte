@@ -34,7 +34,7 @@
     onClick();
     if (link) {
       navigateWithPrefix(link);
-    } 
+    }
   }}
 >
   {#if image}

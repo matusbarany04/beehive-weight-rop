@@ -1,12 +1,12 @@
 <script>
-  import {onMount, tick} from "svelte";
+  import { onMount, tick } from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
   import shared from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
+  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import {BeehiveObj} from "../../stores/Beehive";
+  import { BeehiveObj } from "../../stores/Beehive";
   import BeehiveTypeForm from "./forms/BeehiveTypeForm.svelte";
   import MultiselectBeehiveForm from "./forms/MultiselectBeehiveForm.svelte";
 
@@ -36,8 +36,8 @@
 
   let beehivelist = cardStates.data;
 
-  function getDataFromBeehive(beehive_id, type){
-    console.log("getDataFromBeehive", beehive_id)
+  function getDataFromBeehive(beehive_id, type) {
+    console.log("getDataFromBeehive", beehive_id);
     /** @type {BeehiveObj} */
     let beehiveObject = shared.getBeehiveById(beehive_id);
     if (beehiveObject == null) {
@@ -49,14 +49,13 @@
       error = "NoDataError";
       return null;
     } else {
-
       return {
         name: beehiveObject.name,
-        value: beehiveObject.getLastDataByType(type)
-      }
+        value: beehiveObject.getLastDataByType(type),
+      };
     }
   }
-  
+
   try {
     let beehives = shared.getBeehives();
     // console.log("cardStates.data.length === beehives.length",cardStates.data, cardStates.data.length, Object.keys(beehives).length)
@@ -78,23 +77,18 @@
 
     beehivelist.forEach((element) => {
       //we load all data
-      //  beehive id is and array in this card 
+      //  beehive id is and array in this card
 
       for (const beehive_id of element.beehive_id) {
         if (beehive_id === "all") {
-          // shared.getBeehives is an array 
+          // shared.getBeehives is an array
           Object.keys(shared.getBeehives()).forEach((bee_id) => {
-
-            beehiveData.push(getDataFromBeehive(bee_id,element.type))
-
-          })
+            beehiveData.push(getDataFromBeehive(bee_id, element.type));
+          });
         } else {
-
-          beehiveData.push(getDataFromBeehive(beehive_id,element.type))
-
+          beehiveData.push(getDataFromBeehive(beehive_id, element.type));
         }
       }
-
     });
 
     let initOptions = () => {
@@ -177,8 +171,7 @@
     console.error(e);
   }
 
-  let resizeEvent = () => {
-  };
+  let resizeEvent = () => {};
 </script>
 
 <CardRoot
@@ -202,7 +195,7 @@
   {error}
 >
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full"/>
+    <div {id} class="h-full w-full" />
   </div>
 
   <div class="" slot="customSettings">
