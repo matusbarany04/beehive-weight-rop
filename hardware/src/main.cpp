@@ -52,8 +52,8 @@ void setup()
 
   wakeUpTime = 1701187047;
 
- // factoryReset();
-  /*ScheduledAction updateStatus = {0, UPDATE_STATUS, "{}", wakeUpTime};
+  /*factoryReset();
+  ScheduledAction updateStatus = {0, UPDATE_STATUS, "{}", wakeUpTime};
   saveAction(updateStatus);*/
 
   long minTimestamp = 0;
@@ -71,7 +71,7 @@ void setup()
       Serial.println(action->type);
       actionManager.exec(action->type, action->id, params.as<JsonObject>());
       
-      deleteAction(action);
+     // deleteAction(action);
       free(scheduledActions[i]);
 
     } else if(minTimestamp == 0 || action->executionTime < minTimestamp) minTimestamp = action->executionTime;
@@ -91,6 +91,8 @@ void setup()
 
   //sensorManager.burn(1, {"", 1000, TEMPERATURE, 0});
   //sensorManager.burn(2, {"", 1000, LIGHT, 0});
+
+  
 
 
   led.indicate(REQUEST_SUCCESS);
@@ -152,9 +154,6 @@ void executeActions(JsonArray actions) {
   }
 
   if(actions.size() > 0) networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
-
-  ScheduledAction updateStatus = {0, UPDATE_STATUS, "{}", wakeUpTime + millis() / 1000 + config.interval * 60};
-  saveAction(updateStatus);
 }
 
 void pair() {

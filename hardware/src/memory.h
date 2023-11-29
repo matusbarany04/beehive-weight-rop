@@ -51,7 +51,6 @@ bool saveAction(ScheduledAction action) {
     EEPROM.put(ACTIONS_ADDRESS, actionCount + 1);
     EEPROM.put(ACTIONS_ADDRESS + 1 + actionCount * sizeof(ScheduledAction), action);
     EEPROM.commit();
-    actionCount++;
 
     return true;
 }
@@ -80,8 +79,6 @@ ScheduledAction** loadScheduledActions(uint8_t* actionCount) {
     for (int i = 0; i < *actionCount; i++) {
         ScheduledAction action;
         EEPROM.get(ACTIONS_ADDRESS + i * sizeof(ScheduledAction) + 1, action);
-        Serial.print("addr: ");
-        Serial.println(ACTIONS_ADDRESS + i * sizeof(ScheduledAction) + 1);
         actions[i] = (ScheduledAction*) malloc(sizeof(ScheduledAction));
         *(actions[i]) = action;
     }
