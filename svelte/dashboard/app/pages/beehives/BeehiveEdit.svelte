@@ -190,6 +190,9 @@
           name="interval"
           label="Interval merania"
           options={intervals}
+          onChange={(newValue) => {
+            beehive.interval = parseInt(newValue);
+          }}
           bind:value={beehive.interval}
           inline
         />
@@ -248,6 +251,12 @@
         </SelectableOption>
       </div>
 
+      <!-- factory reset -->
+
+      <!-- odstranit vahu-->
+
+      <!-- odstranit odmerané dáta-->
+
       <div class="m-4 rounded-lg bg-white p-4">
         <div class="m-4 flex items-center">
           <h3 class="w-full font-bold">Senzory</h3>
@@ -255,6 +264,7 @@
             type="secondary"
             text="Refresh"
             image="./../../icons/refresh.svg"
+            preventDefault={true}
             onClick={refreshSensorView}
           />
         </div>
