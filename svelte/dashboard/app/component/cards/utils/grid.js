@@ -197,7 +197,7 @@ export class Grid {
       props: props,
       component: component,
     };
-    console.log(" this._gridItemRefs", this._gridItemRefs);
+    // console.log(" this._gridItemRefs", this._gridItemRefs);
     let pos = GridResolver.findSuitablePosition(
       newItem,
       this.gridItemRefs,
