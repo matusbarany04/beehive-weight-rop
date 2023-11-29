@@ -2,6 +2,7 @@
   import Sensor from "./Sensor.svelte";
   import EditText from "../../../../components/Inputs/EditText.svelte";
   import { onMount } from "svelte";
+  import { svg } from "leaflet/dist/leaflet-src.esm";
 
   export let devices = {};
 
@@ -18,12 +19,10 @@
   const SECOND_ROW = ["S4", "S5", "S6"];
 
   const WIRE_WIDTH = 20;
-  const WIRE_LENGTH = 1000;
+  const WIRE_LENGTH = 800;
   const CONNECTOR_COLOR = "black";
-  let loaded = false;
-  let x;
-
-  onMount(() => (loaded = true));
+  const SVG_SRC = "../../../img/panel.svg";
+  let x, svgObject, heightChanged = false;
 
   console.log(SVGRectElement.prototype);
 
@@ -35,12 +34,10 @@
     rect.setAttribute(attr, parseInt(rect.getAttribute(attr)) + value);
   }
 
-  function render(svgDocument) {
-    let index = 0;
+  function render() {
+    heightChanged = false;
     for (let port in devices) {
-      const device = devices[port];
-      console.log(port);
-      const g = svgDocument.getElementById(portRects[port]);
+      const g = svgObject.contentDocument.getElementById(portRects[port]);
       g.removeChild(g.getElementsByTagName("g")[0]);
       const rect = g.children[0];
       rect.style.fill = CONNECTOR_COLOR;
@@ -48,8 +45,8 @@
       incrementAttr(rect, "height", 60);
       incrementAttr(rect, "x", -30);
       incrementAttr(rect, "y", -30);
-      addSensor(svgDocument, g, rect, index);
-      index++;
+      const index = parseInt(port.substr(1)) - 1;
+      addSensor(svgObject.contentDocument, g, rect, index);
     }
   }
 
@@ -74,13 +71,28 @@
     wire.setAttribute("width", WIRE_WIDTH);
     wire.setAttribute("style", "fill: " + CONNECTOR_COLOR);
     g.appendChild(wire);
+    
+    if(index >= 3 && !heightChanged) {
+      incrementAttr(svgDocument.children[0], "height", 800);
+      svgDocument.children[0].setAttribute("viewBox", "0 -300 3000 1800");
+      heightChanged = true;
+    }
   }
 
   function customizeSize(e) {
-    const svg = e.target.contentDocument.children[0];
-    console.log(svg);
+    svgObject = e.target;
+    const svg = svgObject.contentDocument.children[0];
     svg.setAttribute("viewBox", "0 0 3000 1000");
-    render(e.target.contentDocument);
+    render();
+  }
+
+  $: {
+    devices;
+    refresh();
+  }
+
+  function refresh() {
+    if (svgObject) svgObject.data = svgObject.data;
   }
 </script>
 
@@ -121,7 +133,6 @@
           <EditText
             class="w-full text-center"
             bind:value={devices[port]["name"]}
-            focus={loaded}
           />
         {/if}
       </div>
@@ -132,11 +143,11 @@
     class="ml-[10%] w-3/5"
     id="sensorView"
     type="image/svg+xml"
-    data="../../../img/panel.svg"
+    data={SVG_SRC}
     on:load={customizeSize}
   ></object>
 
-  <div class="ml-[12%] flex w-2/5">
+  <div class="ml-[10%] flex w-[36%] pl-[3%]">
     {#each SECOND_ROW as port}
       <div class="w-full bg-transparent">
         <div class=" m-auto h-14 w-14 rounded">
@@ -148,7 +159,6 @@
           <EditText
             class="w-full text-center"
             bind:value={devices[port]["name"]}
-            focus={loaded}
           />
         {/if}
       </div>

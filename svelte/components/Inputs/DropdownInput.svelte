@@ -56,7 +56,6 @@
   function typeAction(node) {
     node.type = type;
   }
-
 </script>
 
 <div class={(inline ? "flex items-center gap-2" : "") + " mb-4 " + className}>
@@ -67,7 +66,7 @@
     <small>{small}</small><br />
   {/if}
   <strong>{options}</strong>
-  
+
   <select
     class="h-8 w-full rounded-md border-2 border-slate-300 bg-white px-4"
     on:change={(event) => onChange(event.target.value)}

@@ -1,11 +1,10 @@
 <script>
-  import {onMount, tick} from "svelte";
+  import { onMount, tick } from "svelte";
   import ButtonSmall from "../Buttons/ButtonSmall.svelte";
-  import {clickOutside} from "../lib/clickOutside";
-  import {BeehiveObj} from "../../dashboard/app/stores/Beehive";
+  import { clickOutside } from "../lib/clickOutside";
+  import { BeehiveObj } from "../../dashboard/app/stores/Beehive";
   import shared from "../../dashboard/app/stores/shared";
-  
-  
+
   /**
    * @param {string} type - Type attribute for the select, although not used in the template. Defaults to 'text'.
    */
@@ -45,7 +44,6 @@
    */
   export let options;
 
-
   export let default_option;
 
   /**
@@ -66,22 +64,21 @@
     tick().then(() => {
       // changing value
       value = Object.keys(selectValue);
-      onChange(Object.keys(selectValue))
+      onChange(Object.keys(selectValue));
     });
   };
 
   let selectValue = {};
-  
+
   if (Array.isArray(value)) {
     for (const val of value) {
-      selectValue[val] = shared.getBeehiveById(val)?.name ;
+      selectValue[val] = shared.getBeehiveById(val)?.name;
     }
   } else if (value == null) {
-    selectValue[default_option[0]] = default_option[1]
+    selectValue[default_option[0]] = default_option[1];
   } else {
     selectValue[value] = value;
   }
-
 
   let optionList = {};
   for (const optionListKey of options) {
@@ -107,11 +104,11 @@
 
   $: {
     // if (Object.entries(optionList).length > 0){
-    //   optionList[default_option[0]] = default_option[1]; 
-    // } 
+    //   optionList[default_option[0]] = default_option[1];
+    // }
 
     if (Object.keys(selectValue).length === 0) {
-      selectValue[default_option[0]] = default_option[1]
+      selectValue[default_option[0]] = default_option[1];
     }
 
     if (Object.keys(selectValue).length === 0) {
@@ -119,23 +116,22 @@
     }
 
     if (Object.keys(selectValue).length > 1) {
-      delete selectValue[default_option[0]]
-      delete optionList[default_option[0]]
+      delete selectValue[default_option[0]];
+      delete optionList[default_option[0]];
     }
 
     if (Object.keys(optionList).length < options.length) {
-      delete optionList[default_option[0]]
+      delete optionList[default_option[0]];
     }
-
   }
 </script>
 
 <div class={(inline ? "flex items-center gap-2" : "") + " mb-4 " + className}>
   {#if label}
-    <label for={name} class={inline ? "w-1/3" : ""}>{label}</label> <br/>
+    <label for={name} class={inline ? "w-1/3" : ""}>{label}</label> <br />
   {/if}
   {#if small}
-    <small>{small}</small><br/>
+    <small>{small}</small><br />
   {/if}
 
   <div
@@ -155,8 +151,8 @@
             onClick={() => {
               delete selectValue[param];
               optionList[param] = displayValue;
-              
-               innerOnChange()
+
+              innerOnChange();
             }}
           ></ButtonSmall>
         </div>
@@ -174,26 +170,19 @@
                 selectValue[optionKey] = optionValue;
                 delete optionList[optionKey];
                 optionList = optionList;
-                innerOnChange()
+                innerOnChange();
               }}
-              value={optionKey}>{optionList[optionKey]}
-
-            </option
-            >
+              value={optionKey}
+              >{optionList[optionKey]}
+            </option>
           {/each}
         </div>
       {/if}
     </div>
   </div>
-  <select id="multipleSelect"
-          multiple
-          {name}
-          value={value}
-          class="invisible w-0 h-0"
-  >
+  <select id="multipleSelect" multiple {name} {value} class="invisible h-0 w-0">
     {#each options as option}
       <option value={option[0]}>{option[1]}</option>
     {/each}
   </select>
-
 </div>

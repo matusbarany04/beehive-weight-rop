@@ -5,7 +5,7 @@
 
   export let beehiveId = "all";
 
-  import {BeehiveObj} from "../../../stores/Beehive";
+  import { BeehiveObj } from "../../../stores/Beehive";
   import shared from "../../../stores/shared";
   import DropdownInput from "../../../../../components/Inputs/DropdownInput.svelte";
 
@@ -18,14 +18,17 @@
         // TODO this should be union of all types, for now this is okay
         typeChoiceList = BeehiveObj.getNonDetachableTypesAsKeyValuePairs(true);
       } else {
-        console.log("beehive_id_array", beehive_id_array)
-        typeChoiceList = BeehiveObj.getUnionOfCurrentDataTypesAsKeyValuePairs(beehive_id_array, false);
-        
+        console.log("beehive_id_array", beehive_id_array);
+        typeChoiceList = BeehiveObj.getUnionOfCurrentDataTypesAsKeyValuePairs(
+          beehive_id_array,
+          false,
+        );
+
         // shared
         //   .getBeehivesByIds(beehive_id_array)
         //   .map(beehive => beehive?.getCurrentDataTypesAsKeyValuePairs(true));
-        
-        console.log("typeChoiceList" ,typeChoiceList)
+
+        console.log("typeChoiceList", typeChoiceList);
       }
 
       // if choice is not in new typeChoiceList reset back to primary

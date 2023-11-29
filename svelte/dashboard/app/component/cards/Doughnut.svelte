@@ -32,7 +32,7 @@
   const chartColors = ["#db9834", "#3c7cdc", "#860707", "#245b00"];
   let myChart;
   let allSelected = false;
-  const beehiveData = [ ];
+  const beehiveData = [];
 
   let beehivelist = cardStates.data;
 

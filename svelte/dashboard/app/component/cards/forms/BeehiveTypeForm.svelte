@@ -18,7 +18,6 @@
       typeChoiceList = shared
         .getBeehiveById(beehive_id)
         .getCurrentDataTypesAsKeyValuePairs(true);
-      
     }
 
     // if choice is not in new typeChoiceList reset back to primary

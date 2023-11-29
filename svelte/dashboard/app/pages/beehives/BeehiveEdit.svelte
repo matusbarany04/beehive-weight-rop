@@ -78,22 +78,6 @@
     } else setTimeout(showFutureValues, 1000);
   }
 
-  function generateName(name) {
-    if (!exist(name)) return name;
-    let newName = name + " 1";
-    for (let i = 2; exist(newName); i++) newName = name + " " + i;
-    return newName;
-  }
-
-  function exist(name) {
-    console.log(sensors);
-    for (let connector in sensors) {
-      console.log(connector);
-      if (sensors[connector].name === name) return true;
-    }
-    return false;
-  }
-
   function searchLocation(e) {
     console.log(e.target.value);
     const query = e.target.value;
@@ -139,6 +123,28 @@
           );
       });
   }
+
+  function refreshSensorView() {
+    fetch("/dashboardApi/getDeviceConfig?beehive=" + props.id)
+      .then((r) => r.json())
+      .then((response) => {
+        let usedPorts = [];
+        for (let device of response.devices) {
+          let port = device["port"];
+          usedPorts.push(port);
+          if(!sensors[port] || sensors[port]["id"] !== device.id) {
+            sensors[device["port"]] = device;
+            delete sensors[device["port"]]["port"];
+          }
+        }
+        
+        for (let port in sensors) {
+          if(!usedPorts.includes(port)) delete sensors[port];
+        }
+      });
+  }
+  
+  setInterval(refreshSensorView, 3000);
 </script>
 
 <svelte:head>
@@ -245,6 +251,12 @@
       <div class="m-4 rounded-lg bg-white p-4">
         <div class="m-4 flex items-center">
           <h3 class="w-full font-bold">Senzory</h3>
+          <Button
+            type="secondary"
+            text="Refresh"
+            image="./../../icons/refresh.svg"
+            onClick={refreshSensorView}
+          />
         </div>
         <SensorView bind:devices={sensors} />
       </div>

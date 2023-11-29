@@ -98,16 +98,15 @@ export default {
   getBeehives: function () {
     return beehiveList;
   },
-  
-  
+
   /**
    *
    * @param beehive_id
    * @return {BeehiveObj}
    */
   getBeehiveById: function (beehive_id) {
-    console.log("getBeehiveById", beehive_id)
-    console.log("getBeehiveById", this.getBeehives())
+    console.log("getBeehiveById", beehive_id);
+    console.log("getBeehiveById", this.getBeehives());
     return this.getBeehives()[beehive_id];
   },
 
@@ -118,11 +117,9 @@ export default {
    */
   getBeehivesByIds: function (beehive_id_array) {
     const beehives = this.getBeehives();
-    return beehive_id_array.map(beehive_id => beehives[beehive_id]);
+    return beehive_id_array.map((beehive_id) => beehives[beehive_id]);
   },
 
-  
-  
   /* might not work properly */
   getBeehiveIdsWithNames: function () {
     return savedData["beehives"].map((object) => {
