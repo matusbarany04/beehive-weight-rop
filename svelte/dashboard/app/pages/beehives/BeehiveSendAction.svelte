@@ -61,6 +61,30 @@
       });
   }
 
+  function deleteAction(action_id) {
+    fetch(`/actions/deleteAction/${action_id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any additional headers if needed
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Delete Action Successful:', data);
+        fetchPendingActions()
+      })
+      .catch(error => {
+        console.error('Error deleting action:', error);
+        // Handle the error here
+      });
+  }
+
   fetchPendingActions();
 
   let li = getLanguageInstance();
@@ -68,14 +92,29 @@
 
 <SettingsHeader title="Zaslať akcie" />
 
-<SettingsItem>
-  <Button text="Sledovanie akcií zariadenia" onClick={sendAction} />
-</SettingsItem>
+<!-- TODO reimplement adding new actions like moving a motor and stuff -->
+<!--<SettingsItem>-->
+<!--  <Button text="Sledovanie akcií zariadenia" onClick={sendAction} />-->
+<!--</SettingsItem>-->
 
 {#if Object.keys(pendingActions).length > 0}
   {#each Object.entries(pendingActions) as [id, action]}
-    <ActionCard actionObject={action}></ActionCard>
+    <ActionCard actionObject={action} onDeleteCard={()=>{
+      deleteAction(action.id)
+    }}></ActionCard>
   {/each}
 {:else}
-  <p>No pending actions found.</p>
+  <div
+    class="m-auto mt-4 flex h-24 flex-row items-center justify-center lg:w-5/6"
+  >
+    <div
+      class="h-24 w-20 bg-[url('/icons/person-running.svg')] bg-cover bg-no-repeat opacity-50"
+    ></div>
+  </div>
+  <h1 class="my-4 text-center text-4xl font-bold text-slate-600">
+    Žiadne prebiehajúce akcie!
+  </h1>
+  <h1 class="my-4 text-center text-base text-slate-600">
+    Všetky akcie váhy sa zobrazia tu
+  </h1>
 {/if}
