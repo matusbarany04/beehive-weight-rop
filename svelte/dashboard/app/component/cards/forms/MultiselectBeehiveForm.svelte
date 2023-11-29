@@ -36,6 +36,13 @@
         console.log("Not inside ", typeChoice, typeChoiceList);
         typeChoice = BeehiveObj.getPrimaryDataType();
       }
+
+      console.log("checking all!", beehive_id_array)
+      if (beehive_id_array.includes("all")) {
+        console.log("heyyyy")
+        typeChoiceList = BeehiveObj.getNonDetachableTypesAsKeyValuePairs(true);
+      }
+
     } catch (e) {
       console.error(e);
     }
@@ -64,7 +71,7 @@
 <DropdownInput
   label="Typ dát"
   name="data_type"
-  value={typeChoice}
+  value={typeChoice }
   onChange={typeChanged}
   options={typeChoiceList}
 />

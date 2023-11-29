@@ -1,8 +1,8 @@
 <script>
-  import { onMount, tick } from "svelte";
+  import {onMount, tick} from "svelte";
   import ButtonSmall from "../Buttons/ButtonSmall.svelte";
-  import { clickOutside } from "../lib/clickOutside";
-  import { BeehiveObj } from "../../dashboard/app/stores/Beehive";
+  import {clickOutside} from "../lib/clickOutside";
+  import {BeehiveObj} from "../../dashboard/app/stores/Beehive";
   import shared from "../../dashboard/app/stores/shared";
 
   /**
@@ -72,7 +72,12 @@
 
   if (Array.isArray(value)) {
     for (const val of value) {
-      selectValue[val] = shared.getBeehiveById(val)?.name;
+      if (val === "all") {
+        selectValue[val] = "all"
+      } else {
+
+        selectValue[val] = shared.getBeehiveById(val)?.name;
+      }
     }
   } else if (value == null) {
     selectValue[default_option[0]] = default_option[1];
@@ -80,9 +85,22 @@
     selectValue[value] = value;
   }
 
+
+  // check if id is not in "value" array if not add to option list
   let optionList = {};
   for (const optionListKey of options) {
     optionList[optionListKey[0]] = optionListKey[1];
+  }
+
+  if (options.length === 0) {
+    console.log("adding default option")
+    optionList[default_option[0]] = default_option[1];
+  }
+
+  for (const key of value) {
+    if (optionList.hasOwnProperty(key)) {
+      delete optionList[key]
+    }
   }
 
   function typeAction(node) {
@@ -128,12 +146,14 @@
 
 <div class={(inline ? "flex items-center gap-2" : "") + " mb-4 " + className}>
   {#if label}
-    <label for={name} class={inline ? "w-1/3" : ""}>{label}</label> <br />
+    <label for={name} class={inline ? "w-1/3" : ""}>{label}</label> <br/>
   {/if}
   {#if small}
-    <small>{small}</small><br />
+    <small>{small}</small><br/>
   {/if}
 
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div
     class="relative"
     on:click={clickInside}
@@ -144,17 +164,28 @@
       class="relative block min-h-[32px] w-full rounded-md border-2 border-slate-300 bg-white px-4"
     >
       {#each Object.entries(selectValue) as [param, displayValue] (param)}
-        <div class="m-1 inline-block" key={param}>
-          <ButtonSmall
-            className="inline-block"
-            text={displayValue}
-            onClick={() => {
-              delete selectValue[param];
-              optionList[param] = displayValue;
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div class="m-1 inline-block " key={param}>
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
+          <!-- svelte-ignore a11y-no-static-element-interactions -->
+          <div
 
-              innerOnChange();
+            class="inline-block root h-min w-min rounded-lg px-2 btn-secondary cursor-pointer"
+            on:click={() => {
+              if(param !== default_option[0]){
+                delete selectValue[param];
+                optionList[param] = displayValue;
+  
+                innerOnChange();
+              }
             }}
-          ></ButtonSmall>
+          >
+
+            <p class="text no_wrap text-ellipsis whitespace-nowrap text-sm">
+              {displayValue}
+            </p>
+            
+          </div>
         </div>
       {/each}
       {#if focused}
@@ -173,7 +204,7 @@
                 innerOnChange();
               }}
               value={optionKey}
-              >{optionList[optionKey]}
+            >{optionList[optionKey]}
             </option>
           {/each}
         </div>
@@ -184,5 +215,6 @@
     {#each options as option}
       <option value={option[0]}>{option[1]}</option>
     {/each}
+    <option value={default_option[0]}>{default_option[1]}</option>
   </select>
 </div>

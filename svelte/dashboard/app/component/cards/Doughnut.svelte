@@ -1,12 +1,12 @@
 <script>
-  import { onMount, tick } from "svelte";
+  import {onMount, tick} from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
   import shared from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
+  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { BeehiveObj } from "../../stores/Beehive";
+  import {BeehiveObj} from "../../stores/Beehive";
   import BeehiveTypeForm from "./forms/BeehiveTypeForm.svelte";
   import MultiselectBeehiveForm from "./forms/MultiselectBeehiveForm.svelte";
 
@@ -36,6 +36,27 @@
 
   let beehivelist = cardStates.data;
 
+  function getDataFromBeehive(beehive_id, type){
+    console.log("getDataFromBeehive", beehive_id)
+    /** @type {BeehiveObj} */
+    let beehiveObject = shared.getBeehiveById(beehive_id);
+    if (beehiveObject == null) {
+      console.error(
+        "No Data error ",
+        beehiveObject,
+        shared.getBeehiveById(beehive_id) + " " + beehive_id,
+      );
+      error = "NoDataError";
+      return null;
+    } else {
+
+      return {
+        name: beehiveObject.name,
+        value: beehiveObject.getLastDataByType(type)
+      }
+    }
+  }
+  
   try {
     let beehives = shared.getBeehives();
     // console.log("cardStates.data.length === beehives.length",cardStates.data, cardStates.data.length, Object.keys(beehives).length)
@@ -57,54 +78,23 @@
 
     beehivelist.forEach((element) => {
       //we load all data
-      /** @type {BeehiveObj} */
-      let beehiveObject = shared.getBeehiveById(element.beehive_id);
-      if (beehiveObject == null) {
-        console.error(
-          "No Data error ",
-          shared.getBeehiveById(element.beehive_id) + " " + element.beehive_id,
-        );
-        error = "NoDataError";
-      } else {
-        // non-detachable types have array right under them
-        if (!BeehiveObj.isTypeDetachable(element.type)) {
-          let data = beehiveObject.getLastDataByType(element.type);
+      //  beehive id is and array in this card 
 
-          // Check if data and timestamp arrays have the same length
-          if (data.length == null) {
-            throw new Error("Data and timestamp arrays have different lengths");
-          }
+      for (const beehive_id of element.beehive_id) {
+        if (beehive_id === "all") {
+          // shared.getBeehives is an array 
+          Object.keys(shared.getBeehives()).forEach((bee_id) => {
 
-          // join data and timestamp
+            beehiveData.push(getDataFromBeehive(bee_id,element.type))
 
-          // join data and timestamp like so  {value: 512, name: "beehive name" }
-        }
-        // detachable - connector types have nested array underneath them
-        else {
-          let data = beehiveObject.getAllDataByType(element.type);
-          let timestamp = beehiveObject.getTimestamps();
+          })
+        } else {
 
-          for (const dataItem of data) {
-            // Check if data and timestamp arrays have the same length
-            if (dataItem.values.length + dataItem.from - 1 > timestamp.length) {
-              throw new Error(
-                `Data of length ${dataItem.values.length} from ts index ${dataItem.from} is longer than timestamp length ${timestamp.length}`,
-              );
-            }
+          beehiveData.push(getDataFromBeehive(beehive_id,element.type))
 
-            // join data and timestamp
-            let combinedData = dataItem.values.map((item, index) => [
-              timestamp[index + parseInt(dataItem.from) - 1],
-              item === -999 ? null : item,
-            ]);
-
-            beehiveData.push({
-              name: element.name,
-              data: combinedData,
-            });
-          }
         }
       }
+
     });
 
     let initOptions = () => {
@@ -187,7 +177,8 @@
     console.error(e);
   }
 
-  let resizeEvent = () => {};
+  let resizeEvent = () => {
+  };
 </script>
 
 <CardRoot
@@ -211,7 +202,7 @@
   {error}
 >
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full" />
+    <div {id} class="h-full w-full"/>
   </div>
 
   <div class="" slot="customSettings">
