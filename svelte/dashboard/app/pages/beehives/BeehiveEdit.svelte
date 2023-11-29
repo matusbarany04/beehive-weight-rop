@@ -132,18 +132,18 @@
         for (let device of response.devices) {
           let port = device["port"];
           usedPorts.push(port);
-          if(!sensors[port] || sensors[port]["id"] !== device.id) {
+          if (!sensors[port] || sensors[port]["id"] !== device.id) {
             sensors[device["port"]] = device;
             delete sensors[device["port"]]["port"];
           }
         }
-        
+
         for (let port in sensors) {
-          if(!usedPorts.includes(port)) delete sensors[port];
+          if (!usedPorts.includes(port)) delete sensors[port];
         }
       });
   }
-  
+
   setInterval(refreshSensorView, 5000);
 </script>
 

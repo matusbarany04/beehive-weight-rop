@@ -22,7 +22,9 @@
   const WIRE_LENGTH = 800;
   const CONNECTOR_COLOR = "black";
   const SVG_SRC = "../../../img/panel.svg";
-  let x, svgObject, heightChanged = false;
+  let x,
+    svgObject,
+    heightChanged = false;
 
   console.log(SVGRectElement.prototype);
 
@@ -71,8 +73,8 @@
     wire.setAttribute("width", WIRE_WIDTH);
     wire.setAttribute("style", "fill: " + CONNECTOR_COLOR);
     g.appendChild(wire);
-    
-    if(index >= 3 && !heightChanged) {
+
+    if (index >= 3 && !heightChanged) {
       incrementAttr(svgDocument.children[0], "height", 800);
       svgDocument.children[0].setAttribute("viewBox", "0 -300 3000 1800");
       heightChanged = true;
