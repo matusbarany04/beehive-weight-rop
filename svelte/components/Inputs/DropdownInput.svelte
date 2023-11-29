@@ -65,7 +65,6 @@
   {#if small}
     <small>{small}</small><br />
   {/if}
-  <strong>{options}</strong>
 
   <select
     class="h-8 w-full rounded-md border-2 border-slate-300 bg-white px-4"
