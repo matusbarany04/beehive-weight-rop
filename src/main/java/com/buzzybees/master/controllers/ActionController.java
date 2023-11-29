@@ -2,6 +2,7 @@ package com.buzzybees.master.controllers;
 
 import com.buzzybees.master.beehives.actions.Action;
 import com.buzzybees.master.beehives.actions.ActionRepository;
+import com.buzzybees.master.beehives.actions.ActionStatus;
 import com.buzzybees.master.beehives.actions.ActionType;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.CookieAuthController;
@@ -15,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/actions")
@@ -85,6 +83,45 @@ public class ActionController extends CookieAuthController {
         );
 
         return output.toString();
+    }
+
+
+    /**
+     * Deletes an existing reminder from the database.
+     *
+     * @param actionId ID of the action to be deleted
+     * @return ApiResponse indicating the result of the deletion
+     */
+    @DeleteMapping(value = "/deleteAction/{actionId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiResponse deleteAction(@PathVariable Long actionId) {
+        // Check if the action exists
+        Optional<Action> existingAction = actionRepository.findById(actionId);
+
+        if (existingAction.isPresent()) {
+            Action toBeDeletedAction = actionRepository.getActionById(actionId);
+
+            if(toBeDeletedAction.getStatus() == ActionStatus.PENDING){
+                // Delete the action
+                actionRepository.deleteById(actionId);
+                // Create a notification for the deletion
+                String title = "Akcia vymazaná " + existingAction.get().getType();
+                Notification notification = new Notification(Notification.Type.INFO,
+                        currentUserId,
+                        title,
+                        "Vymazali ste existujúcu akciu!");
+
+                notificationRepository.save(notification);
+
+                return new ApiResponse("success", "Action deleted successfully");
+
+            }else {
+                return new ApiResponse("error", "Action status is not pending!");
+            }
+
+
+        } else {
+            return new ApiResponse("error", "Action not found with ID: " + actionId);
+        }
     }
 
 
