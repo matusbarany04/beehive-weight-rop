@@ -164,7 +164,7 @@
       id="device_settings"
       autocomplete="off"
     >
-      <div class="m-4 rounded-lg bg-white p-4">
+      <div class="shadow shadow-tertiary-300 m-4 rounded-lg bg-white p-4">
         <Input
           type="text"
           name="name"
@@ -208,7 +208,7 @@
         {/if}
       </div>
 
-      <div class="m-4 rounded-lg bg-white">
+      <div class="shadow shadow-tertiary-300 m-4 rounded-lg bg-white">
         <h3 class="p-4 font-bold">Spôsob pripojenia</h3>
 
         {#if beehive.model === MODEL_WITH_GSM}
@@ -257,7 +257,7 @@
 
       <!-- odstranit odmerané dáta-->
 
-      <div class="m-4 rounded-lg bg-white p-4">
+      <div class="shadow shadow-tertiary-300 m-4 rounded-lg bg-white p-4">
         <div class="m-4 flex items-center">
           <h3 class="w-full font-bold">Senzory</h3>
           <Button

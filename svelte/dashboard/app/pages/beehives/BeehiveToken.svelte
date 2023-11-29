@@ -49,12 +49,12 @@
 </svelte:head>
 
 <div
-  class="mb-5 rounded-lg bg-white p-5 md:border-0 md:border-r-2 md:border-slate-300 md:pr-2"
+  class="shadow shadow-tertiary-300 mb-5 rounded-lg bg-white p-5 md:border-0 md:border-r-2 md:border-slate-300 md:pr-2"
 >
   <h1 class="text-4xl">Pridať nové zariadenie</h1>
 </div>
 
-<div class="{token ? '' : 'flex'} rounded-lg bg-white p-5">
+<div class="{token ? '' : 'flex'} shadow shadow-tertiary-300 rounded-lg bg-white p-5">
   {#if !token}
     <div class="w-full p-10">
       Tu zadajte identifikačné číslo váhy (uvedené na obale)

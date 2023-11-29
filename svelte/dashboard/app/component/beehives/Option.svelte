@@ -5,7 +5,7 @@
 
 <RouterLink url="/beehives/add{url}">
   <div
-    class="mt-2 flex items-center rounded-lg bg-white p-5 duration-200 hover:bg-slate-300"
+    class="shadow shadow-tertiary-300 mt-2 flex items-center rounded-lg bg-white p-5 duration-200 hover:bg-slate-300"
   >
     <div class="w-full">
       <slot />

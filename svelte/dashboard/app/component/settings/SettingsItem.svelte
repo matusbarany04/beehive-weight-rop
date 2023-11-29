@@ -8,7 +8,7 @@
 </script>
 
 <div
-  class="{className} min-h-48 lg:min-h-24 mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 lg:w-5/6 lg:flex-row lg:justify-center"
+  class="{className} shadow shadow-tertiary-300 min-h-48 lg:min-h-24 mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 lg:w-5/6 lg:flex-row lg:justify-center"
 >
   <!-- title -->
   <div class="flex-1 justify-center lg:justify-normal">

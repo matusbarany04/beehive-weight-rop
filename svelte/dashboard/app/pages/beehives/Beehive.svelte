@@ -97,7 +97,7 @@
 
 <div class="box-border h-full w-full">
   <div
-    class="mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
+    class="shadow shadow-tertiary-300 mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
   >
     <h1 class=" text-2xl font-semibold">
       Váha {beehive?.name ? beehive?.name : "Loading..."}

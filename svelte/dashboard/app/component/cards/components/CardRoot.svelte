@@ -136,7 +136,7 @@
 </script>
 
 <div
-  class="flex aspect-square h-full w-full select-none justify-center overflow-hidden rounded-md align-middle {className} {'root_' +
+  class="shadow shadow-tertiary-300 flex aspect-square h-full w-full select-none justify-center overflow-hidden rounded-md align-middle {className} {'root_' +
     theme}"
   bind:this={cardRootRoot}
 >

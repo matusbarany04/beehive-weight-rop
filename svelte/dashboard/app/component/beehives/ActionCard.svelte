@@ -1,5 +1,5 @@
 <script>
-  import {getLanguageInstance} from "../../../../components/language/languageRepository";
+  import { getLanguageInstance } from "../../../../components/language/languageRepository";
   import CircleButton from "../../../../components/Buttons/CircleButton.svelte";
 
   export let className;
@@ -40,8 +40,8 @@
   }
 
   export let onDeleteCard = () => {
-    console.warn("on delete not implemented!")
-  }
+    console.warn("on delete not implemented!");
+  };
 </script>
 
 <div
@@ -61,13 +61,14 @@
   <h1 class="text-base font-normal">
     {actionObject.description ?? "Akcia nemá žiaden popis"}
   </h1>
-  
+
   {#if actionObject.status === "PENDING"}
     <div class="absolute right-2 top-2">
-      <CircleButton image="icons/trash.svg" type="error" onClick={onDeleteCard}></CircleButton>
+      <CircleButton image="icons/trash.svg" type="error" onClick={onDeleteCard}
+      ></CircleButton>
     </div>
   {/if}
- 
+
   <div class="block flex-1">
     <p>Parametre</p>
     {#each Object.entries(JSON.parse(actionObject.params)) as [paramKey, paramValue]}
