@@ -61,6 +61,30 @@
       });
   }
 
+  function deleteAction(action_id) {
+    fetch(`/actions/deleteAction/${action_id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any additional headers if needed
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Delete Action Successful:', data);
+        fetchPendingActions()
+      })
+      .catch(error => {
+        console.error('Error deleting action:', error);
+        // Handle the error here
+      });
+  }
+
   fetchPendingActions();
 
   let li = getLanguageInstance();
@@ -68,13 +92,16 @@
 
 <SettingsHeader title="Zaslať akcie" />
 
+<!-- TODO reimplement adding new actions like moving a motor and stuff -->
 <!--<SettingsItem>-->
 <!--  <Button text="Sledovanie akcií zariadenia" onClick={sendAction} />-->
 <!--</SettingsItem>-->
 
 {#if Object.keys(pendingActions).length > 0}
   {#each Object.entries(pendingActions) as [id, action]}
-    <ActionCard actionObject={action}></ActionCard>
+    <ActionCard actionObject={action} onDeleteCard={()=>{
+      deleteAction(action.id)
+    }}></ActionCard>
   {/each}
 {:else}
   <div

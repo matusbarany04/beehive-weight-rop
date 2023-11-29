@@ -1,5 +1,6 @@
 <script>
-  import { getLanguageInstance } from "../../../../components/language/languageRepository";
+  import {getLanguageInstance} from "../../../../components/language/languageRepository";
+  import CircleButton from "../../../../components/Buttons/CircleButton.svelte";
 
   export let className;
 
@@ -37,23 +38,36 @@
     const hours = Math.floor(minutes / 60);
     return `${hours} hour${hours !== 1 ? "s" : ""}`;
   }
+
+  export let onDeleteCard = () => {
+    console.warn("on delete not implemented!")
+  }
 </script>
 
 <div
   class="{className} min-h-16 relative mx-auto mb-4 flex flex-col rounded-lg bg-white p-4 lg:w-5/6"
 >
   <!-- title -->
-  <h1 class="text-2xl font-semibold">
-    {li.get(`actions.${actionObject.type}`)}
-  </h1>
+  <div>
+    <h1 class="inline text-2xl font-semibold">
+      {li.get(`actions.${actionObject.type}`)}
+    </h1>
+    <h1 class="mx-2 inline font-bold">-</h1>
+    <h1 class="inline text-lg">
+      {li.get(`statuses.${actionObject.status}`)}
+    </h1>
+  </div>
+
   <h1 class="text-base font-normal">
     {actionObject.description ?? "Akcia nemá žiaden popis"}
   </h1>
-
-  <h1 class="absolute right-2 top-2 text-lg">
-    {actionObject.status}
-  </h1>
-
+  
+  {#if actionObject.status === "PENDING"}
+    <div class="absolute right-2 top-2">
+      <CircleButton image="icons/trash.svg" type="error" onClick={onDeleteCard}></CircleButton>
+    </div>
+  {/if}
+ 
   <div class="block flex-1">
     <p>Parametre</p>
     {#each Object.entries(JSON.parse(actionObject.params)) as [paramKey, paramValue]}
@@ -64,5 +78,5 @@
     {/each}
   </div>
 
-  <p class="text-end">{formatTime(timeLeft.getTime())}</p>
+  <p class="text-end">scheduled in {formatTime(timeLeft.getTime())}</p>
 </div>
