@@ -256,6 +256,7 @@
             type="secondary"
             text="Refresh"
             image="./../../icons/refresh.svg"
+            preventDefault={true}
             onClick={refreshSensorView}
           />
         </div>
