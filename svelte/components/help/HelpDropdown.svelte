@@ -6,7 +6,7 @@
 </script>
 
 <div
-  class="shadow shadow-tertiary-300 min-h-16 mx-auto mb-4 rounded-lg {bgClass} p-4 lg:w-5/6 {className}"
+  class="min-h-16 mx-auto mb-4 rounded-lg shadow shadow-tertiary-300 {bgClass} p-4 lg:w-5/6 {className}"
 >
   <details class="group">
     <summary

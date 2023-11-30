@@ -21,7 +21,7 @@
         console.log("beehive_id_array", beehive_id_array);
         typeChoiceList = BeehiveObj.getUnionOfCurrentDataTypesAsKeyValuePairs(
           beehive_id_array,
-          false,
+          true,
         );
 
         // shared
