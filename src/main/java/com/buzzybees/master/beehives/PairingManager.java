@@ -30,6 +30,18 @@ public class PairingManager {
         startTimes.put(beehiveToken, System.currentTimeMillis());
     }
 
+
+    /**
+     * Initiates a pairing request for a new beehive.
+     *
+     * @param beehiveToken The token of the beehive to be paired.
+     * @param model        The model information of the beehive.
+     * @return An integer code indicating the pairing result:
+     *         - {@code BEEHIVE_EXIST} if the beehive already exists.
+     *         - {@code NOT_PAIRING_MODE} if the beehive is not in pairing mode.
+     *         - {@code ERROR_TIMEOUT} if the pairing request has expired.
+     *         - {@code PAIRING_SUCCESSFUL} if the pairing is successful.
+     */
     public static int requestPair(String beehiveToken, String model) {
 
         if(beehiveRepository.getBeehiveByToken(beehiveToken) != null) return BEEHIVE_EXIST;
@@ -46,10 +58,23 @@ public class PairingManager {
         return PAIRING_SUCCESSFUL;
     }
 
+
+    /**
+     * Checks if a beehive is already paired.
+     *
+     * @param beehive The token of the beehive to check for pairing status.
+     * @return {@code true} if the beehive is already paired, {@code false} otherwise.
+     */
     public static boolean isPaired(String beehive) {
         return !beehivesInPairingMode.containsKey(beehive);
     }
 
+    /**
+     * Checks if the pairing request for a beehive has expired based on the timeout duration.
+     *
+     * @param beehive The token of the beehive to check for expiration.
+     * @return {@code true} if the pairing request has expired, {@code false} otherwise.
+     */
     public static boolean isExpired(String beehive) {
         long start = startTimes.getOrDefault(beehive, 0L);
         return System.currentTimeMillis() - start > TIMEOUT_SECONDS * 1000;

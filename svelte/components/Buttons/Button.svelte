@@ -49,9 +49,9 @@
    */
 
   export let className = "";
-  
+
   export let preventDefault;
-  
+
   export let onClick = () => {
     console.log("Button action does not exist!");
   };
@@ -61,9 +61,9 @@
 <button
   form={formId}
   type={clickType}
-  on:click={e => {
+  on:click={(e) => {
     if (enabled) {
-      if(preventDefault) e.preventDefault();
+      if (preventDefault) e.preventDefault();
       onClick();
       if (link) {
         navigateWithPrefix(link);

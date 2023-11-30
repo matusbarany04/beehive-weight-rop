@@ -8,7 +8,7 @@
   role="button"
   tabindex="0"
   on:mousedown
-  class="bg-white p-2 duration-200 ease-in-out {marked
+  class="bg-white p-2 shadow shadow-tertiary-300 duration-200 ease-in-out {marked
     ? 'z-0 scale-110 border-2 border-solid border-slate-400'
     : ''}"
 >

@@ -8,7 +8,7 @@
 </script>
 
 <div
-  class="{className} min-h-16 mx-auto mb-4 rounded-lg {bgClass} p-4 lg:w-5/6"
+  class="{className} min-h-16 mx-auto mb-4 rounded-lg shadow shadow-tertiary-300 {bgClass} p-4 lg:w-5/6"
 >
   <!-- title -->
   <h1 class="text-2xl font-semibold">{title}</h1>

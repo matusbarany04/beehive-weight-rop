@@ -256,7 +256,7 @@
 </svelte:head>
 {#if messages}
   <div
-    class="mx-auto mb-4 flex h-32 flex-col justify-between rounded-lg bg-white p-4 md:h-16 md:flex-row lg:w-5/6"
+    class="mx-auto mb-4 flex h-32 flex-col justify-between rounded-lg bg-white p-4 shadow shadow-tertiary-300 md:h-16 md:flex-row lg:w-5/6"
   >
     <!-- title -->
     <h1 class="text-2xl font-semibold">Vaše upozornenia</h1>
@@ -275,7 +275,7 @@
   {#each messages as message, index}
     <div
       out:fly|local={{ x: 400, duration: 1000 }}
-      class="  min-h-48 mx-auto mb-4 flex flex-col justify-between rounded-lg p-4 lg:w-5/6 {message.seen >
+      class=" min-h-48 mx-auto mb-4 flex flex-col justify-between rounded-lg p-4 shadow shadow-tertiary-300 lg:w-5/6 {message.seen >
       0.5
         ? 'bg-slate-200'
         : 'bg-white'}"

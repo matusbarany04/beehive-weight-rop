@@ -61,6 +61,8 @@ public class ActionController extends CookieAuthController {
     /**
      * Gets pending actions of specific beehive
      * Requires beehiveId
+     *
+     *  @return Map{Long, Map{String,Object}} pending actions
      */
 
     @GetMapping(value = "/getPending", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,6 +75,12 @@ public class ActionController extends CookieAuthController {
 
         return actions;
     }
+
+    /**
+     *  Returns all possible actions that are actionable be a user
+     *
+     * @return JSONObject array of all options
+     */
 
     @GetMapping(value = "/getActionOptions", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getValidActions() {

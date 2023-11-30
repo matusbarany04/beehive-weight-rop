@@ -17,11 +17,12 @@
     content="This page allows beekeper to add new beehives to their account with multiple options"
   />
 </svelte:head>
+
 <div
   class="mx-auto mb-4 justify-between gap-4 rounded-lg lg:w-5/6 lg:flex-row lg:justify-center"
 >
   <div
-    class="mb-5 rounded-lg bg-white p-5 md:border-0 md:border-r-2 md:border-slate-300 md:pr-2"
+    class="mb-5 rounded-lg bg-white p-5 shadow shadow-tertiary-300 md:border-0 md:border-r-2 md:border-slate-300 md:pr-2"
   >
     <h1 class="text-4xl">Pridať nové zariadenie</h1>
   </div>

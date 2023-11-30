@@ -72,7 +72,12 @@
     ) {
       allSelected = true;
 
-      beehivelist = [];
+      beehivelist = [
+        {
+          beehive_id: ["all"],
+          type: BeehiveObj.getPrimaryDataType(),
+        },
+      ];
     }
 
     beehivelist.forEach((element) => {
