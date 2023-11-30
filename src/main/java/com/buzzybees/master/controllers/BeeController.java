@@ -100,6 +100,12 @@ public class BeeController extends DatabaseController {
         };
     }
 
+
+    /**
+     * Handles a POST request to "/test".
+     *
+     * @return A String response "TEST".
+     */
     @PostMapping("/test")
     public String test() {
         return "TEST";
@@ -107,16 +113,21 @@ public class BeeController extends DatabaseController {
 
 
     /**
-     * accept data in this format
+     * Updates the statuses of actions based on input data in the specified JSON format.
+     *
+     * The input data should be an array of objects, each containing "id" and "status" fields.
+     * Example:
      * [
-     * {
-     * id:52313,
-     * status: "DONE"
-     * }
+     *   {
+     *     "id": 52313,
+     *     "status": "DONE"
+     *   }
      * ]
      *
-     * @param objects
-     * @return
+     * @param objects A list of HashMaps representing action status changes.
+     * @return ApiResponse indicating the result:
+     *         - If all actions are updated successfully, returns ApiResponse with status "OK".
+     *         - If there are invalid actions, returns ApiResponse with status "invalid" and a list of invalid actions.
      */
     @PostMapping(value = "/updateActionsStatuses", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateActionsStatuses(@RequestBody List<HashMap<String, Object>> objects) {

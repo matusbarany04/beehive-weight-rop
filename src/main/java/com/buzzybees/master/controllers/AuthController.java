@@ -45,6 +45,14 @@ public class AuthController {
         else return "redirect:/dashboard";
     }
 
+    /**
+     * Handles user login through a POST request with form-urlencoded data.
+     *
+     * @param mail     Email parameter from the login form.
+     * @param password Password parameter from the login form.
+     * @param response HttpServletResponse for setting cookies and redirects.
+     * @return Redirect path based on login result: "/dashboard" if successful, "/login?invalid=true" if failed.
+     */
     @PostMapping(value = {"/loginUser"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String login(@RequestParam("email") String mail, @RequestParam("password") String password, HttpServletResponse response) {
 
@@ -68,6 +76,14 @@ public class AuthController {
         return "redirect:/login?invalid=true";
     }
 
+
+    /**
+     * Handles user logout through a POST request to "/logoutUser".
+     *
+     * @param ssid     Session ID obtained from the SSID cookie.
+     * @param response HttpServletResponse for clearing the SSID cookie and handling redirects.
+     * @return Redirect path to "/login" after successfully logging out.
+     */
     @PostMapping(value = "/logoutUser")
     public String logoutUser(@CookieValue(value = SSID, defaultValue = "") String ssid, HttpServletResponse response) {
         Cookie cookie = new Cookie(SSID, null);
@@ -80,6 +96,15 @@ public class AuthController {
         return "redirect:/login";
     }
 
+
+    /**
+     * Handles user registration through a POST request with form-urlencoded data.
+     *
+     * @param user The User object containing registration details.
+     * @return JSON response indicating registration status:
+     *         - {"status": "exists"} if the user already exists.
+     *         - {"status": "ok"} if registration is successful, followed by a redirect to "/accountCreated".
+     */
     @PostMapping(value = {"/registerUser"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String register(@ModelAttribute User user) {
         JSONObject response = new JSONObject();
@@ -103,17 +128,14 @@ public class AuthController {
     }
 
     /**
-     * Route changes password of user with provided email address
+     * Handles user password change through a POST request with form-urlencoded data.
      *
-     * Example curl request:
-     *      curl -X POST   http://localhost:8080/changePassword
-     *      -H 'Content-Type: application/x-www-form-urlencoded'
-     *      -d 'email=admin@admin.com&currentPassword=newPassword123&newPassword=admin'
-     * @param email
-     * @param currentPassword
-     * @param newPassword
-     * @param response
-     * @return
+     * @param email            The email of the user whose password is being changed.
+     * @param currentPassword  The current password for verification.
+     * @param newPassword      The new password to be set.
+     * @param response         HttpServletResponse for handling redirects.
+     * @return Redirect path to "/dashboard/settings/newpassword?passwordChanged=true" if successful,
+     *         otherwise "/dashboard/settings/newpassword?passwordChanged=false".
      */
     @PostMapping(value = {"/changePassword"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String changePassword(
@@ -142,6 +164,15 @@ public class AuthController {
         return "redirect:/dashboard/settings/newpassword?passwordChanged=false";
     }
 
+
+    /**
+     * Handles a GET request to check if a user with the given email exists.
+     *
+     * @param email The email to check for existence.
+     * @return ResponseEntity with a JSON response indicating existence:
+     *         - {"exists": true} if a user with the email exists.
+     *         - {"exists": false} if no user with the email is found.
+     */
     @RequestMapping(value = "/emailExists/{email}", method = RequestMethod.GET)
     public ResponseEntity<String> getUserByEmail(@PathVariable("email") String email) {
         JSONObject response = new JSONObject();

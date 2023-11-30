@@ -101,6 +101,12 @@ public class SettingsController extends CookieAuthController {
         return new ApiResponse();
     }
 
+
+    /**
+     * Retrieves user settings based on the current user's ID.
+     *
+     * @return ApiResponse containing user settings if available, otherwise throws ItemNotFoundException.
+     */
     @GetMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse getSettingsByUserId() throws ItemNotFoundException {
         Settings settings = Settings.getSettingsByUser(currentUserId, settingsRepository);

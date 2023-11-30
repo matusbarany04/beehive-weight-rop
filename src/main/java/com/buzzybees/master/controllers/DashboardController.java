@@ -5,6 +5,7 @@ import com.buzzybees.master.beehives.actions.*;
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.beehives.devices.DeviceRepository;
 import com.buzzybees.master.beehives.devices.SensorValue;
+import com.buzzybees.master.beehives.devices.SensorValueRepository;
 import com.buzzybees.master.beehives.export.ExcelService;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.CookieAuthController;
@@ -47,6 +48,12 @@ public class DashboardController extends CookieAuthController {
 
     @Autowired
     BeehiveRepository beehiveRepository;
+
+    @Autowired
+    StatusRepository statusRepository;
+
+    @Autowired
+    SensorValueRepository sensorValueRepository;
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
@@ -196,6 +203,18 @@ public class DashboardController extends CookieAuthController {
         return new ApiResponse("reminder", reminder);
     }
 
+
+    /**
+     * Updates the status of a notification based on the provided JSON data.
+     *
+     * The input data should contain the "id" field representing the notification to be updated.
+     *
+     * @param data A Map containing notification data in JSON format.
+     * @return ApiResponse indicating the result:
+     *         - If the notification is updated successfully, returns ApiResponse with status "OK".
+     *         - Throws OwnershipException if the current user does not own the notification.
+     *         - Throws ItemNotFoundException if the specified notification is not found.
+     */
     @PostMapping(value = {"/updateNotification"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateNotification(@RequestBody Map<String, String> data) throws OwnershipException, ItemNotFoundException {
         System.out.println(data.toString());
@@ -268,6 +287,37 @@ public class DashboardController extends CookieAuthController {
         return new ApiResponse();
     }
 
+
+    @DeleteMapping("/deleteBeehive/{beehiveToken}")
+    public ApiResponse deleteBeehive(@PathVariable String beehiveToken) {
+        try {
+            Beehive beehive = beehiveRepository.getBeehiveByToken(beehiveToken);
+            // Check if the beehive exists
+            if (beehive == null) {
+                return new ApiResponse("error", "Beehive not found");
+            }
+
+
+
+            beehiveRepository.delete(beehive);
+
+            // Logic to delete the beehive
+            // Example: beehiveRepository.deleteBeehiveByToken(beehiveToken);
+
+            return new ApiResponse("success", "Beehive deleted successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse("error", "An error occurred while deleting the beehive");
+        }
+    }
+
+    /**
+     * Retrieves device configuration based on the provided beehive token.
+     *
+     * @param beehiveToken The token of the beehive for which device configuration is requested.
+     * @return ApiResponse containing device configuration if the current user owns the beehive.
+     * @throws OwnershipException if the current user does not own the specified beehive.
+     */
     @GetMapping("/getDeviceConfig")
     public ApiResponse getDeviceConfig(@RequestParam("beehive") String beehiveToken) throws OwnershipException {
         Beehive beehive = beehiveRepository.getBeehiveByToken(beehiveToken);
