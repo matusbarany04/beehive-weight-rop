@@ -8,7 +8,7 @@
   import Button from "../../../components/Buttons/Button.svelte";
   import EditPanel from "../component/panel/EditPanel.svelte";
   import * as cardUtils from "../component/cards/cardUtilities";
-  import {
+  import staticFuncs, {
     generateUUID,
     TW_BREAKPOINTS,
   } from "../../../components/lib/utils/staticFuncs";
@@ -24,6 +24,8 @@
   import { getCardByFormat } from "../component/cards/cardUtilities";
   import toast from "../../../components/Toast/toast";
   import Login from "../../../general/pages/Login.svelte";
+  import { getLanguageInstance } from "../../../components/language/languageRepository";
+  import sf from "../../../components/lib/utils/staticFuncs";
 
   let cardList = [];
 
@@ -31,6 +33,8 @@
   let editButton = true;
   let renderCards = false;
   let grid;
+
+  const li = getLanguageInstance();
 
   /* this is only temporally, in future there should be a popup that will pause editing until user widens the website */
   panelState.getOpenedRef().subscribe((panelOpened) => {
@@ -55,10 +59,12 @@
   };
 
   let user;
-  message.setMessage("Dobrý deň");
+  message.setMessage(sf.formatString(li.get("home.greeting_noon"), ""));
   onLoad(["user"], (userObj) => {
     user = userObj;
-    message.setMessage("Dobrý deň, včelár " + user.name + "!");
+    message.setMessage(
+      sf.formatString(li.get("home.greeting_noon"), user.name),
+    );
     cardList = JSON.parse(user.dashboardData);
     // console.log(user);
     // renderCards = true;

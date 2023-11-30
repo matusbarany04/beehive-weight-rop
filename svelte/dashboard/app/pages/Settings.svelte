@@ -183,10 +183,7 @@
       </p>
     </SettingsItem>
 
-    <SettingsItem
-      title="Zmeniť heslo"
-      detail="Pri zmene hesla budete odhlásený zo všetkých zariadení a budete sa musieť znova prihlásiť s novým heslo"
-    >
+    <SettingsItem title="Zmeniť heslo" detail="">
       <Button text="Zmeniť heslo" link="/settings/newpassword"></Button>
     </SettingsItem>
 
@@ -391,7 +388,7 @@
         class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
         name="pets"
         on:select={triggerSave}
-        id="pet-select"
+        id="low-battery-select"
       >
         <option value="">--Please choose an option--</option>
         <option value="50" selected={settings["battery_low_threshold"] === 50}

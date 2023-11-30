@@ -1,11 +1,133 @@
 {
+  "cards": {
+  },
+  "sidenav": {
+    "home": "Hlavný panel",
+    "beehives": "Úle",
+    "help": "Pomoc",
+    "settings": "Nastavenia",
+    "other": "Ostatné",
+    "notifications": "Upozornenia",
+    "calendar": "Kalendár",
+    "logout": "Odhlásiť sa"
+  },
+  "home": {
+    "greeting_morning": "Dobré ráno, včelár %s!",
+    "greeting_noon": "Dobrý deň, včelár %s!",
+    "greeting_evening": "Dobrý večer, včelár %s!"
+  },
+  "beehives": {
+    "page_title": "Zoznam úľov",
+    "table_title": "Moje úle",
+    "btn_export": "Exportovať",
+    "as_csv": "Ako csv",
+    "as_excel": "Ako Excel",
+    "btn_new": "Pridať nový úľ",
+    "entries": "Ukáž %d riadkov",
+    "shown_entries": "Ukázaných %d z %d riadkov",
+    "previous": "Predošlá",
+    "next": "Nasledujúca",
+    "search": "hľadať",
+    "btn_detail": "Detail",
+    "beehive": {
+    }
+  },
+  "settings": {
+    "page_title": "Nastavenia",
+    "change_password": {
+      "title": "Zmena hesla",
+      "old_password": {
+        "title": "Vaše staré heslo",
+        "description": "Pre zmenu hesla zadajte prosím Vaše staré heslo"
+      },
+      "new_password": {
+        "title": "Vaše nové heslo",
+        "description": "S týmto heslom sa budete prihlasovať do Vašeho účtu"
+      },
+      "btn_save": "Uložiť"
+    },
+    "account": {
+      "title": "Účet",
+      "name": {
+        "title": "Vaše meno",
+        "description": "Pod týmto menom Vás budeme oslovovať v e-mailoch a na webovej stránke"
+      },
+      "email": {
+        "title": "Váš email",
+        "description": "Email, ktorý ste použili pri registrácií"
+      },
+      "change_password": {
+        "title": "Zmeniť heslo",
+        "description": "Pri zmene hesla budete odhlásený zo všetkých zariadení a budete sa musieť znova prihlásiť s novým heslo",
+        "btn_password_change":"Zmeniť heslo"
+      }
+    },
+    "notifications": {
+      "title": "Upozornenia",
+      "send_to_email": {
+        "title":"Posielať upozornenia na mail",
+        "description":"Týmto nastavením zapnete/vypnete všetky nastavenia"
+      },
+      "send_to_another_email": {
+        "title": "Posielať upozornenia iný mail",
+        "description": ""
+      },
+      "email": {
+        "title": "Email",
+        "description": "Email na ktorý sa budú zasielať upozornenia",
+        "placeholder": "Váš email"
+      },
+      "dont_disturb": {
+        "title": "Nerušiť medzi",
+        "description": "Čas medzi ktorým sa nebudú posielať upozornenia",
+        "time_from": "čas od",
+        "time_to": "čas do"
+      },
+      "humidity": {
+        "title": "Vlhkosť",
+        "high_humidity": {
+          "title": "Zvýšená vlhkosť vzduchu",
+          "description": "Pri zvýšenej vlhkosti Vám príde upozornenie",
+          "high_humidity_threshold": "Vysoká hodnota vlhkosti"
+        },
+        "low_humidity": {
+          "title": "Nízka vlhkosť vzduchu",
+          "description": "Pri nízkej vlhkosti Vám príde upozornenie",
+          "low_humidity_threshold": "Nízka hodnota vlhkosti"
+        },
+        "high_weight_hive": {
+          "title": "Vysoká váha úľa",
+          "description": "Pri vysokom hmotnosti úľa Vám príde upozornenie",
+          "high_weight_threshold": "Vysoká hodnota váhy úľa"
+        },
+        "light_weight_hive": {
+          "title": "Nízka váha úľa",
+          "description": "Pri nízkej hmotnosti úľa Vám príde upozornenie",
+          "light_weight_threshold": "Nízka hodnota váhy úľa"
+        },
+        "battery_low": {
+          "title": "Batéria úľov",
+          "detail": "Pri nízkej batérii Vám príde upozornenie"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "page_title": "Upozornenia",
+    "title": "Vaše upozornenia",
+    "btn_mark_read": "Označiť všetky ako prečítané"
+  },
+  "calendar": {
+    "page_title": "Kalendár",
+    "btn_new_reminder": "Nová poznámka/pripomienka"
+  },
   "actions": {
     "MOTOR_MOVE": "Pohyb motora",
     "WAKE_UP": "Zobudenie váhy",
-    "HIBERNATE" : "Hibernácia" ,
-    "ENABLE_SHARING_CONNECTION" : "Povoliť zdieľanie spojenia",
-    "BURN_SENSOR_ID" : "Uložiť id senzora",
-    "CHANGE_BEEHIVE_CONFIG" : "Zmena konfigurácie zariadenia",
+    "HIBERNATE": "Hibernácia",
+    "ENABLE_SHARING_CONNECTION": "Povoliť zdieľanie spojenia",
+    "BURN_SENSOR_ID": "Uložiť id senzora",
+    "CHANGE_BEEHIVE_CONFIG": "Zmena konfigurácie zariadenia",
     "FACTORY_RESET": "Obnoviť všetky nastavenia na predvolené"
   },
   "statuses": {

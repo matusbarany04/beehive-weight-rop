@@ -18,6 +18,16 @@ export default {
   jsonFlatEqual: function (a, b) {
     return JSON.stringify(a) === JSON.stringify(b);
   },
+  /**
+   * Replaces placeholders in a template string with provided values.
+   *
+   * @param {string} template - The template string with placeholders.
+   * @param {...string} args - The values to replace the placeholders in the template.
+   * @returns {string} The formatted string.
+   */
+  formatString(template, ...args) {
+    return template.replace(/%s/g, () => args.shift());
+  },
 
   /**
    * Converts an array of keys into an array of key-value pairs.

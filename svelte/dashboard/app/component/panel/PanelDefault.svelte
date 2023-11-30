@@ -6,10 +6,13 @@
   import { tweened } from "svelte/motion";
   import { quartInOut } from "svelte/easing";
   import PanelRoot from "./PanelRoot.svelte";
-  import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
+  import sf from "../../../../components/lib/utils/staticFuncs";
+  import { getLanguageInstance } from "../../../../components/language/languageRepository";
 
   let screenSize = 0;
   $: collapsed = false;
+
+  const li = getLanguageInstance();
 </script>
 
 <svelte:window bind:innerWidth={screenSize} />
@@ -22,43 +25,43 @@
 
 <PanelItem
   {collapsed}
-  text="Hlavný panel"
+  text={li.get("sidenav.home")}
   link="/dashboard"
   svg="icons/dashboard.svg"
 />
 <PanelItem
   {collapsed}
-  text="Úle"
+  text={li.get("sidenav.beehives")}
   svg="icons/beehive.svg"
   link="/dashboard/beehives"
   hasSubpages={true}
 />
 {#if !collapsed}
-  <PanelHeaderItem title="Ostatné" />
+  <PanelHeaderItem title={li.get("sidenav.other")} />
 {/if}
 
 <PanelItem
   {collapsed}
-  text="Pomoc"
+  text={li.get("sidenav.help")}
   svg="icons/lightbulb.svg"
   link="/dashboard/help"
 />
 
 <PanelItem
   {collapsed}
-  text="Nastavenia"
+  text={li.get("sidenav.settings")}
   svg="icons/settings.svg"
   link="/dashboard/settings"
 />
 <PanelItem
   {collapsed}
-  text="Upozornenia"
+  text={li.get("sidenav.notifications")}
   svg="icons/bubble.svg"
   link="/dashboard/notifications"
 />
 <PanelItem
   {collapsed}
-  text="Kalendár"
+  text={li.get("sidenav.calendar")}
   svg="icons/calendar.svg"
   link="/dashboard/calendar"
 />
@@ -70,6 +73,6 @@
 />
 <div class="absolute bottom-2 w-full text-center text-white">
   <form action="/logoutUser" method="POST">
-    <button type="submit">Odhlásiť sa</button>
+    <button type="submit">{li.get("sidenav.logout")}</button>
   </form>
 </div>
