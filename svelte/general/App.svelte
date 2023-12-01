@@ -1,7 +1,6 @@
 <script>
   import Router from "./app/routing/Router.svelte";
   import {
-    fetchLanguageData,
     setLanguageDataLoadedEvent,
     isValidLanguage,
     initLanguage,

@@ -5,6 +5,7 @@
     "beehives": "Beehives",
     "help": "Help",
     "settings": "Settings",
+    "other": "Other",
     "notifications": "Notifications",
     "calendar": "Calendar",
     "logout": "Logout"
@@ -16,8 +17,10 @@
   },
   "beehives": {
     "page_title": "List of Hives",
-    "grid_title": "List of Hives",
+    "table_title": "My Hives",
     "btn_export": "Export",
+    "as_csv": "As CSV",
+    "as_excel": "As Excel",
     "btn_new": "Add New Hive",
     "entries": "Show %d rows",
     "shown_entries": "Showing %d of %d rows",
@@ -29,14 +32,16 @@
   },
   "settings": {
     "page_title": "Settings",
+    "btn_save": "Save",
+    "btn_cancel": "Discard Changes",
     "change_password": {
       "title": "Change Password",
       "old_password": {
-        "title": "Your Old Password",
-        "description": "Enter your old password to change it"
+        "title": "Your old password",
+        "description": "To change your password, please enter your old password"
       },
       "new_password": {
-        "title": "Your New Password",
+        "title": "Your new password",
         "description": "Use this password to log in to your account"
       },
       "btn_save": "Save"
@@ -44,65 +49,74 @@
     "account": {
       "title": "Account",
       "name": {
-        "title": "Your Name",
+        "title": "Your name",
         "description": "You will be addressed by this name in emails and on the website"
       },
       "email": {
-        "title": "Your Email",
-        "description": "Email you used for registration"
+        "title": "Your email",
+        "description": "Email used during registration"
       },
       "change_password": {
         "title": "Change Password",
         "description": "Changing the password will log you out of all devices, and you'll need to log in again with the new password",
         "btn_password_change": "Change Password"
+      },
+      "language_preferences": {
+        "title": "Language Preference",
+        "description": ""
       }
     },
     "notifications": {
       "title": "Notifications",
       "send_to_email": {
-        "title": "Send Notifications to Email",
-        "description": "Enable/Disable all notification settings with this option"
+        "title": "Send notifications to email",
+        "description": "Enable/disable all notification settings with this option"
       },
       "send_to_another_email": {
-        "title": "Send Notifications to Another Email",
+        "title": "Send notifications to another email",
         "description": ""
       },
       "email": {
         "title": "Email",
         "description": "Email to which notifications will be sent",
-        "placeholder": "Your Email"
+        "placeholder": "Your email"
       },
       "dont_disturb": {
-        "title": "Do Not Disturb Between",
-        "description": "Time range during which no notifications will be sent",
+        "title": "Do Not Disturb between",
+        "description": "Time during which no notifications will be sent",
         "time_from": "from",
         "time_to": "to"
       },
       "humidity": {
         "title": "Humidity",
         "high_humidity": {
-          "title": "High Air Humidity",
-          "description": "Notification will be sent at increased humidity",
+          "title": "High air humidity",
+          "description": "Notification will be sent when humidity is high",
           "high_humidity_threshold": "High humidity threshold"
         },
         "low_humidity": {
-          "title": "Low Air Humidity",
-          "description": "Notification will be sent at low humidity",
+          "title": "Low air humidity",
+          "description": "Notification will be sent when humidity is low",
           "low_humidity_threshold": "Low humidity threshold"
-        },
+        }
+      },
+      "weight": {
+        "title": "Weight",
         "high_weight_hive": {
-          "title": "High Hive Weight",
-          "description": "Notification will be sent at high hive weight",
-          "high_weight_threshold": "High weight threshold for the hive"
+          "title": "High hive weight",
+          "description": "Notification will be sent when hive weight is high",
+          "high_weight_threshold": "High weight threshold for hive"
         },
         "light_weight_hive": {
-          "title": "Low Hive Weight",
-          "description": "Notification will be sent at low hive weight",
-          "light_weight_threshold": "Low weight threshold for the hive"
-        },
+          "title": "Low hive weight",
+          "description": "Notification will be sent when hive weight is low",
+          "light_weight_threshold": "Low weight threshold for hive"
+        }
+      },
+      "battery": {
         "battery_low": {
           "title": "Hive Battery",
-          "detail": "Notification will be sent at low battery"
+          "detail": "Notification will be sent when the battery is low"
         }
       }
     }
@@ -118,7 +132,7 @@
   },
   "actions": {
     "MOTOR_MOVE": "Motor Movement",
-    "WAKE_UP": "Wake Up Scale",
+    "WAKE_UP": "Weight Wake Up",
     "HIBERNATE": "Hibernate",
     "ENABLE_SHARING_CONNECTION": "Enable Sharing Connection",
     "BURN_SENSOR_ID": "Save Sensor ID",
@@ -130,7 +144,7 @@
     "PENDING": "PENDING",
     "SENT": "SENT",
     "SCHEDULED": "SCHEDULED",
-    "WIFI_CONNECTION_FAILED": "Incorrect password or error connecting to WiFi",
+    "WIFI_CONNECTION_FAILED": "Incorrect password or WiFi connection error",
     "WIFI_NO_SSID_AVAIL": "WiFi network not found",
     "DEVICE_NOT_FOUND": "Sensor or other device not found",
     "UNKNOWN_ERROR": "Unknown error",

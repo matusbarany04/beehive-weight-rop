@@ -1,7 +1,7 @@
 <script>
   import Router from "./app/routing/Router.svelte";
   import { prefix } from "../components/router/prefix";
-  import shared from "./app/stores/shared";
+  import shared, { onLoad } from "./app/stores/shared";
   import Loading from "../components/pages/Loading.svelte";
   import { SvelteToast } from "@zerodevx/svelte-toast";
   import "../components/Toast/toastStyles.css";
@@ -10,6 +10,7 @@
     initLanguage,
     setLanguageDataLoadedEvent,
   } from "../components/language/languageRepository";
+
   // Initiate all fetch operations in an async function
   async function loadData() {
     //sets prefix for all route links
@@ -28,17 +29,16 @@
   let languageLoaded = false;
   setLanguageDataLoadedEvent((json) => {
     languageLoaded = true;
-    console.log("language loaded", json);
   });
 
-  initLanguage("dashboard");
+  // TODO don't do it like this, make a lang cookie to not chain these
+  onLoad(["user"], (user) => {
+    initLanguage("dashboard", user.language);
+  });
 </script>
 
 <SvelteToast />
 <div class="bg-slate-300">
-  <!-- Uncomment these if you want to include them -->
-  <!-- <Sidenav class="sidenav" />
-  <Panel /> -->
   {#if languageLoaded}
     <Router />
   {:else}

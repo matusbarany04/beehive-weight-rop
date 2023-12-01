@@ -1,0 +1,157 @@
+{
+  "cards": {
+  },
+  "sidenav": {
+    "home": "Domů",
+    "beehives": "Úly",
+    "help": "Pomoc",
+    "settings": "Nastavení",
+    "other": "Ostatní",
+    "notifications": "Upozornění",
+    "calendar": "Kalendář",
+    "logout": "Odhlásit se"
+  },
+  "home": {
+    "greeting_morning": "Dobré ráno, včelaři %s!",
+    "greeting_noon": "Dobrý den, včelaři %s!",
+    "greeting_evening": "Dobrý večer, včelaři %s!"
+  },
+  "beehives": {
+    "page_title": "Seznam úlů",
+    "table_title": "Moje úly",
+    "btn_export": "Exportovat",
+    "as_csv": "Jako csv",
+    "as_excel": "Jako Excel",
+    "btn_new": "Přidat nový úl",
+    "entries": "Ukázat %d řádků",
+    "shown_entries": "Ukázáno %d z %d řádků",
+    "previous": "Předchozí",
+    "next": "Následující",
+    "search": "hledat",
+    "btn_detail": "Detail",
+    "beehive": {
+    }
+  },
+  "settings": {
+    "page_title": "Nastavení",
+    "btn_save":"Uložit",
+    "btn_cancel":"Zrušit změny",
+    "change_password": {
+      "title": "Změna hesla",
+      "old_password": {
+        "title": "Vaše staré heslo",
+        "description": "Pro změnu hesla zadejte prosím Vaše staré heslo"
+      },
+      "new_password": {
+        "title": "Vaše nové heslo",
+        "description": "S tímto heslem se budete přihlašovat do Vašeho účtu"
+      },
+      "btn_save": "Uložit"
+    },
+    "account": {
+      "title": "Účet",
+      "name": {
+        "title": "Vaše jméno",
+        "description": "Pod tímto jménem Vás budeme oslovovali v e-mailech a na webové stránce"
+      },
+      "email": {
+        "title": "Váš email",
+        "description": "Email, který jste použili při registraci"
+      },
+      "change_password": {
+        "title": "Změnit heslo",
+        "description": "Při změně hesla budete odhlášený ze všech zařízení a budete se muset znovu přihlásit s novým heslem",
+        "btn_password_change":"Změnit heslo"
+      },
+      "language_preferences": {
+        "title": "Jazyk stránky",
+        "description": ""
+      }
+    },
+    "notifications": {
+      "title": "Upozornění",
+      "send_to_email": {
+        "title":"Posílat upozornění na mail",
+        "description":"Tímto nastavením zapnete/vypnete všechna nastavení"
+      },
+      "send_to_another_email": {
+        "title": "Posílat upozornění na jiný mail",
+        "description": ""
+      },
+      "email": {
+        "title": "Email",
+        "description": "Email, na který budou zasílána upozornění",
+        "placeholder": "Váš email"
+      },
+      "dont_disturb": {
+        "title": "Nerušit mezi",
+        "description": "Čas mezi kterým se nebudou posílat upozornění",
+        "time_from": "čas od",
+        "time_to": "čas do"
+      },
+      "humidity": {
+        "title": "Vlhkost",
+        "high_humidity": {
+          "title": "Zvýšená vlhkost vzduchu",
+          "description": "Při zvýšené vlhkosti Vám přijde upozornění",
+          "high_humidity_threshold": "Vysoká hodnota vlhkosti"
+        },
+        "low_humidity": {
+          "title": "Nízká vlhkost vzduchu",
+          "description": "Při nízké vlhkosti Vám přijde upozornění",
+          "low_humidity_threshold": "Nízká hodnota vlhkosti"
+        }
+
+      },
+      "weight": {
+        "title": "Váha",
+        "high_weight_hive": {
+          "title": "Vysoká váha úlu",
+          "description": "Při vysoké hmotnosti úlu Vám přijde upozornění",
+          "high_weight_threshold": "Vysoká hodnota váhy úlu"
+        },
+        "light_weight_hive": {
+          "title": "Nízká váha úlu",
+          "description": "Při nízké hmotnosti úlu Vám přijde upozornění",
+          "light_weight_threshold": "Nízká hodnota váhy úlu"
+        }
+
+      },
+      "battery": {
+        "battery_low": {
+          "title": "Baterie úlů",
+          "detail": "Při nízké baterii Vám přijde upozornění"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "page_title": "Upozornění",
+    "title": "Vaše upozornění",
+    "btn_mark_read": "Označit všechny jako přečtené"
+  },
+  "calendar": {
+    "page_title": "Kalendář",
+    "btn_new_reminder": "Nová poznámka/připomínka"
+  },
+  "actions": {
+    "MOTOR_MOVE": "Pohyb motoru",
+    "WAKE_UP": "Probuzení váhy",
+    "HIBERNATE": "Hibernace",
+    "ENABLE_SHARING_CONNECTION": "Povolit sdílení spojení",
+    "BURN_SENSOR_ID": "Uložit ID senzoru",
+    "CHANGE_BEEHIVE_CONFIG": "Změna konfigurace zařízení",
+    "FACTORY_RESET": "Obnovit všechna nastavení na výchozí"
+  },
+  "statuses": {
+    "DONE": "DOKONČENO",
+    "PENDING": "ČEKÁ SE",
+    "SENT": "ODESÍLÁNO",
+    "SCHEDULED": "NAPLÁNOVÁNO",
+    "WIFI_CONNECTION_FAILED": "Nesprávné heslo nebo chyba při připojení k WiFi",
+    "WIFI_NO_SSID_AVAIL": "WiFi síť nebyla nalezena",
+    "DEVICE_NOT_FOUND": "Senzor nebo jiné zařízení nebylo nalezeno",
+    "UNKNOWN_ERROR": "Neznámá chyba",
+    "BEEHIVE_IS_OFFLINE": "Včelí úl je offline"
+  }
+}

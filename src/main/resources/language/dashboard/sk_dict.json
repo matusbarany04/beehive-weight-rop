@@ -34,6 +34,8 @@
   },
   "settings": {
     "page_title": "Nastavenia",
+    "btn_save":"Uložiť",
+    "btn_cancel":"Zahodiť zmeny",
     "change_password": {
       "title": "Zmena hesla",
       "old_password": {
@@ -60,6 +62,10 @@
         "title": "Zmeniť heslo",
         "description": "Pri zmene hesla budete odhlásený zo všetkých zariadení a budete sa musieť znova prihlásiť s novým heslo",
         "btn_password_change":"Zmeniť heslo"
+      },
+      "language_preferences": {
+        "title": "Jazyk stránky",
+        "description": ""
       }
     },
     "notifications": {
@@ -94,7 +100,11 @@
           "title": "Nízka vlhkosť vzduchu",
           "description": "Pri nízkej vlhkosti Vám príde upozornenie",
           "low_humidity_threshold": "Nízka hodnota vlhkosti"
-        },
+        }
+
+      },
+      "weight": {
+        "title": "Váha",
         "high_weight_hive": {
           "title": "Vysoká váha úľa",
           "description": "Pri vysokom hmotnosti úľa Vám príde upozornenie",
@@ -104,7 +114,10 @@
           "title": "Nízka váha úľa",
           "description": "Pri nízkej hmotnosti úľa Vám príde upozornenie",
           "light_weight_threshold": "Nízka hodnota váhy úľa"
-        },
+        }
+
+      },
+      "battery": {
         "battery_low": {
           "title": "Batéria úľov",
           "detail": "Pri nízkej batérii Vám príde upozornenie"

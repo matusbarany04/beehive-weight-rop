@@ -77,11 +77,11 @@ export let fetchLanguageData = (pagetype = "", language = languages.SK) => {
     });
 };
 
-export function initLanguage(pagetype) {
+export function initLanguage(pagetype, defaultLanguage = languages.SK) {
   const params = new URLSearchParams(window.location.search);
   let languageParam = params.get("language");
 
-  if (!isValidLanguage(languageParam)) languageParam = languages.SK;
+  if (!isValidLanguage(languageParam)) languageParam = defaultLanguage;
   language.set(languageParam);
 
   fetchLanguageData(pagetype, languageParam);
