@@ -1,6 +1,8 @@
 package com.buzzybees.master.controllers;
 
+import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.CookieAuthController;
+import com.buzzybees.master.language.Language;
 import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.notifications.Notification.Type;
 import com.buzzybees.master.notifications.NotificationRepository;
@@ -161,6 +163,31 @@ public class UserController extends CookieAuthController {
         }
         return "Not logged in";
     }
+
+
+
+    @PostMapping(value = {"/change/language"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiResponse updateUserLanguage(@RequestBody Map<String, String> updateRequest) {
+        System.out.println(updateRequest.keySet().toString());
+        String newLanguage = updateRequest.get("language");
+
+        if (currentUserId > 0) {
+            User user = userRepository.getUserById(currentUserId);
+            if (user == null) {
+                return new ApiResponse("error", "User not found");
+            }
+
+            // Assuming you have a 'language' property in your User entity
+            user.setLanguage(Language.valueOf( newLanguage.toUpperCase()));
+
+            userRepository.save(user);
+
+            return new ApiResponse("ok","User language updated successfully");
+        }
+
+        return new ApiResponse("error", "Not logged in");
+    }
+
 
     @Deprecated
     @GetMapping("/getToken")

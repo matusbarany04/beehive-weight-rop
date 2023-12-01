@@ -1,0 +1,158 @@
+{
+  "cards": {
+  },
+  "sidenav": {
+    "home": "Főoldal",
+    "beehives": "Méhek",
+    "help": "Segítség",
+    "settings": "Beállítások",
+    "other": "Egyéb",
+    "notifications": "Értesítések",
+    "calendar": "Naptár",
+    "logout": "Kijelentkezés"
+  },
+  "home": {
+    "greeting_morning": "Jó reggelt, méhész %s!",
+    "greeting_noon": "Jó napot, méhész %s!",
+    "greeting_evening": "Jó estét, méhész %s!"
+  },
+  "beehives": {
+    "page_title": "Méhek listája",
+    "table_title": "Saját méheink",
+    "btn_export": "Exportálás",
+    "as_csv": "CSV-ként",
+    "as_excel": "Excel-ként",
+    "btn_new": "Új méh hozzáadása",
+    "entries": "Mutass %d sor",
+    "shown_entries": "Megjelenítve %d a %d sorból",
+    "previous": "Előző",
+    "next": "Következő",
+    "search": "keresés",
+    "btn_detail": "Részletek",
+    "beehive": {
+    }
+  },
+  "settings": {
+    "page_title": "Beállítások",
+    "btn_save": "Mentés",
+    "btn_cancel": "Változtatások elvetése",
+    "change_password": {
+      "title": "Jelszó megváltoztatása",
+      "old_password": {
+        "title": "Régi jelszó",
+        "description": "A jelszóváltoztatáshoz adja meg régi jelszavát"
+      },
+      "new_password": {
+        "title": "Új jelszó",
+        "description": "Ezzel a jelszóval fog bejelentkezni a fiókjába"
+      },
+      "btn_save": "Mentés"
+    },
+    "account": {
+      "title": "Fiók",
+      "name": {
+        "title": "Neve",
+        "description": "Ezen a néven szólítjuk meg az e-mailekben és a weboldalon"
+      },
+      "email": {
+        "title": "E-mail",
+        "description": "Az e-mail, amelyet a regisztrációkor használt"
+      },
+      "change_password": {
+        "title": "Jelszó megváltoztatása",
+        "description": "A jelszó megváltoztatásakor minden eszközről kijelentkezik, és újra be kell jelentkeznie az új jelszóval",
+        "btn_password_change": "Jelszó megváltoztatása"
+      },
+      "language_preferences": {
+        "title": "Webhely nyelve",
+        "description": ""
+      }
+    },
+    "notifications": {
+      "title": "Értesítések",
+      "send_to_email": {
+        "title": "Értesítések küldése e-mailben",
+        "description": "Ezzel a beállítással be- vagy kikapcsolhatja az összes értesítési beállítást"
+      },
+      "send_to_another_email": {
+        "title": "Értesítések küldése másik e-mail címre",
+        "description": ""
+      },
+      "email": {
+        "title": "E-mail",
+        "description": "Az a cím, ahová az értesítéseket küldeni fogjuk",
+        "placeholder": "Az ön e-mail címe"
+      },
+      "dont_disturb": {
+        "title": "Ne zavarjanak",
+        "description": "Azok az időszakok, amikor nem küldünk értesítéseket",
+        "time_from": "időtől",
+        "time_to": "időig"
+      },
+      "humidity": {
+        "title": "Páratartalom",
+        "high_humidity": {
+          "title": "Magas páratartalom",
+          "description": "Értesítés érkezik, ha magas a páratartalom",
+          "high_humidity_threshold": "Magas páratartalom küszöbérték"
+        },
+        "low_humidity": {
+          "title": "Alacsony páratartalom",
+          "description": "Értesítés érkezik, ha alacsony a páratartalom",
+          "low_humidity_threshold": "Alacsony páratartalom küszöbérték"
+        }
+      },
+      "weight": {
+        "title": "Súly",
+        "high_weight_hive": {
+          "title": "Magas méhsúly",
+          "description": "Értesítés érkezik, ha magas a méhsúly",
+          "high_weight_threshold": "Magas méhsúly küszöbérték"
+        },
+        "light_weight_hive": {
+          "title": "Alacsony méhsúly",
+          "description": "Értesítés érkezik, ha alacsony a méhsúly",
+          "light_weight_threshold": "Alacsony méhsúly küszöbérték"
+        }
+      },
+      "battery": {
+        "battery_low": {
+          "title": "Méhkolónia akkumulátora",
+          "detail": "Értesítés érkezik, ha alacsony az akkumulátor töltöttsége"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "page_title": "Értesítések",
+    "title": "Az ön értesítései",
+    "btn_mark_read": "Mindenként olvasottként jelöl"
+  },
+  "calendar": {
+    "page_title": "Naptár",
+    "btn_new_reminder": "Új emlékeztető/megjegyzés"
+  },
+  "actions": {
+    "MOTOR_MOVE": "Motor mozgatása",
+    "WAKE_UP": "Mérleg felébresztése",
+    "HIBERNATE": "Hibernálás",
+    "ENABLE_SHARING_CONNECTION": "Megosztási kapcsolat engedélyez
+
+    ése
+    ",
+    "BURN_SENSOR_ID": "Érzékelő azonosítójának elmentése",
+    "CHANGE_BEEHIVE_CONFIG": "Méhkaptár konfigurációjának módosítása",
+    "FACTORY_RESET": "Gyári visszaállítás"
+  },
+  "statuses": {
+    "DONE": "KÉSZ",
+    "PENDING": "FÜGGŐBEN",
+    "SENT": "ELKÜLDVE",
+    "SCHEDULED": "ÜTEMEZETT",
+    "WIFI_CONNECTION_FAILED": "Rossz jelszó vagy hiba a WiFi-csatlakozásnál",
+    "WIFI_NO_SSID_AVAIL": "WiFi hálózat nem található",
+    "DEVICE_NOT_FOUND": "Érzékelő vagy egyéb eszköz nem található",
+    "UNKNOWN_ERROR": "Ismeretlen hiba",
+    "BEEHIVE_IS_OFFLINE": "A méhkaptár offline"
+  }
+}
