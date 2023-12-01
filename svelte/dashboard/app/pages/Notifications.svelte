@@ -8,6 +8,12 @@
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
   import { fade, fly } from "svelte/transition";
   import message from "../stores/message";
+
+  const socket = new WebSocket("ws://localhost:8080/socket");
+
+  socket.onopen = (event) => {
+    console.log("WebSocket connection opened:", event);
+  };
   /*
   var stompClient = null;
 
