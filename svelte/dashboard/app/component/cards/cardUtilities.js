@@ -6,26 +6,31 @@ import WeatherCard from "./WeatherCard.svelte";
 import DoubleGraph from "./DoubleGraph.svelte";
 import EChart from "./EChart.svelte";
 import Doughnut from "./Doughnut.svelte";
+import BarChart from "./BarChart.svelte";
+
 /**
  *  this method will return title, span, position and other attributes of the element
  * @param {*} id of the card
  */
-export const getCard = (id) => {};
+export const getCard = (id) => {
+};
 
 /**
  *  this method will return data for the card
  * @param {*} id of the card
  */
-export const getData = (id) => {};
+export const getData = (id) => {
+};
 
 const cardtypes = [
-  { format: "LineGraph", component: EChart },
+  {format: "LineGraph", component: EChart},
   // { format: "DoubleGraph", component: DoubleGraph },
-  { format: "PercentageCard", component: PercentageCard },
-  { format: "MapCard", component: MapCard },
-  { format: "WeatherCard", component: WeatherCard },
-  { format: "TestCard", component: TestCard },
-  { format: "Doughnut", component: Doughnut },
+  {format: "PercentageCard", component: PercentageCard},
+  {format: "MapCard", component: MapCard},
+  {format: "WeatherCard", component: WeatherCard},
+  {format: "TestCard", component: TestCard},
+  {format: "Doughnut", component: Doughnut},
+  {format: "BarChart", component: BarChart}
 ];
 
 export function getCardTypes() {
