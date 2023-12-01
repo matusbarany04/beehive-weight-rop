@@ -20,6 +20,37 @@ export default {
   },
 
   /**
+   * Function copies values from the first json object to the second one
+   * only if the second one has the properties (excluding specified properties).
+   *
+   * @param source {Object} - The source JSON object
+   * @param target {Object} - The target JSON object
+   * @param excludeProperties {Array} - The list of properties to exclude from copying
+   * @return {Object} - The updated target JSON object
+   */
+  copyKeepReference(source, target, excludeProperties = []) {
+    for (const key in source) {
+      // Check if the property exists in the target object and is not in the exclusion list
+      if (target.hasOwnProperty(key) && !excludeProperties.includes(key)) {
+        // Copy the value from the source to the target
+        target[key] = source[key];
+      }
+    }
+    return target;
+  },
+
+  /**
+   * Replaces placeholders in a template string with provided values.
+   *
+   * @param {string} template - The template string with placeholders.
+   * @param {...string} args - The values to replace the placeholders in the template.
+   * @returns {string} The formatted string.
+   */
+  formatString(template, ...args) {
+    return template.replace(/%s/g, () => args.shift());
+  },
+
+  /**
    * Converts an array of keys into an array of key-value pairs.
    * @param {Array<string>} keys - An array of keys.
    * @param {any} value - The common value to be associated with each key.

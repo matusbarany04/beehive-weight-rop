@@ -12,7 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -88,19 +90,36 @@ public class SettingsController extends CookieAuthController {
      * -H "Content-Type: application/json" \
      * -d '{"dont_disturb_from": 1500}'
      */
-    @PutMapping("/updateBatch")
-    public ApiResponse updateSettings(@ModelAttribute Settings settings) throws ItemNotFoundException {
+    @PutMapping(value = "/updateBatch", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ApiResponse updateSettings(@RequestBody Settings settings) throws ItemNotFoundException, AuthenticationException {
         SettingsRepository settingsRepository = getRepo(Settings.class);
 
+        // save new settings
+        System.out.println(settings.toString());
         if (settings == null) {
             // Handle the case where no settings exist for the user.
             throw new ItemNotFoundException();
         }
 
+        settings.setId(null);
+        settings.setUserId(currentUserId);
+
+        System.out.println("userId " +  currentUserId);
+        // if didn't turn on so provided settings should be valid
+        // search current settings with currentUserId and delete all of them
+        Settings[] existingSettings = settingsRepository.getAllSettingsByUserId(currentUserId);
+        settingsRepository.deleteAll(List.of(existingSettings));
+
         settingsRepository.save(settings);
-        return new ApiResponse();
+        return new ApiResponse("ok", settings.toString());
     }
 
+
+    /**
+     * Retrieves user settings based on the current user's ID.
+     *
+     * @return ApiResponse containing user settings if available, otherwise throws ItemNotFoundException.
+     */
     @GetMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse getSettingsByUserId() throws ItemNotFoundException {
         Settings settings = Settings.getSettingsByUser(currentUserId, settingsRepository);

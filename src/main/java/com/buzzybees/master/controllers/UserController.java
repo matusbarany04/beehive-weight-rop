@@ -211,6 +211,11 @@ public class UserController extends CookieAuthController {
         //   simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/specific", message);
     }
 
+
+    /**
+     * Sends a test message to a specific user using WebSocket.
+     * The message is sent to the user's unique destination based on their token.
+     */
     @GetMapping("/messageTest")
     public void messageTest() {
         String token = UserService.getTokenByUserId(1);
@@ -218,6 +223,13 @@ public class UserController extends CookieAuthController {
         System.out.println(simpMessagingTemplate.getMessageChannel());
     }
 
+
+    /**
+     * Sends a test message to all subscribers by publishing it to the "/all/messages" destination.
+     *
+     * @return A Message object containing test information.
+     * @throws Exception if there is an issue during message publication.
+     */
     @GetMapping("/sendMessage")
     @SendTo("/all/messages")
     public Message test() throws Exception {

@@ -1,0 +1,139 @@
+{
+  "cards": {},
+  "sidenav": {
+    "home": "Dashboard",
+    "beehives": "Beehives",
+    "help": "Help",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "calendar": "Calendar",
+    "logout": "Logout"
+  },
+  "home": {
+    "greeting_morning": "Good morning, beekeeper %s!",
+    "greeting_noon": "Good day, beekeeper %s!",
+    "greeting_evening": "Good evening, beekeeper %s!"
+  },
+  "beehives": {
+    "page_title": "List of Hives",
+    "grid_title": "List of Hives",
+    "btn_export": "Export",
+    "btn_new": "Add New Hive",
+    "entries": "Show %d rows",
+    "shown_entries": "Showing %d of %d rows",
+    "previous": "Previous",
+    "next": "Next",
+    "search": "Search",
+    "btn_detail": "Detail",
+    "beehive": {}
+  },
+  "settings": {
+    "page_title": "Settings",
+    "change_password": {
+      "title": "Change Password",
+      "old_password": {
+        "title": "Your Old Password",
+        "description": "Enter your old password to change it"
+      },
+      "new_password": {
+        "title": "Your New Password",
+        "description": "Use this password to log in to your account"
+      },
+      "btn_save": "Save"
+    },
+    "account": {
+      "title": "Account",
+      "name": {
+        "title": "Your Name",
+        "description": "You will be addressed by this name in emails and on the website"
+      },
+      "email": {
+        "title": "Your Email",
+        "description": "Email you used for registration"
+      },
+      "change_password": {
+        "title": "Change Password",
+        "description": "Changing the password will log you out of all devices, and you'll need to log in again with the new password",
+        "btn_password_change": "Change Password"
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "send_to_email": {
+        "title": "Send Notifications to Email",
+        "description": "Enable/Disable all notification settings with this option"
+      },
+      "send_to_another_email": {
+        "title": "Send Notifications to Another Email",
+        "description": ""
+      },
+      "email": {
+        "title": "Email",
+        "description": "Email to which notifications will be sent",
+        "placeholder": "Your Email"
+      },
+      "dont_disturb": {
+        "title": "Do Not Disturb Between",
+        "description": "Time range during which no notifications will be sent",
+        "time_from": "from",
+        "time_to": "to"
+      },
+      "humidity": {
+        "title": "Humidity",
+        "high_humidity": {
+          "title": "High Air Humidity",
+          "description": "Notification will be sent at increased humidity",
+          "high_humidity_threshold": "High humidity threshold"
+        },
+        "low_humidity": {
+          "title": "Low Air Humidity",
+          "description": "Notification will be sent at low humidity",
+          "low_humidity_threshold": "Low humidity threshold"
+        },
+        "high_weight_hive": {
+          "title": "High Hive Weight",
+          "description": "Notification will be sent at high hive weight",
+          "high_weight_threshold": "High weight threshold for the hive"
+        },
+        "light_weight_hive": {
+          "title": "Low Hive Weight",
+          "description": "Notification will be sent at low hive weight",
+          "light_weight_threshold": "Low weight threshold for the hive"
+        },
+        "battery_low": {
+          "title": "Hive Battery",
+          "detail": "Notification will be sent at low battery"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "page_title": "Notifications",
+    "title": "Your Notifications",
+    "btn_mark_read": "Mark All as Read"
+  },
+  "calendar": {
+    "page_title": "Calendar",
+    "btn_new_reminder": "New Note/Reminder"
+  },
+  "actions": {
+    "MOTOR_MOVE": "Motor Movement",
+    "WAKE_UP": "Wake Up Scale",
+    "HIBERNATE": "Hibernate",
+    "ENABLE_SHARING_CONNECTION": "Enable Sharing Connection",
+    "BURN_SENSOR_ID": "Save Sensor ID",
+    "CHANGE_BEEHIVE_CONFIG": "Change Device Configuration",
+    "FACTORY_RESET": "Restore All Settings to Default"
+  },
+  "statuses": {
+    "DONE": "COMPLETED",
+    "PENDING": "PENDING",
+    "SENT": "SENT",
+    "SCHEDULED": "SCHEDULED",
+    "WIFI_CONNECTION_FAILED": "Incorrect password or error connecting to WiFi",
+    "WIFI_NO_SSID_AVAIL": "WiFi network not found",
+    "DEVICE_NOT_FOUND": "Sensor or other device not found",
+    "UNKNOWN_ERROR": "Unknown error",
+    "BEEHIVE_IS_OFFLINE": "Beehive is offline"
+  }
+}
