@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include <HX711.h>
 #include <ArduinoJson.h>
+#include <Servo.h>
 
 #include "sensors/SensorManager.h" 
 #include "network.h"
@@ -9,6 +10,7 @@
 #include "actions.h"
 #include "led.h"
 #include "Button.h"
+#include "sim.h"
 #include "memory.h"
 #include "power.h"
 #include "enums.h"
@@ -32,6 +34,7 @@ ActionManager actionManager;
 
 LED led(19);
 Button button(21);
+SIM sim(1);
 
 Config config = {};
 long wakeUpTime;
@@ -41,6 +44,9 @@ bool isConnected = false;
 //HX711 scale;
 
 void handleActions();
+
+HardwareSerial gsmSerial(1);
+
  
 void setup()
 {
@@ -56,7 +62,7 @@ void setup()
   ScheduledAction updateStatus = {0, UPDATE_STATUS, "{}", wakeUpTime};
   saveAction(updateStatus);*/
 
-  long minTimestamp = 0;
+/*  long minTimestamp = 0;
 
   uint8_t actionCount;
   Serial.println("reading actions");
@@ -93,8 +99,7 @@ void setup()
   //sensorManager.burn(2, {"", 1000, LIGHT, 0});
 
   
-
-
+/*
   led.indicate(REQUEST_SUCCESS);
 
  // button.setAction(pair);
@@ -103,9 +108,14 @@ void setup()
 
   led.off();
 
-  networkManager.turn_wifi_off();
-  saveNextTime(minTimestamp);
-  if(!wakeUp) Power::sleep(wakeUpTime + millis() / 1000 - minTimestamp);
+  networkManager.turn_wifi_off();*/
+  Serial.println("Test connection");
+  //sim.connect();
+ // Serial.println(sim.test());
+  //sim.check();
+  gsmSerial.begin(9600);
+//  saveNextTime(minTimestamp);
+ // if(!wakeUp) Power::sleep(wakeUpTime + millis() / 1000 - minTimestamp);
 }
 
 
@@ -136,11 +146,11 @@ void updateStatus() {
   if(!isConnected) connect();
 
   Serial.println("Connected");
-
+/*
   networkManager.POST("/updateStatus", json);
   DynamicJsonDocument response = networkManager.getResponseJSON();
   executeActions(response["actions"]);
-  Serial.println(networkManager.getRequestResult());
+  Serial.println(networkManager.getRequestResult());*/
 }
 
 
@@ -234,6 +244,15 @@ String changeConfig(JsonObject params) {
 void loop()
 {  
  // Serial.println(scale.get_units(), 1);
-  delay(500);
+  // delay(500);
+  while (Serial.available())
+  {
+            gsmSerial.write(Serial.read()); // Forward what Serial received to Software Serial Port
+        }
+        while (gsmSerial.available())
+        {
+            Serial.write(gsmSerial.read()); // Forward what Software Serial received to Serial Port
+        }
 }
+
  

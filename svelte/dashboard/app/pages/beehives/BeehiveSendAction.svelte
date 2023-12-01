@@ -63,24 +63,24 @@
 
   function deleteAction(action_id) {
     fetch(`/actions/deleteAction/${action_id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         // Add any additional headers if needed
       },
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json();
       })
-      .then(data => {
-        console.log('Delete Action Successful:', data);
-        fetchPendingActions()
+      .then((data) => {
+        console.log("Delete Action Successful:", data);
+        fetchPendingActions();
       })
-      .catch(error => {
-        console.error('Error deleting action:', error);
+      .catch((error) => {
+        console.error("Error deleting action:", error);
         // Handle the error here
       });
   }
@@ -99,9 +99,12 @@
 
 {#if Object.keys(pendingActions).length > 0}
   {#each Object.entries(pendingActions) as [id, action]}
-    <ActionCard actionObject={action} onDeleteCard={()=>{
-      deleteAction(action.id)
-    }}></ActionCard>
+    <ActionCard
+      actionObject={action}
+      onDeleteCard={() => {
+        deleteAction(action.id);
+      }}
+    ></ActionCard>
   {/each}
 {:else}
   <div
