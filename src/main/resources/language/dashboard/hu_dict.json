@@ -136,10 +136,7 @@
     "MOTOR_MOVE": "Motor mozgatása",
     "WAKE_UP": "Mérleg felébresztése",
     "HIBERNATE": "Hibernálás",
-    "ENABLE_SHARING_CONNECTION": "Megosztási kapcsolat engedélyez
-
-    ése
-    ",
+    "ENABLE_SHARING_CONNECTION": "Megosztási kapcsolat engedélyezése",
     "BURN_SENSOR_ID": "Érzékelő azonosítójának elmentése",
     "CHANGE_BEEHIVE_CONFIG": "Méhkaptár konfigurációjának módosítása",
     "FACTORY_RESET": "Gyári visszaállítás"
