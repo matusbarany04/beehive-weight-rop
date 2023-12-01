@@ -25,7 +25,6 @@
         // shared
         //   .getBeehivesByIds(beehive_id_array)
         //   .map(beehive => beehive?.getCurrentDataTypesAsKeyValuePairs(true));
-
       }
 
       // if choice is not in new typeChoiceList reset back to primary
@@ -34,7 +33,6 @@
       }
 
       if (beehive_id_array.includes("all")) {
-        
         typeChoiceList = BeehiveObj.getNonDetachableTypesAsKeyValuePairs(true);
       }
     } catch (e) {

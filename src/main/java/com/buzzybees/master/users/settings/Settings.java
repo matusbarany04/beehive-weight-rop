@@ -29,7 +29,7 @@ public class Settings {
     private boolean dontDisturb = false;
 
     @Column(name = "dont_disturb_from")
-    private long dontDisturbFrom = 1200;
+    private long dontDisturbFrom = 555;
 
     @Column(name = "dont_disturb_to")
     private long dontDisturbTo = 1500;

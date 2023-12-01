@@ -18,6 +18,27 @@ export default {
   jsonFlatEqual: function (a, b) {
     return JSON.stringify(a) === JSON.stringify(b);
   },
+
+  /**
+   * Function copies values from the first json object to the second one
+   * only if the second one has the properties (excluding specified properties).
+   *
+   * @param source {Object} - The source JSON object
+   * @param target {Object} - The target JSON object
+   * @param excludeProperties {Array} - The list of properties to exclude from copying
+   * @return {Object} - The updated target JSON object
+   */
+  copyKeepReference(source, target, excludeProperties = []) {
+    for (const key in source) {
+      // Check if the property exists in the target object and is not in the exclusion list
+      if (target.hasOwnProperty(key) && !excludeProperties.includes(key)) {
+        // Copy the value from the source to the target
+        target[key] = source[key];
+      }
+    }
+    return target;
+  },
+
   /**
    * Replaces placeholders in a template string with provided values.
    *

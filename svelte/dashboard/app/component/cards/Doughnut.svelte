@@ -90,8 +90,6 @@
     });
 
     let initOptions = () => {
-
-
       let option = {
         tooltip: {
           trigger: "item",

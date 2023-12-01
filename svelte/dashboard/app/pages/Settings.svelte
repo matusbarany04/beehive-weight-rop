@@ -24,6 +24,8 @@
   message.setMessage("Nastavenia");
 
   let settings = null;
+
+  // old original copy with no references
   let originalSettings = null;
 
   onLoad("settings", (settings_json) => {
@@ -34,6 +36,7 @@
 
   let saveEnabled = false;
   let userObject;
+  // old and original user with no references
   let originalUser;
   onLoad("user", (user) => {
     userObject = JSON.parse(JSON.stringify(user));
@@ -62,6 +65,9 @@
   function saveSettings() {
     fetch("/dashboardApi/settings/updateBatch", {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(settings),
     })
       .then((response) => {
@@ -112,16 +118,17 @@
     userObject = { ...userObject };
 
     // Update properties of settings
-    for (let key in originalSettings) {
-      console.log(
-        "restoring ",
-        key,
-        "from " + settings[key] + " to " + originalSettings[key],
-      );
-      settings[key] = originalSettings[key];
-    }
-    settings = { ...settings };
+    // for (let key in originalSettings) {
+    //   console.log(
+    //     "restoring ",
+    //     key,
+    //     "from " + settings[key] + " to " + originalSettings[key],
+    //   );
+    //   settings[key] = originalSettings[key];
+    // }
+    // settings = { ...settings };
 
+    settings = { ...originalSettings };
     saveEnabled = false;
     resetUnsavedData();
     triggerSave();
@@ -132,6 +139,21 @@
   <title>Nastavenia</title>
   <meta name="Analytika" content="Analytika" />
 </svelte:head>
+
+<p>originalSettings</p>
+<pre>
+  <code>
+    {JSON.stringify(originalSettings, null, 2)}
+  </code>
+</pre>
+<br />
+
+<p>settings</p>
+<pre>
+  <code>
+    {JSON.stringify(settings, null, 2)}
+  </code>
+</pre>
 
 <div class="absolute right-0 top-0 z-50 flex w-min justify-end gap-3 p-4">
   <div class="flex gap-4">
@@ -194,19 +216,19 @@
       detail="Týmto nastavením zapnete/vypnete všetky nastavenia"
     >
       <Toggle
-        bind:checked={settings["send_notifications"]}
+        bind:checked={settings["sendNotifications"]}
         action={triggerSave}
       />
     </SettingsItem>
 
     <SettingsItem title="Posielať upozornenia iný mail">
       <Toggle
-        bind:checked={settings["use_user_login_mail"]}
+        bind:checked={settings["useUserLoginMail"]}
         action={triggerSave}
       />
     </SettingsItem>
 
-    {#if settings["use_user_login_mail"] === true}
+    {#if settings["useUserLoginMail"] === true}
       <SettingsItem
         title="Email"
         detail="Email na ktorý sa budú zasielať upozornenia"
@@ -216,7 +238,7 @@
         <input
           type="text"
           placeholder="Váš email"
-          bind:value={settings["alt_mail"]}
+          bind:value={settings["altMail"]}
           on:input={triggerSave}
           class="h-8 w-96 rounded-md border-2 border-slate-300 px-4"
         />
@@ -240,7 +262,7 @@
             min="00:00"
             max="23:59"
             on:input={triggerSave}
-            bind:value={settings["dont_disturb_from"]}
+            bind:value={settings["dontDisturbFrom"]}
             pattern="[0-2][0-9]:[0-5][0-9]"
           />
         </div>
@@ -256,7 +278,7 @@
             min="00:00"
             max="23:59"
             on:input={triggerSave}
-            bind:value={settings["dont_disturb_to"]}
+            bind:value={settings["dontDisturbTo"]}
             pattern="[0-2][0-9]:[0-5][0-9]"
           />
         </div>
@@ -269,22 +291,22 @@
       title="Zvýšená vlhkosť vzduchu"
       detail="Pri zvýšenej vlhkosti Vám príde upozornenie"
     >
-      <Toggle bind:checked={settings["high_humidity"]} action={triggerSave} />
+      <Toggle bind:checked={settings["highHumidity"]} action={triggerSave} />
     </SettingsItem>
-    {#if settings["high_humidity"] === true}
+    {#if settings["highHumidity"] === true}
       <SettingsItem detail="High humidity Threshold">
         <select
           class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
           name="pets"
           on:select={triggerSave}
-          bind:value={settings["high_humidity_threshold"]}
+          bind:value={settings["highHumidityThreshold"]}
           id="pet-select"
         >
           <option value="">--Please choose an option--</option>
           {#each Array(11) as _, index (index)}
             <option
               value={index * 10}
-              selected={settings["high_humidity_threshold"] === index * 10}
+              selected={settings["highHumidityThreshold"] === index * 10}
             >
               {index * 10}%
             </option>
@@ -297,22 +319,22 @@
       title="Znížená vlhkosť vzduchu"
       detail="Pri zníženej vlhkosti Vám príde upozornenie"
     >
-      <Toggle bind:checked={settings["low_humidity"]} action={triggerSave} />
+      <Toggle bind:checked={settings["lowHumidity"]} action={triggerSave} />
     </SettingsItem>
-    {#if settings["low_humidity"] === true}
+    {#if settings["lowHumidity"] === true}
       <SettingsItem detail="Low humidity Threshold">
         <select
           class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
           name="pets"
           on:select={triggerSave}
-          bind:value={settings["low_humidity_threshold"]}
+          bind:value={settings["lowHumidityThreshold"]}
           id="pet-select"
         >
           <option value="">--Please choose an option--</option>
           {#each Array(11) as _, index (index)}
             <option
               value={index * 10}
-              selected={settings["low_humidity_threshold"] === index * 10}
+              selected={settings["lowHumidityThreshold"] === index * 10}
             >
               {index * 10}%
             </option>
@@ -328,22 +350,22 @@
       title="Vysoká váha úľa"
       detail="Pri zvýšenej váhe Vám príde upozornenie"
     >
-      <Toggle bind:checked={settings["heavy_weight"]} action={triggerSave} />
+      <Toggle bind:checked={settings["heavyWeight"]} action={triggerSave} />
     </SettingsItem>
-    {#if settings["heavy_weight"] === true}
+    {#if settings["heavyWeight"] === true}
       <SettingsItem detail="Heavy weight threshold">
         <select
           class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
           name="pets"
           on:select={triggerSave}
-          bind:value={settings["heavy_weight_threshold"]}
+          bind:value={settings["heavyWeightThreshold"]}
           id="pet-select"
         >
           <option value="">--Please choose an option--</option>
           {#each Array(11) as _, index (index)}
             <option
               value={index * 10}
-              selected={settings["heavy_weight_threshold"] === index * 10}
+              selected={settings["heavyWeightThreshold"] === index * 10}
             >
               {index * 10}kg
             </option>
@@ -356,22 +378,22 @@
       title="Znížená váha úľa"
       detail="Pri zníženej váhe Vám príde upozornenie"
     >
-      <Toggle bind:checked={settings["light_weight"]} action={triggerSave} />
+      <Toggle bind:checked={settings["lightWeight"]} action={triggerSave} />
     </SettingsItem>
-    {#if settings["light_weight"] === true}
+    {#if settings["lightWeight"] === true}
       <SettingsItem detail="Low weight threshold">
         <select
           class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
           name="pets"
           on:select={triggerSave}
-          bind:value={settings["light_weight_threshold"]}
+          bind:value={settings["lightWeightThreshold"]}
           id="pet-select"
         >
           <option value="">--Please choose an option--</option>
           {#each Array(11) as _, index (index)}
             <option
               value={index * 10}
-              selected={settings["light_weight_threshold"] === index * 10}
+              selected={settings["lightWeightThreshold"] === index * 10}
             >
               {index * 10}kg
             </option>
@@ -391,16 +413,16 @@
         id="low-battery-select"
       >
         <option value="">--Please choose an option--</option>
-        <option value="50" selected={settings["battery_low_threshold"] === 50}
+        <option value="50" selected={settings["batteryLowThreshold"] === 50}
           >50%
         </option>
-        <option value="20" selected={settings["battery_low_threshold"] === 20}
+        <option value="20" selected={settings["batteryLowThreshold"] === 20}
           >20%
         </option>
-        <option value="10" selected={settings["battery_low_threshold"] === 10}
+        <option value="10" selected={settings["batteryLowThreshold"] === 10}
           >10%
         </option>
-        <option value="0" selected={settings["battery_low_threshold"] === 0}
+        <option value="0" selected={settings["batteryLowThreshold"] === 0}
           >0%
         </option>
       </select>

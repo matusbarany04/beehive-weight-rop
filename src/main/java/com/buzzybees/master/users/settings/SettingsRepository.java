@@ -16,6 +16,9 @@ public interface SettingsRepository extends CrudRepository<Settings, Long> {
     @Query("SELECT s FROM Settings s WHERE s.userId = :id")
     Settings getSettingsByUserId(Long id);
 
+    @Query("SELECT s FROM Settings s WHERE s.userId = :id")
+    Settings[] getAllSettingsByUserId(Long id);
+
     @Modifying
     @Query("UPDATE Settings s SET s = :settings WHERE s.id = :settingsId")
     void updateSettings(Long settingsId, Settings settings);

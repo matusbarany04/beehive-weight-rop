@@ -21,7 +21,6 @@
   let id = generateUUID();
   let error = null;
 
-
   let myChart;
   let allSelected = false;
   const beehiveData = [];
@@ -88,22 +87,23 @@
       }
     });
 
-    console.log("beehiveData.map((val)=> val.name)",beehiveData.map((val)=> val.name))
+    console.log(
+      "beehiveData.map((val)=> val.name)",
+      beehiveData.map((val) => val.name),
+    );
 
     let initOptions = () => {
-
-
       let option = {
         grid: {
-          left: '5%',  // Adjust the left margin
-          right: '5%', // Adjust the right margin
-          top: '1%',   // Adjust the top margin
-          bottom: '5%',// Adjust the bottom margin
-          containLabel: true
+          left: "5%", // Adjust the left margin
+          right: "5%", // Adjust the right margin
+          top: "1%", // Adjust the top margin
+          bottom: "5%", // Adjust the bottom margin
+          containLabel: true,
         },
         calculable: true,
         yAxis: {
-          type: 'value',
+          type: "value",
           axisLabel: {
             formatter: function (value) {
               // Format the value to have a maximum of two decimal places
@@ -112,28 +112,25 @@
           },
         },
         xAxis: {
-          type: 'category',
-          data: beehiveData.map((val)=> val.name),
+          type: "category",
+          data: beehiveData.map((val) => val.name),
           axisLabel: {
-            interval: 0,  // Show all labels
+            interval: 0, // Show all labels
             rotate: 10, // Adjust the rotation angle as needed
-         
           },
-          
         },
         series: [
           {
-            type: 'bar',
+            type: "bar",
             data: beehiveData.map((val) => ({
               value: val.value.toFixed(2),
               label: {
-                show: true,          
-                position: 'bottom',   
+                show: true,
+                position: "bottom",
                 textStyle: {
-                  color: 'black',      
-                  fontSize: 12,       
+                  color: "black",
+                  fontSize: 12,
                 },
-               
               },
             })),
             itemStyle: {
