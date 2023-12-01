@@ -16,6 +16,10 @@
   import message from "../stores/message";
   import { navigate, route } from "../../../components/router/route.serv";
   import { onMount, tick } from "svelte";
+  import { getLanguageInstance } from "../../../components/language/languageRepository";
+  import sf from "../../../components/lib/utils/staticFuncs";
+
+  const li = getLanguageInstance();
 
   const user = shared.getUser();
   let rows, handler, statuses;
@@ -49,7 +53,7 @@
 
   let exportPopup = false;
 
-  message.setMessage("Zoznam úľov");
+  message.setMessage(li.get("beehives.page_title"));
 </script>
 
 <svelte:head>
@@ -69,7 +73,7 @@
           <h1
             class="no_wrap text-ellipsis whitespace-nowrap text-2xl font-extrabold"
           >
-            Moje úle
+            {li.get("beehives.table_title")}
           </h1>
         </div>
 
@@ -79,7 +83,7 @@
           <div class="relative">
             <Button
               image="icons/export.svg"
-              text="Exportovať"
+              text={li.get("beehives.btn_export")}
               type="secondary"
               onClick={() => {
                 exportPopup = !exportPopup;
@@ -94,7 +98,8 @@
                   url="/dashboardApi/downloadCSV"
                   reload="true"
                 >
-                  <Button type="transparent" text="ako CSV"></Button>
+                  <Button type="transparent" text={li.get("beehives.as_csv")}
+                  ></Button>
                 </RouterLink>
                 <div class="border border-slate-300"></div>
                 <RouterLink
@@ -102,7 +107,8 @@
                   url="/dashboardApi/downloadExcel"
                   reload="true"
                 >
-                  <Button type="transparent" text="ako Excel"></Button>
+                  <Button type="transparent" text={li.get("beehives.as_excel")}
+                  ></Button>
                 </RouterLink>
               </div>
             {/if}
@@ -110,7 +116,7 @@
 
           <Button
             image="icons/add_thin.svg"
-            text="Pridať nový úľ"
+            text={li.get("beehives.btn_new")}
             type="primary"
             link="/beehives/add"
           />

@@ -12,6 +12,7 @@
   import panelState from "../component/panel/panelState";
   import { onMount } from "svelte";
   import shared, { onLoad } from "../stores/shared";
+  import staticFuncs from "../../../components/lib/utils/staticFuncs";
 
   message.setMessage("Test");
 
@@ -74,12 +75,52 @@
       console.log(beehives);
     });
   });
+
+  let obj1 = { a: 1, b: 2, c: 3 };
+  let obj2 = { ...obj1 };
 </script>
 
 <svelte:head>
   <title>Test</title>
-  <meta name="Analytika" content="Analytika" />
+  <meta name="Test" content="Test" />
 </svelte:head>
+
+<p>obj1</p>
+<pre>
+  <code>
+    {JSON.stringify(obj1, null, 2)}
+  </code>
+</pre>
+<br />
+
+<p>obj2</p>
+<pre>
+  <code>
+    {JSON.stringify(obj2, null, 2)}
+  </code>
+</pre>
+
+<Button
+  onClick={() => {
+    obj2["a"] = 5;
+  }}
+  text="Set to five"
+></Button>
+
+<p>a: {obj2.a}</p>
+
+<Button
+  onClick={() => {
+    obj2 = { ...obj1 }; // staticFuncs.copyKeepReference(obj1, obj2)
+  }}
+  text="Reset"
+></Button>
+
+<br />
+<br />
+<br />
+<br />
+
 {#each Object.values(beehives) as beehive, key}
   <p>{beehive.beehive_id}</p>
   <p>{key}</p>

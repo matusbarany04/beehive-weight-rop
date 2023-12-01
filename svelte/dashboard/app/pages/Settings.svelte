@@ -18,12 +18,19 @@
     setUnsavedData,
     resetUnsavedData,
   } from "../../../components/router/route.serv";
-  import { onMount } from "svelte";
-  import { nextTick } from "process";
+  import { onMount, tick } from "svelte";
+  import {
+    getLanguageInstance,
+    languages,
+  } from "../../../components/language/languageRepository";
 
-  message.setMessage("Nastavenia");
+  const li = getLanguageInstance();
+
+  message.setMessage(li.get("settings.page_title"));
 
   let settings = null;
+
+  // old original copy with no references
   let originalSettings = null;
 
   onLoad("settings", (settings_json) => {
@@ -34,6 +41,7 @@
 
   let saveEnabled = false;
   let userObject;
+  // old and original user with no references
   let originalUser;
   onLoad("user", (user) => {
     userObject = JSON.parse(JSON.stringify(user));
@@ -45,13 +53,16 @@
    * @return void
    */
   function triggerSave() {
-    saveEnabled = !staticFuncs.jsonFlatEqual(settings, originalSettings);
+    tick().then(() => {
+      saveEnabled = !staticFuncs.jsonFlatEqual(settings, originalSettings);
+      if (userObject !== null && originalUser !== null) {
+        let userChanged = !staticFuncs.jsonFlatEqual(userObject, originalUser);
 
-    if (userObject && originalUser) {
-      saveEnabled = saveEnabled || userObject["name"] !== originalUser["name"];
-    }
+        saveEnabled = saveEnabled || userChanged;
+      }
 
-    setUnsavedData(saveEnabled);
+      setUnsavedData(saveEnabled);
+    });
   }
 
   triggerSave();
@@ -62,6 +73,9 @@
   function saveSettings() {
     fetch("/dashboardApi/settings/updateBatch", {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(settings),
     })
       .then((response) => {
@@ -101,6 +115,25 @@
       .catch((error) => {
         toast.push("Something happened when saving user", "error");
       });
+
+    fetch("/user/change/language", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ language: userObject["language"] }),
+    })
+      .then((response) => {
+        originalUser = { ...userObject };
+        saveEnabled = false;
+        resetUnsavedData();
+        toast.push("New language preferences saved!");
+
+        shared.fetchUser();
+      })
+      .catch((error) => {
+        toast.push("Something happened when saving user", "error");
+      });
   }
 
   onMount(() => {});
@@ -112,16 +145,17 @@
     userObject = { ...userObject };
 
     // Update properties of settings
-    for (let key in originalSettings) {
-      console.log(
-        "restoring ",
-        key,
-        "from " + settings[key] + " to " + originalSettings[key],
-      );
-      settings[key] = originalSettings[key];
-    }
-    settings = { ...settings };
+    // for (let key in originalSettings) {
+    //   console.log(
+    //     "restoring ",
+    //     key,
+    //     "from " + settings[key] + " to " + originalSettings[key],
+    //   );
+    //   settings[key] = originalSettings[key];
+    // }
+    // settings = { ...settings };
 
+    settings = { ...originalSettings };
     saveEnabled = false;
     resetUnsavedData();
     triggerSave();
@@ -130,14 +164,31 @@
 
 <svelte:head>
   <title>Nastavenia</title>
-  <meta name="Analytika" content="Analytika" />
+  <meta name="Nastavenia" content="Nastavenia" />
 </svelte:head>
+
+<!-- for debug purposes -->
+
+<!--<p>originalUser</p>-->
+<!--<pre>-->
+<!--  <code>-->
+<!--    {JSON.stringify(originalUser, null, 2)}-->
+<!--  </code>-->
+<!--</pre>-->
+<!--<br/>-->
+
+<!--<p>userObject</p>-->
+<!--<pre>-->
+<!--  <code>-->
+<!--    {JSON.stringify(userObject, null, 2)}-->
+<!--  </code>-->
+<!--</pre>-->
 
 <div class="absolute right-0 top-0 z-50 flex w-min justify-end gap-3 p-4">
   <div class="flex gap-4">
     {#if saveEnabled}
       <Button
-        text={"Zrušiť"}
+        text={li.get("settings.btn_cancel")}
         type="secondary"
         onClick={() => {
           restoreSettings();
@@ -146,7 +197,7 @@
     {/if}
     <Button
       bind:enabled={saveEnabled}
-      text={"Uložiť"}
+      text={li.get("settings.btn_save")}
       type="confirm"
       onClick={() => {
         saveSettings();
@@ -157,15 +208,15 @@
 
 <form class="h-full w-full">
   {#if settings && userObject}
-    <SettingsHeader title="Účet" />
+    <SettingsHeader title={li.get("settings.account.title")} />
 
     <SettingsItem
-      title="Vaše meno"
-      detail="Pod týmto menom Vás budeme oslovovať v e-mailoch a na webovej stránke"
+      title={li.get("settings.account.name.title")}
+      detail={li.get("settings.account.name.description")}
     >
       <input
         type="text"
-        placeholder="Vaše meno"
+        placeholder={li.get("settings.account.name.title")}
         bind:value={userObject["name"]}
         on:input={triggerSave}
         class="h-8 w-96 rounded-md border-2 border-slate-300 px-4"
@@ -173,8 +224,8 @@
     </SettingsItem>
 
     <SettingsItem
-      title="Váš email"
-      detail="Email, ktorý ste použili pri registrácií"
+      title={li.get("settings.account.email.title")}
+      detail={li.get("settings.account.email.description")}
     >
       <p
         class="h-8 w-96 rounded-md border-2 border-slate-300 px-4 text-slate-500"
@@ -184,42 +235,66 @@
     </SettingsItem>
 
     <SettingsItem
-      title="Zmeniť heslo"
-      detail="Pri zmene hesla budete odhlásený zo všetkých zariadení a budete sa musieť znova prihlásiť s novým heslo"
+      title={li.get("settings.account.change_password.title")}
+      detail=""
     >
-      <Button text="Zmeniť heslo" link="/settings/newpassword"></Button>
+      <Button
+        text={li.get("settings.account.change_password.btn_password_change")}
+        link="/settings/newpassword"
+      ></Button>
     </SettingsItem>
-
-    <SettingsHeader title="Upozornenia" />
 
     <SettingsItem
-      title="Posielať upozornenia na mail"
-      detail="Týmto nastavením zapnete/vypnete všetky nastavenia"
+      detail={li.get("settings.account.language_preferences.title")}
+    >
+      <select
+        class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
+        on:change={triggerSave}
+        bind:value={userObject["language"]}
+      >
+        {#each Object.entries(languages) as [key, language]}
+          <option
+            value={key}
+            on:change={triggerSave}
+            selected={key === userObject["language"]}
+          >
+            {language}
+          </option>
+        {/each}
+      </select>
+    </SettingsItem>
+
+    <SettingsHeader title={li.get("settings.notifications.title")} />
+
+    <SettingsItem
+      title={li.get("settings.notifications.send_to_email.title")}
+      detail={li.get("settings.notifications.send_to_email.description")}
     >
       <Toggle
-        bind:checked={settings["send_notifications"]}
+        bind:checked={settings["sendNotifications"]}
         action={triggerSave}
       />
     </SettingsItem>
 
-    <SettingsItem title="Posielať upozornenia iný mail">
+    <SettingsItem
+      title={li.get("settings.notifications.send_to_another_email.title")}
+    >
       <Toggle
-        bind:checked={settings["use_user_login_mail"]}
+        bind:checked={settings["useUserLoginMail"]}
         action={triggerSave}
       />
     </SettingsItem>
 
-    {#if settings["use_user_login_mail"] === true}
+    {#if settings["useUserLoginMail"] === true}
       <SettingsItem
-        title="Email"
-        detail="Email na ktorý sa budú zasielať upozornenia"
-        inputPlaceholder="Váš email"
+        title={li.get("settings.notifications.email.title")}
+        detail={li.get("settings.notifications.email.description")}
       >
         <!--                action={triggerSave()} when changes-->
         <input
           type="text"
-          placeholder="Váš email"
-          bind:value={settings["alt_mail"]}
+          placeholder={li.get("settings.notifications.email.placeholder")}
+          bind:value={settings["altMail"]}
           on:input={triggerSave}
           class="h-8 w-96 rounded-md border-2 border-slate-300 px-4"
         />
@@ -227,13 +302,14 @@
     {/if}
 
     <SettingsItem
-      title="Nerušiť medzi"
-      detail="Čas medzi ktorým sa nebudú posielať upozornenia"
-      inputPlaceholder="Váš email"
+      title={li.get("settings.notifications.dont_disturb.title")}
+      detail={li.get("settings.notifications.dont_disturb.description")}
     >
       <div class="flex flex-col md:flex-row">
         <div class="flex flex-col">
-          <label for="time">čas od: </label>
+          <label for="time"
+            >{li.get("settings.notifications.dont_disturb.time_from")} :</label
+          >
           <input
             class="mr-8 h-8 w-44 rounded-md border-2 border-slate-300 px-4"
             type="time"
@@ -243,12 +319,14 @@
             min="00:00"
             max="23:59"
             on:input={triggerSave}
-            bind:value={settings["dont_disturb_from"]}
+            bind:value={settings["dontDisturbFrom"]}
             pattern="[0-2][0-9]:[0-5][0-9]"
           />
         </div>
         <div class="flex flex-col">
-          <label for="time">čas do: </label>
+          <label for="time"
+            >{li.get("settings.notifications.dont_disturb.time_to")}:
+          </label>
 
           <input
             class="h-8 w-44 rounded-md border-2 border-slate-300 px-4"
@@ -259,35 +337,42 @@
             min="00:00"
             max="23:59"
             on:input={triggerSave}
-            bind:value={settings["dont_disturb_to"]}
+            bind:value={settings["dontDisturbTo"]}
             pattern="[0-2][0-9]:[0-5][0-9]"
           />
         </div>
       </div>
     </SettingsItem>
 
-    <SettingsHeader title="Vlhkosť"></SettingsHeader>
+    <SettingsHeader title={li.get("settings.notifications.humidity.title")}
+    ></SettingsHeader>
 
     <SettingsItem
-      title="Zvýšená vlhkosť vzduchu"
-      detail="Pri zvýšenej vlhkosti Vám príde upozornenie"
+      title={li.get("settings.notifications.humidity.high_humidity.title")}
+      detail={li.get(
+        "settings.notifications.humidity.high_humidity.description",
+      )}
     >
-      <Toggle bind:checked={settings["high_humidity"]} action={triggerSave} />
+      <Toggle bind:checked={settings["highHumidity"]} action={triggerSave} />
     </SettingsItem>
-    {#if settings["high_humidity"] === true}
-      <SettingsItem detail="High humidity Threshold">
+    {#if settings["highHumidity"] === true}
+      <SettingsItem
+        detail={li.get(
+          "settings.notifications.humidity.high_humidity.high_humidity_threshold",
+        )}
+      >
         <select
           class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
           name="pets"
-          on:select={triggerSave}
-          bind:value={settings["high_humidity_threshold"]}
+          on:change={triggerSave}
+          bind:value={settings["highHumidityThreshold"]}
           id="pet-select"
         >
           <option value="">--Please choose an option--</option>
           {#each Array(11) as _, index (index)}
             <option
               value={index * 10}
-              selected={settings["high_humidity_threshold"] === index * 10}
+              selected={settings["highHumidityThreshold"] === index * 10}
             >
               {index * 10}%
             </option>
@@ -297,25 +382,29 @@
     {/if}
 
     <SettingsItem
-      title="Znížená vlhkosť vzduchu"
-      detail="Pri zníženej vlhkosti Vám príde upozornenie"
+      title={li.get("settings.notifications.humidity.low_humidity.title")}
+      detail={li.get(
+        "settings.notifications.humidity.low_humidity.description",
+      )}
     >
-      <Toggle bind:checked={settings["low_humidity"]} action={triggerSave} />
+      <Toggle bind:checked={settings["lowHumidity"]} action={triggerSave} />
     </SettingsItem>
-    {#if settings["low_humidity"] === true}
-      <SettingsItem detail="Low humidity Threshold">
+    {#if settings["lowHumidity"] === true}
+      <SettingsItem
+        detail={li.get(
+          "settings.notifications.humidity.low_humidity.low_humidity_threshold",
+        )}
+      >
         <select
           class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
-          name="pets"
-          on:select={triggerSave}
-          bind:value={settings["low_humidity_threshold"]}
-          id="pet-select"
+          on:change={triggerSave}
+          bind:value={settings["lowHumidityThreshold"]}
         >
           <option value="">--Please choose an option--</option>
           {#each Array(11) as _, index (index)}
             <option
               value={index * 10}
-              selected={settings["low_humidity_threshold"] === index * 10}
+              selected={settings["lowHumidityThreshold"] === index * 10}
             >
               {index * 10}%
             </option>
@@ -324,29 +413,34 @@
       </SettingsItem>
     {/if}
 
-    <SettingsHeader title="Váha"></SettingsHeader>
+    <SettingsHeader title={li.get("settings.notifications.weight.title")}
+    ></SettingsHeader>
 
     <!--weight -->
     <SettingsItem
-      title="Vysoká váha úľa"
-      detail="Pri zvýšenej váhe Vám príde upozornenie"
+      title={li.get("settings.notifications.weight.high_weight_hive.title")}
+      detail={li.get(
+        "settings.notifications.weight.high_weight_hive.description",
+      )}
     >
-      <Toggle bind:checked={settings["heavy_weight"]} action={triggerSave} />
+      <Toggle bind:checked={settings["heavyWeight"]} action={triggerSave} />
     </SettingsItem>
-    {#if settings["heavy_weight"] === true}
-      <SettingsItem detail="Heavy weight threshold">
+    {#if settings["heavyWeight"] === true}
+      <SettingsItem
+        detail={li.get(
+          "settings.notifications.weight.high_weight_hive.high_weight_threshold",
+        )}
+      >
         <select
           class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
-          name="pets"
-          on:select={triggerSave}
-          bind:value={settings["heavy_weight_threshold"]}
-          id="pet-select"
+          on:change={triggerSave}
+          bind:value={settings["heavyWeightThreshold"]}
         >
           <option value="">--Please choose an option--</option>
           {#each Array(11) as _, index (index)}
             <option
               value={index * 10}
-              selected={settings["heavy_weight_threshold"] === index * 10}
+              selected={settings["heavyWeightThreshold"] === index * 10}
             >
               {index * 10}kg
             </option>
@@ -356,25 +450,31 @@
     {/if}
 
     <SettingsItem
-      title="Znížená váha úľa"
-      detail="Pri zníženej váhe Vám príde upozornenie"
+      title={li.get("settings.notifications.weight.light_weight_hive.title")}
+      detail={li.get(
+        "settings.notifications.weight.light_weight_hive.description",
+      )}
     >
-      <Toggle bind:checked={settings["light_weight"]} action={triggerSave} />
+      <Toggle bind:checked={settings["lightWeight"]} action={triggerSave} />
     </SettingsItem>
-    {#if settings["light_weight"] === true}
-      <SettingsItem detail="Low weight threshold">
+    {#if settings["lightWeight"] === true}
+      <SettingsItem
+        detail={li.get(
+          "settings.notifications.weight.light_weight_hive.light_weight_threshold",
+        )}
+      >
         <select
           class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
           name="pets"
-          on:select={triggerSave}
-          bind:value={settings["light_weight_threshold"]}
+          on:change={triggerSave}
+          bind:value={settings["lightWeightThreshold"]}
           id="pet-select"
         >
           <option value="">--Please choose an option--</option>
           {#each Array(11) as _, index (index)}
             <option
               value={index * 10}
-              selected={settings["light_weight_threshold"] === index * 10}
+              selected={settings["lightWeightThreshold"] === index * 10}
             >
               {index * 10}kg
             </option>
@@ -384,26 +484,26 @@
     {/if}
 
     <SettingsItem
-      title="Batéria úľov"
-      detail="Pri nízkej báterií Vám príde upozornenie"
+      title={li.get("settings.notifications.battery.battery_low.title")}
+      detail={li.get("settings.notifications.battery_battery_low.description")}
     >
       <select
         class="mr-4 h-8 w-72 rounded-md border-2 border-slate-300 bg-white px-4"
         name="pets"
-        on:select={triggerSave}
-        id="pet-select"
+        on:change={triggerSave}
+        id="low-battery-select"
       >
         <option value="">--Please choose an option--</option>
-        <option value="50" selected={settings["battery_low_threshold"] === 50}
+        <option value="50" selected={settings["batteryLowThreshold"] === 50}
           >50%
         </option>
-        <option value="20" selected={settings["battery_low_threshold"] === 20}
+        <option value="20" selected={settings["batteryLowThreshold"] === 20}
           >20%
         </option>
-        <option value="10" selected={settings["battery_low_threshold"] === 10}
+        <option value="10" selected={settings["batteryLowThreshold"] === 10}
           >10%
         </option>
-        <option value="0" selected={settings["battery_low_threshold"] === 0}
+        <option value="0" selected={settings["batteryLowThreshold"] === 0}
           >0%
         </option>
       </select>

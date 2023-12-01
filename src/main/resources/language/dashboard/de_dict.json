@@ -1,0 +1,153 @@
+{
+  "cards": {},
+  "sidenav": {
+    "home": "Startseite",
+    "beehives": "Bienenstöcke",
+    "help": "Hilfe",
+    "settings": "Einstellungen",
+    "other": "Sonstiges",
+    "notifications": "Benachrichtigungen",
+    "calendar": "Kalender",
+    "logout": "Abmelden"
+  },
+  "home": {
+    "greeting_morning": "Guten Morgen, Imker %s!",
+    "greeting_noon": "Guten Tag, Imker %s!",
+    "greeting_evening": "Guten Abend, Imker %s!"
+  },
+  "beehives": {
+    "page_title": "Liste der Bienenstöcke",
+    "table_title": "Meine Bienenstöcke",
+    "btn_export": "Exportieren",
+    "as_csv": "Als CSV",
+    "as_excel": "Als Excel",
+    "btn_new": "Neuen Bienenstock hinzufügen",
+    "entries": "Zeige %d Einträge",
+    "shown_entries": "Angezeigte %d von %d Einträgen",
+    "previous": "Vorherige",
+    "next": "Nächste",
+    "search": "Suchen",
+    "btn_detail": "Detail",
+    "beehive": {}
+  },
+  "settings": {
+    "page_title": "Einstellungen",
+    "btn_save": "Speichern",
+    "btn_cancel": "Änderungen verwerfen",
+    "change_password": {
+      "title": "Passwort ändern",
+      "old_password": {
+        "title": "Ihr altes Passwort",
+        "description": "Geben Sie Ihr altes Passwort zur Änderung ein"
+      },
+      "new_password": {
+        "title": "Ihr neues Passwort",
+        "description": "Mit diesem Passwort melden Sie sich in Ihrem Konto an"
+      },
+      "btn_save": "Speichern"
+    },
+    "account": {
+      "title": "Konto",
+      "name": {
+        "title": "Ihr Name",
+        "description": "Unter diesem Namen werden Sie in E-Mails und auf der Website angesprochen"
+      },
+      "email": {
+        "title": "Ihre E-Mail",
+        "description": "Die E-Mail-Adresse, die Sie bei der Registrierung verwendet haben"
+      },
+      "change_password": {
+        "title": "Passwort ändern",
+        "description": "Beim Ändern des Passworts werden Sie von allen Geräten abgemeldet und müssen sich mit dem neuen Passwort erneut anmelden",
+        "btn_password_change": "Passwort ändern"
+      },
+      "language_preferences": {
+        "title": "Sprache der Website",
+        "description": ""
+      }
+    },
+    "notifications": {
+      "title": "Benachrichtigungen",
+      "send_to_email": {
+        "title": "Benachrichtigungen per E-Mail senden",
+        "description": "Mit dieser Einstellung können Sie alle Benachrichtigungseinstellungen aktivieren/deaktivieren"
+      },
+      "send_to_another_email": {
+        "title": "Benachrichtigungen an eine andere E-Mail senden",
+        "description": ""
+      },
+      "email": {
+        "title": "E-Mail",
+        "description": "E-Mail-Adresse, an die Benachrichtigungen gesendet werden",
+        "placeholder": "Ihre E-Mail"
+      },
+      "dont_disturb": {
+        "title": "Nicht stören zwischen",
+        "description": "Zeitraum, in dem keine Benachrichtigungen gesendet werden",
+        "time_from": "Zeit von",
+        "time_to": "Zeit bis"
+      },
+      "humidity": {
+        "title": "Luftfeuchtigkeit",
+        "high_humidity": {
+          "title": "Hohe Luftfeuchtigkeit",
+          "description": "Benachrichtigung bei hoher Luftfeuchtigkeit",
+          "high_humidity_threshold": "Hoher Luftfeuchtigkeitswert"
+        },
+        "low_humidity": {
+          "title": "Niedrige Luftfeuchtigkeit",
+          "description": "Benachrichtigung bei niedriger Luftfeuchtigkeit",
+          "low_humidity_threshold": "Niedriger Luftfeuchtigkeitswert"
+        }
+      },
+      "weight": {
+        "title": "Gewicht",
+        "high_weight_hive": {
+          "title": "Hohes Gewicht des Bienenstocks",
+          "description": "Benachrichtigung bei hohem Gewicht des Bienenstocks",
+          "high_weight_threshold": "Hoher Gewichtswert des Bienenstocks"
+        },
+        "light_weight_hive": {
+          "title": "Niedriges Gewicht des Bienenstocks",
+          "description": "Benachrichtigung bei niedrigem Gewicht des Bienenstocks",
+          "light_weight_threshold": "Niedriger Gewichtswert des Bienenstocks"
+        }
+      },
+      "battery": {
+        "battery_low": {
+          "title": "Batteriestand der Bienenstöcke",
+          "detail": "Benachrichtigung bei niedrigem Batteriestand"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "page_title": "Benachrichtigungen",
+    "title": "Ihre Benachrichtigungen",
+    "btn_mark_read": "Alle als gelesen markieren"
+  },
+  "calendar": {
+    "page_title": "Kalender",
+    "btn_new_reminder": "Neue Notiz/Erinnerung"
+  },
+  "actions": {
+    "MOTOR_MOVE": "Bewegung des Motors",
+    "WAKE_UP": "Weckfunktion des Gewichtsensors",
+    "HIBERNATE": "Ruhezustand",
+    "ENABLE_SHARING_CONNECTION": "Freigabe der Verbindung aktivieren",
+    "BURN_SENSOR_ID": "Sensor-ID speichern",
+    "CHANGE_BEEHIVE_CONFIG": "Änderung der Bienenstockkonfiguration",
+    "FACTORY_RESET": "Alle Einstellungen auf Werkseinstellungen zurücksetzen"
+  },
+  "statuses": {
+    "DONE": "ABGESCHLOSSEN",
+    "PENDING": "AUSSTEHEND",
+    "SENT": "GESSENDET",
+    "SCHEDULED": "GEPLANT",
+    "WIFI_CONNECTION_FAILED": "Falsches Passwort oder Fehler bei der WLAN-Verbindung",
+    "WIFI_NO_SSID_AVAIL": "WLAN-Netzwerk nicht gefunden",
+    "DEVICE_NOT_FOUND": "Sensor oder anderes Gerät nicht gefunden",
+    "UNKNOWN_ERROR": "Unbekannter Fehler",
+    "BEEHIVE_IS_OFFLINE": "Bienenstock ist offline"
+  }
+}

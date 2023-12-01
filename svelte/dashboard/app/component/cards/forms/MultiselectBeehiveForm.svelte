@@ -13,12 +13,10 @@
 
   let updateDataTypeList = (beehive_id_array) => {
     try {
-      console.log("changed ", beehive_id_array);
       if (beehive_id_array == ["all"] || beehive_id_array === null) {
         // TODO this should be union of all types, for now this is okay
         typeChoiceList = BeehiveObj.getNonDetachableTypesAsKeyValuePairs(true);
       } else {
-        console.log("beehive_id_array", beehive_id_array);
         typeChoiceList = BeehiveObj.getUnionOfCurrentDataTypesAsKeyValuePairs(
           beehive_id_array,
           true,
@@ -27,19 +25,14 @@
         // shared
         //   .getBeehivesByIds(beehive_id_array)
         //   .map(beehive => beehive?.getCurrentDataTypesAsKeyValuePairs(true));
-
-        console.log("typeChoiceList", typeChoiceList);
       }
 
       // if choice is not in new typeChoiceList reset back to primary
       if (!typeChoiceList.some(([key]) => key === typeChoice)) {
-        console.log("Not inside ", typeChoice, typeChoiceList);
         typeChoice = BeehiveObj.getPrimaryDataType();
       }
 
-      console.log("checking all!", beehive_id_array);
       if (beehive_id_array.includes("all")) {
-        console.log("heyyyy");
         typeChoiceList = BeehiveObj.getNonDetachableTypesAsKeyValuePairs(true);
       }
     } catch (e) {

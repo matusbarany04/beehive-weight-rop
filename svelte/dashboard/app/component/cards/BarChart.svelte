@@ -17,12 +17,10 @@
 
   export let className = "";
 
-  let component = "Doughnut";
+  let component = "BarChart";
   let id = generateUUID();
   let error = null;
 
-  // otrasne fraby ale zatial stačia na rozpoznanie čiarok
-  const chartColors = ["#db9834", "#3c7cdc", "#860707", "#245b00"];
   let myChart;
   let allSelected = false;
   const beehiveData = [];
@@ -89,41 +87,55 @@
       }
     });
 
+    console.log(
+      "beehiveData.map((val)=> val.name)",
+      beehiveData.map((val) => val.name),
+    );
+
     let initOptions = () => {
       let option = {
-        tooltip: {
-          trigger: "item",
+        grid: {
+          left: "5%", // Adjust the left margin
+          right: "5%", // Adjust the right margin
+          top: "1%", // Adjust the top margin
+          bottom: "5%", // Adjust the bottom margin
+          containLabel: true,
         },
-        legend: {
-          top: "5%",
-          left: "center",
+        calculable: true,
+        yAxis: {
+          type: "value",
+          axisLabel: {
+            formatter: function (value) {
+              // Format the value to have a maximum of two decimal places
+              return value.toFixed(2);
+            },
+          },
+        },
+        xAxis: {
+          type: "category",
+          data: beehiveData.map((val) => val.name),
+          axisLabel: {
+            interval: 0, // Show all labels
+            rotate: 10, // Adjust the rotation angle as needed
+          },
         },
         series: [
           {
-            name: "Access From",
-            type: "pie",
-            radius: ["40%", "70%"],
-            avoidLabelOverlap: false,
-            itemStyle: {
-              borderRadius: 10,
-              borderColor: "#fff",
-              borderWidth: 2,
-            },
-            label: {
-              show: false,
-              position: "center",
-            },
-            emphasis: {
+            type: "bar",
+            data: beehiveData.map((val) => ({
+              value: val.value.toFixed(2),
               label: {
                 show: true,
-                fontSize: 34,
-                fontWeight: "bold",
+                position: "bottom",
+                textStyle: {
+                  color: "black",
+                  fontSize: 12,
+                },
               },
+            })),
+            itemStyle: {
+              barBorderRadius: [5, 5, 0, 0],
             },
-            labelLine: {
-              show: false,
-            },
-            data: beehiveData,
           },
         ],
       };
