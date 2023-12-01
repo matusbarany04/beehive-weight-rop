@@ -1,12 +1,14 @@
 package com.buzzybees.master.notifications;
 
 
+import com.buzzybees.master.config.SocketHandler;
 import com.buzzybees.master.controllers.UserController;
 import com.buzzybees.master.users.Mailer;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.users.UserService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.apache.poi.ss.formula.functions.T;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +17,12 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import javax.xml.crypto.Data;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -71,7 +77,7 @@ public class Notification {
         this.title = title;
         this.userId = userId;
         String template = readMessage(messageName);
-        if(template != null) message = String.format(template, value);
+        if (template != null) message = String.format(template, value);
     }
 
     public Notification(Type type, long userId, String title, String message) {
@@ -129,10 +135,20 @@ public class Notification {
     }
 
 
-
     public void sendByMail() {
         UserRepository userRepository = UserService.getBean(UserRepository.class);
         String email = userRepository.getEmail(userId);
         Mailer.sendMessage(email, title, message);
     }
+
+    public void sendToUser() {
+        WebSocketSession session = SocketHandler.getSession(userId);
+        TextMessage textMessage = new TextMessage(title + " " + message);
+        try {
+            if (session.isOpen()) session.sendMessage(textMessage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

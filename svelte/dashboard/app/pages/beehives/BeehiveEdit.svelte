@@ -150,7 +150,6 @@
     console.log("clear");
     clearInterval(refresh);
   };
-  
 </script>
 
 <svelte:head>

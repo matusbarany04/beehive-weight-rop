@@ -9,11 +9,18 @@
   import { fade, fly } from "svelte/transition";
   import message from "../stores/message";
 
-  const socket = new WebSocket("ws://localhost:8080/socket");
+  //const socket = new WebSocket("ws://localhost:8080/websocket/connect");
 
-  socket.onopen = (event) => {
-    console.log("WebSocket connection opened:", event);
-  };
+  navigator.serviceWorker.register("../js/service-worker.js");
+  let registration;
+
+  navigator.serviceWorker.ready.then((rg) => {
+    registration = rg;
+    console.log(rg);
+  });
+
+  /* ;*/
+
   /*
   var stompClient = null;
 

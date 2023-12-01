@@ -98,8 +98,8 @@ public class UserController extends CookieAuthController {
     @GetMapping("/createNotification")
     public String createNotification() {
         String title = "Slabá batéria v úli číslo 1";
-        Notification notification = new Notification(Type.WARNING, 1352, title, "LOW_BATTERY", 26);
-        notification.sendByMail();
+        Notification notification = new Notification(Type.WARNING, 1, title, "LOW_BATTERY", 26);
+        notification.sendToUser();
         //notificationRepository.save(notification);
         return "OK";
     }
