@@ -1,5 +1,6 @@
 package com.buzzybees.master;
 
+import com.buzzybees.master.notifications.Notifications;
 import com.buzzybees.master.users.Mailer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,6 +21,7 @@ public class MasterApplication implements WebMvcConfigurer  {
 
     public static void main(String[] args) {
         SpringApplication.run(MasterApplication.class, args);
+        Notifications.scheduleReminders();
         Mailer.checkKeysExpiration();
     }
 
