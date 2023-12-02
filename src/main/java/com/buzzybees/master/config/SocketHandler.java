@@ -5,6 +5,7 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -18,7 +19,6 @@ public class SocketHandler extends TextWebSocketHandler {
 
     @Override
     public void handleTextMessage(@NotNull WebSocketSession session, @NotNull TextMessage message) {
-
         System.out.println(session.getAttributes());
         System.out.println(sessions);
     }
@@ -28,6 +28,14 @@ public class SocketHandler extends TextWebSocketHandler {
         long userID = (long) session.getAttributes().get("userID");
         sessions.put(userID, session);
     }
+
+    @Override
+    public void afterConnectionClosed(@NotNull WebSocketSession session, @NotNull CloseStatus status) {
+        long userID = (long) session.getAttributes().get("userID");
+        sessions.remove(userID);
+        System.out.println("connection closed for session: " + session);
+    }
+
 
     public static WebSocketSession getSession(long userID) {
         return sessions.get(userID);

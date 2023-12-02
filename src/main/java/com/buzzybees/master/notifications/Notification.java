@@ -48,7 +48,8 @@ public class Notification {
     private long id;
 
     @Column(name = "type")
-    private int type;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @JsonIgnore
     @Column(name = "user_id")
@@ -73,7 +74,7 @@ public class Notification {
     }
 
     public Notification(Type type, long userId, String title, String messageName, int value) {
-        this.type = type.ordinal();
+        this.type = type;
         this.title = title;
         this.userId = userId;
         String template = readMessage(messageName);
@@ -81,7 +82,7 @@ public class Notification {
     }
 
     public Notification(Type type, long userId, String title, String message) {
-        this.type = type.ordinal();
+        this.type = type;
         this.title = title;
         this.userId = userId;
         this.message = message;
@@ -110,7 +111,7 @@ public class Notification {
         return id;
     }
 
-    public int getType() {
+    public Type getType() {
         return type;
     }
 
@@ -142,13 +143,11 @@ public class Notification {
     }
 
     public void sendToUser() {
-        WebSocketSession session = SocketHandler.getSession(userId);
-        TextMessage textMessage = new TextMessage(title + " " + message);
-        try {
-            if (session.isOpen()) session.sendMessage(textMessage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("title", title);
+        jsonObject.put("message", message);
+        jsonObject.put("type", type);
+        Notifications.sendPushToUser(userId, jsonObject.toString());
     }
 
 }
