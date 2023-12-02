@@ -3,58 +3,45 @@
    * @fileoverview This page displays notifications from beehives
    * @module Notification
    */
-  import { onMount } from "svelte";
   import Button from "../../../components/Buttons/Button.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
   import { fade, fly } from "svelte/transition";
   import message from "../stores/message";
 
-  //const socket = new WebSocket("ws://localhost:8080/websocket/connect");
-
-  // navigator.serviceWorker.register("../js/service-worker.js");
-  // let registration;
-  //
-  // navigator.serviceWorker.ready.then((rg) => {
-  //   registration = rg;
-  //   console.log(rg);
-  // });
-
   Notification.requestPermission().then((permission) => {
-    if (permission === 'granted') {
+    if (permission === "granted") {
       registerService();
-      
-    } else if (permission === 'denied') {
-      // Permission denied
-      console.log('Notification permission denied.');
-    } else if (permission === 'default') {
-      // The user closed the permission prompt without making a choice
-      console.log('Notification permission prompt closed without a choice.');
+    } else if (permission === "denied") {
+      console.log("Notification permission denied.");
+    } else if (permission === "default") {
+      console.log("Notification permission prompt closed without a choice.");
     }
-    
-    function registerService() {
-      navigator.serviceWorker
-        .register("../js/service-worker.js")
-        .then(function (registration) {
-          console.log("Service worker successfully registered.");
+  });
 
-          registration.pushManager
-            .subscribe({
-              userVisibleOnly: true,
-              applicationServerKey:
-                "BCZCy-snf9UZVm6M74AoNGmmkuSqCs-sWcmCZLiiytyyA8ZCBMSLa3NXhE5AUFwGoqeqs8wCJoIzqcdCOZ6Z8LI",
-            })
-            .then(function (subscription) {
-              console.log("Subscribed for push:", JSON.stringify(subscription));
-              subscribeNotifications(subscription);
-            })
-            .catch(function (error) {
-              console.log("Subscription failed:", error);
-            });
-        })
-        .catch(function (error) {
-          console.log("Service worker registration failed:", error);
-        });
-    }
+  function registerService() {
+    navigator.serviceWorker
+      .register("../js/service-worker.js")
+      .then(function (registration) {
+        console.log("Service worker successfully registered.");
+
+        registration.pushManager
+          .subscribe({
+            userVisibleOnly: true,
+            applicationServerKey:
+              "BCZCy-snf9UZVm6M74AoNGmmkuSqCs-sWcmCZLiiytyyA8ZCBMSLa3NXhE5AUFwGoqeqs8wCJoIzqcdCOZ6Z8LI",
+          })
+          .then(function (subscription) {
+            console.log("Subscribed for push:", JSON.stringify(subscription));
+            subscribeNotifications(subscription);
+          })
+          .catch(function (error) {
+            console.log("Subscription failed:", error);
+          });
+      })
+      .catch(function (error) {
+        console.log("Service worker registration failed:", error);
+      });
+  }
 
   function subscribeNotifications(subscription) {
     fetch("/user/subscribe", {
@@ -66,18 +53,6 @@
       body: JSON.stringify(subscription),
     });
   }
-
-  /*
-  var stompClient = null;
-
-  var socket = new SockJS('/ws');
-  stompClient = Stomp.over(socket);
-  stompClient.connect({}, function(frame) {
-    console.log(frame);
-    stompClient.subscribe('/all/messages', function(result) {
-      show(JSON.parse(result.body));
-    });
-  });*/
 
   let messages = null;
 
@@ -156,75 +131,6 @@
     messages = [...messages];
   };
 
-  /*
-  let socket = new SockJS('/ws')
-  let privateStompClient = Stomp.over(socket)
-  privateStompClient.connect({}, function (frame) {
-    console.log(frame)
-    privateStompClient.subscribe('/user/specific', function (result) {
-      console.log(result.body)
-      console.log("message");
-    //  show(JSON.parse(result.body))
-    });
-  })
-
-  socket = new SockJS('/ws');
-  let stompClient = Stomp.over(socket);
-  stompClient.connect({}, function(frame) {
-    console.log(frame);
-    stompClient.subscribe('/all/messages', function(result) {
-      
-    });
-    setTimeout(() => sendPrivateMessage(), 3000);
-  });
-
-  function sendPrivateMessage() {
-    stompClient.send("/app/application", {},
-      JSON.stringify({text:"hello", to:"test"}));
-  }*/
-
-  /**
-   * Registers a service worker that tries to send continuous notifications even when page is closed
-   */
-  function registerServiceWorker() {
-    console.log("register...");
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("../js/service-worker.js?token=" + getCookie("sessionid"))
-        .then(function (registration) {
-          console.log("Service worker successfully registered.");
-          return registration;
-        })
-        .catch(function (err) {
-          console.error("Unable to register service worker.", err);
-        });
-    } else console.log("Your browser does not support service workers.");
-  }
-
-  /**
-   * Asks for permission to send notifications trough browser
-   */
-  function askPermission() {
-    return new Promise(function (resolve, reject) {
-      const permissionResult = Notification.requestPermission(
-        function (result) {
-          resolve(result);
-        },
-      );
-
-      if (permissionResult) {
-        permissionResult.then(resolve, reject);
-      }
-    }).then(function (permissionResult) {
-      if (permissionResult !== "granted") {
-        throw new Error("We weren't granted permission.");
-      } else {
-        // registerServiceWorker();
-        //const notification = new Notification("Test", {body: "this is body", data: {}, icon: "/img/beeman.png"});
-      }
-    });
-  }
-
   /**
    * Gets a cookie by name
    * @param name
@@ -234,78 +140,6 @@
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(";").shift();
     return null;
-  }
-
-  askPermission();
-
-  onMount(() => {
-    // registerServiceWorker();
-  });
-
-  function initialiseState() {
-    // Are Notifications supported in the service worker?
-    if (!("showNotification" in ServiceWorkerRegistration.prototype)) {
-      console.warn("Notifications aren't supported.");
-      return;
-    }
-
-    // Check the current Notification permission.
-    // If its denied, it's a permanent block until the
-    // user changes the permission
-    if (Notification.permission === "denied") {
-      console.warn("The user has blocked notifications.");
-      return;
-    }
-
-    // Check if push messaging is supported
-    if (!("PushManager" in window)) {
-      console.warn("Push messaging isn't supported.");
-      return;
-    }
-
-    // We need the service worker registration to check for a subscription
-    navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {
-      // Do we already have a push message subscription?
-      serviceWorkerRegistration.pushManager
-        .getSubscription()
-        .then(function (subscription) {
-          // Enable any UI which subscribes / unsubscribes from
-          // push messages.
-
-          if (!subscription) {
-            // We aren't subscribed to push, so set UI
-            // to allow the user to enable push
-            return;
-          }
-
-          //TODO create method
-          // Keep your server in sync with the latest subscriptionId
-          // sendSubscriptionToServer(subscription);
-
-          // Set your UI to show they have subscribed for
-          // push messages
-        })
-        .catch(function (err) {
-          console.warn("Error during getSubscription()", err);
-        });
-    });
-
-    self.addEventListener("push", function (event) {
-      console.log("Received a push message", event);
-
-      const title = "Yay a message.";
-      const body = "We have received a push message.";
-      const icon = "/images/icon-192x192.png";
-      const tag = "simple-push-demo-notification-tag";
-
-      event.waitUntil(
-        self.registration.showNotification(title, {
-          body: body,
-          icon: icon,
-          tag: tag,
-        }),
-      );
-    });
   }
 </script>
 
