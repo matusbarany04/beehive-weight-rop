@@ -18,6 +18,7 @@ import com.buzzybees.master.notifications.Reminder;
 import com.buzzybees.master.notifications.ReminderRepository;
 import com.buzzybees.master.tables.PairList;
 import com.buzzybees.master.tables.Status;
+import org.apache.poi.ss.formula.functions.T;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -198,7 +202,9 @@ public class DashboardController extends CookieAuthController {
     public ApiResponse newReminder(@ModelAttribute Reminder reminder) {
         reminder.setUserId(currentUserId);
         ReminderRepository repository = getRepo(Reminder.class);
+        if(reminder.isUpcoming()) reminder.activate();
         repository.save(reminder);
+
 
         return new ApiResponse("reminder", reminder);
     }
