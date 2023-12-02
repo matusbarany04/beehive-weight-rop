@@ -36,7 +36,8 @@ public class Notification {
     public enum Type {
         INFO,
         WARNING,
-        PROBLEM
+        PROBLEM,
+        REMINDER,
     }
 
     public static final String MESSAGES = "messages.json";

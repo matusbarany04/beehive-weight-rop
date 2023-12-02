@@ -58,7 +58,7 @@
         beehivelist.push({
           timespan: "week",
           name: "Váha " + beehive.name,
-          type: "weight",
+          type: beehivelist ?? [0].type | "weight" | "weight",
           beehive_id: beehive.beehive_id,
         });
       }
@@ -386,16 +386,16 @@
   <div class="relative flex max-h-full w-full">
     <div {id} class="h-full w-full" />
   </div>
-
+  <!--//beehivelist[0]?.type || "weight"}-->
   <div class="" slot="customSettings">
     {#if beehivelist != null}
       <BeehiveTypeForm
-        typeChoice={beehivelist[0]?.type ?? "weight"}
+        typeChoice={"battery"}
         beehive_value={allSelected
           ? "all"
-          : beehivelist[0]?.beehive_id ?? "all"}
+          : beehivelist[0]?.beehive_id || "all"}
         beehiveId={beehivelist[0]?.beehive_id}
-      ></BeehiveTypeForm>
+      />
 
       <DropdownInput
         label="Úsek načítaných dát"

@@ -5,6 +5,7 @@ import com.buzzybees.master.beehives.BeehiveRepository;
 import com.buzzybees.master.beehives.actions.Action;
 import com.buzzybees.master.config.WebPushConfig;
 import com.buzzybees.master.controllers.template.DatabaseController;
+import com.buzzybees.master.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,5 +56,14 @@ public class Notifications {
         Notification notification = new Notification(Notification.Type.PROBLEM, userId, action.getStatus().name, "");
         notificationRepository.save(notification);
         notification.sendToUser();
+    }
+
+    public static void scheduleReminders() {
+        ReminderRepository reminderRepository = DatabaseController.accessRepo(Reminder.class);
+        Iterable<Reminder> reminders = reminderRepository.findAll();
+
+        for (Reminder reminder : reminders) {
+            if(reminder.isUpcoming()) reminder.activate();
+        }
     }
 }
