@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <SoftwareSerial.h>
 
 #define BAUDRATE 9600
 #define ORANGE_APN "internet"
@@ -73,7 +72,8 @@ public:
 
     void check()
     {
-        //Serial.println(Serial.available());
+        Serial.println(gsmSerial.baudRate());
+        Serial.println(gsmSerial.available());
         while (Serial.available())
         {
             gsmSerial.write(Serial.read()); // Forward what Serial received to Software Serial Port

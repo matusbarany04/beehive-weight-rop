@@ -1,12 +1,14 @@
 package com.buzzybees.master.notifications;
 
 
+import com.buzzybees.master.config.SocketHandler;
 import com.buzzybees.master.controllers.UserController;
 import com.buzzybees.master.users.Mailer;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.users.UserService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.apache.poi.ss.formula.functions.T;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +17,12 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import javax.xml.crypto.Data;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -42,7 +48,8 @@ public class Notification {
     private long id;
 
     @Column(name = "type")
-    private int type;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @JsonIgnore
     @Column(name = "user_id")
@@ -67,15 +74,15 @@ public class Notification {
     }
 
     public Notification(Type type, long userId, String title, String messageName, int value) {
-        this.type = type.ordinal();
+        this.type = type;
         this.title = title;
         this.userId = userId;
         String template = readMessage(messageName);
-        if(template != null) message = String.format(template, value);
+        if (template != null) message = String.format(template, value);
     }
 
     public Notification(Type type, long userId, String title, String message) {
-        this.type = type.ordinal();
+        this.type = type;
         this.title = title;
         this.userId = userId;
         this.message = message;
@@ -104,7 +111,7 @@ public class Notification {
         return id;
     }
 
-    public int getType() {
+    public Type getType() {
         return type;
     }
 
@@ -129,10 +136,18 @@ public class Notification {
     }
 
 
-
     public void sendByMail() {
         UserRepository userRepository = UserService.getBean(UserRepository.class);
         String email = userRepository.getEmail(userId);
         Mailer.sendMessage(email, title, message);
     }
+
+    public void sendToUser() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("title", title);
+        jsonObject.put("message", message);
+        jsonObject.put("type", type);
+        Notifications.sendPushToUser(userId, jsonObject.toString());
+    }
+
 }

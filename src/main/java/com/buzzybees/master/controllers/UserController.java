@@ -6,8 +6,11 @@ import com.buzzybees.master.language.Language;
 import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.notifications.Notification.Type;
 import com.buzzybees.master.notifications.NotificationRepository;
+import com.buzzybees.master.notifications.Notifications;
+import com.buzzybees.master.notifications.PushSubscription;
 import com.buzzybees.master.tables.User;
 import com.buzzybees.master.users.Message;
+import nl.martijndwars.webpush.PushService;
 import org.hibernate.query.results.complete.ModelPartReference;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -38,7 +41,6 @@ public class UserController extends CookieAuthController {
 
     @Autowired
     NotificationRepository notificationRepository;
-
 
     // toto robi pekny json, skus takto davat api
     @GetMapping("/getUsers")
@@ -89,6 +91,19 @@ public class UserController extends CookieAuthController {
 //        return error.toString();
 //    }
 
+
+    @GetMapping("/send-notification")
+    public void sendNotification() {
+        Notification notification = new Notification(Type.INFO, currentUserId, "title", "message");
+        notification.sendToUser();
+    }
+
+    @PostMapping(value = "/subscribe", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ApiResponse subscribe(@RequestBody PushSubscription pushSubscription) {
+        Notifications.subscribe(currentUserId, pushSubscription);
+        return ApiResponse.OK();
+    }
+
     @GetMapping("/sendMail")
     public String send() {
         Mailer.sendVerification("mbelej100@gmail.com", 1152);
@@ -98,8 +113,8 @@ public class UserController extends CookieAuthController {
     @GetMapping("/createNotification")
     public String createNotification() {
         String title = "Slabá batéria v úli číslo 1";
-        Notification notification = new Notification(Type.WARNING, 1352, title, "LOW_BATTERY", 26);
-        notification.sendByMail();
+       /* Notification notification = new Notification(Type.WARNING, 1, title, "LOW_BATTERY", 26);
+        notification.sendToUser();*/
         //notificationRepository.save(notification);
         return "OK";
     }
@@ -221,7 +236,7 @@ public class UserController extends CookieAuthController {
     public String getEmailByUserId(long id) {
         return userRepository.getEmail(id);
     }
-
+/*
     @Autowired
     SimpMessagingTemplate simpMessagingTemplate;
 
@@ -238,17 +253,19 @@ public class UserController extends CookieAuthController {
         //   simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/specific", message);
     }
 
-
+*/
     /**
      * Sends a test message to a specific user using WebSocket.
      * The message is sent to the user's unique destination based on their token.
      */
-    @GetMapping("/messageTest")
+ /*   @GetMapping("/messageTest")
     public void messageTest() {
         String token = UserService.getTokenByUserId(1);
         simpMessagingTemplate.convertAndSend("/specific/" + token, "message test");
         System.out.println(simpMessagingTemplate.getMessageChannel());
     }
+*/
+
 
 
     /**

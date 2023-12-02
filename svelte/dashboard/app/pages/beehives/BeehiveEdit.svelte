@@ -144,7 +144,12 @@
       });
   }
 
-  setInterval(refreshSensorView, 5000);
+  const refresh = setInterval(refreshSensorView, 5000);
+
+  window.onbeforeunload = () => {
+    console.log("clear");
+    clearInterval(refresh);
+  };
 </script>
 
 <svelte:head>

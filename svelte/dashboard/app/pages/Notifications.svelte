@@ -8,6 +8,65 @@
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
   import { fade, fly } from "svelte/transition";
   import message from "../stores/message";
+
+  //const socket = new WebSocket("ws://localhost:8080/websocket/connect");
+
+  // navigator.serviceWorker.register("../js/service-worker.js");
+  // let registration;
+  //
+  // navigator.serviceWorker.ready.then((rg) => {
+  //   registration = rg;
+  //   console.log(rg);
+  // });
+
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      registerService();
+      
+    } else if (permission === 'denied') {
+      // Permission denied
+      console.log('Notification permission denied.');
+    } else if (permission === 'default') {
+      // The user closed the permission prompt without making a choice
+      console.log('Notification permission prompt closed without a choice.');
+    }
+    
+    function registerService() {
+      navigator.serviceWorker
+        .register("../js/service-worker.js")
+        .then(function (registration) {
+          console.log("Service worker successfully registered.");
+
+          registration.pushManager
+            .subscribe({
+              userVisibleOnly: true,
+              applicationServerKey:
+                "BCZCy-snf9UZVm6M74AoNGmmkuSqCs-sWcmCZLiiytyyA8ZCBMSLa3NXhE5AUFwGoqeqs8wCJoIzqcdCOZ6Z8LI",
+            })
+            .then(function (subscription) {
+              console.log("Subscribed for push:", JSON.stringify(subscription));
+              subscribeNotifications(subscription);
+            })
+            .catch(function (error) {
+              console.log("Subscription failed:", error);
+            });
+        })
+        .catch(function (error) {
+          console.log("Service worker registration failed:", error);
+        });
+    }
+
+  function subscribeNotifications(subscription) {
+    fetch("/user/subscribe", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(subscription),
+    });
+  }
+
   /*
   var stompClient = null;
 
