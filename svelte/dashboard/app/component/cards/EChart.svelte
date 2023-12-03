@@ -3,7 +3,7 @@
   import * as echarts from "echarts/dist/echarts.js";
   import shared from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
+  import {generateUUID, nowMinusTimeString} from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import {BeehiveObj} from "../../stores/Beehive";
@@ -33,11 +33,14 @@
 
   let myChart;
   let allSelected = false;
-  const beehiveData = [];
+  let beehiveData = [];
   let beehivelist = cardStates.data;
 
 
-  function getDataFromBeehive(beehive_id, type, name = "") {
+  let filterTime = 0;
+
+  function getDataFromBeehive(beehive_id, type, minTimespan = 0, name = "") {
+    console.log("loading data with minTimespan" ,minTimespan)
     // try to load beehive object from its key
     let beehiveObject = shared.getBeehiveById(beehive_id);
 
@@ -58,11 +61,18 @@
           throw new Error("Data and timestamp arrays have different lengths");
         }
 
+        let filtetCount = 0
         // join data and timestamp
-        let combinedData = data.map((item, index) => [
-          timestamp[index],
-          item === -999 ? null : item,
-        ]);
+        let combinedData = [];
+        data.forEach((item, index) => {
+          if (timestamp[index] >= minTimespan) {
+            combinedData.push([timestamp[index], item === -999 ? null : item]);
+          }else {
+            filtetCount ++;
+          }
+        });
+        console.log("number of filtered", filtetCount)
+
 
         // join data and timestamp like so [[data, timestamp], [data,timestamp]]
 
@@ -102,7 +112,8 @@
     }
   }
 
-  try {
+  function loadData(minTimespan = null) {
+    beehiveData = []
     let beehives = shared.getBeehives();
     if (beehivelist.length === Object.keys(beehives).length) {
       allSelected = true;
@@ -111,7 +122,7 @@
     if (
       beehivelist == null ||
       beehivelist === "dummy" ||
-      beehivelist == [] ||
+      !beehivelist || beehivelist.length === 0 ||
       beehivelist[0].beehive_id === "all" ||
       beehivelist.length === beehives.length
     ) {
@@ -119,7 +130,7 @@
 
       beehivelist = [
         {
-          timespan: "week",
+          timespan: minTimespan ?? "week",
           name: "Váha  všetkých zariadení",
           type: BeehiveObj.getPrimaryDataType(),
           beehive_id: ["all"]
@@ -130,195 +141,205 @@
 
     beehivelist.forEach((element) => {
       //we load all data
-
+      filterTime = nowMinusTimeString(minTimespan ?? element.timespan);
       element.beehive_id.forEach((bee_id) => {
         /** @type {BeehiveObj} */
         if (bee_id === "all") {
           Object.keys(shared.getBeehives()).forEach((beehive_id) => {
-            beehiveData.push(...getDataFromBeehive(beehive_id, element.type));
+            beehiveData.push(...getDataFromBeehive(beehive_id, element.type, filterTime));
           });
         } else {
-          beehiveData.push(...getDataFromBeehive(bee_id, element.type))
+          beehiveData.push(...getDataFromBeehive(bee_id, element.type, filterTime))
         }
       })
 
     });
+  }
 
-    let initOptions = () => {
-      const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      let series = [];
-      for (let index = 0; index < beehiveData.length; index++) {
-        const line = beehiveData[index];
-        series.push({
-          lineStyle: {
+  let initOptions = () => {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    let series = [];
+    for (let index = 0; index < beehiveData.length; index++) {
+      const line = beehiveData[index];
+      series.push({
+        lineStyle: {
+          color: chartColors[index],
+        },
+        itemStyle: {
+          borderType: "solid",
+          color: chartColors[index],
+          borderCap: "butt",
+          emphasis: {
             color: chartColors[index],
           },
-          itemStyle: {
-            borderType: "solid",
-            color: chartColors[index],
-            borderCap: "butt",
-            emphasis: {
-              color: chartColors[index],
-            },
-          },
-          name: line.name,
-          type: "line",
-          smooth: true,
-          data: line.data.map(function (item) {
-            let timestamp = item[0];
-            let val = item[1];
-            const isoString = new Date(timestamp).toISOString();
-            return [isoString, val];
-          }),
-        });
-      }
+        },
+        name: line.name,
+        type: "line",
+        smooth: true,
+        data: line.data.map(function (item) {
+          let timestamp = item[0];
+          let val = item[1];
+          const isoString = new Date(timestamp).toISOString();
+          return [isoString, val];
+        }),
+      });
+    }
 
-      let option = {
-        title: {
-          show: false,
+    let option = {
+      title: {
+        show: false,
+      },
+      toolbox: {
+        feature: {
+          saveAsImage: {},
         },
-        toolbox: {
-          feature: {
-            saveAsImage: {},
-          },
-        },
-        tooltip: {
-          trigger: "axis",
-          formatter: function (params) {
-            if (!params[0] || !params[0].values) {
-              return "";
-            }
-            // Assuming params[0].value[0] or params[0].value is the timestamp value
-            let value = params[0].value[0]
-              ? params[0].value[0]
-              : params[0].value;
+      },
+      tooltip: {
+        trigger: "axis",
+        formatter: function (params) {
+          if (!params[0] || !params[0].values) {
+            return "";
+          }
+          // Assuming params[0].value[0] or params[0].value is the timestamp value
+          let value = params[0].value[0]
+            ? params[0].value[0]
+            : params[0].value;
 
-            let date = new Date(value);
+          let date = new Date(value);
 
-            let hours = String(date.getHours()).padStart(2, "0");
-            let minutes = String(date.getMinutes()).padStart(2, "0");
-            let seconds = String(date.getSeconds()).padStart(2, "0");
-            return `${hours}:${minutes}:${seconds}`;
-          },
-          axisPointer: {
-            type: "cross",
-            animation: false,
-            label: {
-              backgroundColor: "#ccc",
-              borderColor: "#aaa",
-              borderWidth: 1,
-              shadowBlur: 0,
-              shadowOffsetX: 0,
-              shadowOffsetY: 0,
-              color: "#222",
-            },
+          let hours = String(date.getHours()).padStart(2, "0");
+          let minutes = String(date.getMinutes()).padStart(2, "0");
+          let seconds = String(date.getSeconds()).padStart(2, "0");
+          return `${hours}:${minutes}:${seconds}`;
+        },
+        axisPointer: {
+          type: "cross",
+          animation: false,
+          label: {
+            backgroundColor: "#ccc",
+            borderColor: "#aaa",
+            borderWidth: 1,
+            shadowBlur: 0,
+            shadowOffsetX: 0,
+            shadowOffsetY: 0,
+            color: "#222",
           },
         },
-        calculable: true,
-        grid: {
-          right: "5%",
-          top: "4%",
-        },
-        xAxis: {
+      },
+      calculable: true,
+      grid: {
+        right: "5%",
+        top: "4%",
+      },
+      xAxis: {
+        type: "time",
+        axisLabel: {
           type: "time",
-          axisLabel: {
-            type: "time",
-            formatter: function (value) {
-              const date = new Date(parseInt(value));
-              return `${months[date.getMonth()]}.${date.getDate()}`; // should be like Nov 13
-            },
-          },
-          axisPointer: {
-            label: {
-              formatter: function (params) {
-                const date = new Date(parseInt(params.value));
-                return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-              },
-            },
+          formatter: function (value) {
+            const date = new Date(parseInt(value));
+            return `${months[date.getMonth()]}.${date.getDate()}`; // should be like Nov 13
           },
         },
-        yAxis: {
-          data: beehiveData[0]?.data?.map(function (item) {
-            return item[1] != null && item && item.length > 1 ? item[1] : "-";
-          }),
-          type: "value",
-        },
-        dataZoom: [
-          {
-            type: "slider",
-            show: true,
-            // xAxisIndex: [0], // Controls the first xAxis by default
-            start: 0, // Initial start percentage
-            end: 100, // Initial end percentage
-
-            // Soft gray background for the slider
-            backgroundColor: "rgba(240, 240, 240, 0.6)",
-
-            // Subtle border color
-            borderColor: "rgba(220, 220, 220, 1)",
-            borderWidth: 0,
-
-            // Muted highlight for the selected area
-            fillerColor: "rgba(220, 220, 220, 0.8)",
-
-            // Soft and muted data shadow styles
-            dataBackground: {
-              lineStyle: {
-                color: "rgba(126,83,7,0.42)",
-                width: 1,
-              },
-              areaStyle: {
-                color: "rgba(230, 230, 230, 0.8)",
-              },
-            },
-            // Customize the brush-style drag area
-            brushStyle: {
-              color: "rgba(240, 240, 240, 0.2)", // Soft white for the main color
-              borderWidth: 0,
-              shadowColor: "rgba(150, 150, 150, 0.3)", // Medium gray for the shadow
-              shadowOffsetX: 2,
-              shadowOffsetY: 2,
-            },
-
-            // Handle styling: muted gray with soft shadow
-            handleStyle: {
-              color: "rgb(219,152,52)",
-              borderWidth: 0,
-              shadowBlur: 4,
-              shadowOffsetX: 2,
-              shadowOffsetY: 2,
-              shadowColor: "rgba(150, 150, 150, 0.5)",
-            },
-
-            // TODO get data on index and display the date
-            labelFormatter: function (value) {
-              const date = new Date(parseInt(value));
+        axisPointer: {
+          label: {
+            formatter: function (params) {
+              const date = new Date(parseInt(params.value));
               return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
             },
-            textStyle: {
-              color: "rgba(100, 100, 100, 1)",
+          },
+        },
+      },
+      yAxis: {
+        data: beehiveData[0]?.data?.map(function (item) {
+          return item[1] != null && item && item.length > 1 ? item[1] : "-";
+        }),
+        type: "value",
+      },
+      dataZoom: [
+        {
+          type: "slider",
+          show: true,
+          // xAxisIndex: [0], // Controls the first xAxis by default
+          start: 0, // Initial start percentage
+          end: 100, // Initial end percentage
+
+          // Soft gray background for the slider
+          backgroundColor: "rgba(240, 240, 240, 0.6)",
+
+          // Subtle border color
+          borderColor: "rgba(220, 220, 220, 1)",
+          borderWidth: 0,
+
+          // Muted highlight for the selected area
+          fillerColor: "rgba(220, 220, 220, 0.8)",
+
+          // Soft and muted data shadow styles
+          dataBackground: {
+            lineStyle: {
+              color: "rgba(126,83,7,0.42)",
+              width: 1,
+            },
+            areaStyle: {
+              color: "rgba(230, 230, 230, 0.8)",
             },
           },
-        ],
-        series: series,
-      };
+          // Customize the brush-style drag area
+          brushStyle: {
+            color: "rgba(240, 240, 240, 0.2)", // Soft white for the main color
+            borderWidth: 0,
+            shadowColor: "rgba(150, 150, 150, 0.3)", // Medium gray for the shadow
+            shadowOffsetX: 2,
+            shadowOffsetY: 2,
+          },
 
-      return option;
+          // Handle styling: muted gray with soft shadow
+          handleStyle: {
+            color: "rgb(219,152,52)",
+            borderWidth: 0,
+            shadowBlur: 4,
+            shadowOffsetX: 2,
+            shadowOffsetY: 2,
+            shadowColor: "rgba(150, 150, 150, 0.5)",
+          },
+
+          // TODO get data on index and display the date
+          labelFormatter: function (value) {
+            const date = new Date(parseInt(value));
+            return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+          },
+          textStyle: {
+            color: "rgba(100, 100, 100, 1)",
+          },
+        },
+      ],
+      series: series,
     };
 
+    return option;
+  };
+  
+  function refreshOptions(){
+    let option = initOptions();
+    myChart.setOption(option);
+  }
+
+  try {
+    loadData()
+
+    
     onMount(() => {
       if (error == null) {
         // Use a Svelte ref for the chart container
@@ -344,6 +365,13 @@
 
   let resizeEvent = () => {
   };
+
+  function changeZoom(timeString) {
+    console.log("chaning to " , timeString)
+    filterTime = nowMinusTimeString(timeString)
+    loadData(timeString)
+    refreshOptions() 
+  }
 </script>
 
 <CardRoot
@@ -377,7 +405,7 @@
           type={headerSelected === item[0] ? "primary" : "secondary"}
           onClick={() => {
             headerSelected = item[0];
-            // changeZoom(item[0]);
+            changeZoom(item[0]);
           }}
         />
       {/each}

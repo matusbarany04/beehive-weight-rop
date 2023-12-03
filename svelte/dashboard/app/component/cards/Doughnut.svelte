@@ -29,7 +29,7 @@
   let beehivelist = cardStates.data;
 
   function getDataFromBeehive(beehive_id, type) {
-    console.log("getDataFromBeehive", beehive_id);
+    // console.log("getDataFromBeehive", beehive_id);
     /** @type {BeehiveObj} */
     let beehiveObject = shared.getBeehiveById(beehive_id);
     if (beehiveObject == null) {
