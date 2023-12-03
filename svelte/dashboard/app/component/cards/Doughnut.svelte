@@ -21,8 +21,7 @@
   let id = generateUUID();
   let error = null;
 
-  // otrasne fraby ale zatial stačia na rozpoznanie čiarok
-  const chartColors = ["#db9834", "#3c7cdc", "#860707", "#245b00"];
+
   let myChart;
   let allSelected = false;
   const beehiveData = [];
@@ -51,7 +50,6 @@
 
   try {
     let beehives = shared.getBeehives();
-    // console.log("cardStates.data.length === beehives.length",cardStates.data, cardStates.data.length, Object.keys(beehives).length)
     if (beehivelist.length === Object.keys(beehives).length) {
       allSelected = true;
     }
@@ -76,7 +74,6 @@
     beehivelist.forEach((element) => {
       //we load all data
       //  beehive id is and array in this card
-
       for (const beehive_id of element.beehive_id) {
         if (beehive_id === "all") {
           // shared.getBeehives is an array
