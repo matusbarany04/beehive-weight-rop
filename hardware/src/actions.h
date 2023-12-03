@@ -43,6 +43,11 @@ class ActionManager {
             }
         }
 
+        String execGetStatus(ActionType type, long id, JsonObject params = JsonObject()) {
+            Action* action = getAction(type);
+            if(action != NULL) return action->function(params);
+        }
+
         void schedule(ActionType type, long id, long executionTime, JsonObject params = JsonObject()) {
             ScheduledAction action = {id, type, "", executionTime};
             serializeJson(params, action.params);

@@ -5,12 +5,13 @@
 #include <Servo.h>
 
 #include "sensors/SensorManager.h" 
-#include "network.h"
+#include "connection/network.h"
+#include "connection/sockets.h"
+#include "connection/sim.h"
 #include "constants.h"
 #include "actions.h"
 #include "led.h"
 #include "Button.h"
-#include "sim.h"
 #include "memory.h"
 #include "power.h"
 #include "enums.h"
@@ -58,6 +59,22 @@ void setup()
 
   wakeUpTime = 1701187047;
 
+  connect();
+  socketConnect();
+
+  onSocketActionReceived([](JsonObject action) {
+    ActionType actionType = parseActionType(action["type"]);
+    String type = action["type"];
+    Serial.println(type);
+
+    if(action["executionTime"] == 0) {
+      String status = actionManager.execGetStatus(actionType, action["id"], action["params"]);
+      String actionId = action["id"];
+      Param params[] = {{"id", actionId}};
+      sendActionToServer(ACTION_FINISHED, params);
+    }
+    else actionManager.schedule(actionType, action["id"], action["executionTime"], action["params"]);
+  });
   
 
   /*factoryReset();
@@ -110,8 +127,11 @@ void setup()
 
   led.off();
 
+
+
+
   networkManager.turn_wifi_off();*/
-  Serial.println("Test connection");
+  
   //sim.connect();
  // Serial.println(sim.test());
   //sim.check();
@@ -247,7 +267,11 @@ void loop()
 {  
  // Serial.println(scale.get_units(), 1);
   // delay(500);
-  Serial.println(touchRead(27));
+  updateSocket();
+  if(NetworkManager::connectionAvailable() && sensorManager.intervalScan() == CONFIG_CHANGED) {
+    Param params[] = {{"config", sensorManager.buildJSON(true)}};
+    sendActionToServer(UPDATE_DEVICE_CONFIG, params);
+  }
   while (Serial.available())
   {
             gsmSerial.write(Serial.read()); // Forward what Serial received to Software Serial Port
@@ -256,6 +280,7 @@ void loop()
         {
             Serial.write(gsmSerial.read()); // Forward what Software Serial received to Serial Port
         }
+
 }
 
  

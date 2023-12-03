@@ -5,6 +5,8 @@
 #include "battery.h"
 #include "constants.h"
 
+#define SCAN_INTERVAL 1000
+#define CONFIG_CHANGED 1
 #define EEPROM_ADDRESS 0x50
 const int SENSOR_PINS[] = {2, 15, 4};
 
@@ -13,26 +15,36 @@ class SensorManager {
 
     public:
 
-        void scan() {
+        bool scan() {
             disableAll();
             Wire.begin(SDA_PIN, SCL_PIN);
 
+            bool changed = false;
+            String output = "";
             for(int i = 0; i < sizeof(SENSOR_PINS) / sizeof(int); i++) {
                 digitalWrite(SENSOR_PINS[i], LOW);
+                Sensor* previousSensor = sensors[i];
                 Wire.beginTransmission(EEPROM_ADDRESS);
 
                 if(!Wire.endTransmission()) {
                     sensors[i] = new Sensor(i, SENSOR_PINS[i]);
-                    char output[100];
-                    sprintf(output, "Sensor found on port %d, Device type: %d (%s)", i, sensors[i]->getType(), sensors[i]->getTypeName());
-                    Serial.println(output);
+                    char text[100];
+                    sprintf(text, "Sensor found on port %d, Device type: %d (%s)\n", i, sensors[i]->getType(), sensors[i]->getTypeName());
+                    output += text;
                     
                 } else sensors[i] = nullptr;
+
+                if((previousSensor != nullptr ? previousSensor->getId() : 0) != (sensors[i] != nullptr ? sensors[i]->getId() : 0)) changed = true;
             
                 digitalWrite(SENSOR_PINS[i], HIGH);
             }
            
             Wire.end();
+            lastScan = millis();
+
+            if(changed) Serial.println(output);
+
+            return changed;
         }
 
         bool burnSensorId(unsigned int port, int id) {
@@ -60,23 +72,26 @@ class SensorManager {
             }
         }
 
-        String buildJSON() {
+        String buildJSON(bool disableValueReadings=false) {
             DynamicJsonDocument json(1024);
             JsonArray array = json.createNestedArray("sensors");
 
             for(Sensor* sensor : sensors) {
                 if(sensor != nullptr) {
                     JsonObject object = array.createNestedObject();
-                    object["value"] = sensor->readValue();
+                    if(!disableValueReadings) object["value"] = sensor->readValue();
                     object["port"] = sensor->getPort(); 
                     object["type"] = sensor->getType();
                     object["id"] = sensor->getId();
                 }
             }
 
-            json["weight"] = 45;
-            json["beehive"] = BEEHIVE_ID;
-            json["battery"] = battery.getPercentage();   
+
+            if(!disableValueReadings) {
+                json["battery"] = battery.getPercentage();
+                json["weight"] = 45;
+            }
+            json["beehive"] = BEEHIVE_ID;   
             json["status"] = "ok";
 
             String output;
@@ -90,8 +105,13 @@ class SensorManager {
             return sensors[port];
         }
 
+        bool intervalScan() {
+            return millis() - lastScan >= SCAN_INTERVAL ? scan() : false;
+        }
+
     private:
         Sensor* sensors[sizeof(SENSOR_PINS) / sizeof(int)];
         Battery battery = Battery(25);
+        long lastScan = 0;
 
 };

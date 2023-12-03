@@ -45,7 +45,7 @@ public class Device {
 
     @JsonIgnore
     public int getPortIndex() {
-        return Integer.parseInt(port.substring(1)) - 1;
+        return port != null ? Integer.parseInt(port.substring(1)) - 1 : -1;
     }
 
     public void setName(String name) {

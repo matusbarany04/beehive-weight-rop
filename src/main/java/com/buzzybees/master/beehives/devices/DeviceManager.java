@@ -16,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DeviceManager {
@@ -44,7 +41,7 @@ public class DeviceManager {
             device.setPort(port);
             deviceRepository.save(device);
 
-            return !previous.equals(device.getPort());
+            return previous == null || !previous.equals(device.getPort());
         }
 
         return false;
@@ -53,8 +50,9 @@ public class DeviceManager {
     public static void updateDeviceConfig(Beehive beehive, HashMap<String, Object> params) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            String json = objectMapper.writeValueAsString(params.get("devices"));
-            List<Device> devices = objectMapper.readValue(json, new TypeReference<>(){});
+            JSONObject json = new JSONObject(params.get("config").toString());
+            List<Device> devices = objectMapper.readValue(json.getJSONArray("sensors").toString(), new TypeReference<>(){});
+            List<Device> notConnectedDevices = beehive.getDevices();
             devices.forEach(device -> {
                 if (device.getId() == 0) {
                     long id = createSensor(beehive, device.getType(), device.getPortIndex());
@@ -62,7 +60,12 @@ public class DeviceManager {
                     EspSocketHandler.sendFlashActionToBeehive(beehive.getToken(), burnAction);
                 }
                 else updatePort(device.getId(), device.getPortIndex());
+                notConnectedDevices.removeIf(oldDevice -> oldDevice.getId() == device.getId());
             });
+
+            DeviceRepository deviceRepository = DatabaseController.accessRepo(Device.class);
+            for(Device device : notConnectedDevices) device.setPort(null);
+            deviceRepository.saveAll(notConnectedDevices);
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();

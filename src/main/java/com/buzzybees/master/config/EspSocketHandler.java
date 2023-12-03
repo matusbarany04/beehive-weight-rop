@@ -2,6 +2,7 @@ package com.buzzybees.master.config;
 
 import com.buzzybees.master.beehives.Beehive;
 import com.buzzybees.master.beehives.BeehiveRepository;
+import com.buzzybees.master.beehives.BeehiveState;
 import com.buzzybees.master.beehives.actions.Action;
 import com.buzzybees.master.beehives.actions.ActionRepository;
 import com.buzzybees.master.beehives.actions.ServerActionType;
@@ -62,11 +63,20 @@ public class EspSocketHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(@NotNull WebSocketSession session, @NotNull CloseStatus closeStatus) throws Exception {
         String token = session.getAttributes().get("beehive").toString();
         if (token != null) beehiveSessions.remove(token);
+        System.out.println("connection closed for session: " + session);
+    }
+
+    @Override
+    public void handleTransportError(@NotNull WebSocketSession session, Throwable exception) throws Exception {
+        System.out.println(session);
+        exception.printStackTrace();
     }
 
     private void executeServerAction(Beehive beehive, ServerAction serverAction) {
         switch (serverAction.type()) {
+            case ACTION_FINISHED -> System.out.println(serverAction.params());
             case UPDATE_DEVICE_CONFIG -> DeviceManager.updateDeviceConfig(beehive, serverAction.params());
+            case UPDATE_DEVICE_STATE -> beehive.updateState(BeehiveState.valueOf(serverAction.params().get("newState").toString()));
             default -> System.out.println("unknown server action: " + serverAction.type());
         }
     }

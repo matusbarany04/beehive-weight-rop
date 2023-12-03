@@ -26,7 +26,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(new ClientSocketHandler(), "/websocket/connect").addInterceptors(new ClientHandshakeInterceptor());
-        registry.addHandler(new EspSocketHandler(), "/websocket/beehive").addInterceptors(new EspHandshakeInterceptor());
+        registry.addHandler(new EspSocketHandler(), "/websocket/beehive").addInterceptors(new EspHandshakeInterceptor()).setAllowedOrigins("*");
     }
 
     public static class ClientHandshakeInterceptor implements HandshakeInterceptor {
