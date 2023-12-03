@@ -11,7 +11,7 @@ export let languages = {
 };
 
 export function isValidLanguage(lang) {
-  console.log("lang", lang, languages[lang]);
+  // console.log("lang", lang, languages[lang]);
   return languages[lang] !== undefined;
 }
 let languageRepository = {

@@ -9,7 +9,11 @@
   import Input from "../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../components/Inputs/DropdownInput.svelte";
   import message from "../stores/message";
+  import {getLanguageInstance} from "../../../components/language/languageRepository";
 
+  
+  const li = getLanguageInstance()
+  
   let daysOfMonth = [];
   let now = new Date();
   now.setHours(0, 0, 0, 0);
@@ -17,7 +21,7 @@
   let newReminder = false;
   let reminders = [];
 
-  message.setMessage("Kalendár");
+  message.setMessage(li.get("calendar.page_title"));
 
   updateCalendar();
 
@@ -130,7 +134,7 @@
     </div>
     <Button
       image="../../icons/add_thin.svg"
-      text="Nová poznámka/primomienka"
+      text={li.get("calendar.btn_new_reminder")}
       type="primary"
       onClick={() => (newReminder = true)}
     />
