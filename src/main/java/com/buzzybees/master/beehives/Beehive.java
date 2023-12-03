@@ -160,15 +160,6 @@ public class Beehive {
         this.model = model;
     }
 
-    public void setSensors(String devicesJSON) {
-        JSONObject jsonObject = new JSONObject(devicesJSON);
-        for (String key : jsonObject.keySet()) {
-            Device device = Device.fromJSON(jsonObject.getJSONObject(key), key);
-            device.setBeehive(this);
-            devices.add(device);
-        }
-    }
-
     public String getWifiSSID() {
         return wifi_ssid;
     }

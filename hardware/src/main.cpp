@@ -58,6 +58,8 @@ void setup()
 
   wakeUpTime = 1701187047;
 
+  
+
   /*factoryReset();
   ScheduledAction updateStatus = {0, UPDATE_STATUS, "{}", wakeUpTime};
   saveAction(updateStatus);*/
@@ -245,6 +247,7 @@ void loop()
 {  
  // Serial.println(scale.get_units(), 1);
   // delay(500);
+  Serial.println(touchRead(27));
   while (Serial.available())
   {
             gsmSerial.write(Serial.read()); // Forward what Serial received to Software Serial Port

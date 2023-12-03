@@ -56,16 +56,14 @@ public class BeeController extends DatabaseController {
             if (sensorValue.getSensorId() == 0) {
                 BeehiveRepository beehiveRepository = getRepo(Beehive.class);
                 Beehive beehive = beehiveRepository.getBeehiveByToken(statusRequest.getBeehive());
-                long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
+                long id = DeviceManager.createSensor(beehive, sensorValue.getType(), sensorValue.getPort());
 
-                System.out.println(actions);
                 actions.add(Actions.createBurnAction(beehive, id, sensorValue.getPort()));
 
                 sensorValue.setSensorId(id);
 
             } else {
-                DeviceRepository deviceRepository = getRepo(Device.class);
-                DeviceManager.updatePort(deviceRepository, sensorValue.getSensorId(), sensorValue.getPort());
+                DeviceManager.updatePort(sensorValue.getSensorId(), sensorValue.getPort());
             }
         });
 

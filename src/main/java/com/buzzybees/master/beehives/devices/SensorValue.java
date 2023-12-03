@@ -28,7 +28,8 @@ public class SensorValue {
     private int port;
 
     @JsonProperty("type")
-    private int type;
+    @Enumerated(EnumType.ORDINAL)
+    private DeviceType type;
 
     public long getId() {
         return id;
@@ -50,7 +51,7 @@ public class SensorValue {
         return port;
     }
 
-    public int getType() {
+    public DeviceType getType() {
         return type;
     }
 
