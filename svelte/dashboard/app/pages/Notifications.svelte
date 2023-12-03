@@ -7,7 +7,10 @@
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
   import { fade, fly } from "svelte/transition";
   import message from "../stores/message";
+  import {getLanguageInstance} from "../../../components/language/languageRepository";
 
+  const li = getLanguageInstance()
+  
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
       registerService();
@@ -56,7 +59,7 @@
 
   let messages = null;
 
-  message.setMessage("Upozornenia");
+  message.setMessage(li.get("notifications.page_title"));
 
   fetch("/dashboardApi/getNotifications")
     .then((response) => {
@@ -152,10 +155,10 @@
     class="mx-auto mb-4 flex h-32 flex-col justify-between rounded-lg bg-white p-4 shadow shadow-tertiary-300 md:h-16 md:flex-row lg:w-5/6"
   >
     <!-- title -->
-    <h1 class="text-2xl font-semibold">Vaše upozornenia</h1>
+    <h1 class="text-2xl font-semibold">{li.get("notifications.title")}</h1>
 
     <Button
-      text="Označiť všetky ako prečítané"
+      text="{li.get('notifications.btn_mark_read')}"
       onClick={() => {
         // TODO mato spravi request pre viac precitanych
         messages.forEach((element) => {
@@ -242,6 +245,7 @@
       class="h-20 w-20 bg-[url('/icons/bell.svg')] bg-cover bg-no-repeat opacity-50"
     ></div>
   </div>
+<!--  TODO translate -->
   <h1 class="my-4 text-center text-4xl font-bold text-slate-600">
     Zatiaľ žiadne upozornenia!
   </h1>
