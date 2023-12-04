@@ -70,7 +70,7 @@ void setup()
     if(action["executionTime"] == 0) {
       String status = actionManager.execGetStatus(actionType, action["id"], action["params"]);
       String actionId = action["id"];
-      Param params[] = {{"id", actionId}};
+      Param params[] = {{"id", actionId}, {"status", status}};
       sendActionToServer(ACTION_FINISHED, params);
     }
     else actionManager.schedule(actionType, action["id"], action["executionTime"], action["params"]);

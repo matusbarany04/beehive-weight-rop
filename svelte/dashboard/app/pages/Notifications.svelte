@@ -7,10 +7,10 @@
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
   import { fade, fly } from "svelte/transition";
   import message from "../stores/message";
-  import {getLanguageInstance} from "../../../components/language/languageRepository";
+  import { getLanguageInstance } from "../../../components/language/languageRepository";
 
-  const li = getLanguageInstance()
-  
+  const li = getLanguageInstance();
+
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
       registerService();
@@ -158,7 +158,7 @@
     <h1 class="text-2xl font-semibold">{li.get("notifications.title")}</h1>
 
     <Button
-      text="{li.get('notifications.btn_mark_read')}"
+      text={li.get("notifications.btn_mark_read")}
       onClick={() => {
         // TODO mato spravi request pre viac precitanych
         messages.forEach((element) => {
@@ -245,7 +245,7 @@
       class="h-20 w-20 bg-[url('/icons/bell.svg')] bg-cover bg-no-repeat opacity-50"
     ></div>
   </div>
-<!--  TODO translate -->
+  <!--  TODO translate -->
   <h1 class="my-4 text-center text-4xl font-bold text-slate-600">
     Zatiaľ žiadne upozornenia!
   </h1>

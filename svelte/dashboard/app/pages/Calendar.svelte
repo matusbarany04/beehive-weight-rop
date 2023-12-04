@@ -9,11 +9,10 @@
   import Input from "../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../components/Inputs/DropdownInput.svelte";
   import message from "../stores/message";
-  import {getLanguageInstance} from "../../../components/language/languageRepository";
+  import { getLanguageInstance } from "../../../components/language/languageRepository";
 
-  
-  const li = getLanguageInstance()
-  
+  const li = getLanguageInstance();
+
   let daysOfMonth = [];
   let now = new Date();
   now.setHours(0, 0, 0, 0);

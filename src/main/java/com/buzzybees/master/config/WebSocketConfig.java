@@ -5,6 +5,8 @@ import com.buzzybees.master.beehives.BeehiveRepository;
 import com.buzzybees.master.controllers.AuthController;
 import com.buzzybees.master.controllers.template.DatabaseController;
 import com.buzzybees.master.users.UserService;
+import com.buzzybees.master.websockets.ClientSocketHandler;
+import com.buzzybees.master.websockets.EspSocketHandler;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;

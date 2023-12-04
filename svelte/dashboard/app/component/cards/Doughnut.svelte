@@ -21,7 +21,6 @@
   let id = generateUUID();
   let error = null;
 
-
   let myChart;
   let allSelected = false;
   const beehiveData = [];

@@ -1,11 +1,20 @@
 package com.buzzybees.master.beehives.actions;
 
 import com.buzzybees.master.beehives.Beehive;
+import com.buzzybees.master.beehives.BeehiveRepository;
+import com.buzzybees.master.controllers.template.DatabaseController;
+import com.buzzybees.master.notifications.Notifications;
+import com.buzzybees.master.websockets.ClientMessage;
+import com.buzzybees.master.websockets.ClientSocketHandler;
+import com.buzzybees.master.websockets.MessageType;
+import com.buzzybees.master.websockets.ServerAction;
+import nl.martijndwars.webpush.cli.Cli;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 record ActionCallback(Beehive beehive, ActionType actionType, Actions.OnActionResponse onActionResponse) {
 
@@ -74,5 +83,36 @@ public class Actions {
                 if(action.getStatus() == ActionStatus.DONE) callback.onActionResponse().onResponse(action);
             }
         }
+    }
+
+    public static Action updateActionStatus(long actionID, ActionStatus newStatus) throws IllegalArgumentException, NullPointerException {
+        ActionRepository actionRepository = DatabaseController.accessRepo(Action.class);
+        Action action = actionRepository.getActionById(actionID);
+
+        action.setStatus(newStatus);
+
+        Actions.invokeCallbacks(action);
+        Action result = actionRepository.save(action);
+
+        if (newStatus != ActionStatus.DONE) Notifications.errorAlert(action);
+        return result;
+    }
+
+    public static void sendActionLogToUser(ServerAction serverAction) {
+        Number actionID = (Number) serverAction.params().get("id");
+        ActionStatus newStatus = ActionStatus.valueOf((String) serverAction.params().get("status"));
+        Action action = updateActionStatus(actionID.longValue(), newStatus);
+
+        String token = action.getBeehive();
+        long author = action.getAuthor();
+
+        if(author == AUTHOR_SYSTEM) {
+            BeehiveRepository beehiveRepository = DatabaseController.accessRepo(Beehive.class);
+            Beehive beehive = beehiveRepository.getBeehiveByToken(token);
+            author = beehive.getUserId();
+        }
+
+        ClientMessage clientMessage = new ClientMessage(MessageType.ACTION_RESULT, serverAction.params());
+        ClientSocketHandler.sendMessageToUser(author, clientMessage);
     }
 }

@@ -1,10 +1,11 @@
-package com.buzzybees.master.config;
+package com.buzzybees.master.websockets;
 
 import com.buzzybees.master.beehives.Beehive;
 import com.buzzybees.master.beehives.BeehiveRepository;
 import com.buzzybees.master.beehives.BeehiveState;
 import com.buzzybees.master.beehives.actions.Action;
 import com.buzzybees.master.beehives.actions.ActionRepository;
+import com.buzzybees.master.beehives.actions.Actions;
 import com.buzzybees.master.beehives.actions.ServerActionType;
 import com.buzzybees.master.beehives.devices.DeviceManager;
 import com.buzzybees.master.controllers.template.DatabaseController;
@@ -17,10 +18,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.HashMap;
-
-record ServerAction(ServerActionType type, HashMap<String, Object> params) {
-
-}
 
 
 public class EspSocketHandler extends TextWebSocketHandler {
@@ -74,7 +71,7 @@ public class EspSocketHandler extends TextWebSocketHandler {
 
     private void executeServerAction(Beehive beehive, ServerAction serverAction) {
         switch (serverAction.type()) {
-            case ACTION_FINISHED -> System.out.println(serverAction.params());
+            case ACTION_FINISHED -> Actions.sendActionLogToUser(serverAction);
             case UPDATE_DEVICE_CONFIG -> DeviceManager.updateDeviceConfig(beehive, serverAction.params());
             case UPDATE_DEVICE_STATE -> beehive.updateState(BeehiveState.valueOf(serverAction.params().get("newState").toString()));
             default -> System.out.println("unknown server action: " + serverAction.type());
