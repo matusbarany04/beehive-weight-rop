@@ -2,20 +2,18 @@ package com.buzzybees.master.beehives.devices;
 
 import com.buzzybees.master.beehives.Beehive;
 import com.buzzybees.master.beehives.actions.Action;
-import com.buzzybees.master.beehives.actions.ActionRepository;
 import com.buzzybees.master.beehives.actions.Actions;
-import com.buzzybees.master.config.EspSocketHandler;
 import com.buzzybees.master.controllers.template.DatabaseController;
+import com.buzzybees.master.websockets.ClientMessage;
+import com.buzzybees.master.websockets.ClientSocketHandler;
+import com.buzzybees.master.websockets.EspSocketHandler;
+import com.buzzybees.master.websockets.MessageType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.pdfbox.pdmodel.common.COSArrayList;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
 import java.util.*;
 
 @Service
@@ -66,6 +64,7 @@ public class DeviceManager {
             DeviceRepository deviceRepository = DatabaseController.accessRepo(Device.class);
             for(Device device : notConnectedDevices) device.setPort(null);
             deviceRepository.saveAll(notConnectedDevices);
+            ClientSocketHandler.sendMessageToUser(beehive.getUserId(), new ClientMessage(MessageType.UPDATE_DEVICE_CONFIG, params));
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();

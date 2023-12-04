@@ -3,12 +3,11 @@ package com.buzzybees.master.controllers;
 import com.buzzybees.master.beehives.*;
 import com.buzzybees.master.beehives.actions.*;
 import com.buzzybees.master.beehives.devices.*;
-import com.buzzybees.master.config.EspSocketHandler;
+import com.buzzybees.master.websockets.EspSocketHandler;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
 import com.buzzybees.master.notifications.Notifications;
 import com.buzzybees.master.tables.Status;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -138,7 +137,6 @@ public class BeeController extends DatabaseController {
      */
     @PostMapping(value = "/updateActionsStatuses", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateActionsStatuses(@RequestBody List<HashMap<String, Object>> objects) {
-        ActionRepository actionRepository = getRepo(Action.class);
         boolean invalidActions = false;
         ArrayList<HashMap<String, Object>> invalidActionList = new ArrayList<>();
 
@@ -146,14 +144,8 @@ public class BeeController extends DatabaseController {
             Integer id = (Integer) actionStatusChange.get("id");
 
             try {
-                Action action = actionRepository.getActionById(id);
                 ActionStatus newStatus = ActionStatus.valueOf((String) actionStatusChange.get("status"));
-                action.setStatus(newStatus);
-
-                Actions.invokeCallbacks(action);
-                actionRepository.save(action);
-
-                if(newStatus != ActionStatus.DONE) Notifications.errorAlert(action);
+                Actions.updateActionStatus(id, newStatus);
 
             } catch (IllegalArgumentException | NullPointerException ignored){
                 invalidActions = true;

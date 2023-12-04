@@ -1,12 +1,15 @@
 <script>
-  import {onMount, tick} from "svelte";
+  import { onMount, tick } from "svelte";
   import * as echarts from "echarts/dist/echarts.js";
   import shared from "../../stores/shared";
   import CardRoot from "./components/CardRoot.svelte";
-  import {generateUUID, nowMinusTimeString} from "../../../../components/lib/utils/staticFuncs";
+  import {
+    generateUUID,
+    nowMinusTimeString,
+  } from "../../../../components/lib/utils/staticFuncs";
   import ButtonSmall from "../../../../components/Buttons/ButtonSmall.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import {BeehiveObj} from "../../stores/Beehive";
+  import { BeehiveObj } from "../../stores/Beehive";
   import BeehiveTypeForm from "./forms/BeehiveTypeForm.svelte";
   import MultiselectBeehiveForm from "./forms/MultiselectBeehiveForm.svelte";
 
@@ -36,21 +39,18 @@
   let beehiveData = [];
   let beehivelist = cardStates.data;
 
-
   let filterTime = 0;
 
   function getDataFromBeehive(beehive_id, type, minTimespan = 0, name = "") {
-    console.log("loading data with minTimespan" ,minTimespan)
+    console.log("loading data with minTimespan", minTimespan);
     // try to load beehive object from its key
     let beehiveObject = shared.getBeehiveById(beehive_id);
 
     if (beehiveObject == null) {
-      console.error(
-        "Wrong id error ", beehive_id,
-      );
+      console.error("Wrong id error ", beehive_id);
       return null;
     } else {
-      console.log("type", type)
+      console.log("type", type);
       // non-detachable types have array right under them
       if (!BeehiveObj.isTypeDetachable(type)) {
         let data = beehiveObject.getAllDataByType(type);
@@ -61,32 +61,33 @@
           throw new Error("Data and timestamp arrays have different lengths");
         }
 
-        let filtetCount = 0
+        let filtetCount = 0;
         // join data and timestamp
         let combinedData = [];
         data.forEach((item, index) => {
           if (timestamp[index] >= minTimespan) {
             combinedData.push([timestamp[index], item === -999 ? null : item]);
-          }else {
-            filtetCount ++;
+          } else {
+            filtetCount++;
           }
         });
-        console.log("number of filtered", filtetCount)
-
+        console.log("number of filtered", filtetCount);
 
         // join data and timestamp like so [[data, timestamp], [data,timestamp]]
 
-        return [{
-          name: name,
-          data: combinedData,
-        }];
+        return [
+          {
+            name: name,
+            data: combinedData,
+          },
+        ];
       }
       // detachable - connector types have nested array underneath them
       else {
         let data = beehiveObject.getAllDataByType(type);
         let timestamp = beehiveObject.getTimestamps();
 
-        let output = []
+        let output = [];
         for (const dataItem of data) {
           // Check if data and timestamp arrays have the same length
           if (dataItem.values.length + dataItem.from - 1 > timestamp.length) {
@@ -113,7 +114,7 @@
   }
 
   function loadData(minTimespan = null) {
-    beehiveData = []
+    beehiveData = [];
     let beehives = shared.getBeehives();
     if (beehivelist.length === Object.keys(beehives).length) {
       allSelected = true;
@@ -122,7 +123,8 @@
     if (
       beehivelist == null ||
       beehivelist === "dummy" ||
-      !beehivelist || beehivelist.length === 0 ||
+      !beehivelist ||
+      beehivelist.length === 0 ||
       beehivelist[0].beehive_id === "all" ||
       beehivelist.length === beehives.length
     ) {
@@ -133,10 +135,9 @@
           timespan: minTimespan ?? "week",
           name: "Váha  všetkých zariadení",
           type: BeehiveObj.getPrimaryDataType(),
-          beehive_id: ["all"]
-        }
+          beehive_id: ["all"],
+        },
       ];
-
     }
 
     beehivelist.forEach((element) => {
@@ -146,13 +147,16 @@
         /** @type {BeehiveObj} */
         if (bee_id === "all") {
           Object.keys(shared.getBeehives()).forEach((beehive_id) => {
-            beehiveData.push(...getDataFromBeehive(beehive_id, element.type, filterTime));
+            beehiveData.push(
+              ...getDataFromBeehive(beehive_id, element.type, filterTime),
+            );
           });
         } else {
-          beehiveData.push(...getDataFromBeehive(bee_id, element.type, filterTime))
+          beehiveData.push(
+            ...getDataFromBeehive(bee_id, element.type, filterTime),
+          );
         }
-      })
-
+      });
     });
   }
 
@@ -214,9 +218,7 @@
             return "";
           }
           // Assuming params[0].value[0] or params[0].value is the timestamp value
-          let value = params[0].value[0]
-            ? params[0].value[0]
-            : params[0].value;
+          let value = params[0].value[0] ? params[0].value[0] : params[0].value;
 
           let date = new Date(value);
 
@@ -330,16 +332,15 @@
 
     return option;
   };
-  
-  function refreshOptions(){
+
+  function refreshOptions() {
     let option = initOptions();
     myChart.setOption(option);
   }
 
   try {
-    loadData()
+    loadData();
 
-    
     onMount(() => {
       if (error == null) {
         // Use a Svelte ref for the chart container
@@ -363,14 +364,13 @@
     console.error(e);
   }
 
-  let resizeEvent = () => {
-  };
+  let resizeEvent = () => {};
 
   function changeZoom(timeString) {
-    console.log("chaning to " , timeString)
-    filterTime = nowMinusTimeString(timeString)
-    loadData(timeString)
-    refreshOptions() 
+    console.log("chaning to ", timeString);
+    filterTime = nowMinusTimeString(timeString);
+    loadData(timeString);
+    refreshOptions();
   }
 </script>
 
@@ -413,7 +413,7 @@
   </div>
 
   <div class="relative flex max-h-full w-full">
-    <div {id} class="h-full w-full"/>
+    <div {id} class="h-full w-full" />
   </div>
   <!--//beehivelist[0]?.type || "weight"}-->
   <div class="" slot="customSettings">
@@ -425,7 +425,6 @@
       <!--          : beehivelist[0]?.beehive_id || "all"}-->
       <!--        beehiveId={beehivelist[0]?.beehive_id}-->
       <!--      />-->
-
 
       <MultiselectBeehiveForm
         typeChoice={beehivelist[0]?.type ?? "weight"}

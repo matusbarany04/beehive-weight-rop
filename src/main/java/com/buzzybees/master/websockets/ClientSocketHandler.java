@@ -1,11 +1,13 @@
-package com.buzzybees.master.config;
+package com.buzzybees.master.websockets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class ClientSocketHandler extends TextWebSocketHandler {
@@ -31,8 +33,18 @@ public class ClientSocketHandler extends TextWebSocketHandler {
         System.out.println("connection closed for session: " + session);
     }
 
-
     public static WebSocketSession getSession(long userID) {
         return sessions.get(userID);
+    }
+
+    public static void sendMessageToUser(long userID, ClientMessage clientMessage) {
+        try {
+            String json = new ObjectMapper().writeValueAsString(clientMessage);
+            WebSocketSession userSession = getSession(userID);
+            if(userSession != null) userSession.sendMessage(new TextMessage(json));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

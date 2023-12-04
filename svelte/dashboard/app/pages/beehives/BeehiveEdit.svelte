@@ -43,6 +43,14 @@
     [600, "10h"],
   ];
 
+  let socket = new WebSocket(
+    "ws://" + location.hostname + ":8080/websocket/connect",
+  );
+
+  socket.onmessage = (message) => {
+    refreshSensorView();
+  };
+
   message.setMessage("Nastavenia zariadenia");
 
   onMount(() => setUnsavedData(true));
@@ -143,13 +151,6 @@
         }
       });
   }
-
-  const refresh = setInterval(refreshSensorView, 5000);
-
-  window.onbeforeunload = () => {
-    console.log("clear");
-    clearInterval(refresh);
-  };
 </script>
 
 <svelte:head>
