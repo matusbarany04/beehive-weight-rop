@@ -1,30 +1,17 @@
 package com.buzzybees.master.notifications;
 
 
-import com.buzzybees.master.config.SocketHandler;
-import com.buzzybees.master.controllers.UserController;
 import com.buzzybees.master.users.Mailer;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.users.UserService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.apache.poi.ss.formula.functions.T;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.stereotype.Component;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketMessage;
-import org.springframework.web.socket.WebSocketSession;
 
-import javax.xml.crypto.Data;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 

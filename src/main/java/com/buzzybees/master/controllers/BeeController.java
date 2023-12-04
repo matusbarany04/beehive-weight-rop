@@ -3,6 +3,7 @@ package com.buzzybees.master.controllers;
 import com.buzzybees.master.beehives.*;
 import com.buzzybees.master.beehives.actions.*;
 import com.buzzybees.master.beehives.devices.*;
+import com.buzzybees.master.config.EspSocketHandler;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
 import com.buzzybees.master.notifications.Notifications;
@@ -35,6 +36,11 @@ public class BeeController extends DatabaseController {
         return date.getTime();
     }
 
+    @GetMapping("/sendSocketESP")
+    public void sendSocket() {
+        EspSocketHandler.sendFlashActionToBeehive("NY17IS0J9RKMRFP3", new Action());
+    }
+
     /**
      * Checks timestamp and insert new data to the database.
      *
@@ -42,13 +48,14 @@ public class BeeController extends DatabaseController {
      */
     @PostMapping(value = {"/updateStatus"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateStatus(@RequestBody Status.Request statusRequest) {
-        // actionRepository.removeDoneActions();
         List<Action> actions = new ArrayList<>(List.of(actionRepository.getPendingActionsByBeehiveId(statusRequest.getBeehive())));
+        DeviceRepository deviceRepository = DatabaseController.accessRepo(Device.class);
 
         statusRequest.setTimestamp(new Date().getTime());
         Status savedStatus = statusRepo.save(statusRequest.getBase());
 
         List<SensorValue> sensors = statusRequest.getSensorValues();
+        List<Device> notConnectedDevices = deviceRepository.getBeehiveDevices(savedStatus.getBeehive());
 
         sensors.forEach(sensorValue -> {
             sensorValue.setStatusId(savedStatus.getStatusId());
@@ -56,18 +63,18 @@ public class BeeController extends DatabaseController {
             if (sensorValue.getSensorId() == 0) {
                 BeehiveRepository beehiveRepository = getRepo(Beehive.class);
                 Beehive beehive = beehiveRepository.getBeehiveByToken(statusRequest.getBeehive());
-                long id = DeviceManager.createSensor(getRepo(Device.class), beehive, sensorValue.getType(), sensorValue.getPort());
+                long id = DeviceManager.createSensor(beehive, sensorValue.getType(), sensorValue.getPort());
 
-                System.out.println(actions);
                 actions.add(Actions.createBurnAction(beehive, id, sensorValue.getPort()));
-
                 sensorValue.setSensorId(id);
 
-            } else {
-                DeviceRepository deviceRepository = getRepo(Device.class);
-                DeviceManager.updatePort(deviceRepository, sensorValue.getSensorId(), sensorValue.getPort());
-            }
+            } else DeviceManager.updatePort(sensorValue.getSensorId(), sensorValue.getPort());
+
+            notConnectedDevices.removeIf(device -> device.getId() == sensorValue.getSensorId());
         });
+
+        for(Device device : notConnectedDevices) device.setPort(null);
+        deviceRepository.saveAll(notConnectedDevices);
 
         for(Action action : actions) action.setStatus(ActionStatus.SENT);
 

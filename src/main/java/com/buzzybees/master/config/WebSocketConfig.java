@@ -1,23 +1,19 @@
 package com.buzzybees.master.config;
 
+import com.buzzybees.master.beehives.Beehive;
+import com.buzzybees.master.beehives.BeehiveRepository;
 import com.buzzybees.master.controllers.AuthController;
-import com.buzzybees.master.notifications.SocketTextHandler;
+import com.buzzybees.master.controllers.template.DatabaseController;
 import com.buzzybees.master.users.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.*;
 import org.springframework.web.socket.server.HandshakeInterceptor;
-import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
-import org.springframework.web.socket.server.support.AbstractHandshakeHandler;
-import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
-import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 import java.net.HttpCookie;
 import java.util.List;
@@ -29,8 +25,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new SocketHandler(), "/websocket/connect")
-                .addInterceptors(new ClientHandshakeInterceptor());
+        registry.addHandler(new ClientSocketHandler(), "/websocket/connect").addInterceptors(new ClientHandshakeInterceptor());
+        registry.addHandler(new EspSocketHandler(), "/websocket/beehive").addInterceptors(new EspHandshakeInterceptor()).setAllowedOrigins("*");
     }
 
     public static class ClientHandshakeInterceptor implements HandshakeInterceptor {
@@ -59,6 +55,27 @@ public class WebSocketConfig implements WebSocketConfigurer {
                 }
             }
             return null;
+        }
+
+        @Override
+        public void afterHandshake(@NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response, @NotNull WebSocketHandler wsHandler, Exception exception) {
+
+        }
+    }
+
+
+    public static class EspHandshakeInterceptor implements HandshakeInterceptor {
+
+        @Override
+        public boolean beforeHandshake(@NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response, @NotNull WebSocketHandler wsHandler, @NotNull Map<String, Object> attributes) throws Exception {
+            ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
+            String token = servletRequest.getServletRequest().getParameter("token");
+
+            BeehiveRepository beehiveRepository = DatabaseController.accessRepo(Beehive.class);
+            Beehive beehive = beehiveRepository.getBeehiveByToken(token);
+            attributes.put("beehive", token);
+
+            return beehive != null;
         }
 
         @Override

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
@@ -85,6 +87,10 @@ class NetworkManager {
 
         void turn_wifi_off() {
             WiFi.mode(WIFI_OFF);
+        }
+
+        static bool connectionAvailable() {
+            return WiFi.status() == WL_CONNECTED;
         }
 
     private:

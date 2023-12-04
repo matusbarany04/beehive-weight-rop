@@ -1,19 +1,14 @@
 package com.buzzybees.master.config;
 
-import jakarta.websocket.OnOpen;
-import jakarta.websocket.Session;
-import jakarta.websocket.server.ServerEndpoint;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SocketHandler extends TextWebSocketHandler {
+public class ClientSocketHandler extends TextWebSocketHandler {
 
     private static final HashMap<Long, WebSocketSession> sessions = new HashMap<>();
 

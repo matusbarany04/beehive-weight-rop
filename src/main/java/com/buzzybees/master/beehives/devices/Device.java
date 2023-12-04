@@ -11,11 +11,6 @@ import org.json.JSONObject;
 @Table(name = "device_config")
 public class Device {
 
-    public static final int TEMPERATURE = 0;
-    public static final int TEMP_HUMID = 1;
-    public static final int LIGHT = 2;
-    public static final int SOUND = 3;
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "beehive")
@@ -29,25 +24,12 @@ public class Device {
     @Column(name = "name")
     private String name;
 
-    @JsonProperty("type")
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private String type;
+    private DeviceType type;
 
     @Column(name = "port")
     private String port;
-
-    public static Device fromJSON(JSONObject jsonObject, String port) {
-        Device device = new Device();
-        System.out.println(jsonObject);
-        device.name = jsonObject.getString("name");
-        device.type = jsonObject.getString("type");
-        device.port = port;
-
-        long id = jsonObject.optLong("id");
-        if(id > 1) device.id = id;
-
-        return device;
-    }
 
     public String getName() {
         return name;
@@ -59,6 +41,11 @@ public class Device {
 
     public String getPort() {
         return port;
+    }
+
+    @JsonIgnore
+    public int getPortIndex() {
+        return port != null ? Integer.parseInt(port.substring(1)) - 1 : -1;
     }
 
     public void setName(String name) {
@@ -77,11 +64,11 @@ public class Device {
         this.port = "S" + (portIndex + 1);
     }
 
-    public String getType() {
+    public DeviceType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(DeviceType type) {
         this.type = type;
     }
 

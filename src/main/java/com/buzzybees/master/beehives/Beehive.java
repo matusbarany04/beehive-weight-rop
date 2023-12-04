@@ -1,6 +1,7 @@
 package com.buzzybees.master.beehives;
 
 import com.buzzybees.master.beehives.devices.Device;
+import com.buzzybees.master.controllers.template.DatabaseController;
 import com.buzzybees.master.tables.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -40,6 +41,10 @@ public class Beehive {
     @Column(name = "other_users")
     private String otherUsers = "{}";
 
+    @Column(name = "device_state")
+    @Enumerated(EnumType.STRING)
+    private BeehiveState deviceState;
+
     @Column(name = "connection_mode")
     @Enumerated(EnumType.STRING)
     private ConnectionMode connectionMode = ConnectionMode.GSM;
@@ -53,6 +58,9 @@ public class Beehive {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "beehive")
     private final List<Device> devices = new LinkedList<>();
 
+    @Column(name = "wifi_ssid")
+    private String wifi_ssid;
+
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String sim_password;
@@ -61,7 +69,6 @@ public class Beehive {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String wifi_password;
 
-    private String wifi_ssid;
 
     public Beehive() {
 
@@ -160,15 +167,6 @@ public class Beehive {
         this.model = model;
     }
 
-    public void setSensors(String devicesJSON) {
-        JSONObject jsonObject = new JSONObject(devicesJSON);
-        for (String key : jsonObject.keySet()) {
-            Device device = Device.fromJSON(jsonObject.getJSONObject(key), key);
-            device.setBeehive(this);
-            devices.add(device);
-        }
-    }
-
     public String getWifiSSID() {
         return wifi_ssid;
     }
@@ -199,5 +197,19 @@ public class Beehive {
 
     public void setLinkedTo(String linkedTo) {
         this.linkedTo = linkedTo;
+    }
+
+    public BeehiveState getState() {
+        return deviceState;
+    }
+
+    public void setDeviceState(BeehiveState deviceState) {
+        this.deviceState = deviceState;
+    }
+
+    public void updateState(BeehiveState deviceState) {
+        BeehiveRepository beehiveRepository = DatabaseController.accessRepo(getClass());
+        setDeviceState(deviceState);
+        beehiveRepository.save(this);
     }
 }

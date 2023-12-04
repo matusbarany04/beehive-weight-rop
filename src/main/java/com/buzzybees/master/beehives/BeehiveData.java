@@ -3,6 +3,7 @@ package com.buzzybees.master.beehives;
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.beehives.devices.SensorValue;
 import com.buzzybees.master.tables.Status;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.*;
@@ -22,10 +23,7 @@ public class BeehiveData {
 //    toto musi ostat timestamp a weight!!!
     private final LinkedHashSet<Long> timestamp = new LinkedHashSet<>();
     private final List<Float> weight = new LinkedList<>();
-    private List<DataGroup> temperature;
-    private List<DataGroup> humidity;
-    private List<DataGroup> light;
-    private List<DataGroup> sound;
+    HashMap<String, List<DataGroup>> valueLists = new HashMap<>();
 
     /**
      * pushes new status to dataset
@@ -42,7 +40,9 @@ public class BeehiveData {
         }
 
         if(sensorValue != null) {
-            List<DataGroup> list = getDataList(sensorValue.getType());
+            String listName = sensorValue.getType().getListName();
+            valueLists.putIfAbsent(listName, new LinkedList<>());
+            List<DataGroup> list = valueLists.get(listName);
 
             DataGroup group = getGroupBySensorId(sensorValue.getSensorId(), list);
             if(group != null && addToGroup(group, sensorValue)) return;
@@ -89,34 +89,6 @@ public class BeehiveData {
         return null;
     }
 
-    /**
-     * @param type type of data
-     * @return list by type
-     */
-    private List<DataGroup> getDataList(int type) {
-        List<DataGroup> list = switch (type) {
-            case Device.TEMPERATURE -> temperature;
-            case Device.LIGHT -> light;
-            case Device.TEMP_HUMID -> humidity;
-            case Device.SOUND -> sound;
-            default -> throw new IllegalStateException("Unexpected value: " + type);
-        };
-
-        if (list == null) {
-            list = new LinkedList<>();
-            switch (type) {
-                case Device.TEMPERATURE -> temperature = list;
-                case Device.LIGHT -> light = list;
-                case Device.TEMP_HUMID -> humidity = list;
-                case Device.SOUND -> sound = list;
-                default -> throw new IllegalStateException("Unexpected value: " + type);
-            }
-        }
-
-        return list;
-    }
-
-
     public String getCurrentStatus() {
         return currentStatus;
     }
@@ -133,19 +105,8 @@ public class BeehiveData {
         return weight;
     }
 
-    public List<DataGroup> getTemperature() {
-        return temperature;
-    }
-
-    public List<DataGroup> getHumidity() {
-        return humidity;
-    }
-
-    public List<DataGroup> getLight() {
-        return light;
-    }
-
-    public List<DataGroup> getSound() {
-        return sound;
+    @JsonAnyGetter
+    public Map<String, List<DataGroup>> getValueLists() {
+        return valueLists;
     }
 }
