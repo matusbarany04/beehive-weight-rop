@@ -197,7 +197,7 @@
               {
                 type: "weight",
                 timespan: "week",
-                beehive_id: props.id,
+                beehive_id: [props.id],
               },
             ],
           }}
@@ -216,7 +216,7 @@
               {
                 type: "battery",
                 timespan: "week",
-                beehive_id: props.id,
+                beehive_id: [props.id],
               },
             ],
           }}
@@ -233,7 +233,7 @@
               data: [
                 {
                   type: type,
-                  beehive_id: props.id,
+                  beehive_id: [props.id],
                 },
               ],
             }}

@@ -113,7 +113,7 @@
     }
   }
 
-  function loadData(minTimespan = null) {
+  function loadData(minTimespan = "eternity") {
     beehiveData = [];
     let beehives = shared.getBeehives();
     if (beehivelist.length === Object.keys(beehives).length) {
