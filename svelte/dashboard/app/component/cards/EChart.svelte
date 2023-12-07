@@ -50,7 +50,7 @@
       console.error("Wrong id error ", beehive_id);
       return null;
     } else {
-      console.log("type", type);
+      // console.log("type", type);
       // non-detachable types have array right under them
       if (!BeehiveObj.isTypeDetachable(type)) {
         let data = beehiveObject.getAllDataByType(type);
@@ -367,7 +367,7 @@
   let resizeEvent = () => {};
 
   function changeZoom(timeString) {
-    console.log("chaning to ", timeString);
+    // console.log("chaning to ", timeString);
     filterTime = nowMinusTimeString(timeString);
     loadData(timeString);
     refreshOptions();

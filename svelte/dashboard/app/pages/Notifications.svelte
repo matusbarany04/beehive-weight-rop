@@ -168,13 +168,14 @@
     />
   </div>
 
-  {#each messages as message, index}
+  {#each messages as message, index (message.id)}
     <div
       out:fly|local={{ x: 400, duration: 1000 }}
       class=" min-h-48 mx-auto mb-4 flex flex-col justify-between rounded-lg p-4 shadow shadow-tertiary-300 lg:w-5/6 {message.seen >
       0.5
         ? 'bg-slate-200'
         : 'bg-white'}"
+      key={message.id}
     >
       <!-- title -->
       <div class="group flex flex-1 flex-col justify-center lg:justify-normal">

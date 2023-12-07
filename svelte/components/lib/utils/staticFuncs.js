@@ -265,7 +265,7 @@ const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 const MILLISECONDS_IN_WEEK = 1000 * 60 * 60 * 24 * 7;
 const MILLISECONDS_IN_MONTH = 1000 * 60 * 60 * 24 * 30;
 const MILLISECONDS_IN_YEAR = 1000 * 60 * 60 * 24 * 365;
-const MILLISECONDS_IN_ETERNITY = 6.627096e+13; //2100 years
+const MILLISECONDS_IN_ETERNITY = 6.627096e13; //2100 years
 
 const TIME_UNITS = {
   hour: MILLISECONDS_IN_HOUR,
@@ -276,7 +276,7 @@ const TIME_UNITS = {
   eternity: MILLISECONDS_IN_ETERNITY,
 };
 
-export function getDefaultTimeUnit(){
+export function getDefaultTimeUnit() {
   return TIME_UNITS.eternity;
 }
 

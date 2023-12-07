@@ -52,7 +52,6 @@
   };
 
   function updateRowHeight() {
-    console.log("container", container);
     if (container) {
       rowHeight = container.clientWidth / 4;
     } else {
@@ -233,6 +232,7 @@
               data: [
                 {
                   type: type,
+                  timespan: "eternity",
                   beehive_id: [props.id],
                 },
               ],
