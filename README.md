@@ -39,7 +39,6 @@ cd svelte/
 npm run prettier:format
 ```
 
-
 ## Generating Svelte Docs
 From time to time you can build new docs 
 ```bash
