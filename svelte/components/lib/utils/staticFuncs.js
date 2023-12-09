@@ -57,7 +57,7 @@ export default {
    * @returns {Array<Array<string, any>>} An array of key-value pairs.
    */
   arrayToKeyValuePairs(keys) {
-    console.log("kets", keys)
+    console.log("kets", keys);
     return keys.map((key) => [key, key]);
   },
 

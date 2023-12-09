@@ -60,6 +60,11 @@ public class EspSocketHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(@NotNull WebSocketSession session, @NotNull CloseStatus closeStatus) throws Exception {
         String token = session.getAttributes().get("beehive").toString();
         if (token != null) beehiveSessions.remove(token);
+
+        BeehiveRepository beehiveRepository = DatabaseController.accessRepo(Beehive.class);
+        Beehive beehive = beehiveRepository.getBeehiveByToken(token);
+        if(beehive != null && beehive.getState() == BeehiveState.ONLINE) beehive.updateState(BeehiveState.OFFLINE);
+
         System.out.println("connection closed for session: " + session);
     }
 

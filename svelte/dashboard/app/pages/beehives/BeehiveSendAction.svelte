@@ -2,11 +2,13 @@
   import Button from "../../../../components/Buttons/Button.svelte";
   import message from "../../stores/message";
   import SettingsHeader from "../../component/settings/SettingsHeader.svelte";
-  import {getLanguageInstance,} from "../../../../components/language/languageRepository";
-  import shared, {onLoad} from "../../stores/shared";
+  import { getLanguageInstance } from "../../../../components/language/languageRepository";
+  import shared, { onLoad } from "../../stores/shared";
   import ActionCard from "../../component/beehives/ActionCard.svelte";
   import Modal from "../../../../components/Modal.svelte";
-  import staticFuncs, {generateUUID} from "../../../../components/lib/utils/staticFuncs";
+  import staticFuncs, {
+    generateUUID,
+  } from "../../../../components/lib/utils/staticFuncs";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
 
   export let props;

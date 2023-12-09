@@ -32,18 +32,6 @@ void onEventsCallback(WebsocketsEvent event, String data) {
     }
 }
 
-void socketConnect() {
-    if(NetworkManager::connectionAvailable()) {
-        webSocket.onEvent(onEventsCallback);
-        webSocket.onMessage([](WebsocketsMessage msg){
-            DynamicJsonDocument doc(ACTION_JSON_SIZE);
-            deserializeJson(doc, msg.data());
-            onReceived(doc.as<JsonObject>());
-        });
-        webSocket.connect("ws://" + String(SERVER_URL) + "/websocket/beehive?token=" + String(BEEHIVE_ID));
-    }
-}
-
 void onSocketActionReceived(void (*function)(JsonObject action)) {
     onReceived = function;
 }
@@ -62,6 +50,20 @@ void sendActionToServer(ServerAction serverAction, Param (&params)[N]) {
     serializeJson(doc, message);
     webSocket.send(message);
     Serial.println(message);
+}
+
+void socketConnect() {
+    if(NetworkManager::connectionAvailable()) {
+        webSocket.onEvent(onEventsCallback);
+        webSocket.onMessage([](WebsocketsMessage msg){
+            DynamicJsonDocument doc(ACTION_JSON_SIZE);
+            deserializeJson(doc, msg.data());
+            onReceived(doc.as<JsonObject>());
+        });
+        webSocket.connect("ws://" + String(SERVER_URL) + "/websocket/beehive?token=" + String(BEEHIVE_ID));
+        Param params[] = {{"newState", "ONLINE"}};
+        sendActionToServer(UPDATE_DEVICE_STATE, params);
+    }
 }
 
 void updateSocket() {
