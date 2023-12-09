@@ -109,6 +109,14 @@ export class BeehiveObj {
   }
 
   /**
+   *
+   * @returns {Array<{name: string, port: string, id: number, type: string}>}
+   */
+  getDevices() {
+    return this.devices;
+  }
+
+  /**
    * Sets multiple data types and their respective data.
    * @param {Array<string>} types - Array of types of data.
    * @param {Array<Array>} dataArrays - Array of data arrays.

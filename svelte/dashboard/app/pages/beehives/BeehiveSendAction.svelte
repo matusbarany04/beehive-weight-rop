@@ -2,37 +2,50 @@
   import Button from "../../../../components/Buttons/Button.svelte";
   import message from "../../stores/message";
   import SettingsHeader from "../../component/settings/SettingsHeader.svelte";
-  import SettingsItem from "../../component/settings/SettingsItem.svelte";
-  import {
-    getLanguageInstance,
-    languages,
-  } from "../../../../components/language/languageRepository";
-  import { onLoad } from "../../stores/shared";
+  import {getLanguageInstance,} from "../../../../components/language/languageRepository";
+  import shared, {onLoad} from "../../stores/shared";
   import ActionCard from "../../component/beehives/ActionCard.svelte";
+  import Modal from "../../../../components/Modal.svelte";
+  import staticFuncs, {generateUUID} from "../../../../components/lib/utils/staticFuncs";
+  import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
 
   export let props;
 
   const beehiveId = props.id;
 
+  let beehiveObject = null;
+
   message.setMessage("Udalosti");
 
   let pendingActions = {};
+  let actionOptions = [];
 
   const fetchPendingActions = async () => {
     try {
       const response = await fetch(
         `/actions/getPending?beehiveId=${beehiveId}`,
       );
-      const data = await response.json();
-      pendingActions = data;
+      pendingActions = await response.json();
     } catch (error) {
       console.error("Error fetching pending actions:", error);
+    }
+
+    try {
+      // /actions/getActionOptions
+      const response = await fetch(`/actions/getActionOptions/${beehiveId}`);
+      actionOptions = (await response.json()).actions;
+    } catch (error) {
+      console.error("Error fetching action options:", error);
     }
   };
 
   let user;
   onLoad(["user"], (userObj) => {
     user = userObj;
+  });
+
+  onLoad(["beehives"], (_) => {
+    beehiveObject = shared.getBeehiveById(beehiveId);
   });
 
   function sendAction() {
@@ -88,11 +101,34 @@
   fetchPendingActions();
 
   let li = getLanguageInstance();
+
+  let addNewAction = true;
+  let formId = generateUUID();
+
+  function handleSubmit(formData) {}
+
+  // let devices = beehiveObject.getDevices();
+  // for (const dev of devices) {
+  //   if (dev.port !== null && dev.type === "MOTOR") {
+  //     // TODO change later
+  //   }
+  // }
 </script>
 
-<SettingsHeader title="Zaslať akcie" />
+<SettingsHeader className="flex flex-row" title="Zaslať akcie">
+  <div class="flex flex-row items-center justify-end">
+    <Button
+      text="Nová akcia"
+      image="icons/add.svg"
+      onClick={() => {
+        addNewAction = true;
+      }}
+    ></Button>
+  </div>
+</SettingsHeader>
 
 <!-- TODO reimplement adding new actions like moving a motor and stuff -->
+<!-- working on it !! -->
 <!--<SettingsItem>-->
 <!--  <Button text="Sledovanie akcií zariadenia" onClick={sendAction} />-->
 <!--</SettingsItem>-->
@@ -121,3 +157,58 @@
     Všetky akcie váhy sa zobrazia tu
   </h1>
 {/if}
+
+{#if beehiveObject}
+  {JSON.stringify(beehiveObject.getDevices())}
+{/if}
+
+<Modal bind:showModal={addNewAction}>
+  <h2 slot="header" class="text-2xl font-bold">
+    {"Pridať novú akciu"}
+  </h2>
+
+  <form
+    on:submit|preventDefault={handleSubmit}
+    id="addNewAction-{formId}"
+    method="POST"
+    class="my-4 flex flex-col gap-4"
+  >
+    <!--    Type of the action-->
+
+    <DropdownInput
+      label="Typ akcie"
+      name="action_type"
+      value={"UPDATE_STATUS"}
+      options={staticFuncs.arrayToKeyValuePairs(actionOptions)}
+    />
+    <!--      onChange={typeChanged}-->
+
+    <!-- sensor to be acted upon-->
+    <!-- make dynamically shown and dynamicaly filled with right options -->
+    <DropdownInput
+      label="Senzor"
+      name="beehive_sensor"
+      value={"MOTOR"}
+      options={[
+        ["MOTOR", "MOTOR"],
+        ["NEMOTOR", "NEMOTOR"],
+      ]}
+    />
+
+    <!-- value of the action -->
+  </form>
+
+  <button slot="footer" type="submit" form="cardRootForm{formId}">
+    <Button
+      slot="footer"
+      type="confirm"
+      autofocus
+      onClick={() => {
+        // saveSettings();
+        // dialog.close();
+      }}
+      clickType="submit"
+      text="Urob to!"
+    ></Button>
+  </button>
+</Modal>
