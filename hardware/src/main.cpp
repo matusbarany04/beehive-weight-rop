@@ -62,6 +62,8 @@ void setup()
   connect();
   socketConnect();
 
+  sensorManager.scan();
+
   onSocketActionReceived([](JsonObject action) {
     ActionType actionType = parseActionType(action["type"]);
     String type = action["type"];
@@ -149,7 +151,7 @@ void connect() {
         break;
 
     case WIFI:
-      networkManager.connect(config.wifi_ssid, config.wifi_password);
+      networkManager.connect(WIFI_SSID, WIFI_PASSWORD);
       networkManager.setContentType("application/json");
       networkManager.setDefaultHostname(SERVER_URL);
       
