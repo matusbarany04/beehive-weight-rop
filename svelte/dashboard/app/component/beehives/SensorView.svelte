@@ -99,30 +99,6 @@
 </script>
 
 <div class="">
-  <!-- <div class="w-full">
-    {#if devices[WEIGHT_PORT]}
-      <EditText
-        class="ml-[40%] w-1/5 text-center"
-        bind:value={devices[WEIGHT_PORT]["name"]}
-        focus={loaded}
-      />
-    {/if}
-    <div class=" m-auto h-14 w-14 rounded">
-      {#if devices[WEIGHT_PORT]}
-        <Sensor type={devices[WEIGHT_PORT]["type"]} />
-      {/if}
-    </div>
-  </div>
-  <div class="relative m-auto w-4/5">
-    <div class="absolute top-12 w-full text-center">
-      <div>{WEIGHT_PORT}</div>
-      <div class="flex w-full justify-between">
-        {#each ports as port}
-          <div class="w-full text-center">{port}</div>
-        {/each}
-      </div>
-    </div>-->
-
   <div class="ml-[10%] flex w-[36%] pl-[3%]">
     {#each FIRST_ROW as port}
       <div class="w-full bg-transparent">

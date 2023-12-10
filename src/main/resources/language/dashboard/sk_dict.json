@@ -29,6 +29,21 @@
     "next": "Nasledujúca",
     "search": "hľadať",
     "btn_detail": "Detail",
+    "settings": {
+      "beehive_name": "Názov váhy",
+      "location": "Poloha",
+      "interval": "Interval merania",
+      "cellular_network": "Mobilná sieť",
+      "other_beehive": "Iná váha",
+      "sim_password": "Heslo na SIM kartu",
+      "wifi_ssid": "Názov WiFi siete",
+      "password": "Heslo",
+      "connected_devices": "Pripojené zariadenia",
+      "update_info": "Aktualizácia prebieha automaticky",
+      "refresh": "Obnoviť",
+      "save_changes": "Uložiť zmeny",
+      "discard_changes": "Zahodiť zmeny"
+    },
     "beehive": {
     }
   },

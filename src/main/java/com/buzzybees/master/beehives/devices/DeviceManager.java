@@ -1,6 +1,7 @@
 package com.buzzybees.master.beehives.devices;
 
 import com.buzzybees.master.beehives.Beehive;
+import com.buzzybees.master.beehives.BeehiveRepository;
 import com.buzzybees.master.beehives.actions.Action;
 import com.buzzybees.master.beehives.actions.Actions;
 import com.buzzybees.master.controllers.template.DatabaseController;
@@ -45,6 +46,26 @@ public class DeviceManager {
         return false;
     }
 
+    public static void sendConfigToClient(String beehiveToken) {
+        BeehiveRepository beehiveRepository = DatabaseController.accessRepo(Beehive.class);
+        Beehive beehive = beehiveRepository.getBeehiveByToken(beehiveToken);
+
+        List<Device> devices = beehive.getDevices();
+        HashMap<String, Object> deviceMap = new HashMap<>();
+
+        for (Device device : devices) {
+            String port = device.getPort();
+            if(port != null) {
+                device.setPort(null);
+                deviceMap.put(port, new ObjectMapper().convertValue(device, HashMap.class));
+            }
+        }
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("devices", deviceMap);
+        ClientSocketHandler.sendMessageToUser(beehive.getUserId(), new ClientMessage(MessageType.UPDATE_DEVICE_CONFIG, params));
+    }
+
     public static void updateDeviceConfig(Beehive beehive, HashMap<String, Object> params) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -64,7 +85,7 @@ public class DeviceManager {
             DeviceRepository deviceRepository = DatabaseController.accessRepo(Device.class);
             for(Device device : notConnectedDevices) device.setPort(null);
             deviceRepository.saveAll(notConnectedDevices);
-            ClientSocketHandler.sendMessageToUser(beehive.getUserId(), new ClientMessage(MessageType.UPDATE_DEVICE_CONFIG, params));
+            sendConfigToClient(beehive.getToken());
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
