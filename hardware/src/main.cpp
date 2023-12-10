@@ -40,7 +40,6 @@ SIM sim(1);
 Config config = {};
 long wakeUpTime;
 bool wakeUp = false;
-bool isConnected = false;
 
 //HX711 scale;
 
@@ -52,6 +51,10 @@ HardwareSerial gsmSerial(1);
 void setup()
 {
   Serial.begin(9600);
+  Serial.println();
+
+  if(Power::getWakeUpCause() == COLD_BOOT) wakeUp = true;
+ 
   led.indicate(OK);
   handleActions();
 
@@ -59,10 +62,8 @@ void setup()
 
   wakeUpTime = 1701187047;
 
-  connect();
-  socketConnect();
-
-  sensorManager.scan();
+  updateStatus();
+  if(wakeUp) socketConnect();
 
   onSocketActionReceived([](JsonObject action) {
     ActionType actionType = parseActionType(action["type"]);
@@ -140,6 +141,7 @@ void setup()
   gsmSerial.begin(9600);
 //  saveNextTime(minTimestamp);
  // if(!wakeUp) Power::sleep(wakeUpTime + millis() / 1000 - minTimestamp);
+ if(!wakeUp) Power::sleep(config.interval * 60);
 }
 
 
@@ -158,16 +160,16 @@ void connect() {
     case OTHER_BEEHIVE:
       break;
   }
-  isConnected = true;
 }
 
 void updateStatus() {
+  networkManager.turn_wifi_off();
   sensorManager.scan();
 
   String json = sensorManager.buildJSON();
   Serial.println(json);
 
-  if(!isConnected) connect();
+  connect();
 
   Serial.println("Connected");
 /*
@@ -218,17 +220,35 @@ void handleActions() {
     updateStatus();
     return "DONE";
   });
+
   actionManager.addAction(BURN_SENSOR_ID, [] (JsonObject params) -> String {
     bool success = sensorManager.burnSensorId(params["port"], params["sensorId"]);
     return success ? "DONE" : "DEVICE_NOT_FOUND";
   });
+
   actionManager.addAction(CHANGE_BEEHIVE_CONFIG, [](JsonObject params) -> String {
     return changeConfig(params);
   });
+
   actionManager.addAction(WAKE_UP, [](JsonObject params) -> String { 
     wakeUp = true;
+    connect();
+    socketConnect();
     return "DONE";
   });
+
+  actionManager.addAction(HIBERNATE, [](JsonObject params) -> String { 
+    if(wakeUp) {
+      Param actionParams[] = {{"newState", "IDLE"}};
+      sendActionToServer(UPDATE_DEVICE_STATE, actionParams);
+      String actionId = params["actionID"];
+      Param params[] = {{"id", actionId}, {"status", "DONE"}};
+      sendActionToServer(ACTION_FINISHED, params);
+      Power::sleep(config.interval * 60);
+    }
+    return "DONE";
+  });
+
   actionManager.addAction(FACTORY_RESET, [](JsonObject params) -> String {
     factoryReset();
     load(&config);
