@@ -50,7 +50,7 @@
   <!-- title -->
   <div>
     <h1 class="inline text-2xl font-semibold">
-      {li.get(`actions.${actionObject.type}`)}
+      {li.get(`actions.${actionObject.type}`) || actionObject.type}
     </h1>
     <h1 class="mx-2 inline font-bold">-</h1>
     <h1 class="inline text-lg">

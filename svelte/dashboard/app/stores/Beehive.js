@@ -116,6 +116,16 @@ export class BeehiveObj {
     return this.devices;
   }
 
+
+  /**
+   * 
+   * @param type
+   * @returns {{name: string, port: string, id: number, type: string}[]}
+   */
+  getDevicesByType(type) {
+    return this.devices.filter(device => device.type === type);
+  }
+
   /**
    * Sets multiple data types and their respective data.
    * @param {Array<string>} types - Array of types of data.

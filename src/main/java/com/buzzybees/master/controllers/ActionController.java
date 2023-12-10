@@ -137,6 +137,18 @@ public class ActionController extends CookieAuthController {
                 actions
         );
 
+
+        HashMap<String, String> deviceTypeDictionary = new HashMap<>();
+        Arrays.stream(ActionType.getBoundNonSystemValues()).forEach((action)->{
+            System.out.println("Loops");
+            deviceTypeDictionary.put(action.getName(), action.getDeviceBoundType().name());
+        });
+
+
+        output.put("dictionary",
+                deviceTypeDictionary
+        );
+
         // return the json
         return output.toString();
     }

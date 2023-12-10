@@ -50,10 +50,19 @@ public enum ActionType {
         name = this.toString();
     }
 
+
+    /**
+     *
+     * @return ActionType[]
+     */
     public static ActionType[] getNonSystemValues() {
         return Arrays.stream(ActionType.values()).filter((val) -> !val.systemAction).toArray(ActionType[]::new);
     }
 
+    /**
+     *
+     * @return String
+     */
     public String getName() {
         return name;
     }
