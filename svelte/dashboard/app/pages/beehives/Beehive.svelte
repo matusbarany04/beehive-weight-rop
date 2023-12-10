@@ -106,7 +106,7 @@
         <Button text="Udalosti" />
       </RouterLink>
       <RouterLink url="/edit" append>
-        <Button text="Upraviť" />
+        <Button text="Nastavenia" />
       </RouterLink>
     </div>
   </div>
