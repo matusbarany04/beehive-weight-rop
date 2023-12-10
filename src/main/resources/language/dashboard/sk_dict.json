@@ -41,8 +41,14 @@
       "connected_devices": "Pripojené zariadenia",
       "update_info": "Aktualizácia prebieha automaticky",
       "refresh": "Obnoviť",
+      "delete_data": "Odstrániť namerané dáta",
+      "delete_beehive": "Vymazať váhu",
+      "factory_reset": "Obnoviť všetky nastavenia na predvolené",
       "save_changes": "Uložiť zmeny",
-      "discard_changes": "Zahodiť zmeny"
+      "discard_changes": "Zahodiť zmeny",
+      "data_dialog": "Naozaj chcete odstrániť všetky namerané dáta ?",
+      "beehive_dialog": "Naozaj chcete vymazať váhu ?",
+      "reset_dialog": "Naozaj chcete obnoviť všetky nastavenia na predvolené ?"
     },
     "beehive": {
     }

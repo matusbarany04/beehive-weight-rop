@@ -19,6 +19,7 @@
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
   import { getLanguageInstance } from "../../../../components/language/languageRepository";
+  import SimpleDialog from "../../../../components/SimpleDialog.svelte";
 
   export let props;
   const MODEL_WITH_GSM = "BBIMZ-A";
@@ -33,6 +34,8 @@
   let coordinates = { latitude: 0, longitude: 0 };
   let connectionMode = "GSM";
   let sensors = {};
+  let showDialog;
+  let dialogMsg;
 
   let intervals = [
     [10, "10min"],
@@ -75,8 +78,8 @@
 
     showFutureValues();
 
-    for (let device of beehive.devices) {
-      sensors[device["port"]] = device;
+    for (let device of beehive.getDevices()) {
+      sensors[device["port"]] = Object.assign({}, device);
       delete sensors[device["port"]]["port"];
     }
   });
@@ -160,6 +163,11 @@
     for (let port in sensors) {
       if (!usedPorts.includes(port)) delete sensors[port];
     }
+  }
+
+  function yesNoDialog(messageType) {
+    dialogMsg = li.get("beehives.settings." + messageType);
+    showDialog = true;
   }
 </script>
 
@@ -271,12 +279,6 @@
         </SelectableOption>
       </div>
 
-      <!-- factory reset -->
-
-      <!-- odstranit vahu-->
-
-      <!-- odstranit odmerané dáta-->
-
       <div class="m-4 rounded-lg bg-white shadow shadow-tertiary-300">
         <div class="flex items-center p-4 pb-0">
           <h3 class="w-full font-bold">
@@ -295,6 +297,28 @@
           <SensorView bind:devices={sensors} />
         </div>
       </div>
+
+      <div class="m-4 rounded-lg bg-white shadow shadow-tertiary-300">
+        <div
+          class="cursor-pointer rounded-lg p-2 font-semibold hover:bg-slate-100"
+          on:click={() => yesNoDialog("data_dialog")}
+        >
+          {li.get("beehives.settings.delete_data")}
+        </div>
+        <div
+          class="cursor-pointer rounded-lg p-2 font-semibold hover:bg-slate-100"
+          on:click={() => yesNoDialog("reset_dialog")}
+        >
+          {li.get("beehives.settings.factory_reset")}
+        </div>
+        <div
+          class="cursor-pointer rounded-lg p-2 font-semibold text-red hover:bg-slate-100"
+          on:click={() => yesNoDialog("beehive_dialog")}
+        >
+          {li.get("beehives.settings.delete_beehive")}
+        </div>
+      </div>
+
       <div class="m-4 flex justify-end gap-2">
         <Button
           type="primary"
@@ -311,6 +335,13 @@
       </div>
     </form>
   </div>
+
+  <SimpleDialog
+    bind:show={showDialog}
+    message={dialogMsg}
+    positiveButton="Áno"
+    negativeButton="Nie"
+  />
 {:else}
   <Loading />
 {/if}

@@ -31,6 +31,7 @@ export default {
       current: "currentColor",
       slate: colors.slate,
       white: "#ffffff",
+      red: "#cc0000",
       primary: {
         100: "#202325",
         200: "#1D2021",
