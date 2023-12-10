@@ -33,6 +33,8 @@
       "beehive_name": "Názov váhy",
       "location": "Poloha",
       "interval": "Interval merania",
+      "changes_info": "Zmeny sa aplikujú až pri najbližšom prebudení váhy",
+      "connection_mode": "Spôsob pripojenia",
       "cellular_network": "Mobilná sieť",
       "other_beehive": "Iná váha",
       "sim_password": "Heslo na SIM kartu",

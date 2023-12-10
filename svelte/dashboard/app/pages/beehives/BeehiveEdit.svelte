@@ -226,13 +226,13 @@
               class="h-4 w-4"
               src="../../../icons/warning.png"
               alt="warning"
-            />Zmeny sa aplikujú až pri najbližšom prebudení váhy
+            />{li.get("beehives.settings.changes_info")}
           </div>
         {/if}
       </div>
 
       <div class="m-4 rounded-lg bg-white shadow shadow-tertiary-300">
-        <h3 class="p-4 font-bold">Spôsob pripojenia</h3>
+        <h3 class="p-4 font-bold">{li.get("beehives.settings.connection_mode")}</h3>
 
         {#if beehive.model === MODEL_WITH_GSM}
           <SelectableOption
