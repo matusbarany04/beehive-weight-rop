@@ -1,24 +1,51 @@
 package com.buzzybees.master.beehives.actions;
 
 import com.buzzybees.master.beehives.devices.DeviceType;
+import com.buzzybees.master.utils.json.JSONForm;
+import com.buzzybees.master.utils.json.JSONParam;
+import com.buzzybees.master.utils.json.ParamType;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public enum ActionType {
-
-    UPDATE_STATUS("UPDATE_STATUS"),
-    MOTOR_MOVE("MOTOR_MOVE", DeviceType.MOTOR),
-
-    LED_TOGGLE("LED_TOGGLE", DeviceType.LED),
-
-    WAKE_UP("WAKE_UP", false, true),
-    HIBERNATE("HIBERNATE", false, true),
-    ENABLE_SHARING_CONNECTION("ENABLE_SHARING_CONNECTION", true, true),
-
-    BURN_SENSOR_ID("BURN_SENSOR_ID", true),
-    CHANGE_BEEHIVE_CONFIG("CHANGE_CONFIG", true, true),
-    FACTORY_RESET("FACTORY_RESET", false, true);
+    UPDATE_STATUS("UPDATE_STATUS",
+            new JSONForm()
+                    .addParam(new JSONParam("status", ParamType.STRING, true))
+    ),
+    MOTOR_MOVE("MOTOR_MOVE", DeviceType.MOTOR,
+            new JSONForm()
+                    .addParam(new JSONParam("deviceId", ParamType.NUMERIC, true))
+                    .addParam(new JSONParam("degrees", ParamType.NUMERIC, true))
+    ),
+    LED_TOGGLE("LED_TOGGLE", DeviceType.LED,
+            new JSONForm()
+                    .addParam(new JSONParam("deviceId", ParamType.NUMERIC, true))
+                    .addParam(new JSONParam("status", ParamType.BOOLEAN, true))
+    ),
+    WAKE_UP("WAKE_UP", false, true,
+            new JSONForm()
+                    .addParam(new JSONParam("time", ParamType.NUMERIC, false))
+    ),
+    HIBERNATE("HIBERNATE", false, true,
+            new JSONForm()
+                    .addParam(new JSONParam("sleepLength", ParamType.NUMERIC, false))
+    ),
+    ENABLE_SHARING_CONNECTION("ENABLE_SHARING_CONNECTION", true, true,
+            new JSONForm()
+    ),
+    BURN_SENSOR_ID("BURN_SENSOR_ID", true,
+            new JSONForm()
+                    .addParam(new JSONParam("sensorId", ParamType.STRING, true))
+                    .addParam(new JSONParam("port", ParamType.STRING, true))
+    ),
+    // TODO change JSONForm() to something meaningful because it wont work without it now :)
+    CHANGE_BEEHIVE_CONFIG("CHANGE_CONFIG", true, true,
+            new JSONForm()
+    ),
+    FACTORY_RESET("FACTORY_RESET", false, true,
+            new JSONForm()
+    );
 
     public final String name;
 
@@ -27,22 +54,29 @@ public enum ActionType {
     boolean systemAction = false;
     boolean singleInstance = false;
 
-    ActionType(String string) {
+
+    JSONForm paramForm;
+
+    ActionType(String string, JSONForm paramForm) {
+        this.paramForm = paramForm;
         name = string;
     }
 
-    ActionType(String string, DeviceType bind) {
+    ActionType(String string, DeviceType bind, JSONForm paramForm) {
+        this.paramForm = paramForm;
         name = string;
         this.bind = bind;
     }
 
-    ActionType(String string, boolean systemAction) {
+    ActionType(String string, boolean systemAction, JSONForm paramForm) {
+        this.paramForm = paramForm;
         name = string;
         this.systemAction = systemAction;
     }
 
-    ActionType(String string, boolean systemAction, boolean singleInstance) {
-        this(string, systemAction);
+    ActionType(String string, boolean systemAction, boolean singleInstance, JSONForm paramForm) {
+
+        this(string, systemAction, paramForm);
         this.singleInstance = singleInstance;
     }
 
@@ -52,7 +86,6 @@ public enum ActionType {
 
 
     /**
-     *
      * @return ActionType[]
      */
     public static ActionType[] getNonSystemValues() {
@@ -60,7 +93,6 @@ public enum ActionType {
     }
 
     /**
-     *
      * @return String
      */
     public String getName() {
@@ -68,9 +100,9 @@ public enum ActionType {
     }
 
 
-
     /**
      * Getter for bind value
+     *
      * @return boolean if ActionType has bind DeviceType present
      */
     public boolean isDeviceBound() {
@@ -100,7 +132,6 @@ public enum ActionType {
     }
 
 
-
     /**
      * Filter enum values based on whether they are non-system and not bound
      *
@@ -121,6 +152,11 @@ public enum ActionType {
         return Arrays.stream(ActionType.values())
                 .filter((val) -> val.isDeviceBound() && !val.systemAction)
                 .toArray(ActionType[]::new);
+    }
+
+
+    public JSONForm getParamForm() {
+        return paramForm;
     }
 
 

@@ -51,7 +51,15 @@ public class ActionController extends CookieAuthController {
     public ApiResponse newAction(@RequestBody Action action) {
         System.out.println("Received Action: " + action.toString() + " " + action.getExecutionTime());
 
-        actionRepository.save(action);
+        if (action.getType().getParamForm().isInValidForm(new JSONObject(action.getParamsJSON()))) {
+            actionRepository.save(action);
+        } else {
+            return new ApiResponse("error",
+                    new JSONObject()
+                            .put("message", "Action params are in invalid form!")
+                            .put("form", action.getType().getParamForm().getParamTypesMap())
+            );
+        }
 
 
         String title = "Nová akcia " + action.getType();
@@ -139,8 +147,7 @@ public class ActionController extends CookieAuthController {
 
 
         HashMap<String, String> deviceTypeDictionary = new HashMap<>();
-        Arrays.stream(ActionType.getBoundNonSystemValues()).forEach((action)->{
-            System.out.println("Loops");
+        Arrays.stream(ActionType.getBoundNonSystemValues()).forEach((action) -> {
             deviceTypeDictionary.put(action.getName(), action.getDeviceBoundType().name());
         });
 

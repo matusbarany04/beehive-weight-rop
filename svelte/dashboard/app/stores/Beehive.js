@@ -116,14 +116,13 @@ export class BeehiveObj {
     return this.devices;
   }
 
-
   /**
-   * 
+   *
    * @param type
    * @returns {{name: string, port: string, id: number, type: string}[]}
    */
   getDevicesByType(type) {
-    return this.devices.filter(device => device.type === type);
+    return this.devices.filter((device) => device.type === type);
   }
 
   /**

@@ -1,4 +1,3 @@
-
 <script>
   /**
    * TODO add time input to specify execution time of the action
@@ -7,11 +6,13 @@
   import Button from "../../../../components/Buttons/Button.svelte";
   import message from "../../stores/message";
   import SettingsHeader from "../../component/settings/SettingsHeader.svelte";
-  import {getLanguageInstance} from "../../../../components/language/languageRepository";
-  import shared, {onLoad} from "../../stores/shared";
+  import { getLanguageInstance } from "../../../../components/language/languageRepository";
+  import shared, { onLoad } from "../../stores/shared";
   import ActionCard from "../../component/beehives/ActionCard.svelte";
   import Modal from "../../../../components/Modal.svelte";
-  import staticFuncs, {generateUUID,} from "../../../../components/lib/utils/staticFuncs";
+  import staticFuncs, {
+    generateUUID,
+  } from "../../../../components/lib/utils/staticFuncs";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
 
   export let props;
@@ -63,7 +64,7 @@
       type: type,
       beehive: beehiveId,
       params: params,
-      executionTime: new Date().getTime() + 1000 //* 60 * 60,
+      executionTime: new Date().getTime() + 1000, //* 60 * 60,
     };
 
     fetch("/actions/newAction", {
@@ -115,21 +116,20 @@
   let formId = generateUUID();
 
   function handleSubmit(event) {
-
     const data = new FormData(this);
-    
-    const actionType = data.get('action_type')
 
+    const actionType = data.get("action_type");
 
-    if(data.get('beehive_sensor') !== null){
-
-      sendAction(actionType, JSON.stringify({
-        "sensor": data.get('beehive_sensor'),
-        "data": data.get('action_data')
-      }))
-
-    }else{
-      sendAction(actionType, JSON.stringify({}))
+    if (data.get("beehive_sensor") !== null) {
+      sendAction(
+        actionType,
+        JSON.stringify({
+          sensor: data.get("beehive_sensor"),
+          data: data.get("action_data"),
+        }),
+      );
+    } else {
+      sendAction(actionType, JSON.stringify({}));
     }
 
     addNewAction = false;
@@ -143,29 +143,32 @@
   // }
 
   let sensorNeeded = false;
-  let sensorDropdownOptions = []
+  let sensorDropdownOptions = [];
 
-  let dataOptions = [['1', "on"], ['0', "off"]];
+  let dataOptions = [
+    ["1", "on"],
+    ["0", "off"],
+  ];
   let paramsNeeded = false;
-
 
   let typeChanged = (value) => {
     console.log(beehiveObject.getDevices());
 
     if (dictionary[value] != null) {
-      console.log("activate second dropdown!")
+      console.log("activate second dropdown!");
       sensorNeeded = true;
       paramsNeeded = true;
-      let deviceOptions = beehiveObject.getDevicesByType(dictionary[value])
+      let deviceOptions = beehiveObject.getDevicesByType(dictionary[value]);
 
-      sensorDropdownOptions = deviceOptions.map(device => [device.id, device.name])
-
+      sensorDropdownOptions = deviceOptions.map((device) => [
+        device.id,
+        device.name,
+      ]);
     } else {
-      console.log("deactivate second dropdown!")
+      console.log("deactivate second dropdown!");
       sensorNeeded = false;
       paramsNeeded = false;
     }
-
   };
 </script>
 
@@ -244,7 +247,6 @@
       />
     {/if}
 
-
     <!-- value of the action -->
     {#if paramsNeeded}
       <DropdownInput
@@ -254,7 +256,6 @@
         options={dataOptions}
       />
     {/if}
-
   </form>
 
   <button slot="footer" type="submit" form="addNewAction-{formId}">
