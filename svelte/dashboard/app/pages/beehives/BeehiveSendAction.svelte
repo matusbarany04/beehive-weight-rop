@@ -1,32 +1,51 @@
 <script>
+  /**
+   * TODO add time input to specify execution time of the action
+   */
+
   import Button from "../../../../components/Buttons/Button.svelte";
   import message from "../../stores/message";
   import SettingsHeader from "../../component/settings/SettingsHeader.svelte";
-  import SettingsItem from "../../component/settings/SettingsItem.svelte";
-  import {
-    getLanguageInstance,
-    languages,
-  } from "../../../../components/language/languageRepository";
-  import { onLoad } from "../../stores/shared";
+  import { getLanguageInstance } from "../../../../components/language/languageRepository";
+  import shared, { onLoad } from "../../stores/shared";
   import ActionCard from "../../component/beehives/ActionCard.svelte";
+  import Modal from "../../../../components/Modal.svelte";
+  import staticFuncs, {
+    generateUUID,
+  } from "../../../../components/lib/utils/staticFuncs";
+  import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
 
   export let props;
 
   const beehiveId = props.id;
+  /** @type {BeehiveObj} */
+  let beehiveObject = null;
 
   message.setMessage("Udalosti");
 
   let pendingActions = {};
+  let actionOptions = [];
+  let dictionary = {};
 
   const fetchPendingActions = async () => {
     try {
       const response = await fetch(
         `/actions/getPending?beehiveId=${beehiveId}`,
       );
-      const data = await response.json();
-      pendingActions = data;
+      pendingActions = await response.json();
     } catch (error) {
       console.error("Error fetching pending actions:", error);
+    }
+
+    try {
+      // /actions/getActionOptions
+      const response = await fetch(`/actions/getActionOptions/${beehiveId}`);
+      const responseJson = await response.json();
+      console.log("response ActionOptions", responseJson);
+      actionOptions = responseJson.actions;
+      dictionary = responseJson.dictionary;
+    } catch (error) {
+      console.error("Error fetching action options:", error);
     }
   };
 
@@ -35,13 +54,17 @@
     user = userObj;
   });
 
-  function sendAction() {
+  onLoad(["beehives"], (_) => {
+    beehiveObject = shared.getBeehiveById(beehiveId);
+  });
+
+  function sendAction(type, params) {
     const actionData = {
       author: user.id,
-      type: "MOTOR_MOVE",
+      type: type,
       beehive: beehiveId,
-      params: '{"id": 8500}',
-      executionTime: new Date().getTime() + 1000 * 60 * 60,
+      params: params,
+      executionTime: new Date().getTime() + 1000, //* 60 * 60,
     };
 
     fetch("/actions/newAction", {
@@ -88,11 +111,81 @@
   fetchPendingActions();
 
   let li = getLanguageInstance();
+
+  let addNewAction = false;
+  let formId = generateUUID();
+
+  function handleSubmit(event) {
+    const data = new FormData(this);
+
+    const actionType = data.get("action_type");
+
+    if (data.get("beehive_sensor") !== null) {
+      sendAction(
+        actionType,
+        JSON.stringify({
+          sensor: data.get("beehive_sensor"),
+          data: data.get("action_data"),
+        }),
+      );
+    } else {
+      sendAction(actionType, JSON.stringify({}));
+    }
+
+    addNewAction = false;
+  }
+
+  // let devices = beehiveObject.getDevices();
+  // for (const dev of devices) {
+  //   if (dev.port !== null && dev.type === "MOTOR") {
+  //     // TODO change later
+  //   }
+  // }
+
+  let sensorNeeded = false;
+  let sensorDropdownOptions = [];
+
+  let dataOptions = [
+    ["1", "on"],
+    ["0", "off"],
+  ];
+  let paramsNeeded = false;
+
+  let typeChanged = (value) => {
+    console.log(beehiveObject.getDevices());
+
+    if (dictionary[value] != null) {
+      console.log("activate second dropdown!");
+      sensorNeeded = true;
+      paramsNeeded = true;
+      let deviceOptions = beehiveObject.getDevicesByType(dictionary[value]);
+
+      sensorDropdownOptions = deviceOptions.map((device) => [
+        device.id,
+        device.name,
+      ]);
+    } else {
+      console.log("deactivate second dropdown!");
+      sensorNeeded = false;
+      paramsNeeded = false;
+    }
+  };
 </script>
 
-<SettingsHeader title="Zaslať akcie" />
+<SettingsHeader className="flex flex-row" title="Zaslať akcie">
+  <div class="flex flex-row items-center justify-end">
+    <Button
+      text="Nová akcia"
+      image="icons/add.svg"
+      onClick={() => {
+        addNewAction = true;
+      }}
+    ></Button>
+  </div>
+</SettingsHeader>
 
 <!-- TODO reimplement adding new actions like moving a motor and stuff -->
+<!-- working on it !! -->
 <!--<SettingsItem>-->
 <!--  <Button text="Sledovanie akcií zariadenia" onClick={sendAction} />-->
 <!--</SettingsItem>-->
@@ -121,3 +214,57 @@
     Všetky akcie váhy sa zobrazia tu
   </h1>
 {/if}
+
+<Modal bind:showModal={addNewAction}>
+  <h2 slot="header" class="text-2xl font-bold">
+    {"Pridať novú akciu"}
+  </h2>
+
+  <form
+    on:submit|preventDefault={handleSubmit}
+    id="addNewAction-{formId}"
+    method="POST"
+    class="my-4 flex flex-col gap-4"
+  >
+    <!--    Type of the action-->
+
+    <DropdownInput
+      label="Typ akcie"
+      name="action_type"
+      value={"UPDATE_STATUS"}
+      options={staticFuncs.arrayToKeyValuePairs(actionOptions)}
+      onChange={typeChanged}
+    />
+
+    <!-- sensor to be acted upon-->
+    <!-- make dynamically shown and dynamically filled with right options -->
+    {#if sensorNeeded}
+      <DropdownInput
+        label="Senzor"
+        name="beehive_sensor"
+        value={sensorDropdownOptions[0][0]}
+        options={sensorDropdownOptions}
+      />
+    {/if}
+
+    <!-- value of the action -->
+    {#if paramsNeeded}
+      <DropdownInput
+        label="Dáta"
+        name="action_data"
+        value={dataOptions[0][0]}
+        options={dataOptions}
+      />
+    {/if}
+  </form>
+
+  <button slot="footer" type="submit" form="addNewAction-{formId}">
+    <Button
+      slot="footer"
+      type="confirm"
+      autofocus
+      clickType="submit"
+      text="Urob to!"
+    ></Button>
+  </button>
+</Modal>

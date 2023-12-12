@@ -45,12 +45,12 @@
 </script>
 
 <div
-  class="{className} min-h-16 relative mx-auto mb-4 flex flex-col rounded-lg bg-white p-4 lg:w-5/6"
+  class="{className} min-h-16 relative mx-auto mb-4 flex flex-col rounded-lg bg-white p-4 shadow shadow-tertiary-300 lg:w-5/6"
 >
   <!-- title -->
   <div>
     <h1 class="inline text-2xl font-semibold">
-      {li.get(`actions.${actionObject.type}`)}
+      {li.get(`actions.${actionObject.type}`) || actionObject.type}
     </h1>
     <h1 class="mx-2 inline font-bold">-</h1>
     <h1 class="inline text-lg">

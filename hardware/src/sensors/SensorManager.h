@@ -8,7 +8,7 @@
 #define SCAN_INTERVAL 1000
 #define CONFIG_CHANGED 1
 #define EEPROM_ADDRESS 0x50
-const int SENSOR_PINS[] = {2, 15, 4};
+const int SENSOR_PINS[] = {27, 33, 26, 14, 32, 25};
 
 
 class SensorManager {

@@ -5,7 +5,8 @@ public enum DeviceType {
     HUMIDITY("humidity"),
     LIGHT("light"),
     SOUND("sound"),
-    MOTOR(null);
+    MOTOR(null),
+    LED(null);
 
     private final String listName;
 

@@ -44,6 +44,13 @@ public class ApiResponse {
         data.put(key, value);
     }
 
+    public static ApiResponse ERROR(String key, Object value){
+        ApiResponse out = new ApiResponse(key, value);
+        out.status = "error";
+        return out;
+    }
+
+
     /**
      * create simple JSON with status and one json object
      * @param key - json key

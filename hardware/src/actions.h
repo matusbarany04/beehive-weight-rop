@@ -31,6 +31,7 @@ class ActionManager {
             Action* action = getAction(type);
             
             if(action != NULL) {
+                params["actionID"] = id;
                 String status = action->function(params);
                 if(id != 0) {
                     DynamicJsonDocument prevDoc = *executedActions;
@@ -45,7 +46,9 @@ class ActionManager {
 
         String execGetStatus(ActionType type, long id, JsonObject params = JsonObject()) {
             Action* action = getAction(type);
+            params["actionID"] = id;
             if(action != NULL) return action->function(params);
+            else return "UNKNOWN_ERROR";
         }
 
         void schedule(ActionType type, long id, long executionTime, JsonObject params = JsonObject()) {

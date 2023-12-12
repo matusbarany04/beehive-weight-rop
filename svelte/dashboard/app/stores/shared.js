@@ -50,6 +50,7 @@ export default {
           beehiveJson["devices"],
           beehiveJson["linkedTo"],
           beehiveJson["wifiSSID"],
+          beehiveJson["state"],
         );
       }
 

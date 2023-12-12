@@ -79,6 +79,7 @@ public class BeeController extends DatabaseController {
 
         actionRepository.saveAll(actions);
         sensorValueRepository.saveAll(sensors);
+        DeviceManager.sendConfigToClient(statusRequest.getBeehive());
 
         return new ApiResponse("actions", actions);
     }

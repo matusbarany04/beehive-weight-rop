@@ -18,6 +18,8 @@
   import { setUnsavedData } from "../../../../components/router/route.serv";
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
+  import { getLanguageInstance } from "../../../../components/language/languageRepository";
+  import SimpleDialog from "../../../../components/SimpleDialog.svelte";
 
   export let props;
   const MODEL_WITH_GSM = "BBIMZ-A";
@@ -32,6 +34,8 @@
   let coordinates = { latitude: 0, longitude: 0 };
   let connectionMode = "GSM";
   let sensors = {};
+  let showDialog;
+  let dialogMsg;
 
   let intervals = [
     [10, "10min"],
@@ -43,12 +47,17 @@
     [600, "10h"],
   ];
 
+  const li = getLanguageInstance();
+
   let socket = new WebSocket(
     "ws://" + location.hostname + ":8080/websocket/connect",
   );
 
   socket.onmessage = (message) => {
-    refreshSensorView();
+    const action = JSON.parse(message.data);
+    if (action.messageType === "UPDATE_DEVICE_CONFIG") {
+      sensors = action.params.devices;
+    }
   };
 
   message.setMessage("Nastavenia zariadenia");
@@ -69,8 +78,8 @@
 
     showFutureValues();
 
-    for (let device of beehive.devices) {
-      sensors[device["port"]] = device;
+    for (let device of beehive.getDevices()) {
+      sensors[device["port"]] = Object.assign({}, device);
       delete sensors[device["port"]]["port"];
     }
   });
@@ -136,25 +145,33 @@
     fetch("/dashboardApi/getDeviceConfig?beehive=" + props.id)
       .then((r) => r.json())
       .then((response) => {
-        let usedPorts = [];
-        for (let device of response.devices) {
-          let port = device["port"];
-          usedPorts.push(port);
-          if (!sensors[port] || sensors[port]["id"] !== device.id) {
-            sensors[device["port"]] = device;
-            delete sensors[device["port"]]["port"];
-          }
-        }
-
-        for (let port in sensors) {
-          if (!usedPorts.includes(port)) delete sensors[port];
-        }
+        updateSensorView(response.devices);
       });
+  }
+
+  function updateSensorView(devices) {
+    let usedPorts = [];
+    for (let device of devices) {
+      let port = device["port"];
+      usedPorts.push(port);
+      if (!sensors[port] || sensors[port]["id"] !== device.id) {
+        sensors[device["port"]] = device;
+        delete sensors[device["port"]]["port"];
+      }
+    }
+
+    for (let port in sensors) {
+      if (!usedPorts.includes(port)) delete sensors[port];
+    }
+  }
+
+  function yesNoDialog(messageType) {
+    dialogMsg = li.get("beehives.settings." + messageType);
+    showDialog = true;
   }
 </script>
 
 <svelte:head>
-  <title>Upravenie úľu</title>
   <meta
     name="Edit beehive"
     content="This page shows edit options for a particular beehive"
@@ -174,7 +191,7 @@
         <Input
           type="text"
           name="name"
-          label="Názov váhy"
+          label={li.get("beehives.settings.beehive_name")}
           value={beehive.name}
           inline
           required
@@ -182,7 +199,7 @@
         <Input
           type="text"
           name="location"
-          label="Poloha"
+          label={li.get("beehives.settings.location")}
           value={beehive.location}
           results={locationResults}
           on:input={searchLocation}
@@ -194,7 +211,7 @@
         <input type="hidden" name="longitude" value={coordinates.longitude} />
         <DropdownInput
           name="interval"
-          label="Interval merania"
+          label={li.get("beehives.settings.interval")}
           options={intervals}
           onChange={(newValue) => {
             beehive.interval = parseInt(newValue);
@@ -209,24 +226,26 @@
               class="h-4 w-4"
               src="../../../icons/warning.png"
               alt="warning"
-            />Zmeny sa aplikujú až pri najbližšom prebudení váhy
+            />{li.get("beehives.settings.changes_info")}
           </div>
         {/if}
       </div>
 
       <div class="m-4 rounded-lg bg-white shadow shadow-tertiary-300">
-        <h3 class="p-4 font-bold">Spôsob pripojenia</h3>
+        <h3 class="p-4 font-bold">
+          {li.get("beehives.settings.connection_mode")}
+        </h3>
 
         {#if beehive.model === MODEL_WITH_GSM}
           <SelectableOption
-            name="Mobilná sieť"
+            name={li.get("beehives.settings.cellular_network")}
             bind:selection={connectionMode}
             value="GSM"
           >
             <Input
               type="password"
               name="sim_password"
-              label="Heslo na SIM kartu"
+              label={li.get("beehives.settings.sim_password")}
               value=""
               inline
             />
@@ -245,49 +264,86 @@
             value={beehive["wifiSSID"]}
             inline
           />
-          <Input type="password" name="wifi_password" label="Heslo" inline />
+          <Input
+            type="password"
+            name="wifi_password"
+            label={li.get("beehives.settings.password")}
+            inline
+          />
         </SelectableOption>
 
         <SelectableOption
           name="Iná váha"
           bind:selection={connectionMode}
-          value="OTHER_BEEHIVE"
+          value={li.get("beehives.settings.other_beehive")}
         >
           <div>Práve pripravujeme</div>
         </SelectableOption>
       </div>
 
-      <!-- factory reset -->
-
-      <!-- odstranit vahu-->
-
-      <!-- odstranit odmerané dáta-->
-
-      <div class="m-4 rounded-lg bg-white p-4 shadow shadow-tertiary-300">
-        <div class="m-4 flex items-center">
-          <h3 class="w-full font-bold">Senzory</h3>
+      <div class="m-4 rounded-lg bg-white shadow shadow-tertiary-300">
+        <div class="flex items-center p-4 pb-0">
+          <h3 class="w-full font-bold">
+            {li.get("beehives.settings.connected_devices")}
+          </h3>
           <Button
             type="secondary"
-            text="Refresh"
+            text={li.get("beehives.settings.refresh")}
             image="./../../icons/refresh.svg"
             preventDefault={true}
             onClick={refreshSensorView}
           />
         </div>
-        <SensorView bind:devices={sensors} />
+        <i class="ml-4">{li.get("beehives.settings.update_info")}</i>
+        <div class="mt-4">
+          <SensorView bind:devices={sensors} />
+        </div>
       </div>
+
+      <div class="m-4 rounded-lg bg-white shadow shadow-tertiary-300">
+        <div
+          class="cursor-pointer rounded-lg p-2 font-semibold hover:bg-slate-100"
+          on:click={() => yesNoDialog("data_dialog")}
+        >
+          {li.get("beehives.settings.delete_data")}
+        </div>
+        <div
+          class="cursor-pointer rounded-lg p-2 font-semibold hover:bg-slate-100"
+          on:click={() => yesNoDialog("reset_dialog")}
+        >
+          {li.get("beehives.settings.factory_reset")}
+        </div>
+        <div
+          class="cursor-pointer rounded-lg p-2 font-semibold text-red hover:bg-slate-100"
+          on:click={() => yesNoDialog("beehive_dialog")}
+        >
+          {li.get("beehives.settings.delete_beehive")}
+        </div>
+      </div>
+
       <div class="m-4 flex justify-end gap-2">
-        <Button type="primary" formId="device_settings" text="Uložiť zmeny" />
+        <Button
+          type="primary"
+          formId="device_settings"
+          text={li.get("beehives.settings.save_changes")}
+        />
 
         <Button
           type="secondary"
-          text="Zahodiť zmeny"
+          text={li.get("beehives.settings.discard_changes")}
           clickType="button"
           onClick={() => history.back()}
         />
       </div>
     </form>
   </div>
+
+  <SimpleDialog
+    bind:show={showDialog}
+    message={dialogMsg}
+    positiveButton="Áno"
+    negativeButton="Nie"
+  />
 {:else}
   <Loading />
 {/if}
