@@ -39,7 +39,11 @@ public abstract class CookieAuthController extends DatabaseController {
     }
 
     @ExceptionHandler({ ApiException.class })
-    public ApiResponse handleException(Exception e) {
+    public ApiResponse handleException(ApiException e) {
+        if(!e.isErrorPayloadEmpty()){
+            return new ApiResponse(e.getMessage(), e.getErrorPayload());
+        }
+
         return new ApiResponse(e.getMessage());
     }
 }

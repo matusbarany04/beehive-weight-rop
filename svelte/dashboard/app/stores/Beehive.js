@@ -36,6 +36,9 @@ export class BeehiveObj {
    * stores all of the beehive data
    * @type {Object<Array>}  */
   data = {};
+  
+  /** @type {string} state of a beehive, for ex. ONLINE, OFFLINE */
+  state;
 
   /**
    * Creates a new Beehive instance.
@@ -50,6 +53,7 @@ export class BeehiveObj {
    * @param {Array<{name: string, port: string, id: number, type: string}>} devices Devices associated with the beehive.
    * @param linkedTo
    * @param wifiSSID
+   * @param state
    */
   constructor(
     beehive_id,
@@ -63,6 +67,7 @@ export class BeehiveObj {
     devices,
     linkedTo,
     wifiSSID,
+    state
   ) {
     if (!beehive_id)
       throw new Error("Beehive ID is required. provided - " + beehive_id);
@@ -90,6 +95,7 @@ export class BeehiveObj {
       weight: [],
       timestamp: [],
     };
+    this.state = state;
   }
 
   /**
@@ -414,4 +420,27 @@ export class BeehiveObj {
     if (isNaN(out)) return 0;
     return out;
   }
+
+  
+  
+  /**
+   * Returns current state of a beehive
+   * @returns {string}
+   */
+  getState(){
+    return this.state;
+  }
+  
+  getColorByState(state = this.state){
+    switch (state){
+      case "ONLINE":
+        return "bg-confirm-300"
+      case "IDLE":
+        return "bg-secondary-300"
+      case "OFFLINE":
+        return "bg-tertiary-300";
+    }
+    return ""
+  }
+  
 }

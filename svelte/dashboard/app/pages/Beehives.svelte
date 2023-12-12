@@ -33,6 +33,8 @@
 
       for (/** @type {BeehiveObj} */ const beehive of beehives) {
         tableData.push({
+          state: beehive.state,
+          stateColor: beehive.getColorByState(),
           name: beehive.name,
           battery: beehive.getLastDataByType("battery"),
           status: beehive.getCurrentStatus(),
@@ -151,7 +153,7 @@
               <tr class="h-20">
                 <td class="">
                   <div
-                    class="aspect-square h-2 w-2 rounded-full bg-secondary-500"
+                    class="aspect-square h-2 w-2 rounded-full {row.stateColor}"
                   ></div>
                 </td>
 

@@ -10,6 +10,7 @@ import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.beehives.devices.DeviceType;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.CookieAuthController;
+import com.buzzybees.master.exceptions.InvalidFormException;
 import com.buzzybees.master.notifications.Notification;
 import com.buzzybees.master.notifications.NotificationRepository;
 import com.buzzybees.master.notifications.Reminder;
@@ -48,17 +49,19 @@ public class ActionController extends CookieAuthController {
      * @return created reminder
      */
     @PostMapping(value = "/newAction", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiResponse newAction(@RequestBody Action action) {
+    public ApiResponse newAction(@RequestBody Action action) throws InvalidFormException {
         System.out.println("Received Action: " + action.toString() + " " + action.getExecutionTime());
 
         if (action.getType().getParamForm().isInValidForm(new JSONObject(action.getParamsJSON()))) {
             actionRepository.save(action);
         } else {
-            return new ApiResponse("error",
-                    new JSONObject()
-                            .put("message", "Action params are in invalid form!")
-                            .put("form", action.getType().getParamForm().getParamTypesMap())
-            );
+            // TODO remove , only for debug purposes
+
+            HashMap<String, Object> out = new HashMap<String, Object>();
+            out.put("message", "Action params are in invalid form!");
+            out.put("form", action.getType().getParamForm().getParamTypesMap());
+
+            throw new InvalidFormException(out);
         }
 
 
