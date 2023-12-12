@@ -36,6 +36,7 @@
   let sensors = {};
   let showDialog;
   let dialogMsg;
+  let dialogYesAction;
 
   let intervals = [
     [10, "10min"],
@@ -168,18 +169,24 @@
   function yesNoDialog(messageType, action) {
     dialogMsg = li.get("beehives.settings." + messageType);
     showDialog = true;
-    action();
+    dialogYesAction = action;
   }
-  
+
   function deleteData() {
-    
+    fetch("/dashboardApi/deleteAllBeehiveData?token=" + beehive.beehive_id, {
+      method: "DELETE",
+    })
+      .then((r) => r.json())
+      .then((response) => {
+        if (response.status === "ok") {
+          toast.push("Všetky namerané dáta boli úspešne odstránené");
+        } else toast.push("Pri vymazaní dát sa vyskytla chyba", "error");
+      });
   }
-  
-  function deleteBeehive() {
-    
-  }
-  
-  
+
+  function factoryReset() {}
+
+  function deleteBeehive() {}
 </script>
 
 <svelte:head>
@@ -314,19 +321,19 @@
       <div class="m-4 rounded-lg bg-white shadow shadow-tertiary-300">
         <div
           class="cursor-pointer rounded-lg p-2 font-semibold hover:bg-slate-100"
-          on:click={() => yesNoDialog("data_dialog")}
+          on:click={() => yesNoDialog("data_dialog", deleteData)}
         >
           {li.get("beehives.settings.delete_data")}
         </div>
         <div
           class="cursor-pointer rounded-lg p-2 font-semibold hover:bg-slate-100"
-          on:click={() => yesNoDialog("reset_dialog")}
+          on:click={() => yesNoDialog("reset_dialog", factoryReset)}
         >
           {li.get("beehives.settings.factory_reset")}
         </div>
         <div
           class="cursor-pointer rounded-lg p-2 font-semibold text-red hover:bg-slate-100"
-          on:click={() => yesNoDialog("beehive_dialog")}
+          on:click={() => yesNoDialog("beehive_dialog", deleteBeehive)}
         >
           {li.get("beehives.settings.delete_beehive")}
         </div>
@@ -352,6 +359,7 @@
   <SimpleDialog
     bind:show={showDialog}
     message={dialogMsg}
+    action={dialogYesAction}
     positiveButton="Áno"
     negativeButton="Nie"
   />

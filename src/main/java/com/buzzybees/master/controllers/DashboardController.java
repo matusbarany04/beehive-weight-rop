@@ -296,6 +296,7 @@ public class DashboardController extends CookieAuthController {
     @DeleteMapping("/deleteAllBeehiveData")
     public ApiResponse deleteData(@RequestParam String token) {
         statusRepository.deleteByToken(token);
+        return ApiResponse.OK();
     }
 
 
