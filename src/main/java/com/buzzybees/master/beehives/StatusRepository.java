@@ -4,10 +4,12 @@ import com.buzzybees.master.beehives.devices.SensorValue;
 import com.buzzybees.master.tables.PairList;
 import com.buzzybees.master.tables.Status;
 import io.lettuce.core.dynamic.annotation.Param;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.beans.Transient;
 import java.util.List;
 
 public interface StatusRepository extends CrudRepository<Status, Long> {
@@ -31,6 +33,7 @@ public interface StatusRepository extends CrudRepository<Status, Long> {
     PairList<Status, SensorValue> getUserStatusesSince(long id, long timestamp);
 
     @Modifying
-    @Query("DELETE FROM Status s WHERE s.beehive = :beehive ")
+    @Transactional
+    @Query("DELETE FROM Status s WHERE s.beehive = :beehive")
     void deleteByToken(String beehive);
 }

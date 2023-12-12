@@ -16,8 +16,7 @@
   import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
   import EChart from "../../component/cards/EChart.svelte";
   import { onMount, tick } from "svelte";
-  import {BeehiveObj} from "../../stores/Beehive";
-  
+  import { BeehiveObj } from "../../stores/Beehive";
 
   export let props;
 
@@ -103,9 +102,11 @@
     <h1 class=" text-2xl font-semibold">
       Váha {beehive?.name ? beehive?.name : "Loading..."}
 
-      <div class="{beehive.getColorByState()} inline-block rounded-full w-2 h-2 my-auto" ></div>
+      <div
+        class="{beehive.getColorByState()} my-auto inline-block h-2 w-2 rounded-full"
+      ></div>
     </h1>
-    
+
     <div class="mt-4 flex flex-row gap-4 md:mt-0">
       <RouterLink url="/action" append>
         <Button text="Udalosti" />
