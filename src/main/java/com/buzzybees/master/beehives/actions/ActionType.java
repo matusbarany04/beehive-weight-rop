@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public enum ActionType {
     UPDATE_STATUS("UPDATE_STATUS",
             new JSONForm()
-                    .addParam(new JSONParam("status", ParamType.STRING, true))
     ),
     MOTOR_MOVE("MOTOR_MOVE", DeviceType.MOTOR,
             new JSONForm()
@@ -25,11 +24,9 @@ public enum ActionType {
     ),
     WAKE_UP("WAKE_UP", false, true,
             new JSONForm()
-                    .addParam(new JSONParam("time", ParamType.NUMERIC, false))
     ),
     HIBERNATE("HIBERNATE", false, true,
             new JSONForm()
-                    .addParam(new JSONParam("sleepLength", ParamType.NUMERIC, false))
     ),
     ENABLE_SHARING_CONNECTION("ENABLE_SHARING_CONNECTION", true, true,
             new JSONForm()

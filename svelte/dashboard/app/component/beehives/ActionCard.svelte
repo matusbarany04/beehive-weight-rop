@@ -45,7 +45,7 @@
 </script>
 
 <div
-  class="{className} min-h-16 relative mx-auto mb-4 flex flex-col rounded-lg bg-white p-4 lg:w-5/6"
+  class="{className} shadow shadow-tertiary-300 min-h-16 relative mx-auto mb-4 flex flex-col rounded-lg bg-white p-4 lg:w-5/6"
 >
   <!-- title -->
   <div>
