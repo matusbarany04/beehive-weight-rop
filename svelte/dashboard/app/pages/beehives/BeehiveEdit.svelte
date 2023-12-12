@@ -165,10 +165,21 @@
     }
   }
 
-  function yesNoDialog(messageType) {
+  function yesNoDialog(messageType, action) {
     dialogMsg = li.get("beehives.settings." + messageType);
     showDialog = true;
+    action();
   }
+  
+  function deleteData() {
+    
+  }
+  
+  function deleteBeehive() {
+    
+  }
+  
+  
 </script>
 
 <svelte:head>

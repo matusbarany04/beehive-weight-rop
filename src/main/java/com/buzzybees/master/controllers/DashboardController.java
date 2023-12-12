@@ -293,27 +293,28 @@ public class DashboardController extends CookieAuthController {
         return new ApiResponse();
     }
 
+    @DeleteMapping("/deleteAllBeehiveData")
+    public ApiResponse deleteData(@RequestParam String token) {
+        statusRepository.deleteByToken(token);
+    }
+
 
     @DeleteMapping("/deleteBeehive/{beehiveToken}")
-    public ApiResponse deleteBeehive(@PathVariable String beehiveToken) {
+    public ApiResponse deleteBeehive(@PathVariable String beehiveToken) throws ItemNotFoundException {
         try {
             Beehive beehive = beehiveRepository.getBeehiveByToken(beehiveToken);
             // Check if the beehive exists
             if (beehive == null) {
-                return new ApiResponse("error", "Beehive not found");
+                throw new ItemNotFoundException();
             }
 
-
-
             beehiveRepository.delete(beehive);
+            deleteData(beehiveToken);
 
-            // Logic to delete the beehive
-            // Example: beehiveRepository.deleteBeehiveByToken(beehiveToken);
-
-            return new ApiResponse("success", "Beehive deleted successfully");
+            return ApiResponse.OK();
         } catch (Exception e) {
             e.printStackTrace();
-            return new ApiResponse("error", "An error occurred while deleting the beehive");
+            throw new ItemNotFoundException();
         }
     }
 
