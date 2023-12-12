@@ -15,7 +15,10 @@
   import Modal from "../../../../components/Modal.svelte";
   import SensorView from "../../component/beehives/SensorView.svelte";
   import toast from "../../../../components/Toast/toast";
-  import { setUnsavedData } from "../../../../components/router/route.serv";
+  import {
+    navigate,
+    setUnsavedData,
+  } from "../../../../components/router/route.serv";
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
   import { getLanguageInstance } from "../../../../components/language/languageRepository";
@@ -186,7 +189,20 @@
 
   function factoryReset() {}
 
-  function deleteBeehive() {}
+  function deleteBeehive() {
+    fetch("/dashboardApi/deleteBeehive/" + beehive.beehive_id, {
+      method: "DELETE",
+    })
+      .then((r) => r.json())
+      .then((response) => {
+        if (response.status === "ok") {
+          window.location = "/dashboard/beehives";
+          toast.push("Váha bola úspešne odstránená");
+        } else if (response.status === "ERR_ITEM_NOT_FOUND")
+          toast.push("Váha sa nenašla", "error");
+        else toast.push("Vyskytla sa neznáma chyba", "error");
+      });
+  }
 </script>
 
 <svelte:head>

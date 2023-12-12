@@ -38,7 +38,10 @@
         <Button
           type="primary"
           autofocus
-          onClick={() => {dialog.close(); action()}}
+          onClick={() => {
+            dialog.close();
+            action();
+          }}
           text={positiveButton}
         />
       {/if}

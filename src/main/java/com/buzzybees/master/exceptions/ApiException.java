@@ -22,7 +22,7 @@ public abstract class ApiException extends Exception {
     }
 
     public boolean isErrorPayloadEmpty(){
-        return errorPayload.isEmpty();
+        return errorPayload == null;
     }
 }
 
