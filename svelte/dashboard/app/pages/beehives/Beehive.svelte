@@ -10,13 +10,13 @@
   import Input from "../../../../components/Inputs/Input.svelte";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
-  import shared, { onLoad } from "../../stores/shared";
+  import shared, {onLoad} from "../../stores/shared";
   import RouterLink from "../../../../components/RouterLink.svelte";
   import message from "../../stores/message";
-  import { TW_BREAKPOINTS } from "../../../../components/lib/utils/staticFuncs";
+  import {TW_BREAKPOINTS} from "../../../../components/lib/utils/staticFuncs";
   import EChart from "../../component/cards/EChart.svelte";
-  import { onMount, tick } from "svelte";
-  import { BeehiveObj } from "../../stores/Beehive";
+  import {onMount, tick} from "svelte";
+  import {BeehiveObj} from "../../stores/Beehive";
 
   export let props;
 
@@ -86,12 +86,12 @@
 
 <svelte:head>
   <title>Úľ</title>
-  <meta name="Úľ" content="Úľ" />
+  <meta name="Úľ" content="Úľ"/>
 </svelte:head>
 
 <div id="chart"></div>
 
-<svelte:window on:resize={resize} />
+<svelte:window on:resize={resize}/>
 <!-- {JSON.stringify(beeData)} -->
 <!-- <div class="pt-2 p-4" /> -->
 
@@ -99,20 +99,34 @@
   <div
     class="mx-auto mb-4 flex flex-col justify-between rounded-lg bg-white p-4 shadow shadow-tertiary-300 md:h-16 md:flex-row lg:w-5/6"
   >
-    <h1 class=" text-2xl font-semibold">
-      Váha {beehive?.name ? beehive?.name : "Loading..."}
+    <div class="inline-flex">
+      <div class=" min-w-fit h-full inline-block">
+        <h1 class="my-auto text-2xl font-semibold inline-block ">
+          Váha {beehive?.name ? beehive?.name : "Loading..."}
 
-      <div
-        class="{beehive.getColorByState()} my-auto inline-block h-2 w-2 rounded-full"
-      ></div>
-    </h1>
+        </h1>
+      </div>
+
+      {#if beehive}
+        <!--dot div cont-->
+        <div class="my-auto  w-6 h-2 inline-block ">
+          <div
+            class="bg-{beehive.getColorByState()}  m-auto  h-2 w-2 rounded-full"
+          ></div>
+        </div>
+
+        <p class="text-sm text-{beehive.getColorByState()} my-auto  inline">{beehive.getState()}</p>
+
+      {/if}
+    </div>
+
 
     <div class="mt-4 flex flex-row gap-4 md:mt-0">
       <RouterLink url="/action" append>
-        <Button text="Udalosti" />
+        <Button text="Udalosti"/>
       </RouterLink>
       <RouterLink url="/edit" append>
-        <Button text="Nastavenia" />
+        <Button text="Nastavenia"/>
       </RouterLink>
     </div>
   </div>
@@ -326,7 +340,7 @@
       name="name"
       value={beehive?.name}
     />
-    <input type="text" name="beehive_id" class="hidden" value={props.id} />
+    <input type="text" name="beehive_id" class="hidden" value={props.id}/>
 
     <Input
       label="Poloha váhy"

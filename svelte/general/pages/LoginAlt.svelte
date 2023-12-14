@@ -15,7 +15,7 @@
     ></CircleButton>
   </div>
   <!--  banner div-->
-  <div class="sm:flex-1">
+  <div class="sm:flex-1 shadow-2xl">
     <div
       class="h-full w-full bg-cover bg-right bg-no-repeat"
       style="background-image: url('/img/bg/scenery.jpeg')"
