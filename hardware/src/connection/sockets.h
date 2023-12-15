@@ -5,6 +5,7 @@
 #include "network.h"
 
 #define ACTION_JSON_SIZE 256
+#define PING_INTERVAL 60000
 
 using namespace websockets;
 
@@ -21,6 +22,7 @@ struct Param {
 };
 
 WebsocketsClient webSocket;
+ulong lastPing;
 
 void (*onReceived)(JsonObject action);
 
@@ -68,4 +70,8 @@ void socketConnect() {
 
 void updateSocket() {
     webSocket.poll();
+    if(millis() - lastPing >= PING_INTERVAL) {
+        webSocket.send("ping");
+        lastPing = millis();
+    }
 }
