@@ -16,6 +16,7 @@ import com.buzzybees.master.notifications.NotificationRepository;
 import com.buzzybees.master.notifications.Reminder;
 import com.buzzybees.master.notifications.ReminderRepository;
 import com.buzzybees.master.users.UserRepository;
+import com.buzzybees.master.websockets.EspSocketHandler;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,8 @@ public class ActionController extends CookieAuthController {
 
         if (action.getType().getParamForm().isInValidForm(new JSONObject(action.getParamsJSON()))) {
             actionRepository.saveOrUpdate(action);
+            EspSocketHandler.sendFlashActionToBeehive(action);
+
         } else {
             // TODO remove , only for debug purposes
 

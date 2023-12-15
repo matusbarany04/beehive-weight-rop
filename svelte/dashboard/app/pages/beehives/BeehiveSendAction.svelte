@@ -64,7 +64,8 @@
       type: type,
       beehive: beehiveId,
       params: params,
-      executionTime: new Date().getTime() + 1000, //* 60 * 60,
+     // executionTime: new Date().getTime() + 1000, //* 60 * 60,
+      executionTime: 0
     };
 
     fetch("/actions/newAction", {

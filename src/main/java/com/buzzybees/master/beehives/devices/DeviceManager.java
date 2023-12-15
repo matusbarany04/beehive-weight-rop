@@ -76,7 +76,7 @@ public class DeviceManager {
                 if (device.getId() == 0) {
                     long id = createSensor(beehive, device.getType(), device.getPortIndex());
                     Action burnAction = Actions.createBurnAction(beehive, id, device.getPortIndex());
-                    EspSocketHandler.sendFlashActionToBeehive(beehive.getToken(), burnAction);
+                    EspSocketHandler.sendFlashActionToBeehive(burnAction);
                 }
                 else updatePort(device.getId(), device.getPortIndex());
                 notConnectedDevices.removeIf(oldDevice -> oldDevice.getId() == device.getId());

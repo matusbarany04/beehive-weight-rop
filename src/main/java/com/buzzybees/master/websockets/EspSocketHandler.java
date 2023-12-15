@@ -68,11 +68,14 @@ public class EspSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    public static void sendFlashActionToBeehive(String beehiveToken, Action action) {
+    public static void sendFlashActionToBeehive(Action action) {
         try {
-            WebSocketSession session = beehiveSessions.get(beehiveToken);
-            String json = new ObjectMapper().writeValueAsString(action);
-            session.sendMessage(new TextMessage(json));
+            WebSocketSession session = beehiveSessions.get(action.getBeehive());
+
+            if(session != null) {
+                String json = new ObjectMapper().writeValueAsString(action);
+                session.sendMessage(new TextMessage(json));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

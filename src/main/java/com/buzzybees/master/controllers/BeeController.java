@@ -37,7 +37,7 @@ public class BeeController extends DatabaseController {
 
     @GetMapping("/sendSocketESP")
     public void sendSocket() {
-        EspSocketHandler.sendFlashActionToBeehive("NY17IS0J9RKMRFP3", new Action());
+        EspSocketHandler.sendFlashActionToBeehive(new Action());
     }
 
     /**
