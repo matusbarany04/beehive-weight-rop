@@ -2,7 +2,7 @@
   import CardRoot from "./components/CardRoot.svelte";
 
   export let contentEditable;
-  
+
   export let cardStates;
   export let onDragEnd; // function
   export let onDragStart; // function

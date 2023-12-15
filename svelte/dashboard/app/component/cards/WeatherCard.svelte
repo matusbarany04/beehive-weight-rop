@@ -5,8 +5,7 @@
   let component = "WeatherCard";
 </script>
 
-<CardRoot
-  contentEditable="{contentEditable}" {component} {cardStates}>
+<CardRoot {contentEditable} {component} {cardStates}>
   <!-- TODO ked myska dragguje nad mapou mapa sa hybe -->
 
   <iframe

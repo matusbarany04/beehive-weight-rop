@@ -39,9 +39,9 @@
   export let items;
 
   export let referenceName;
-  
+
   export let stacked = false;
-  if(stacked){
+  if (stacked) {
     xCount = 1;
     yCount = items.length;
   }
@@ -242,10 +242,9 @@
     resizeObserver = new ResizeObserver((entries) => {
       const rect = entries[0].contentRect;
       width = rect.width;
-      if (stacked){
-        height = rect.width * items.length + padding * (items.length -1);
-
-      }else {
+      if (stacked) {
+        height = rect.width * items.length + padding * (items.length - 1);
+      } else {
         height = rect.height;
       }
       itemWidthFunctions.updateWidth();
@@ -359,8 +358,17 @@
 
 <div bind:this={rootElement} class="relative {className}">
   {#each newGridItems as item, i (item.id)}
-    <GridItem x={stacked ? 0 : item.x} y={stacked ? i : item.y} id={item.id} w={stacked ? 1 : item.w} h={ stacked ? 1 : item.h}>
-      <svelte:component this={item.component} {...item.props} contentEditable={!stacked}
+    <GridItem
+      x={stacked ? 0 : item.x}
+      y={stacked ? i : item.y}
+      id={item.id}
+      w={stacked ? 1 : item.w}
+      h={stacked ? 1 : item.h}
+    >
+      <svelte:component
+        this={item.component}
+        {...item.props}
+        contentEditable={!stacked}
       ></svelte:component>
     </GridItem>
   {/each}

@@ -49,7 +49,7 @@
    * @param {function} onCardStatesModified used to update states in a dashboard view
    */
   export let onCardStatesModified = () => {};
-  
+
   export let contentEditable = true;
 
   const dashboard = getContext("dashboard");
@@ -58,7 +58,6 @@
 
   if (cardStates.editing === true) cardStates.mode = "edit";
   if (cardStates.mode === "add") cardStates.editing = true;
-  
 
   let dragDisabled = false;
   let showSettings = false;
@@ -139,8 +138,6 @@
     theme}"
   bind:this={cardRootRoot}
 >
-
-
   <div class="relative flex h-full w-full flex-col">
     <div class="z-20 my-1 box-border flex h-8 w-full px-3 py-1 pr-7">
       <h1
@@ -180,7 +177,6 @@
       {/if}
     </div>
   </div>
-
 </div>
 
 <Modal bind:showModal={showSettings}>
@@ -224,7 +220,6 @@
 </Modal>
 
 <style lang="scss">
-  
   .headerIcon {
     height: 80%;
     aspect-ratio: 1/1;

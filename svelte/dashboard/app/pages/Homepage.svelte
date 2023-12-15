@@ -46,21 +46,20 @@
 
   let resizeWindowEvent = (event) => {
     if (TW_BREAKPOINTS.md > window.innerWidth) {
-      if(!stacked){
+      if (!stacked) {
         stacked = true;
-        refreshDashboard()
+        refreshDashboard();
       }
       if (editMode) {
-        refreshDashboard()
+        refreshDashboard();
       }
       editMode = false;
       editButton = false;
     } else {
-      
       editButton = true;
-      if(stacked){
+      if (stacked) {
         stacked = false;
-        refreshDashboard()
+        refreshDashboard();
       }
     }
   };
@@ -174,7 +173,7 @@
   </div>
 {/if}
 
-<div class="flex min-h-screen w-full flex-1 flex-col ">
+<div class="flex min-h-screen w-full flex-1 flex-col">
   {#if renderCards}
     <Grid
       bind:this={grid}
@@ -183,7 +182,7 @@
       xCount={4}
       yCount={4}
       padding={10}
-      stacked="{stacked}"
+      {stacked}
       className="w-full aspect-square"
       items={cardList.map((card) => ({
         ...card,

@@ -53,7 +53,7 @@ public class ActionController extends CookieAuthController {
         System.out.println("Received Action: " + action.toString() + " " + action.getExecutionTime());
 
         if (action.getType().getParamForm().isInValidForm(new JSONObject(action.getParamsJSON()))) {
-            actionRepository.save(action);
+            actionRepository.saveOrUpdate(action);
         } else {
             // TODO remove , only for debug purposes
 

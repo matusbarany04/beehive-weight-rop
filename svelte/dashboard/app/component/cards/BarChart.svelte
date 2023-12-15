@@ -14,7 +14,7 @@
    * @type {Object}
    */
   export let cardStates;
-  
+
   export let contentEditable;
   export let className = "";
 

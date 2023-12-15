@@ -187,7 +187,30 @@
       });
   }
 
-  function factoryReset() {}
+  function factoryReset() {
+    fetch("/actions/newAction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        author: beehive.author,
+        type: "FACTORY_RESET",
+        beehive: beehive.beehive_id,
+        executionTime: 0,
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === "ok")
+          toast.push("Všetky nastavenia váhy budú obnovené na predvolené");
+        else
+          toast.push(`Nastala chyba pri vytváraní akcie (${response.status})`);
+      })
+      .catch((error) =>
+        toast.push(`Nastala chyba pri vytváraní akcie (${error})`),
+      );
+  }
 
   function deleteBeehive() {
     fetch("/dashboardApi/deleteBeehive/" + beehive.beehive_id, {
