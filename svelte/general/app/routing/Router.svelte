@@ -11,6 +11,7 @@
   import FaQ from "../../pages/FaQ.svelte";
   import Contact from "../../pages/Contact.svelte";
   import About from "../../pages/About.svelte";
+  import LoginAlt from "../../pages/LoginAlt.svelte";
 
   let value = Notfound;
   let props = {};
@@ -19,7 +20,7 @@
     const routes = new RouterObj();
 
     routes.get("/", Home);
-    routes.get("/login", Login);
+    routes.get("/login", LoginAlt);
     routes.get("/register", Register);
     routes.get("/accountCreated", AccountCreated);
     routes.get("/test", TestGeneralSite);

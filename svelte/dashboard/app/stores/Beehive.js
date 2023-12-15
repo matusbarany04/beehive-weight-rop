@@ -432,11 +432,11 @@ export class BeehiveObj {
   getColorByState(state = this.state) {
     switch (state) {
       case "ONLINE":
-        return "bg-confirm-300";
+        return "confirm-300";
       case "IDLE":
-        return "bg-secondary-300";
+        return "secondary-500";
       case "OFFLINE":
-        return "bg-tertiary-300";
+        return "tertiary-300";
     }
     return "";
   }

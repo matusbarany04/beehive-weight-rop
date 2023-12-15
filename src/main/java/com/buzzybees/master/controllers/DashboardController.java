@@ -202,7 +202,7 @@ public class DashboardController extends CookieAuthController {
     public ApiResponse newReminder(@ModelAttribute Reminder reminder) {
         reminder.setUserId(currentUserId);
         ReminderRepository repository = getRepo(Reminder.class);
-        if(reminder.isUpcoming()) reminder.activate();
+        if (reminder.isUpcoming()) reminder.activate();
         repository.save(reminder);
 
 
@@ -212,14 +212,14 @@ public class DashboardController extends CookieAuthController {
 
     /**
      * Updates the status of a notification based on the provided JSON data.
-     *
+     * <p>
      * The input data should contain the "id" field representing the notification to be updated.
      *
      * @param data A Map containing notification data in JSON format.
      * @return ApiResponse indicating the result:
-     *         - If the notification is updated successfully, returns ApiResponse with status "OK".
-     *         - Throws OwnershipException if the current user does not own the notification.
-     *         - Throws ItemNotFoundException if the specified notification is not found.
+     * - If the notification is updated successfully, returns ApiResponse with status "OK".
+     * - Throws OwnershipException if the current user does not own the notification.
+     * - Throws ItemNotFoundException if the specified notification is not found.
      */
     @PostMapping(value = {"/updateNotification"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse updateNotification(@RequestBody Map<String, String> data) throws OwnershipException, ItemNotFoundException {
@@ -302,21 +302,16 @@ public class DashboardController extends CookieAuthController {
 
     @DeleteMapping("/deleteBeehive/{beehiveToken}")
     public ApiResponse deleteBeehive(@PathVariable String beehiveToken) throws ItemNotFoundException {
-        try {
-            Beehive beehive = beehiveRepository.getBeehiveByToken(beehiveToken);
-            // Check if the beehive exists
-            if (beehive == null) {
-                throw new ItemNotFoundException();
-            }
-
-            beehiveRepository.delete(beehive);
-            deleteData(beehiveToken);
-
-            return ApiResponse.OK();
-        } catch (Exception e) {
-            e.printStackTrace();
+        Beehive beehive = beehiveRepository.getBeehiveByToken(beehiveToken);
+        // Check if the beehive exists
+        if (beehive == null) {
             throw new ItemNotFoundException();
         }
+
+        deleteData(beehiveToken);
+        beehiveRepository.delete(beehive);
+
+        return ApiResponse.OK();
     }
 
     /**
@@ -329,7 +324,7 @@ public class DashboardController extends CookieAuthController {
     @GetMapping("/getDeviceConfig")
     public ApiResponse getDeviceConfig(@RequestParam("beehive") String beehiveToken) throws OwnershipException {
         Beehive beehive = beehiveRepository.getBeehiveByToken(beehiveToken);
-        if(currentUserId != beehive.getUserId()) throw new OwnershipException();
+        if (currentUserId != beehive.getUserId()) throw new OwnershipException();
         return new ApiResponse("devices", beehive.getDevices());
     }
 
@@ -353,7 +348,7 @@ public class DashboardController extends CookieAuthController {
         beehive.setModel(targetBeehive.getModel());
 
         Actions.handleResponse(beehive, ActionType.CHANGE_BEEHIVE_CONFIG, action -> {
-             if(action.getStatus() == ActionStatus.DONE) beehiveRepository.save(beehive);
+            if (action.getStatus() == ActionStatus.DONE) beehiveRepository.save(beehive);
         });
 
         DeviceRepository deviceRepository = getRepo(Device.class);
