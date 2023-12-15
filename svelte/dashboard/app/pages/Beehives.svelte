@@ -153,7 +153,7 @@
               <tr class="h-20">
                 <td class="">
                   <div
-                    class="aspect-square h-2 w-2 rounded-full {row.stateColor}"
+                    class="aspect-square h-2 w-2 rounded-full bg-{row.stateColor}"
                   ></div>
                 </td>
 

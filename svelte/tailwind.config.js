@@ -24,6 +24,7 @@ export default {
     "btn-transparent",
     "btn-transparent-white",
     "no-scrollbar",
+    "bg-tertiary-300",
   ],
   theme: {
     colors: {

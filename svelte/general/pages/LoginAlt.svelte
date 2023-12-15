@@ -15,7 +15,7 @@
     ></CircleButton>
   </div>
   <!--  banner div-->
-  <div class="sm:flex-1 shadow-2xl">
+  <div class="shadow-2xl sm:flex-1">
     <div
       class="h-full w-full bg-cover bg-right bg-no-repeat"
       style="background-image: url('/img/bg/scenery.jpeg')"
@@ -27,32 +27,32 @@
   <div
     class="flex h-screen w-full max-w-full flex-1 items-center justify-center rounded-l-md bg-primary-100 shadow-2xl sm:max-w-sm md:max-w-md xl:max-w-xl"
   >
-
     <div
-      class="box-border text-white h-max max-w-md flex-col rounded-3xl p-8 sm:space-y-5"
+      class="box-border h-max max-w-md flex-col rounded-3xl p-8 text-white sm:space-y-5"
     >
-      <h1 class="header text-6xl font-bold relative">Prihlásiť sa.
+      <h1 class="header relative text-6xl font-bold">
+        Prihlásiť sa.
 
         <Bee className="absolute right-5 -top-12"></Bee>
       </h1>
-      <p class="alternative ">
+      <p class="alternative">
         Nemáte účet? Vytvoriť si ho môžete
         <RouterLink url="/register"
           ><span class="inline font-bold italic text-secondary-800">tu</span>
         </RouterLink>
-
-    
       </p>
 
       {#if invalid}
-        <div class="text-error text-secondary-400">Neplatný email alebo heslo !</div>
+        <div class="text-error text-secondary-400">
+          Neplatný email alebo heslo !
+        </div>
       {/if}
 
       <form class="flex-col space-y-4" action="/loginUser" method="POST">
         <div><label for="email">Email:</label></div>
 
         <input
-          class="text-primary-100 h-10 w-full rounded-md bg-white px-5"
+          class="h-10 w-full rounded-md bg-white px-5 text-primary-100"
           type="text"
           name="email"
           id="email"
@@ -63,7 +63,7 @@
         <div><label for="password">Heslo:</label></div>
 
         <input
-          class="text-primary-100 h-10 w-full rounded-md bg-white px-5"
+          class="h-10 w-full rounded-md bg-white px-5 text-primary-100"
           type="password"
           name="password"
           id="password"
@@ -73,10 +73,10 @@
 
         <button
           type="submit"
-          class="mt-8 w-full rounded-xl bg-secondary-400 relative p-2 text-xl font-bold duration-100 hover:scale-[1.01] active:scale-[.99]"
+          class="relative mt-8 w-full rounded-xl bg-secondary-400 p-2 text-xl font-bold duration-100 hover:scale-[1.01] active:scale-[.99]"
           >Príhlásiť sa
 
-          <Bee flip="{true}" className="absolute left-5 -bottom-16"></Bee>
+          <Bee flip={true} className="absolute left-5 -bottom-16"></Bee>
         </button>
       </form>
     </div>
