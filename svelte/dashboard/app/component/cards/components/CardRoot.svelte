@@ -49,17 +49,16 @@
    * @param {function} onCardStatesModified used to update states in a dashboard view
    */
   export let onCardStatesModified = () => {};
+  
+  export let contentEditable = true;
 
   const dashboard = getContext("dashboard");
-  // dashboardEditor.deleteCard("some dynamic id");
 
   if (!cardStates.mode) getDefaultMode();
 
   if (cardStates.editing === true) cardStates.mode = "edit";
   if (cardStates.mode === "add") cardStates.editing = true;
-
-  export let onDragEnd; // function
-  export let onDragStart; // function
+  
 
   let dragDisabled = false;
   let showSettings = false;
@@ -140,6 +139,8 @@
     theme}"
   bind:this={cardRootRoot}
 >
+
+
   <div class="relative flex h-full w-full flex-col">
     <div class="z-20 my-1 box-border flex h-8 w-full px-3 py-1 pr-7">
       <h1
@@ -149,7 +150,7 @@
       </h1>
       <slot name="header" />
 
-      {#if cardStates.mode !== "add" && cardStates.mode !== "static"}
+      {#if cardStates.mode !== "add" && cardStates.mode !== "static" && contentEditable}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <button
           class="headerIcon options"
@@ -179,6 +180,7 @@
       {/if}
     </div>
   </div>
+
 </div>
 
 <Modal bind:showModal={showSettings}>
@@ -222,6 +224,7 @@
 </Modal>
 
 <style lang="scss">
+  
   .headerIcon {
     height: 80%;
     aspect-ratio: 1/1;

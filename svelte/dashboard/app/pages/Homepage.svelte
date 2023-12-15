@@ -32,6 +32,7 @@
   let editMode = false;
   let editButton = true;
   let renderCards = false;
+  let stacked = false;
   let grid;
 
   const li = getLanguageInstance();
@@ -45,16 +46,22 @@
 
   let resizeWindowEvent = (event) => {
     if (TW_BREAKPOINTS.md > window.innerWidth) {
+      if(!stacked){
+        stacked = true;
+        refreshDashboard()
+      }
       if (editMode) {
-        renderCards = false;
-        tick().then(() => {
-          renderCards = true;
-        });
+        refreshDashboard()
       }
       editMode = false;
       editButton = false;
     } else {
+      
       editButton = true;
+      if(stacked){
+        stacked = false;
+        refreshDashboard()
+      }
     }
   };
 
@@ -167,7 +174,7 @@
   </div>
 {/if}
 
-<div class="flex min-h-screen w-full flex-1 flex-col overflow-hidden">
+<div class="flex min-h-screen w-full flex-1 flex-col ">
   {#if renderCards}
     <Grid
       bind:this={grid}
@@ -176,6 +183,7 @@
       xCount={4}
       yCount={4}
       padding={10}
+      stacked="{stacked}"
       className="w-full aspect-square"
       items={cardList.map((card) => ({
         ...card,

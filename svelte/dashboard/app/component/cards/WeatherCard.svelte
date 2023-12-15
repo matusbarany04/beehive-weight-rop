@@ -1,13 +1,12 @@
 <script>
   import CardRoot from "./components/CardRoot.svelte";
-
+  export let contentEditable = true;
   export let cardStates;
-  export let onDragEnd; // function
-  export let onDragStart; // function
   let component = "WeatherCard";
 </script>
 
-<CardRoot {component} {cardStates} {onDragStart} {onDragEnd}>
+<CardRoot
+  contentEditable="{contentEditable}" {component} {cardStates}>
   <!-- TODO ked myska dragguje nad mapou mapa sa hybe -->
 
   <iframe

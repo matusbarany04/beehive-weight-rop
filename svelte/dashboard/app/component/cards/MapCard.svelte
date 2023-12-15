@@ -4,6 +4,7 @@
   import { onMount } from "svelte";
   import { tick } from "svelte";
 
+  export let contentEditable = true;
   export let cardStates;
 
   let component = "MapCard";
@@ -57,7 +58,7 @@
   }
 </script>
 
-<CardRoot {component} {cardStates}>
+<CardRoot {contentEditable} {component} {cardStates}>
   {#if L}
     <div class="z-10 box-border h-full w-full rounded-md" use:mapAction />
   {/if}

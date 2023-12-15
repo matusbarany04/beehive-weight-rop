@@ -10,6 +10,7 @@
   import BeehiveTypeForm from "./forms/BeehiveTypeForm.svelte";
   import MultiselectBeehiveForm from "./forms/MultiselectBeehiveForm.svelte";
 
+  export let contentEditable;
   /**
    * @type {Object}
    */
@@ -169,6 +170,7 @@
       ],
     };
   }}
+  {contentEditable}
   {component}
   {cardStates}
   {error}

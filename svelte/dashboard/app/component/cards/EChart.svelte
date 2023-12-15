@@ -17,6 +17,8 @@
    * @type {Object}
    */
   export let cardStates;
+  
+  export let contentEditable = true;
 
   export let className = "";
 
@@ -376,6 +378,7 @@
 
 <CardRoot
   {className}
+  contentEditable="{contentEditable}"
   resizedEvent={resizeEvent}
   updateSettings={(formData) => {
     return {
