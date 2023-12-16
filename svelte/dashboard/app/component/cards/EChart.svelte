@@ -92,7 +92,7 @@
         let output = [];
         for (const dataItem of data) {
           // Check if data and timestamp arrays have the same length
-          if (dataItem.values.length + dataItem.from - 1 > timestamp.length) {
+          if (dataItem.values.length + dataItem.from > timestamp.length) {
             throw new Error(
               `Data of length ${dataItem.values.length} from ts index ${dataItem.from} is longer than timestamp length ${timestamp.length}`,
             );
@@ -100,7 +100,7 @@
 
           // join data and timestamp
           let combinedData = dataItem.values.map((item, index) => [
-            timestamp[index + parseInt(dataItem.from) - 1],
+            timestamp[index + parseInt(dataItem.from)],
             item === -999 ? null : item,
           ]);
 
@@ -196,6 +196,7 @@
         type: "line",
         smooth: true,
         data: line.data.map(function (item) {
+          console.log("iteeem", item)
           let timestamp = item[0];
           let val = item[1];
           const isoString = new Date(timestamp).toISOString();
