@@ -55,7 +55,7 @@ public class ActionController extends CookieAuthController {
     public ApiResponse newAction(@RequestBody Action action) throws InvalidFormException {
         System.out.println("Received Action: " + action.toString() + " " + action.getExecutionTime());
 
-        if (action.getType().getParamForm().isInValidForm(new JSONObject(action.getParamsJSON()))) {
+        if (action.getType().isInValidForm(new JSONObject(action.getParamsJSON()))) {
             actionRepository.saveOrUpdate(action);
             EspSocketHandler.sendFlashActionToBeehive(action);
 

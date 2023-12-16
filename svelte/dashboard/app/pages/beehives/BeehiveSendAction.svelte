@@ -6,8 +6,8 @@
   import Button from "../../../../components/Buttons/Button.svelte";
   import message from "../../stores/message";
   import SettingsHeader from "../../component/settings/SettingsHeader.svelte";
-  import {getLanguageInstance} from "../../../../components/language/languageRepository";
-  import shared, {onLoad} from "../../stores/shared";
+  import { getLanguageInstance } from "../../../../components/language/languageRepository";
+  import shared, { onLoad } from "../../stores/shared";
   import ActionCard from "../../component/beehives/ActionCard.svelte";
   import Modal from "../../../../components/Modal.svelte";
   import staticFuncs, {
@@ -66,7 +66,7 @@
     beehiveObject = shared.getBeehiveById(beehiveId);
   });
 
-  function sendAction(type, params, sensorId = null) {
+  function sendAction(type, params) {
     const actionData = {
       author: user.id,
       type: type,
@@ -75,8 +75,6 @@
       // executionTime: new Date().getTime() + 1000, //* 60 * 60,
       executionTime: 0,
     };
-
-    if (sensorId) actionData.sensorId = sensorId;
 
     fetch("/actions/newAction", {
       method: "POST",
@@ -126,7 +124,6 @@
   let addNewAction = false;
   let formId = generateUUID();
 
-
   function handleSubmit(event) {
     event.preventDefault(); // Prevent the default form submission
 
@@ -137,40 +134,42 @@
     // Iterate over form data and build the formDataObject
     data.forEach((value, key) => {
       if (key.startsWith("dynamic_")) {
-        
         let returnValue = value;
         const paramName = key.replace("dynamic_", "");
-        
-        
+
         if (currentTemplate[paramName] === "NUMERIC") {
           if (typeof returnValue === "string") {
             returnValue = parseInt(returnValue, 10);
           } else {
-            console.warn(`Value for ${paramName} is not a string and cannot be converted to a number.`);
+            console.warn(
+              `Value for ${paramName} is not a string and cannot be converted to a number.`,
+            );
           }
-        }else if (currentTemplate[paramName] === "BOOLEAN") {
+        } else if (currentTemplate[paramName] === "BOOLEAN") {
           if (typeof returnValue === "string") {
             // Convert string "true" or "false" to boolean
             returnValue = returnValue.toLowerCase() === "true";
           } else {
-            console.warn(`Value for ${paramName} is not a string and cannot be converted to a boolean.`);
+            console.warn(
+              `Value for ${paramName} is not a string and cannot be converted to a boolean.`,
+            );
           }
         }
-        
-        
+
         formDataObject[paramName] = returnValue;
       }
     });
 
+    if (data.get("sensorId")) formDataObject.sensorId = parseInt(data.get("sensorId"));
+
     if (Object.keys(formDataObject).length > 0) {
-      sendAction(actionType, JSON.stringify(formDataObject), data.get("sensorId"));
+      sendAction(actionType, JSON.stringify(formDataObject));
     } else {
-      sendAction(actionType, JSON.stringify({}), data.get("sensorId"));
+      sendAction(actionType, JSON.stringify({}));
     }
 
     addNewAction = false;
   }
-
 
   // let devices = beehiveObject.getDevices();
   // for (const dev of devices) {
@@ -292,20 +291,20 @@
       {key}
       {#if currentTemplate[key] === "NUMERIC"}
         <!--TODO change label to translation -->
-        <Input label={key} name={"dynamic_" + key} type="number" value=""/>
+        <Input label={key} name={"dynamic_" + key} type="number" value="" />
       {:else if currentTemplate[key] === "TEXT"}
-        <DropdownInput
-          label="Dáta"
-          name="action_data"
-          value={dataOptions[0][0]}
-          options={dataOptions}
-        />
+        <!--TODO change label to translation -->
+        <Input label={key} name={"dynamic_" + key} type="text" value="" />
       {:else if currentTemplate[key] === "BOOLEAN"}
+        <!--TODO change label to translation -->
         <DropdownInput
-          label="Dáta"
-          name="action_data"
+          label={key}
+          name={"dynamic_" + key}
           value={dataOptions[0][0]}
-          options={dataOptions}
+          options={[
+        { value: true, label: 'True' },
+        { value: false, label: 'False' }
+      ]}
         />
       {/if}
     {/each}
