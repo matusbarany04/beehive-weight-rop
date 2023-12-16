@@ -260,25 +260,19 @@
       />
     {/if}
 
-
     {#each Object.keys(currentTemplate) as key}
       {key}
-      {#if currentTemplate[key]=== 'NUMERIC'}
+      {#if currentTemplate[key] === "NUMERIC"}
         <!--TODO change label to translation -->
-        <Input
-          label="{key}"
-          name="{key}"
-          type="number"
-          value=""
-        />
-      {:else if currentTemplate[key] === 'TEXT'}
+        <Input label={key} name={key} type="number" value="" />
+      {:else if currentTemplate[key] === "TEXT"}
         <DropdownInput
           label="Dáta"
           name="action_data"
           value={dataOptions[0][0]}
           options={dataOptions}
         />
-      {:else if currentTemplate[key] === 'BOOLEAN'}
+      {:else if currentTemplate[key] === "BOOLEAN"}
         <DropdownInput
           label="Dáta"
           name="action_data"
@@ -288,8 +282,8 @@
       {/if}
     {/each}
     <!-- value of the action -->
-<!--    {#if paramsNeeded}-->
-<!--    {/if}-->
+    <!--    {#if paramsNeeded}-->
+    <!--    {/if}-->
     {#if currentTemplate}
       {JSON.stringify(currentTemplate)}
     {/if}
