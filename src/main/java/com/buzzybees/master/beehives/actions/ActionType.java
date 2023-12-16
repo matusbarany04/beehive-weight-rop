@@ -14,12 +14,10 @@ public enum ActionType {
     ),
     MOTOR_MOVE("MOTOR_MOVE", DeviceType.MOTOR,
             new JSONForm()
-                    .addParam(new JSONParam("deviceId", ParamType.NUMERIC, true))
                     .addParam(new JSONParam("degrees", ParamType.NUMERIC, true))
     ),
     LED_TOGGLE("LED_TOGGLE", DeviceType.LED,
             new JSONForm()
-                    .addParam(new JSONParam("deviceId", ParamType.NUMERIC, true))
                     .addParam(new JSONParam("status", ParamType.BOOLEAN, true))
     ),
     WAKE_UP("WAKE_UP", false, true,

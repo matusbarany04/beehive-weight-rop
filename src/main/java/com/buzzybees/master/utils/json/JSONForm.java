@@ -119,4 +119,12 @@ public class JSONForm {
         return paramTypesMap;
     }
 
+
+
+    public JSONObject toJson() {
+        HashMap<String, String> paramTypesMap = getParamTypesMap();
+
+        return new JSONObject(paramTypesMap);
+    }
+
 }
