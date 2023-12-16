@@ -6,8 +6,8 @@
   import Button from "../../../../components/Buttons/Button.svelte";
   import message from "../../stores/message";
   import SettingsHeader from "../../component/settings/SettingsHeader.svelte";
-  import { getLanguageInstance } from "../../../../components/language/languageRepository";
-  import shared, { onLoad } from "../../stores/shared";
+  import {getLanguageInstance} from "../../../../components/language/languageRepository";
+  import shared, {onLoad} from "../../stores/shared";
   import ActionCard from "../../component/beehives/ActionCard.svelte";
   import Modal from "../../../../components/Modal.svelte";
   import staticFuncs, {
@@ -66,7 +66,7 @@
     beehiveObject = shared.getBeehiveById(beehiveId);
   });
 
-  function sendAction(type, params) {
+  function sendAction(type, params, sensorId = null) {
     const actionData = {
       author: user.id,
       type: type,
@@ -75,6 +75,8 @@
       // executionTime: new Date().getTime() + 1000, //* 60 * 60,
       executionTime: 0,
     };
+
+    if (sensorId) actionData.sensorId = sensorId;
 
     fetch("/actions/newAction", {
       method: "POST",
@@ -124,25 +126,51 @@
   let addNewAction = false;
   let formId = generateUUID();
 
+
   function handleSubmit(event) {
+    event.preventDefault(); // Prevent the default form submission
+
     const data = new FormData(this);
-
     const actionType = data.get("action_type");
+    const formDataObject = {};
 
-    if (data.get("beehive_sensor") !== null) {
-      sendAction(
-        actionType,
-        JSON.stringify({
-          sensor: data.get("beehive_sensor"),
-          data: data.get("action_data"),
-        }),
-      );
+    // Iterate over form data and build the formDataObject
+    data.forEach((value, key) => {
+      if (key.startsWith("dynamic_")) {
+        
+        let returnValue = value;
+        const paramName = key.replace("dynamic_", "");
+        
+        
+        if (currentTemplate[paramName] === "NUMERIC") {
+          if (typeof returnValue === "string") {
+            returnValue = parseInt(returnValue, 10);
+          } else {
+            console.warn(`Value for ${paramName} is not a string and cannot be converted to a number.`);
+          }
+        }else if (currentTemplate[paramName] === "BOOLEAN") {
+          if (typeof returnValue === "string") {
+            // Convert string "true" or "false" to boolean
+            returnValue = returnValue.toLowerCase() === "true";
+          } else {
+            console.warn(`Value for ${paramName} is not a string and cannot be converted to a boolean.`);
+          }
+        }
+        
+        
+        formDataObject[paramName] = returnValue;
+      }
+    });
+
+    if (Object.keys(formDataObject).length > 0) {
+      sendAction(actionType, JSON.stringify(formDataObject), data.get("sensorId"));
     } else {
-      sendAction(actionType, JSON.stringify({}));
+      sendAction(actionType, JSON.stringify({}), data.get("sensorId"));
     }
 
     addNewAction = false;
   }
+
 
   // let devices = beehiveObject.getDevices();
   // for (const dev of devices) {
@@ -254,7 +282,7 @@
     {#if sensorNeeded}
       <DropdownInput
         label="Senzor"
-        name="beehive_sensor"
+        name="sensorId"
         value={sensorDropdownOptions[0][0]}
         options={sensorDropdownOptions}
       />
@@ -264,7 +292,7 @@
       {key}
       {#if currentTemplate[key] === "NUMERIC"}
         <!--TODO change label to translation -->
-        <Input label={key} name={key} type="number" value="" />
+        <Input label={key} name={"dynamic_" + key} type="number" value=""/>
       {:else if currentTemplate[key] === "TEXT"}
         <DropdownInput
           label="Dáta"

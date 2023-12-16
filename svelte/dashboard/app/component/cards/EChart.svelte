@@ -196,7 +196,7 @@
         type: "line",
         smooth: true,
         data: line.data.map(function (item) {
-          console.log("iteeem", item)
+          console.log("iteeem", item);
           let timestamp = item[0];
           let val = item[1];
           const isoString = new Date(timestamp).toISOString();
