@@ -71,10 +71,12 @@ void setup()
     Serial.println(type);
 
     if(action["executionTime"] == 0) {
-      String status = actionManager.execGetStatus(actionType, action["id"], action["params"]);
-      String actionId = action["id"];
-      Param params[] = {{"id", actionId}, {"status", status}};
-      sendActionToServer(ACTION_FINISHED, params);
+      actionManager.execAndThen(actionType, action["id"], action["params"], [](long actionId, String status){
+        socketConnect();
+        Param params[] = {{"id", String(actionId)}, {"status", status}};
+        sendActionToServer(ACTION_FINISHED, params);
+      });
+      
     }
     else actionManager.schedule(actionType, action["id"], action["executionTime"], action["params"]);
   });
@@ -141,6 +143,11 @@ void setup()
   gsmSerial.begin(9600);
 //  saveNextTime(minTimestamp);
  // if(!wakeUp) Power::sleep(wakeUpTime + millis() / 1000 - minTimestamp);
+
+ //pinMode(SCL_PIN, OUTPUT);
+ //digitalWrite(SCL_PIN, LOW);
+ //pinMode(33, INPUT);
+
  if(!wakeUp) Power::sleep(config.interval * 60);
 }
 
@@ -170,13 +177,12 @@ void updateStatus() {
   Serial.println(json);
 
   connect();
-
   Serial.println("Connected");
-/*
+
   networkManager.POST("/updateStatus", json);
   DynamicJsonDocument response = networkManager.getResponseJSON();
   executeActions(response["actions"]);
-  Serial.println(networkManager.getRequestResult());*/
+  Serial.println(networkManager.getRequestResult());
 }
 
 
@@ -184,12 +190,18 @@ void executeActions(JsonArray actions) {
   for(int i = 0; i < actions.size(); i++) {
     JsonObject action = actions[i];
     ActionType actionType = parseActionType(action["type"]);
+    Serial.println(actionType);
+
+    if(actionType == UPDATE_STATUS) continue;
 
     if(action["executionTime"] == 0) actionManager.exec(actionType, action["id"], action["params"]);
     else actionManager.schedule(actionType, action["id"], action["executionTime"], action["params"]);
   }
 
-  if(actions.size() > 0) networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
+  if(!actionManager.resultQueueIsEmpty()) {
+    networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
+    actionManager.runPostExecMethods();
+  } 
 }
 
 void pair() {
@@ -217,6 +229,7 @@ String testConnection(String wifiSSID, String wifiPasswd) {
 
 void handleActions() {
   actionManager.addAction(UPDATE_STATUS, [] (JsonObject params) -> String {
+    networkManager.turn_wifi_off();
     updateStatus();
     return "DONE";
   });
@@ -233,20 +246,18 @@ void handleActions() {
   actionManager.addAction(WAKE_UP, [](JsonObject params) -> String { 
     wakeUp = true;
     connect();
-    socketConnect();
     return "DONE";
-  });
+  }, [](String result) { socketConnect(); });
 
   actionManager.addAction(HIBERNATE, [](JsonObject params) -> String { 
     if(wakeUp) {
       Param actionParams[] = {{"newState", "IDLE"}};
       sendActionToServer(UPDATE_DEVICE_STATE, actionParams);
-      String actionId = params["actionID"];
-      Param params[] = {{"id", actionId}, {"status", "DONE"}};
-      sendActionToServer(ACTION_FINISHED, params);
-      Power::sleep(config.interval * 60);
     }
     return "DONE";
+
+  }, [](String result) {
+    Power::sleep(config.interval * 60);
   });
 
   actionManager.addAction(FACTORY_RESET, [](JsonObject params) -> String {
@@ -286,7 +297,7 @@ String changeConfig(JsonObject params) {
 
 
 void loop()
-{  
+{ 
  // Serial.println(scale.get_units(), 1);
   // delay(500);
   updateSocket();

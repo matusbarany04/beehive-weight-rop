@@ -54,14 +54,19 @@ void sendActionToServer(ServerAction serverAction, Param (&params)[N]) {
     Serial.println(message);
 }
 
+void listenSocketMessages() {
+    webSocket.onMessage([](WebsocketsMessage msg){
+        DynamicJsonDocument doc(ACTION_JSON_SIZE);
+        deserializeJson(doc, msg.data());
+        onReceived(doc.as<JsonObject>());
+    });
+}
+
 void socketConnect() {
     if(NetworkManager::connectionAvailable()) {
         webSocket.onEvent(onEventsCallback);
-        webSocket.onMessage([](WebsocketsMessage msg){
-            DynamicJsonDocument doc(ACTION_JSON_SIZE);
-            deserializeJson(doc, msg.data());
-            onReceived(doc.as<JsonObject>());
-        });
+        listenSocketMessages();
+        
         webSocket.connect("ws://" + String(SERVER_URL) + "/websocket/beehive?token=" + String(BEEHIVE_ID));
         Param params[] = {{"newState", "ONLINE"}};
         sendActionToServer(UPDATE_DEVICE_STATE, params);
