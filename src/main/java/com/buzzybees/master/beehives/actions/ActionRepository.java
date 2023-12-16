@@ -35,18 +35,21 @@ public interface ActionRepository extends CrudRepository<Action, Long> {
     default Action saveOrUpdate(Action action) {
         if(action.getType().singleInstance) {
             Optional<Action> actionDB = getExistingActionId(action.getBeehive(), action.getType(), action.getExecutionTime(), action.getStatus());
-            actionDB.ifPresent(oldAction -> {
-                if(action.getParams().size() == 0) delete(oldAction);
-                else {
+            if(actionDB.isPresent()) {
+                Action oldAction = actionDB.get();
+                if(action.getType() == ActionType.CHANGE_BEEHIVE_CONFIG && action.getParams().size() == 0) {
+                    delete(oldAction);
+                    return oldAction;
+                } else {
                     action.setId(oldAction.getId());
                     HashMap<String, Object> params = oldAction.getParams();
                     params.putAll(action.getParams());
                     action.setParamsMap(params);
                 }
-            });
+            }
         }
 
-        return action.getParams().size() > 0 ? save(action) : null;
+        return save(action);
     }
 
     default void saveOrUpdateAll(List<Action> actions) {

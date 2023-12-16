@@ -5,6 +5,7 @@
 #include "network.h"
 
 #define ACTION_JSON_SIZE 256
+#define PING_INTERVAL 60000
 
 using namespace websockets;
 
@@ -21,6 +22,7 @@ struct Param {
 };
 
 WebsocketsClient webSocket;
+ulong lastPing;
 
 void (*onReceived)(JsonObject action);
 
@@ -52,14 +54,19 @@ void sendActionToServer(ServerAction serverAction, Param (&params)[N]) {
     Serial.println(message);
 }
 
+void listenSocketMessages() {
+    webSocket.onMessage([](WebsocketsMessage msg){
+        DynamicJsonDocument doc(ACTION_JSON_SIZE);
+        deserializeJson(doc, msg.data());
+        onReceived(doc.as<JsonObject>());
+    });
+}
+
 void socketConnect() {
     if(NetworkManager::connectionAvailable()) {
         webSocket.onEvent(onEventsCallback);
-        webSocket.onMessage([](WebsocketsMessage msg){
-            DynamicJsonDocument doc(ACTION_JSON_SIZE);
-            deserializeJson(doc, msg.data());
-            onReceived(doc.as<JsonObject>());
-        });
+        listenSocketMessages();
+        
         webSocket.connect("ws://" + String(SERVER_URL) + "/websocket/beehive?token=" + String(BEEHIVE_ID));
         Param params[] = {{"newState", "ONLINE"}};
         sendActionToServer(UPDATE_DEVICE_STATE, params);
@@ -68,4 +75,8 @@ void socketConnect() {
 
 void updateSocket() {
     webSocket.poll();
+    if(millis() - lastPing >= PING_INTERVAL) {
+        webSocket.send("ping");
+        lastPing = millis();
+    }
 }

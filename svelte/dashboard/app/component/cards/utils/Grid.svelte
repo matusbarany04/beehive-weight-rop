@@ -40,6 +40,11 @@
 
   export let referenceName;
 
+  export let stacked = false;
+  if (stacked) {
+    xCount = 1;
+    yCount = items.length;
+  }
   let rootElement;
 
   let width = 0;
@@ -237,7 +242,11 @@
     resizeObserver = new ResizeObserver((entries) => {
       const rect = entries[0].contentRect;
       width = rect.width;
-      height = rect.height;
+      if (stacked) {
+        height = rect.width * items.length + padding * (items.length - 1);
+      } else {
+        height = rect.height;
+      }
       itemWidthFunctions.updateWidth();
 
       refreshItems();
@@ -349,9 +358,17 @@
 
 <div bind:this={rootElement} class="relative {className}">
   {#each newGridItems as item, i (item.id)}
-    <!-- x-1 and y-1 are temporary, after collision detection they will be custom values-->
-    <GridItem x={item.x} y={item.y} id={item.id} w={item.w} h={item.h}>
-      <svelte:component this={item.component} {...item.props}
+    <GridItem
+      x={stacked ? 0 : item.x}
+      y={stacked ? i : item.y}
+      id={item.id}
+      w={stacked ? 1 : item.w}
+      h={stacked ? 1 : item.h}
+    >
+      <svelte:component
+        this={item.component}
+        {...item.props}
+        contentEditable={!stacked}
       ></svelte:component>
     </GridItem>
   {/each}

@@ -5,18 +5,17 @@
 
 #define STRUCT_ADDR 0
 
-#define TEMPERATURE 0
-#define TEMP_HUMID 1
-#define LIGHT 2
-#define SOUND 3
-
-#define STANDBY 0
-#define ACCESS_MEMORY 1
-#define READ_VALUE 2
-
 #define PIN_RESISTOR_VALUE 39000
 #define MAX_INPUT_VOLTAGE 2.5
 #define MAX_INPUT_VALUE 2700
+
+enum SensorType {
+    TEMPERATURE, TEMP_HUMID, LIGHT, SOUND
+};
+
+enum SensorMode {
+    STANDBY, ACCESS_MEMORY, READ_VALUE
+};
 
 struct Data {
   String beehive; 

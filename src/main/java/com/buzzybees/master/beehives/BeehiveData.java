@@ -65,7 +65,7 @@ public class BeehiveData {
      * @return if operation was performed
      */
     private boolean addToGroup(DataGroup dataGroup, SensorValue sensorValue) {
-        int emptyPlaces = timestamp.size() - (dataGroup.from() + dataGroup.values().size());
+        int emptyPlaces = timestamp.size() - (dataGroup.from() + dataGroup.values().size() + 1);
         for (int i = 0; i < emptyPlaces; i++) dataGroup.values().add(SENSOR_NO_VALUE);
         if (emptyPlaces >= 0) {
             dataGroup.values().add(sensorValue.getValue());

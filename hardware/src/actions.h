@@ -5,6 +5,7 @@
 struct Action {
     ActionType type;
     String (*function)(JsonObject);
+    void (*postExecute)(String);
 };
 
 class ActionManager {
@@ -15,10 +16,11 @@ class ActionManager {
             executedActions = new DynamicJsonDocument(JSON_OBJECT_SIZE(2));
         }
 
-        void addAction(ActionType type, String (*function)(JsonObject)) {
+        void addAction(ActionType type, String (*function)(JsonObject), void (*postExecute)(String) = nullptr) {
             Action* action = new Action();
             action->type = type;
             action->function = function;
+            action->postExecute = postExecute;
 
             if(actions == nullptr) actions = (Action**) malloc(sizeof(Action*));
             else actions = (Action**) realloc(actions, (actionCount + 1) * sizeof(Action*));
@@ -28,6 +30,9 @@ class ActionManager {
         }
 
         void exec(ActionType type, long id, JsonObject params = JsonObject()) {
+            if(actionWasExecuted(id)) return; 
+            historyPush(id);
+
             Action* action = getAction(type);
             
             if(action != NULL) {
@@ -40,15 +45,25 @@ class ActionManager {
                     JsonObject json = executedActions->createNestedObject();
                     json["id"] = id;
                     json["status"] = status;
+                    json["type"] = type;
                 }
             }
         }
 
-        String execGetStatus(ActionType type, long id, JsonObject params = JsonObject()) {
+        void execAndThen(ActionType type, long id, JsonObject params = JsonObject(), void (*afterExecute)(long, String) = nullptr) {
+            if(actionWasExecuted(id)) return; 
+            historyPush(id);
+
             Action* action = getAction(type);
+            Serial.println(id);
             params["actionID"] = id;
-            if(action != NULL) return action->function(params);
-            else return "UNKNOWN_ERROR";
+
+            if(action != NULL) {
+                String status = action->function(params);
+                if(afterExecute != nullptr) afterExecute(id, status);
+                if(action->postExecute != nullptr) action->postExecute(status);
+    
+            } else afterExecute(0, "ACTION_NOT_RECOGNIZED");
         }
 
         void schedule(ActionType type, long id, long executionTime, JsonObject params = JsonObject()) {
@@ -71,8 +86,36 @@ class ActionManager {
             return output;
         }
 
+        void runPostExecMethods() {
+            for (JsonObject executedAction : executedActions->as<JsonArray>()) {
+                Action* action = getAction(executedAction["type"]);
+                if(action->postExecute != nullptr) action->postExecute(executedAction["status"]);
+            }
+            executedActions->clear();
+        }
+
+        bool resultQueueIsEmpty() {
+            return executedActions->isNull();
+        }
+
+        void historyPush(long actionId) {
+            historySize++;
+            if(history == NULL) history = (long*) malloc(sizeof(long));
+            else history = (long*) realloc(history, historySize * sizeof(long));
+            history[historySize - 1] = actionId;
+        }
+        
+        long actionWasExecuted(long actionId) {
+            for(int i = 0; i < historySize; i++) {
+                if(history[i] == actionId) return true;
+            }
+            return false;
+        }
+
     private:
         
+        long* history;
+        int historySize;
         int actionCount;
         Action** actions;
         DynamicJsonDocument* executedActions;

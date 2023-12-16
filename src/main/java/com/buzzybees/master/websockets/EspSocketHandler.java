@@ -10,23 +10,33 @@ import com.buzzybees.master.beehives.actions.ServerActionType;
 import com.buzzybees.master.beehives.devices.DeviceManager;
 import com.buzzybees.master.controllers.template.DatabaseController;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.bouncycastle.pqc.jcajce.provider.qtesla.SignatureSpi;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
-
+@Service
 public class EspSocketHandler extends TextWebSocketHandler {
+
+    public static final String PING = "ping";
+    public static final long EXPIRATION_TIME = 60000;
 
     private static final HashMap<String, WebSocketSession> beehiveSessions = new HashMap<>();
 
     @Override
     public void afterConnectionEstablished(@NotNull WebSocketSession session) throws Exception {
         ActionRepository actionRepository = DatabaseController.accessRepo(Action.class);
+        session.getAttributes().put("lastPing", new Date().getTime());
         String token = session.getAttributes().get("beehive").toString();
         beehiveSessions.put(token, session);
         Action[] actions = actionRepository.getPendingActionsByBeehiveId(token);
@@ -37,19 +47,35 @@ public class EspSocketHandler extends TextWebSocketHandler {
         }
     }
 
+    @Scheduled(fixedRate = 60000)
+    public void checkSocketExpiration() throws IOException {
+        for(String token : beehiveSessions.keySet()) {
+            WebSocketSession session = beehiveSessions.get(token);
+            long lastPing = (long) session.getAttributes().get("lastPing");
+            System.out.println(new Date().getTime() - lastPing);
+            if(new Date().getTime() - lastPing > EXPIRATION_TIME) session.close();
+        }
+    }
+
     @Override
     public void handleMessage(@NotNull WebSocketSession session, @NotNull WebSocketMessage<?> message) throws Exception {
         String payload = message.getPayload().toString();
-        BeehiveRepository beehiveRepository = DatabaseController.accessRepo(Beehive.class);
-        Beehive beehive = beehiveRepository.getBeehiveByToken(session.getAttributes().get("beehive").toString());
-        executeServerAction(beehive, new ObjectMapper().readValue(payload, ServerAction.class));
+        if(payload.equals(PING)) session.getAttributes().put("lastPing", new Date().getTime());
+        else {
+            BeehiveRepository beehiveRepository = DatabaseController.accessRepo(Beehive.class);
+            Beehive beehive = beehiveRepository.getBeehiveByToken(session.getAttributes().get("beehive").toString());
+            executeServerAction(beehive, new ObjectMapper().readValue(payload, ServerAction.class));
+        }
     }
 
-    public static void sendFlashActionToBeehive(String beehiveToken, Action action) {
+    public static void sendFlashActionToBeehive(Action action) {
         try {
-            WebSocketSession session = beehiveSessions.get(beehiveToken);
-            String json = new ObjectMapper().writeValueAsString(action);
-            session.sendMessage(new TextMessage(json));
+            WebSocketSession session = beehiveSessions.get(action.getBeehive());
+
+            if(session != null) {
+                String json = new ObjectMapper().writeValueAsString(action);
+                session.sendMessage(new TextMessage(json));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

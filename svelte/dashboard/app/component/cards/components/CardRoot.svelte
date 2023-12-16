@@ -50,16 +50,14 @@
    */
   export let onCardStatesModified = () => {};
 
+  export let contentEditable = true;
+
   const dashboard = getContext("dashboard");
-  // dashboardEditor.deleteCard("some dynamic id");
 
   if (!cardStates.mode) getDefaultMode();
 
   if (cardStates.editing === true) cardStates.mode = "edit";
   if (cardStates.mode === "add") cardStates.editing = true;
-
-  export let onDragEnd; // function
-  export let onDragStart; // function
 
   let dragDisabled = false;
   let showSettings = false;
@@ -149,7 +147,7 @@
       </h1>
       <slot name="header" />
 
-      {#if cardStates.mode !== "add" && cardStates.mode !== "static"}
+      {#if cardStates.mode !== "add" && cardStates.mode !== "static" && contentEditable}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <button
           class="headerIcon options"

@@ -24,6 +24,17 @@ export default {
     "btn-transparent",
     "btn-transparent-white",
     "no-scrollbar",
+    "bg-tertiary-300",
+    "bg-confirm-100",
+    "bg-confirm-200",
+    "bg-confirm-300",
+    "bg-confirm-400",
+    "bg-confirm-500",
+    "text-confirm-100",
+    "text-confirm-200",
+    "text-confirm-300",
+    "text-confirm-400",
+    "text-confirm-500",
   ],
   theme: {
     colors: {

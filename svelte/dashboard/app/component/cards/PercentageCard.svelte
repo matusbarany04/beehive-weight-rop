@@ -7,6 +7,8 @@
 
   export let cardStates;
 
+  export let contentEditable = true;
+
   let component = "PercentageCard";
   let error = null;
   let innerError = null;
@@ -140,6 +142,7 @@
       ],
     };
   }}
+  {contentEditable}
   {error}
   {component}
   {cardStates}

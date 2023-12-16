@@ -14,6 +14,7 @@
     generateUUID,
   } from "../../../../components/lib/utils/staticFuncs";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
+  import Input from "../../../../components/Inputs/Input.svelte";
 
   export let props;
 
@@ -25,7 +26,10 @@
 
   let pendingActions = {};
   let actionOptions = [];
+  let chosenAction = "";
   let dictionary = {};
+  let templates = {};
+  let currentTemplate = {};
 
   const fetchPendingActions = async () => {
     try {
@@ -33,6 +37,8 @@
         `/actions/getPending?beehiveId=${beehiveId}`,
       );
       pendingActions = await response.json();
+      // may be error exception out of bounds
+      chosenAction = pendingActions[0];
     } catch (error) {
       console.error("Error fetching pending actions:", error);
     }
@@ -41,9 +47,11 @@
       // /actions/getActionOptions
       const response = await fetch(`/actions/getActionOptions/${beehiveId}`);
       const responseJson = await response.json();
+
       console.log("response ActionOptions", responseJson);
       actionOptions = responseJson.actions;
       dictionary = responseJson.dictionary;
+      templates = responseJson.template;
     } catch (error) {
       console.error("Error fetching action options:", error);
     }
@@ -64,7 +72,8 @@
       type: type,
       beehive: beehiveId,
       params: params,
-      executionTime: new Date().getTime() + 1000, //* 60 * 60,
+      // executionTime: new Date().getTime() + 1000, //* 60 * 60,
+      executionTime: 0,
     };
 
     fetch("/actions/newAction", {
@@ -116,18 +125,45 @@
   let formId = generateUUID();
 
   function handleSubmit(event) {
+    event.preventDefault(); // Prevent the default form submission
+
     const data = new FormData(this);
-
     const actionType = data.get("action_type");
+    const formDataObject = {};
 
-    if (data.get("beehive_sensor") !== null) {
-      sendAction(
-        actionType,
-        JSON.stringify({
-          sensor: data.get("beehive_sensor"),
-          data: data.get("action_data"),
-        }),
-      );
+    // Iterate over form data and build the formDataObject
+    data.forEach((value, key) => {
+      if (key.startsWith("dynamic_")) {
+        let returnValue = value;
+        const paramName = key.replace("dynamic_", "");
+
+        if (currentTemplate[paramName] === "NUMERIC") {
+          if (typeof returnValue === "string") {
+            returnValue = parseInt(returnValue, 10);
+          } else {
+            console.warn(
+              `Value for ${paramName} is not a string and cannot be converted to a number.`,
+            );
+          }
+        } else if (currentTemplate[paramName] === "BOOLEAN") {
+          if (typeof returnValue === "string") {
+            // Convert string "true" or "false" to boolean
+            returnValue = returnValue.toLowerCase() === "true";
+          } else {
+            console.warn(
+              `Value for ${paramName} is not a string and cannot be converted to a boolean.`,
+            );
+          }
+        }
+
+        formDataObject[paramName] = returnValue;
+      }
+    });
+
+    if (data.get("sensorId")) formDataObject.sensorId = parseInt(data.get("sensorId"));
+
+    if (Object.keys(formDataObject).length > 0) {
+      sendAction(actionType, JSON.stringify(formDataObject));
     } else {
       sendAction(actionType, JSON.stringify({}));
     }
@@ -153,6 +189,10 @@
 
   let typeChanged = (value) => {
     console.log(beehiveObject.getDevices());
+    chosenAction = value;
+    if (templates[value] !== null) {
+      currentTemplate = templates[value];
+    }
 
     if (dictionary[value] != null) {
       console.log("activate second dropdown!");
@@ -241,20 +281,38 @@
     {#if sensorNeeded}
       <DropdownInput
         label="Senzor"
-        name="beehive_sensor"
+        name="sensorId"
         value={sensorDropdownOptions[0][0]}
         options={sensorDropdownOptions}
       />
     {/if}
 
+    {#each Object.keys(currentTemplate) as key}
+      {key}
+      {#if currentTemplate[key] === "NUMERIC"}
+        <!--TODO change label to translation -->
+        <Input label={key} name={"dynamic_" + key} type="number" value="" />
+      {:else if currentTemplate[key] === "TEXT"}
+        <!--TODO change label to translation -->
+        <Input label={key} name={"dynamic_" + key} type="text" value="" />
+      {:else if currentTemplate[key] === "BOOLEAN"}
+        <!--TODO change label to translation -->
+        <DropdownInput
+          label={key}
+          name={"dynamic_" + key}
+          value={dataOptions[0][0]}
+          options={[
+        { value: true, label: 'True' },
+        { value: false, label: 'False' }
+      ]}
+        />
+      {/if}
+    {/each}
     <!-- value of the action -->
-    {#if paramsNeeded}
-      <DropdownInput
-        label="Dáta"
-        name="action_data"
-        value={dataOptions[0][0]}
-        options={dataOptions}
-      />
+    <!--    {#if paramsNeeded}-->
+    <!--    {/if}-->
+    {#if currentTemplate}
+      {JSON.stringify(currentTemplate)}
     {/if}
   </form>
 

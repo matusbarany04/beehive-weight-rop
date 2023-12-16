@@ -4,6 +4,7 @@ import com.buzzybees.master.beehives.devices.DeviceType;
 import com.buzzybees.master.utils.json.JSONForm;
 import com.buzzybees.master.utils.json.JSONParam;
 import com.buzzybees.master.utils.json.ParamType;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -14,12 +15,10 @@ public enum ActionType {
     ),
     MOTOR_MOVE("MOTOR_MOVE", DeviceType.MOTOR,
             new JSONForm()
-                    .addParam(new JSONParam("deviceId", ParamType.NUMERIC, true))
                     .addParam(new JSONParam("degrees", ParamType.NUMERIC, true))
     ),
     LED_TOGGLE("LED_TOGGLE", DeviceType.LED,
             new JSONForm()
-                    .addParam(new JSONParam("deviceId", ParamType.NUMERIC, true))
                     .addParam(new JSONParam("status", ParamType.BOOLEAN, true))
     ),
     WAKE_UP("WAKE_UP", false, true,
@@ -52,11 +51,19 @@ public enum ActionType {
     boolean singleInstance = false;
 
 
-    JSONForm paramForm;
+    private JSONForm paramForm;
 
     ActionType(String string, JSONForm paramForm) {
         this.paramForm = paramForm;
         name = string;
+    }
+
+
+    public boolean isInValidForm(JSONObject jsonObject){
+        paramForm.addParam(new JSONParam("sensorId", ParamType.NUMERIC, true));
+        boolean validForm = paramForm.isInValidForm(jsonObject);
+        paramForm.popParam();
+        return validForm;
     }
 
     ActionType(String string, DeviceType bind, JSONForm paramForm) {

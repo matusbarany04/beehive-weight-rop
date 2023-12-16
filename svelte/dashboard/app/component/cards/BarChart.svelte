@@ -15,6 +15,7 @@
    */
   export let cardStates;
 
+  export let contentEditable;
   export let className = "";
 
   let component = "BarChart";
@@ -170,6 +171,7 @@
 </script>
 
 <CardRoot
+  {contentEditable}
   {className}
   resizedEvent={resizeEvent}
   updateSettings={(formData) => {

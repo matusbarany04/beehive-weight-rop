@@ -4,6 +4,7 @@
   import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
   import { getContext, onMount } from "svelte";
 
+  export let contentEditable;
   export let cardStates;
   export let onDragEnd; // function
   export let onDragStart; // function
@@ -90,6 +91,7 @@
 </script>
 
 <CardRoot
+  {contentEditable}
   {component}
   title={"Váha úľov"}
   {cardStates}
