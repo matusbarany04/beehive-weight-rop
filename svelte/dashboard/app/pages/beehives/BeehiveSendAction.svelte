@@ -160,7 +160,8 @@
       }
     });
 
-    if (data.get("sensorId")) formDataObject.sensorId = parseInt(data.get("sensorId"));
+    if (data.get("sensorId"))
+      formDataObject.sensorId = parseInt(data.get("sensorId"));
 
     if (Object.keys(formDataObject).length > 0) {
       sendAction(actionType, JSON.stringify(formDataObject));
@@ -302,9 +303,9 @@
           name={"dynamic_" + key}
           value={dataOptions[0][0]}
           options={[
-        { value: true, label: 'True' },
-        { value: false, label: 'False' }
-      ]}
+            { value: true, label: "True" },
+            { value: false, label: "False" },
+          ]}
         />
       {/if}
     {/each}

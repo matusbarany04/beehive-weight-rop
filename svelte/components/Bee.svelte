@@ -9,7 +9,7 @@
 <div class={className}>
   <img
     class={flip ? "-scale-x-100" : ""}
-    src="/icons/bee.svg"
+    src="/icons/bee_bold.svg"
     {width}
     {height}
   />
