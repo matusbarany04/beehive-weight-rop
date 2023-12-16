@@ -14,6 +14,7 @@
     generateUUID,
   } from "../../../../components/lib/utils/staticFuncs";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
+  import Input from "../../../../components/Inputs/Input.svelte";
 
   export let props;
 
@@ -25,7 +26,10 @@
 
   let pendingActions = {};
   let actionOptions = [];
+  let chosenAction = "";
   let dictionary = {};
+  let templates = {};
+  let currentTemplate = {};
 
   const fetchPendingActions = async () => {
     try {
@@ -33,6 +37,8 @@
         `/actions/getPending?beehiveId=${beehiveId}`,
       );
       pendingActions = await response.json();
+      // may be error exception out of bounds
+      chosenAction = pendingActions[0];
     } catch (error) {
       console.error("Error fetching pending actions:", error);
     }
@@ -41,9 +47,11 @@
       // /actions/getActionOptions
       const response = await fetch(`/actions/getActionOptions/${beehiveId}`);
       const responseJson = await response.json();
+
       console.log("response ActionOptions", responseJson);
       actionOptions = responseJson.actions;
       dictionary = responseJson.dictionary;
+      templates = responseJson.template;
     } catch (error) {
       console.error("Error fetching action options:", error);
     }
@@ -154,6 +162,10 @@
 
   let typeChanged = (value) => {
     console.log(beehiveObject.getDevices());
+    chosenAction = value;
+    if (templates[value] !== null) {
+      currentTemplate = templates[value];
+    }
 
     if (dictionary[value] != null) {
       console.log("activate second dropdown!");
@@ -248,14 +260,38 @@
       />
     {/if}
 
+
+    {#each Object.keys(currentTemplate) as key}
+      {key}
+      {#if currentTemplate[key]=== 'NUMERIC'}
+        <!--TODO change label to translation -->
+        <Input
+          label="{key}"
+          name="{key}"
+          type="number"
+          value=""
+        />
+      {:else if currentTemplate[key] === 'TEXT'}
+        <DropdownInput
+          label="Dáta"
+          name="action_data"
+          value={dataOptions[0][0]}
+          options={dataOptions}
+        />
+      {:else if currentTemplate[key] === 'BOOLEAN'}
+        <DropdownInput
+          label="Dáta"
+          name="action_data"
+          value={dataOptions[0][0]}
+          options={dataOptions}
+        />
+      {/if}
+    {/each}
     <!-- value of the action -->
-    {#if paramsNeeded}
-      <DropdownInput
-        label="Dáta"
-        name="action_data"
-        value={dataOptions[0][0]}
-        options={dataOptions}
-      />
+<!--    {#if paramsNeeded}-->
+<!--    {/if}-->
+    {#if currentTemplate}
+      {JSON.stringify(currentTemplate)}
     {/if}
   </form>
 

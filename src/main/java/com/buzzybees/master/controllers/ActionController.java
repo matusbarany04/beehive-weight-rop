@@ -17,7 +17,9 @@ import com.buzzybees.master.notifications.Reminder;
 import com.buzzybees.master.notifications.ReminderRepository;
 import com.buzzybees.master.users.UserRepository;
 import com.buzzybees.master.websockets.EspSocketHandler;
+import com.buzzybees.master.utils.json.JSONForm;
 import io.lettuce.core.dynamic.annotation.Param;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -108,9 +110,19 @@ public class ActionController extends CookieAuthController {
     @GetMapping(value = "/getActionOptions", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getValidActions() {
         JSONObject output = new JSONObject();
+        ActionType[] nonSystemValues = ActionType.getNonSystemValues();
 
         output.put("actions",
-                ActionType.getNonSystemValues()
+                nonSystemValues
+        );
+        JSONObject templates = new JSONObject();
+
+        for (ActionType action : nonSystemValues) {
+            templates.put(action.getName(), action.getParamForm().toJson());
+        }
+
+        output.put("template",
+                templates
         );
 
         return output.toString();
@@ -160,6 +172,17 @@ public class ActionController extends CookieAuthController {
 
         output.put("dictionary",
                 deviceTypeDictionary
+        );
+
+
+        JSONObject templates = new JSONObject();
+
+        for (ActionType action : actions) {
+            templates.put(action.getName(), action.getParamForm().toJson());
+        }
+
+        output.put("template",
+                templates
         );
 
         // return the json
