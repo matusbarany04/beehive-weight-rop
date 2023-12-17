@@ -72,7 +72,7 @@ void setup()
 
     if(action["executionTime"] == 0) {
       actionManager.execAndThen(actionType, action["id"], action["params"], [](long actionId, String status){
-        socketConnect();
+        if(!socketConnectionAvailable()) socketConnect();
         Param params[] = {{"id", String(actionId)}, {"status", status}};
         sendActionToServer(ACTION_FINISHED, params);
       });

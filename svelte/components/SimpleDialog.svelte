@@ -1,12 +1,26 @@
 <script>
   import Button from "./Buttons/Button.svelte";
   import { generateUUID } from "./lib/utils/staticFuncs";
+  import { getLanguageInstance } from "./language/languageRepository";
+  import { onLoad } from "../dashboard/app/stores/shared";
+
+  const li = getLanguageInstance();
 
   export let show; // boolean
   export let positiveButton;
   export let negativeButton;
   export let action;
   export let message;
+
+  export let question;
+
+  if (question) {
+    console.log(li);
+    positiveButton = li.get("yes");
+    negativeButton = li.get("no");
+  }
+
+  onLoad("");
 
   let dialog; // HTMLDialogElement
 

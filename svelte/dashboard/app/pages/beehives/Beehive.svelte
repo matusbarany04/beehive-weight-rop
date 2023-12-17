@@ -6,9 +6,6 @@
   import PercentageCard from "../../component/cards/PercentageCard.svelte";
   import Button from "../../../../components/Buttons/Button.svelte";
   import MapCard from "../../component/cards/MapCard.svelte";
-  import Modal from "../../../../components/Modal.svelte";
-  import Input from "../../../../components/Inputs/Input.svelte";
-  import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import WeatherCard from "../../component/cards/WeatherCard.svelte";
   import shared, { onLoad } from "../../stores/shared";
   import RouterLink from "../../../../components/RouterLink.svelte";
@@ -17,17 +14,22 @@
   import EChart from "../../component/cards/EChart.svelte";
   import { onMount, tick } from "svelte";
   import { BeehiveObj } from "../../stores/Beehive";
+  import SimpleDialog from "../../../../components/SimpleDialog.svelte";
+  import toast from "../../../../components/Toast/toast";
 
   export let props;
 
   let user = shared.getUser();
-  let showSettings = false;
+  let sleepDialog = false;
+  let wakeUpInfo = false;
   /** @type {BeehiveObj} */
   let beehive;
   let innerWidth;
   let container;
   let rowHeight = 0;
   let rowCount = 0;
+  let hibernateCommand = false;
+
   onLoad(["statuses", "beehives"], (_b) => {
     beehive = shared.getBeehiveById(props.id);
     console.log("Beehive loaded", beehive);
@@ -82,6 +84,55 @@
       }
     };
   });
+
+  function setBeehiveHibernation(enabled) {
+    hibernateCommand = enabled;
+    fetch("/actions/newAction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: enabled ? "HIBERNATE" : "WAKE_UP",
+        beehive: beehive.beehive_id,
+        executionTime: 0,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status !== "ok") {
+          toast.push(`Vyskytla sa chyba (${data.status})`);
+          hibernateCommand = false;
+        } else {
+          if (!enabled) wakeUpInfo = true;
+          else waitForHibernation(data.action.id);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.push(`Vyskytla sa neznáma chyba`);
+      });
+  }
+
+  function waitForHibernation(actionId) {
+    let socket = new WebSocket(
+      "ws://" + location.hostname + ":8080/websocket/connect",
+    );
+
+    socket.onmessage = (message) => {
+      const action = JSON.parse(message.data);
+      if (
+        action.messageType === "ACTION_RESULT" &&
+        action.params.id === actionId
+      ) {
+        socket.close();
+        hibernateCommand = false;
+
+        if (action.params.status === "DONE") beehive.state = "IDLE";
+        else toast.push(`Váhu sa nepodarilo uspať (${action.params.status})`);
+      }
+    };
+  }
 </script>
 
 <svelte:head>
@@ -121,6 +172,24 @@
     </div>
 
     <div class="mt-4 flex flex-row gap-4 md:mt-0">
+      {#if beehive && beehive.getState() !== "OFFLINE"}
+        <div>
+          <Button
+            class="items-center"
+            text={hibernateCommand
+              ? "Prepína sa do režimu spánku..."
+              : beehive.getState() === "ONLINE"
+              ? "Prepnúť do režimu spánku"
+              : "Zobudiť"}
+            image="../../icons/power.svg"
+            onClick={() =>
+              beehive.getState() === "ONLINE"
+                ? (sleepDialog = true)
+                : setBeehiveHibernation(false)}
+            enabled={!hibernateCommand}
+          />
+        </div>
+      {/if}
       <RouterLink url="/action" append>
         <Button text="Udalosti" />
       </RouterLink>
@@ -321,59 +390,17 @@
     <!-- just for spacing-->
   </div>
 </div>
+{#if beehive}
+  <SimpleDialog
+    bind:show={sleepDialog}
+    message={`Prepnúť váhu do režimu spánku ? Najbližšie zobudenie váhy: za ${beehive.interval} min`}
+    action={() => setBeehiveHibernation(true)}
+    question
+  />
 
-<Modal bind:showModal={showSettings}>
-  <h2 slot="header" class="text-2xl font-bold">
-    {"Upraviť nastavenia váhy"}
-  </h2>
-
-  <form
-    id="changeBeehiveSettings"
-    action="?/saveSettings"
-    method="POST"
-    class="my-4 flex flex-col gap-4"
-  >
-    <Input
-      label="Názov váhy"
-      placeholder="Názov"
-      name="name"
-      value={beehive?.name}
-    />
-    <input type="text" name="beehive_id" class="hidden" value={props.id} />
-
-    <Input
-      label="Poloha váhy"
-      placeholder="Mesto"
-      name="city"
-      value={beehive?.location}
-    />
-
-    <DropdownInput
-      label="Interval merania"
-      name="interval"
-      value={beehive?.interval + ""}
-      small={"Upozornenie: Časté merania môžu výrazne skrátiť výdrž batérie."}
-      options={[
-        ["10", "10 minút"], //TODO opravit hodnoty
-        ["60", "1 hodinu"],
-        ["240", "4 hodiny"],
-        ["480", "8 hodín"],
-        ["1440", "1 deň"],
-      ]}
-    />
-  </form>
-
-  <button slot="footer" type="submit" form="changeBeehiveSettings">
-    <Button
-      slot="footer"
-      type="confirm"
-      autofocus
-      onClick={() => {
-        // saveSettings();
-        // dialog.close();
-      }}
-      clickType="submit"
-      text="Uložiť a zatvoriť okno"
-    />
-  </button>
-</Modal>
+  <SimpleDialog
+    bind:show={wakeUpInfo}
+    message={`Váha bude zobudená o ${beehive.interval} min. Tento stav nenechávajte príliš dlho pretože sa tým vybíja batéria.`}
+    positiveButton="OK"
+  />
+{/if}

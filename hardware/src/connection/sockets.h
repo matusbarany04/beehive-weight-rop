@@ -73,6 +73,10 @@ void socketConnect() {
     }
 }
 
+bool socketConnectionAvailable() {
+    return webSocket.available();
+}
+
 void updateSocket() {
     webSocket.poll();
     if(millis() - lastPing >= PING_INTERVAL) {
