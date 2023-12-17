@@ -400,7 +400,7 @@
 
   <SimpleDialog
     bind:show={wakeUpInfo}
-    message={`Váha bude zobudená o ${beehive.interval} min. Tento stav nenechávajte príliš dlho pretože sa tým vybíja batéria.`}
+    message={`Váha bude zobudená o ${beehive.interval} min. Akciu môžete zrušiť v zozname udalostí. Váhu nenechávajte zobudenú príliš dlho pretože sa tým vybíja batéria.`}
     positiveButton="OK"
   />
 {/if}
