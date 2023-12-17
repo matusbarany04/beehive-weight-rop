@@ -5,6 +5,11 @@
 #define SDA_PIN 22
 #define SCL_PIN 23
 
+#define SCALE_DT 2
+#define SCALE_SCK 15
+
+#define WEIGHT_SCALE -34850
+
 #define WIFI_SSID "SNPD"
 #define WIFI_PASSWORD "ke257-NT_61_ab"
 

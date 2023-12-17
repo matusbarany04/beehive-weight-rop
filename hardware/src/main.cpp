@@ -16,7 +16,7 @@
 #include "power.h"
 #include "enums.h"
 
-#define WEIGHT_SCALE -34850
+
 
 void pair();
 void connect();
@@ -115,9 +115,7 @@ void setup()
   //networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
 
 /*
-  scale.begin(22, 23);
-  scale.set_scale(WEIGHT_SCALE); //This value is obtained by using the SparkFun_HX711_Calibration sketch
-  scale.tare();*/
+*/
 
   //sensorManager.burn(1, {"", 1000, TEMPERATURE, 0});
   //sensorManager.burn(2, {"", 1000, LIGHT, 0});
@@ -171,6 +169,7 @@ void connect() {
 
 void updateStatus() {
   networkManager.turn_wifi_off();
+  sensorManager.initWeightSensors();
   sensorManager.scan();
 
   String json = sensorManager.buildJSON();
@@ -297,8 +296,7 @@ String changeConfig(JsonObject params) {
 
 
 void loop()
-{ 
- // Serial.println(scale.get_units(), 1);
+{
   // delay(500);
   updateSocket();
   if(NetworkManager::connectionAvailable() && sensorManager.intervalScan() == CONFIG_CHANGED) {

@@ -10,10 +10,17 @@
 #define EEPROM_ADDRESS 0x50
 const int SENSOR_PINS[] = {27, 33, 26, 14, 32, 25};
 
+HX711 scale;
 
 class SensorManager {
 
     public:
+
+        void initWeightSensors() {
+            scale.begin(SCALE_DT, SCALE_SCK);
+            scale.set_scale(WEIGHT_SCALE);
+            scale.tare();
+        }
 
         bool scan() {
             disableAll();
@@ -89,7 +96,7 @@ class SensorManager {
 
             if(!disableValueReadings) {
                 json["battery"] = battery.getPercentage();
-                json["weight"] = 45;
+                json["weight"] = getWeight() / 1000.0;
             }
             json["beehive"] = BEEHIVE_ID;   
             json["status"] = "ok";
@@ -107,6 +114,10 @@ class SensorManager {
 
         bool intervalScan() {
             return millis() - lastScan >= SCAN_INTERVAL ? scan() : false;
+        }
+
+        int getWeight() {
+            return scale.get_units();
         }
 
     private:
