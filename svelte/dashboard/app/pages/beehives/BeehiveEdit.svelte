@@ -194,7 +194,6 @@
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        author: beehive.author,
         type: "FACTORY_RESET",
         beehive: beehive.beehive_id,
         executionTime: 0,

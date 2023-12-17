@@ -60,6 +60,8 @@ public enum ActionType {
 
 
     public boolean isInValidForm(JSONObject jsonObject){
+        if(paramForm.getParams().size() == 0) return true; //docasne som to dal tu aby mi to fungovalo potom to mozes vymazat ak to nebude treba
+
         paramForm.addParam(new JSONParam("sensorId", ParamType.NUMERIC, true));
         boolean validForm = paramForm.isInValidForm(jsonObject);
         paramForm.popParam();

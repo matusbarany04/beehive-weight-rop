@@ -54,6 +54,7 @@ public class ActionController extends CookieAuthController {
     @PostMapping(value = "/newAction", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse newAction(@RequestBody Action action) throws InvalidFormException {
         System.out.println("Received Action: " + action.toString() + " " + action.getExecutionTime());
+        action.setAuthor(currentUserId);
 
         if (action.getType().isInValidForm(new JSONObject(action.getParamsJSON()))) {
             actionRepository.saveOrUpdate(action);

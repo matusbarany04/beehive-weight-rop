@@ -176,5 +176,7 @@
     "DEVICE_NOT_FOUND": "Senzor alebo iné zariadenie nebolo nenájdené",
     "UNKNOWN_ERROR": "Neznáma chyba",
     "BEEHIVE_IS_OFFLINE": "Včelí úľ je offline"
-  }
+  },
+  "yes": "Áno",
+  "no": "Nie"
 }
