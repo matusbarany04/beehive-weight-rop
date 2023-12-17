@@ -125,18 +125,46 @@
   let formId = generateUUID();
 
   function handleSubmit(event) {
+    event.preventDefault(); // Prevent the default form submission
+
     const data = new FormData(this);
-
     const actionType = data.get("action_type");
+    const formDataObject = {};
 
-    if (data.get("beehive_sensor") !== null) {
-      sendAction(
-        actionType,
-        JSON.stringify({
-          sensor: data.get("beehive_sensor"),
-          data: data.get("action_data"),
-        }),
-      );
+    // Iterate over form data and build the formDataObject
+    data.forEach((value, key) => {
+      if (key.startsWith("dynamic_")) {
+        let returnValue = value;
+        const paramName = key.replace("dynamic_", "");
+
+        if (currentTemplate[paramName] === "NUMERIC") {
+          if (typeof returnValue === "string") {
+            returnValue = parseInt(returnValue, 10);
+          } else {
+            console.warn(
+              `Value for ${paramName} is not a string and cannot be converted to a number.`,
+            );
+          }
+        } else if (currentTemplate[paramName] === "BOOLEAN") {
+          if (typeof returnValue === "string") {
+            // Convert string "true" or "false" to boolean
+            returnValue = returnValue.toLowerCase() === "true";
+          } else {
+            console.warn(
+              `Value for ${paramName} is not a string and cannot be converted to a boolean.`,
+            );
+          }
+        }
+
+        formDataObject[paramName] = returnValue;
+      }
+    });
+
+    if (data.get("sensorId"))
+      formDataObject.sensorId = parseInt(data.get("sensorId"));
+
+    if (Object.keys(formDataObject).length > 0) {
+      sendAction(actionType, JSON.stringify(formDataObject));
     } else {
       sendAction(actionType, JSON.stringify({}));
     }
@@ -254,7 +282,7 @@
     {#if sensorNeeded}
       <DropdownInput
         label="Senzor"
-        name="beehive_sensor"
+        name="sensorId"
         value={sensorDropdownOptions[0][0]}
         options={sensorDropdownOptions}
       />
@@ -264,20 +292,20 @@
       {key}
       {#if currentTemplate[key] === "NUMERIC"}
         <!--TODO change label to translation -->
-        <Input label={key} name={key} type="number" value="" />
+        <Input label={key} name={"dynamic_" + key} type="number" value="" />
       {:else if currentTemplate[key] === "TEXT"}
-        <DropdownInput
-          label="Dáta"
-          name="action_data"
-          value={dataOptions[0][0]}
-          options={dataOptions}
-        />
+        <!--TODO change label to translation -->
+        <Input label={key} name={"dynamic_" + key} type="text" value="" />
       {:else if currentTemplate[key] === "BOOLEAN"}
+        <!--TODO change label to translation -->
         <DropdownInput
-          label="Dáta"
-          name="action_data"
+          label={key}
+          name={"dynamic_" + key}
           value={dataOptions[0][0]}
-          options={dataOptions}
+          options={[
+            { value: true, label: "True" },
+            { value: false, label: "False" },
+          ]}
         />
       {/if}
     {/each}
