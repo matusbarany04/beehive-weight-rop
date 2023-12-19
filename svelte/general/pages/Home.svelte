@@ -4,6 +4,7 @@
   import Button from "../../components/Buttons/Button.svelte";
   import { getLanguageInstance } from "../../components/language/languageRepository";
   import Root from "../layout/Root.svelte";
+  import Edge from "../../components/Edge.svelte";
 
   const LI = getLanguageInstance();
 </script>
@@ -12,9 +13,63 @@
   <!-- background -->
   <div
     slot="beforeNavBar"
-    class="absolute left-0 top-0 h-full w-full bg-cover bg-no-repeat"
+    class="absolute left-0 top-0 z-0 h-full w-full bg-cover bg-no-repeat"
     style:background-image="url('img/pattern_home.png')"
   ></div>
+
+  <section id="home" class="z-10 flex h-screen flex-col">
+    <!-- content-->
+    <div
+      class="relative mx-auto my-20 min-h-[40rem] w-11/12 max-w-7xl flex-1 rounded-3xl bg-tertiary-500"
+    >
+      <!-- title container -->
+      <div class="absolute left-0 top-0 w-1/2 rounded-br-3xl bg-primary-500">
+        <h1 class="mb-4 text-4xl font-bold text-slate-50">
+          {LI.get("home.title")}
+        </h1>
+
+<!--        <Edge className="absolute top-0 right-0" rotation={270} size_px="24"-->
+<!--        ></Edge>-->
+        <Edge
+          className="absolute top-0 -right-[24px]"
+          rotation={180}
+          size_px="24"
+        ></Edge>
+
+<!--        <Edge className="absolute left-0 bottom-0" rotation={90} size_px="24"-->
+<!--        ></Edge>-->
+        <Edge
+          className="absolute left-0 -bottom-[24px]"
+          rotation={180}
+          size_px="24"
+        ></Edge>
+      </div>
+      <!-- image -->
+      <div
+        class="h-full w-full rounded-3xl bg-cover bg-center bg-no-repeat"
+        style:background-image="url('img/bg/scenery.jpeg')"
+      ></div>
+      <!-- subtitle container -->
+      <div class="absolute bottom-0 right-0 w-3/5 rounded-3xl bg-primary-500">
+        <h1 class="mb-4 text-base font-normal text-slate-100">
+          {LI.get("home.description")}
+        </h1>
+
+        <Edge className="absolute right-0 top-0" rotation={270} size_px="24"
+        ></Edge>
+        <Edge className="absolute right-0 -top-[24px]" rotation={0} size_px="24"
+        ></Edge>
+
+        <Edge className="absolute bottom-0 left-0" rotation={90} size_px="24"
+        ></Edge>
+        <Edge
+          className="absolute bottom-0 -left-[24px]"
+          rotation={0}
+          size_px="24"
+        ></Edge>
+      </div>
+    </div>
+  </section>
 
   <section id="home" class="flex h-screen flex-col">
     <div class="z-10 flex w-full flex-1 flex-row">
@@ -50,6 +105,7 @@
       </div>
     </div>
   </section>
+
   <section
     id="statistics"
     class="flex min-h-screen w-full flex-row items-center justify-center"
