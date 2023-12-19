@@ -7,6 +7,33 @@
   import Edge from "../../components/Edge.svelte";
 
   const LI = getLanguageInstance();
+
+  let gridItems = [
+    {
+      title: "Hive Alerts!",
+      description: "Get alert if your beehive's weight changes and prevent theft and never miss a nectar flow.",
+    },
+    {
+      title: "Full Support",
+      description: "You can be assured that you will always get help from our customer support team.",
+    },
+    {
+      title: "Beehive Parameters",
+      description: "Monitor beehive's weight, temperature, humidity, and sound.",
+    },
+    {
+      title: "Plug and Play",
+      description: "Easy to install Prohiver beehive scales using our guides and it works straight out of a box.",
+    },
+    {
+      title: "Long Lasting Battery",
+      description: "Small size battery – big power. Charge battery only once per beekeeping season.",
+    },
+    {
+      title: "Cloud-based Data",
+      description: "All of the data is stored in a cloud and is safe for future use.",
+    },
+  ];
 </script>
 
 <Root>
@@ -81,6 +108,27 @@
     </div>
   </section>
 
+
+
+
+  <section class="h-screen w-full flex flex-col items-center justify-center px-6">
+    <h1 class="mb-6 text-left text-8xl font-bold text-slate-100 mb-8">
+      {LI.get("join.title")}
+    </h1>
+    <div class="w-11/12  md:4/5  max-w-6xl grid grid-cols-3 gap-x-16 gap-y-8 text-white">
+      {#each gridItems as { title, description, imageUrl } (title)}
+        <div class="flex flex-col items-center justify-center text-left p-4">
+          <img src={imageUrl} alt={title} class="w-20 h-20 rounded-full mb-2 object-cover">
+          <h3 class="text-xl font-bold my-2 text-center">{title}</h3>
+          <p class="text-sm text-center text-gray-600">{description}</p>
+        </div>
+      {/each}
+    </div>
+  </section>
+
+
+
+  
 
   <section
     id="statistics"
