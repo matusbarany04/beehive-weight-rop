@@ -83,7 +83,7 @@
     const data = new FormData(this);
 
     form = {};
-    // console.log("saving these data", data);
+    console.log("saving these data", data);
     let title = data.get("title");
 
     // every child card has implemented their own handler
@@ -204,7 +204,7 @@
     {JSON.stringify(cardStates)}
   </code>
 
-  <button slot="footer" type="submit" form="cardRootForm{formID}">
+  <div slot="footer" >
     <Button
       slot="footer"
       type="confirm"
@@ -213,10 +213,11 @@
         // saveSettings();
         // dialog.close();
       }}
+      formId="cardRootForm{formID}"
       clickType="submit"
       text="Uložiť a zatvoriť okno"
     ></Button>
-  </button>
+  </div>
 </Modal>
 
 <style lang="scss">
