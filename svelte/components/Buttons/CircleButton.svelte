@@ -11,6 +11,8 @@
    * @param {string} image  optional, if specified image will be displayed left to the text, image path + name located in folder static
    */
   export let image;
+  
+  export let className = ""
   /**
    * @param {function} onClick function when the button is clicked
    */
@@ -27,7 +29,7 @@
       navigateWithPrefix(link);
     }
   }}
-  class="flex aspect-square h-8 w-8 cursor-pointer items-center justify-center rounded-full duration-100 hover:scale-105 active:scale-95 btn-{type}"
+  class="{className} flex aspect-square h-8 w-8 cursor-pointer items-center justify-center rounded-full duration-100 hover:scale-105 active:scale-95 btn-{type}"
 >
   {#if image}
     <div
