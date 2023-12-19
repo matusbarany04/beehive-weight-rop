@@ -11,100 +11,76 @@
 
 <Root>
   <!-- background -->
-  <div
-    slot="beforeNavBar"
-    class="absolute left-0 top-0 z-0 h-full w-full bg-cover bg-no-repeat"
-    style:background-image="url('img/pattern_home.png')"
-  ></div>
+<!--  <div-->
+<!--    slot="beforeNavBar"-->
+<!--    class="absolute left-0 top-0 z-0 h-full w-full bg-cover bg-no-repeat"-->
+<!--    style:background-image="url('img/pattern_home.png')"-->
+<!--  ></div>-->
 
-  <section id="home" class="z-10 flex h-screen flex-col">
+  <section id="home" class="z-10 flex  h-screen flex-col">
     <!-- content-->
     <div
-      class="relative mx-auto my-20 min-h-[40rem] w-11/12 max-w-7xl flex-1 rounded-3xl bg-tertiary-500"
+      class=" relative block md:flex md:flex-col m-auto  min-h-[40rem] w-11/12 max-w-7xl rounded-3xl bg-tertiary-500"
     >
       <!-- title container -->
-      <div class="absolute left-0 top-0 w-1/2 rounded-br-3xl bg-primary-500">
-        <h1 class="mb-4 text-4xl font-bold text-slate-50">
+      <div class="p-4 absolute left-0 top-0 rounded-br-3xl bg-primary-500 min-w-[30rem]  max-w-[50rem]">
+        <h1 class="mb-4 text-6xl font-bold text-slate-50 text-center md:text-left md:line-clamp-2">
           {LI.get("home.title")}
         </h1>
 
-<!--        <Edge className="absolute top-0 right-0" rotation={270} size_px="24"-->
-<!--        ></Edge>-->
         <Edge
           className="absolute top-0 -right-[24px]"
           rotation={180}
+          colorClass="text-primary-500"
           size_px="24"
         ></Edge>
-
-<!--        <Edge className="absolute left-0 bottom-0" rotation={90} size_px="24"-->
-<!--        ></Edge>-->
+        
         <Edge
           className="absolute left-0 -bottom-[24px]"
           rotation={180}
+
+          colorClass="text-primary-500"
           size_px="24"
         ></Edge>
       </div>
       <!-- image -->
       <div
-        class="h-full w-full rounded-3xl bg-cover bg-center bg-no-repeat"
+        class="h-full w-full flex-1 self-stretch justify-items-stretch justify-self-stretch bg-secondary-300 rounded-3xl bg-cover bg-right-bottom bg-no-repeat "
         style:background-image="url('img/bg/scenery.jpeg')"
       ></div>
       <!-- subtitle container -->
-      <div class="absolute bottom-0 right-0 w-3/5 rounded-3xl bg-primary-500">
-        <h1 class="mb-4 text-base font-normal text-slate-100">
+      <div
+        class="mt-8 md:mt-0 block md:absolute bottom-0 right-0 md:flex md:w-3/5 md:min-w-[40rem] items-center justify-items-center flex-col-reverse  md:flex-row rounded-tl-3xl bg-primary-500 md:p-8"
+      >
+        <Button
+          type="secondary"
+          image="icons/arrow-right.svg"
+          className="block h-min w-min md:mr-8 shrink-0 grow-0 mx-auto"
+          imagePosition="right"
+          text={LI.get("home.button-more")}
+        />
+        <h1 class="mb-4 flex-1 text-base font-normal text-slate-400 text-center md:text-left mt-8 md:mt-0">
           {LI.get("home.description")}
         </h1>
 
-        <Edge className="absolute right-0 top-0" rotation={270} size_px="24"
-        ></Edge>
-        <Edge className="absolute right-0 -top-[24px]" rotation={0} size_px="24"
+        <Edge 
+          className="absolute right-0 -top-[24px]"
+          colorClass="text-primary-500"
+          rotation={0} 
+          size_px="24"
         ></Edge>
 
-        <Edge className="absolute bottom-0 left-0" rotation={90} size_px="24"
-        ></Edge>
         <Edge
           className="absolute bottom-0 -left-[24px]"
           rotation={0}
+
+          colorClass="text-primary-500"
           size_px="24"
         ></Edge>
       </div>
     </div>
   </section>
 
-  <section id="home" class="flex h-screen flex-col">
-    <div class="z-10 flex w-full flex-1 flex-row">
-      <div class="left flex flex-1 flex-col justify-center p-8">
-        <h1 class="mb-4 text-4xl font-bold text-slate-50">
-          {LI.get("home.title")}
-        </h1>
-
-        <h5 class="text-xl text-slate-50">
-          {LI.get("home.description")}
-        </h5>
-        <div class="mt-4 flex flex-row gap-4">
-          <Button
-            text={LI.get("home.button-buy")}
-            image="icons/arrow-right.svg"
-            imagePosition="right"
-          />
-
-          <Button
-            type="transparent-white"
-            image="icons/arrow-right.svg"
-            imagePosition="right"
-            text={LI.get("home.button-more")}
-          />
-        </div>
-      </div>
-      <div class="right hidden flex-1 place-items-center md:grid">
-        <!-- Image of a beehive-->
-        <div
-          class="h-full w-full -scale-x-100 bg-contain bg-center bg-no-repeat"
-          style:background-image="url('img/beeman/2.png')"
-        ></div>
-      </div>
-    </div>
-  </section>
 
   <section
     id="statistics"

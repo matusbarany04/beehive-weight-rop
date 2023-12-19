@@ -1,12 +1,14 @@
 <script>
   import RouterLink from "../../../components/RouterLink.svelte";
-  import { TW_BREAKPOINTS } from "../../../components/lib/utils/staticFuncs";
-  import { onMount } from "svelte";
+  import {TW_BREAKPOINTS} from "../../../components/lib/utils/staticFuncs";
+  import {onMount} from "svelte";
   import {
     languages,
     getLanguageInstance,
   } from "../../../components/language/languageRepository";
-  import { pushParam } from "../../../components/router/route.serv";
+  import {pushParam} from "../../../components/router/route.serv";
+  import Button from "../../../components/Buttons/Button.svelte";
+  import CircleButton from "../../../components/Buttons/CircleButton.svelte";
 
   let toggle = false;
 
@@ -17,15 +19,16 @@
   };
 
   let pages = [
-    { name: "Domov", link: "/", selected: true },
-    { name: "Dev Docs", link: "/test", selected: false },
-    { name: "FaQ", link: "/faq", selected: false },
-    { name: "Kontakt", link: "/contact", selected: false },
-    { name: "O nás", link: "/about", selected: false },
-    { name: "Obchod", link: "/shop", selected: false },
+    {name: "Domov", link: "/", selected: true},
+    {name: "Dev Docs", link: "/test", selected: false},
+    {name: "FaQ", link: "/faq", selected: false},
+    {name: "Kontakt", link: "/contact", selected: false},
+    {name: "O nás", link: "/about", selected: false},
+    {name: "Obchod", link: "/shop", selected: false},
   ];
 
   let langDropdown = false;
+
   function changeLanguage(code) {
     langDropdown = false;
     pushParam("language", code);
@@ -33,11 +36,11 @@
   }
 </script>
 
-<svelte:window on:resize={resize} />
+<svelte:window on:resize={resize}/>
 
-<nav class="bg-gray-800">
+<nav class="relative bg-primary-500 z-50">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-    <div class="relative flex h-16 items-center justify-between">
+    <div class="relative flex h-16 items-center justify-between ">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
         <!-- Mobile menu button-->
         <button
@@ -73,7 +76,7 @@
         class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
       >
         <div class="flex flex-shrink-0 items-center">
-          <img class="h-8 w-auto" src="/img/beeman.png" alt="BuzzyBees" />
+          <img class="h-8 w-auto" src="/img/beeman.png" alt="BuzzyBees"/>
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex flex-wrap space-x-4">
@@ -82,7 +85,7 @@
               <a
                 href={page.link}
                 class=" rounded-md px-3 py-2 text-sm font-medium text-slate-300"
-                >{page.name}</a
+              >{page.name}</a
               >
             {/each}
             <div class="relative">
@@ -122,27 +125,47 @@
       <div
         class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
       >
-        <button type="button" class="bg-gray-800 relative rounded-full p-1">
-          <RouterLink url="/login"
-            ><span
-              class="focus:ring-offset-gray-800 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
-              >Prihlásiť sa</span
-            >
-          </RouterLink>
-        </button>
+        <RouterLink url="/login">
+          <Button
+            slim={true}
+            type="secondary"
+            className="hidden md:block h-min w-min md:mr-8 shrink-0 grow-0 mx-auto"
+            imagePosition="right"
+            text={"Prihlásiť sa"}
+          />
+          
+          <CircleButton
+            type="primary"
+            className="block md:hidden "
+            image="icons/arrow-right.svg"
+            imagePosition="right"
+            text={"Prihlásiť sa"}
+          >
+          </CircleButton>
+        </RouterLink>
+
+
+        <!--        <button type="button" class="bg-gray-800 relative rounded-full p-1">-->
+        <!--          <RouterLink url="/login"-->
+        <!--            ><span-->
+        <!--              class="focus:ring-offset-gray-800 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"-->
+        <!--              >Prihlásiť sa</span-->
+        <!--            >-->
+        <!--          </RouterLink>-->
+        <!--        </button>-->
       </div>
     </div>
   </div>
 
   <!-- Mobile menu, show/hide based on menu state. -->
   {#if toggle}
-    <div class="absolute w-full bg-primary-100 sm:hidden" id="mobile-menu">
+    <div class="absolute w-full bg-primary-500 sm:hidden" id="mobile-menu">
       <div class="z-10 space-y-1 px-2 pb-3 pt-2">
         {#each pages as page}
           <a
             href={page.link}
             class="hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium text-slate-300 hover:text-white"
-            >{page.name}</a
+          >{page.name}</a
           >
         {/each}
       </div>

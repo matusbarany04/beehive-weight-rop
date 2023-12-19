@@ -1,13 +1,15 @@
 <script>
   export let size_px = 24;
-  export let rotation = 0; // Set the desired rotation angle in degrees
+  export let rotation = 0;
   export let className = "";
-  export let color = "black";
+  export let colorClass = "text-white"; // Default color as a Tailwind CSS class
 </script>
 
+
+<!-- Set the background color of the div to transparent -->
 <div
-  class={className}
-  style={`width: ${size_px}px; height: ${size_px}px; transform: rotate(${rotation}deg); transform-origin: center;`}
+  class={`${className} bg-transparent`} 
+style={`width: ${size_px}px; height: ${size_px}px; transform: rotate(${rotation}deg); transform-origin: center;`}
 >
   <svg
     class="h-full w-full"
@@ -21,7 +23,9 @@
       fill-rule="evenodd"
       clip-rule="evenodd"
       d="M100 100V0C100 55.2285 55.2285 100 0 100H100Z"
-      fill="black"
+      class={`fill-current ${colorClass}`}
     />
+    <!-- Apply the color class directly to the path -->
+  
   </svg>
 </div>
