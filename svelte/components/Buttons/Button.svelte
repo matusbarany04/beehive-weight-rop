@@ -51,10 +51,13 @@
   export let className = "";
 
   export let preventDefault;
+  
+  export let slim = false;
 
   export let onClick = () => {
     console.log("Button action does not exist!");
   };
+  
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -70,7 +73,7 @@
       }
     }
   }}
-  class="flex rounded-lg p-2 {className} btn-{type}{enabled
+  class="flex rounded-lg p-2 {slim ? 'py-1' : ''} {className} btn-{type}{enabled
     ? ''
     : '-disabled'} duration-200 hover:scale-[1.02]"
 >
