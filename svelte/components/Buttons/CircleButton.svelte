@@ -11,8 +11,8 @@
    * @param {string} image  optional, if specified image will be displayed left to the text, image path + name located in folder static
    */
   export let image;
-  
-  export let className = ""
+
+  export let className = "";
   /**
    * @param {function} onClick function when the button is clicked
    */

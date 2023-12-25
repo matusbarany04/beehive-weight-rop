@@ -5,11 +5,10 @@
   export let colorClass = "text-white"; // Default color as a Tailwind CSS class
 </script>
 
-
 <!-- Set the background color of the div to transparent -->
 <div
-  class={`${className} bg-transparent`} 
-style={`width: ${size_px}px; height: ${size_px}px; transform: rotate(${rotation}deg); transform-origin: center;`}
+  class={`${className} bg-transparent`}
+  style={`width: ${size_px}px; height: ${size_px}px; transform: rotate(${rotation}deg); transform-origin: center;`}
 >
   <svg
     class="h-full w-full"
@@ -26,6 +25,5 @@ style={`width: ${size_px}px; height: ${size_px}px; transform: rotate(${rotation}
       class={`fill-current ${colorClass}`}
     />
     <!-- Apply the color class directly to the path -->
-  
   </svg>
 </div>

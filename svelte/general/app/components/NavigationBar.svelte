@@ -1,12 +1,12 @@
 <script>
   import RouterLink from "../../../components/RouterLink.svelte";
-  import {TW_BREAKPOINTS} from "../../../components/lib/utils/staticFuncs";
-  import {onMount} from "svelte";
+  import { TW_BREAKPOINTS } from "../../../components/lib/utils/staticFuncs";
+  import { onMount } from "svelte";
   import {
     languages,
     getLanguageInstance,
   } from "../../../components/language/languageRepository";
-  import {pushParam} from "../../../components/router/route.serv";
+  import { pushParam } from "../../../components/router/route.serv";
   import Button from "../../../components/Buttons/Button.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
 
@@ -19,12 +19,12 @@
   };
 
   let pages = [
-    {name: "Domov", link: "/", selected: true},
-    {name: "Dev Docs", link: "/test", selected: false},
-    {name: "FaQ", link: "/faq", selected: false},
-    {name: "Kontakt", link: "/contact", selected: false},
-    {name: "O nás", link: "/about", selected: false},
-    {name: "Obchod", link: "/shop", selected: false},
+    { name: "Domov", link: "/", selected: true },
+    { name: "Dev Docs", link: "/test", selected: false },
+    { name: "FaQ", link: "/faq", selected: false },
+    { name: "Kontakt", link: "/contact", selected: false },
+    { name: "O nás", link: "/about", selected: false },
+    { name: "Obchod", link: "/shop", selected: false },
   ];
 
   let langDropdown = false;
@@ -36,11 +36,11 @@
   }
 </script>
 
-<svelte:window on:resize={resize}/>
+<svelte:window on:resize={resize} />
 
-<nav class="relative bg-primary-500 z-50">
+<nav class="relative z-50 bg-primary-500">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-    <div class="relative flex h-16 items-center justify-between ">
+    <div class="relative flex h-16 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
         <!-- Mobile menu button-->
         <button
@@ -76,7 +76,7 @@
         class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
       >
         <div class="flex flex-shrink-0 items-center">
-          <img class="h-8 w-auto" src="/img/beeman.png" alt="BuzzyBees"/>
+          <img class="h-8 w-auto" src="/img/beeman.png" alt="BuzzyBees" />
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex flex-wrap space-x-4">
@@ -85,7 +85,7 @@
               <a
                 href={page.link}
                 class=" rounded-md px-3 py-2 text-sm font-medium text-slate-300"
-              >{page.name}</a
+                >{page.name}</a
               >
             {/each}
             <div class="relative">
@@ -133,17 +133,15 @@
             imagePosition="right"
             text={"Prihlásiť sa"}
           />
-          
+
           <CircleButton
             type="primary"
             className="block md:hidden "
             image="icons/arrow-right.svg"
             imagePosition="right"
             text={"Prihlásiť sa"}
-          >
-          </CircleButton>
+          ></CircleButton>
         </RouterLink>
-
 
         <!--        <button type="button" class="bg-gray-800 relative rounded-full p-1">-->
         <!--          <RouterLink url="/login"-->
@@ -165,7 +163,7 @@
           <a
             href={page.link}
             class="hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium text-slate-300 hover:text-white"
-          >{page.name}</a
+            >{page.name}</a
           >
         {/each}
       </div>
