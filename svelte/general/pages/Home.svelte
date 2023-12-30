@@ -11,33 +11,39 @@
   let gridItems = [
     {
       title: "Hive Alerts!",
+      icon: "chat-dots.svg",
       description:
-        "Get alert if your beehive's weight changes and prevent theft and never miss a nectar flow.",
+        "Instant alerts for beehive weight changes, theft prevention, and no missed nectar flows.",
     },
     {
-      title: "Full Support",
+      title: "Remote Control",
+      icon: "plus-solid.svg",
       description:
-        "You can be assured that you will always get help from our customer support team.",
+        "Effortless beehive management with our user-friendly remote control feature.",
     },
     {
-      title: "Beehive Parameters",
+      title: "Various Measurements",
+      icon: "weight-hanging-solid-white.svg",
       description:
-        "Monitor beehive's weight, temperature, humidity, and sound.",
+        "Track beehive weight, temperature, humidity, and sound for comprehensive monitoring.",
     },
     {
       title: "Plug and Play",
+      icon: "plug-fill.svg",
       description:
-        "Easy to install Prohiver beehive scales using our guides and it works straight out of a box.",
+        "Easy installation with step-by-step guides, ensuring seamless operation out of the box.",
     },
     {
-      title: "Long Lasting Battery",
+      title: "Long-Lasting Battery",
+      icon: "battery.svg",
       description:
-        "Small size battery – big power. Charge battery only once per beekeeping season.",
+        "Extended battery life—only one charge per beekeeping season.",
     },
     {
-      title: "Cloud-based Data",
+      title: "Cloud-Based Data",
+      icon: "cloud-fill.svg",
       description:
-        "All of the data is stored in a cloud and is safe for future use.",
+        "Convenient cloud storage for data safety and accessibility.",
     },
   ];
 </script>
@@ -50,92 +56,98 @@
   <!--    style:background-image="url('img/pattern_home.png')"-->
   <!--  ></div>-->
 
-  <section id="home" class="z-10 flex h-screen flex-col">
-    <!-- content-->
+  <section
+    id="home"
+    class="relative z-10 m-auto mb-10 flex w-full max-w-7xl flex-col rounded-3xl sm:w-11/12"
+    style="min-height: max(40rem, 90vh); height: 90vh"
+  >
+    <!-- title container -->
     <div
-      class=" relative m-auto block min-h-[40rem] w-11/12 max-w-7xl rounded-3xl bg-tertiary-500 md:flex md:flex-col"
+      class="absolute left-0 top-0 w-full max-w-[50rem] rounded-br-3xl sm:p-4 md:min-w-[30rem] md:bg-primary-500"
     >
-      <!-- title container -->
-      <div
-        class="absolute left-0 top-0 min-w-[30rem] max-w-[50rem] rounded-br-3xl bg-primary-500 p-4"
+      <h1
+        class="mb-4 mt-4 w-full text-center text-6xl font-bold text-slate-50 sm:w-fit sm:text-6xl md:line-clamp-2 md:text-left"
       >
-        <h1
-          class="mb-4 text-center text-6xl font-bold text-slate-50 md:line-clamp-2 md:text-left"
-        >
-          {LI.get("home.title")}
-        </h1>
+        {LI.get("home.title")}
+      </h1>
 
-        <Edge
-          className="absolute top-0 -right-[24px]"
-          rotation={180}
-          colorClass="text-primary-500"
-          size_px="24"
-        ></Edge>
+      <Edge
+        className="hidden md:block absolute top-0 -right-[24px]"
+        rotation={180}
+        colorClass="text-primary-500"
+        size_px="24"
+      ></Edge>
 
-        <Edge
-          className="absolute left-0 -bottom-[24px]"
-          rotation={180}
-          colorClass="text-primary-500"
-          size_px="24"
-        ></Edge>
-      </div>
-      <!-- image -->
+      <Edge
+        className="hidden md:block absolute left-0 -bottom-[24px]"
+        rotation={180}
+        colorClass="text-primary-500"
+        size_px="24"
+      ></Edge>
+    </div>
+
+    <!-- image -->
+    <div
+      class=" absolute bottom-0 left-0 right-0 top-0 -z-10 flex h-full w-full flex-1 justify-items-stretch self-stretch justify-self-stretch rounded-3xl bg-secondary-300 bg-cover bg-right-bottom bg-no-repeat md:relative"
+      style:background-image="url('img/bg/scenery.jpeg')"
+    >
       <div
-        class="h-full w-full flex-1 justify-items-stretch self-stretch justify-self-stretch rounded-3xl bg-secondary-300 bg-cover bg-right-bottom bg-no-repeat"
-        style:background-image="url('img/bg/scenery.jpeg')"
+        class="flex-1 rounded-3xl bg-primary-100/10 backdrop-brightness-75 md:invisible"
       ></div>
-      <!-- subtitle container -->
-      <div
-        class="bottom-0 right-0 mt-8 block flex-col-reverse items-center justify-items-center rounded-tl-3xl bg-primary-500 md:absolute md:mt-0 md:flex md:w-3/5 md:min-w-[40rem] md:flex-row md:p-8"
+    </div>
+
+    <!-- subtitle container -->
+    <div
+      class="absolute bottom-0 right-0 mt-8 block flex-col-reverse items-center justify-items-center rounded-tl-3xl md:mt-0 md:flex md:w-3/5 md:min-w-[40rem] md:flex-row md:bg-primary-500 md:p-8"
+    >
+      <Button
+        type="secondary"
+        image="icons/arrow-right.svg"
+        className="block h-min w-min md:mr-8 shrink-0 grow-0 mx-auto"
+        imagePosition="right"
+        text={LI.get("home.button-more")}
+      />
+      <h1
+        class="mb-4 mt-8 flex-1 text-center text-base font-normal text-slate-50 md:mt-0 md:text-left md:text-slate-400"
       >
-        <Button
-          type="secondary"
-          image="icons/arrow-right.svg"
-          className="block h-min w-min md:mr-8 shrink-0 grow-0 mx-auto"
-          imagePosition="right"
-          text={LI.get("home.button-more")}
-        />
-        <h1
-          class="mb-4 mt-8 flex-1 text-center text-base font-normal text-slate-400 md:mt-0 md:text-left"
-        >
-          {LI.get("home.description")}
-        </h1>
+        {LI.get("home.description")}
+      </h1>
 
-        <Edge
-          className="absolute right-0 -top-[24px]"
-          colorClass="text-primary-500"
-          rotation={0}
-          size_px="24"
-        ></Edge>
+      <Edge
+        className="hidden md:block absolute right-0 -top-[24px]"
+        colorClass="text-primary-500"
+        rotation={0}
+        size_px="24"
+      ></Edge>
 
-        <Edge
-          className="absolute bottom-0 -left-[24px]"
-          rotation={0}
-          colorClass="text-primary-500"
-          size_px="24"
-        ></Edge>
-      </div>
+      <Edge
+        className="hidden md:block absolute bottom-0 -left-[24px]"
+        rotation={0}
+        colorClass="text-primary-500"
+        size_px="24"
+      ></Edge>
     </div>
   </section>
 
   <section
-    class="flex h-screen w-full flex-col items-center justify-center px-6"
+    class="box-border block w-full flex-col items-center justify-center px-6"
   >
-    <h1 class="mb-6 mb-8 text-left text-8xl font-bold text-slate-100">
-      {}
+    <h1 class="mb-6 mt-16 text-center text-6xl font-bold text-slate-100">
+      {"What can it do?"}
     </h1>
     <div
-      class="md:4/5 grid w-11/12 max-w-6xl grid-cols-3 gap-x-16 gap-y-8 text-white"
+      class="md:4/5 mx-auto grid w-11/12 max-w-6xl grid-cols-2 gap-x-16 gap-y-8 text-white md:grid-cols-3"
     >
-      {#each gridItems as { title, description, imageUrl } (title)}
+      {#each gridItems as { title, description, icon } (title)}
         <div class="flex flex-col items-center justify-center p-4 text-left">
-          <img
-            src={imageUrl}
-            alt={title}
-            class="mb-2 h-20 w-20 rounded-full object-cover"
-          />
+          <div
+            class="image mb-2 h-20 w-20 bg-secondary-600 bg-contain object-contain"
+            style="mask-image: url('icons/{icon}'); -webkit-mask-image: url('icons/{icon}'); "
+          ></div>
           <h3 class="my-2 text-center text-xl font-bold">{title}</h3>
-          <p class="text-gray-600 text-center text-sm">{description}</p>
+          <p class="text-gray-600 hidden text-center text-sm sm:inline-block">
+            {description}
+          </p>
         </div>
       {/each}
     </div>
@@ -233,3 +245,15 @@
     </div>
   </section>
 </Root>
+
+<style>
+  .image {
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    aspect-ratio: 1/1;
+    background-size: contain;
+    background-repeat: no-repeat;
+    -webkit-mask-size: 100%;
+  }
+</style>
