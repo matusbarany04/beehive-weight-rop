@@ -5,7 +5,6 @@
   import { getLanguageInstance } from "../../components/language/languageRepository";
   import Root from "../layout/Root.svelte";
   import Edge from "../../components/Edge.svelte";
-
   const LI = getLanguageInstance();
 
   let gridItems = [
@@ -17,7 +16,7 @@
     },
     {
       title: "Remote Control",
-      icon: "plus-solid.svg",
+      icon: "wifi-solid.svg",
       description:
         "Effortless beehive management with our user-friendly remote control feature.",
     },
@@ -41,7 +40,7 @@
     },
     {
       title: "Cloud-Based Data",
-      icon: "cloud-fill.svg",
+      icon: "cloud-arrow-down.svg",
       description:
         "Convenient cloud storage for data safety and accessibility.",
     },
@@ -66,7 +65,7 @@
       class="absolute left-0 top-0 w-full max-w-[50rem] rounded-br-3xl sm:p-4 md:min-w-[30rem] md:bg-primary-500"
     >
       <h1
-        class="mb-4 mt-4 w-full text-center text-6xl font-bold text-slate-50 sm:w-fit sm:text-6xl md:line-clamp-2 md:text-left"
+        class="mb-4 mt-4 w-full animate-text-focus-in text-center text-6xl font-bold text-slate-50 sm:w-fit sm:text-6xl md:line-clamp-2 md:text-left"
       >
         {LI.get("home.title")}
       </h1>
@@ -101,14 +100,14 @@
       class="absolute bottom-0 right-0 mt-8 block flex-col-reverse items-center justify-items-center rounded-tl-3xl md:mt-0 md:flex md:w-3/5 md:min-w-[40rem] md:flex-row md:bg-primary-500 md:p-8"
     >
       <Button
-        type="secondary"
+        type="secondary-noborder"
         image="icons/arrow-right.svg"
         className="block h-min w-min md:mr-8 shrink-0 grow-0 mx-auto"
         imagePosition="right"
         text={LI.get("home.button-more")}
       />
       <h1
-        class="mb-4 mt-8 flex-1 text-center text-base font-normal text-slate-50 md:mt-0 md:text-left md:text-slate-400"
+        class="mb-4 mt-8 flex-1 animate-text-focus-in text-center text-base font-normal text-slate-50 md:mt-0 md:text-left md:text-slate-400"
       >
         {LI.get("home.description")}
       </h1>
@@ -145,7 +144,7 @@
             style="mask-image: url('icons/{icon}'); -webkit-mask-image: url('icons/{icon}'); "
           ></div>
           <h3 class="my-2 text-center text-xl font-bold">{title}</h3>
-          <p class="text-gray-600 hidden text-center text-sm sm:inline-block">
+          <p class="hidden text-center text-sm text-gray-400 sm:inline-block">
             {description}
           </p>
         </div>
@@ -155,7 +154,7 @@
 
   <section
     id="statistics"
-    class="flex min-h-screen w-full flex-row items-center justify-center"
+    class=" flex min-h-screen w-full flex-row items-center justify-center"
   >
     <div
       class="grid w-full max-w-7xl grid-cols-1 gap-1 px-10 sm:grid-cols-3 sm:gap-2 md:gap-16"
@@ -189,20 +188,23 @@
 
   <section
     id="join"
-    class="flex min-h-min w-full flex-col items-center justify-center px-8"
+    class="relative flex min-h-min w-full flex-col items-center justify-center px-8 py-20"
   >
-    <h1 class="mb-4 text-center text-7xl font-bold text-slate-100">
+    <h1
+      class="waving-hand z-10 mb-4 text-center text-7xl font-bold text-slate-100"
+    >
       {LI.get("join.title")}
     </h1>
-    <p class="mb-4 max-w-3xl text-center text-2xl text-slate-100">
+    <p class="wobble z-10 mb-4 max-w-3xl text-center text-2xl text-slate-100">
       {LI.get("join.description")}
     </p>
 
     <Button type="primary" text={LI.get("join.button-buy")} />
   </section>
-  <section id="spacer" class="h-64"></section>
-  <section id="qna" class="min-h-screen w-full">
-    <h1 class="mb-4 text-center text-4xl font-bold text-slate-100 md:mb-32">
+  <section id="spacer" class="h-12 md:h-64"></section>
+
+  <section id="qna" class="min-h-min w-full px-8">
+    <h1 class="mb-4 text-center text-4xl font-bold text-slate-100">
       {LI.get("faq.title")}
     </h1>
     <div class="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-3">
@@ -213,7 +215,7 @@
           {LI.get("faq.first.question")}
         </h4>
         <p
-          class="mx-auto w-5/6 text-center text-base text-slate-100 md:w-full md:text-left"
+          class="mx-auto w-5/6 text-center text-base text-tertiary-300 md:w-full md:text-left"
         >
           {LI.get("faq.first.answer")}
         </p>
@@ -225,7 +227,7 @@
           {LI.get("faq.second.question")}
         </h4>
         <p
-          class="mx-auto w-5/6 text-center text-base text-slate-100 md:w-full md:text-center"
+          class="mx-auto w-5/6 text-center text-base text-tertiary-300 md:w-full md:text-center"
         >
           {LI.get("faq.second.answer")}
         </p>
@@ -237,13 +239,20 @@
           {LI.get("faq.third.question")}
         </h4>
         <p
-          class="mx-auto w-5/6 text-center text-base text-slate-100 md:w-full md:text-right"
+          class="mx-auto w-5/6 text-center text-base text-tertiary-300 md:w-full md:text-right"
         >
           {LI.get("faq.third.answer")}
         </p>
       </div>
     </div>
   </section>
+  <section id="spacer" class="h-12 md:h-64"></section>
+
+  <div
+    style="        
+    mask-image: url('/patterns/hexa_pattern.png');"
+    class="via h-64 w-full bg-gradient-to-b from-transparent from-10% via-secondary-900 via-70% to-secondary-800 to-90% opacity-30"
+  ></div>
 </Root>
 
 <style>

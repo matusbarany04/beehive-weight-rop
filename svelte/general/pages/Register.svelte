@@ -103,7 +103,7 @@
         fieldsError.email !== undefined
           ? "disabled"
           : ""}
-        class="mt-8 w-full rounded-xl bg-secondary-400 p-2 text-xl font-bold duration-100 hover:scale-[1.01] active:scale-[.99]"
+        class="mt-8 w-full rounded-xl bg-secondary-400 p-2 text-xl font-bold text-primary-600 duration-100 hover:scale-[1.01] active:scale-[.99]"
         >Registrovat sa
       </button>
 

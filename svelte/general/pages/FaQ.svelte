@@ -15,7 +15,7 @@
       description="Nemôžete nájsť odpoveď, ktorú hľadáte? Obráťte sa na náš zákaznícky servis."
     />
 
-    <div class="divide-neutral-200 mx-auto mt-8 w-full">
+    <div class="mx-auto mt-8 w-full divide-neutral-200">
       <HelpDropdown
         bgClass="bg-tertiary-100"
         question="Čo je BuzzyBees?"

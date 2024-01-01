@@ -19,8 +19,7 @@
   };
 
   let pages = [
-    { name: "Domov", link: "/", selected: true },
-    { name: "Dev Docs", link: "/test", selected: false },
+    // {name: "Dev Docs", link: "/test", selected: false},
     { name: "FaQ", link: "/faq", selected: false },
     { name: "Kontakt", link: "/contact", selected: false },
     { name: "O nás", link: "/about", selected: false },
@@ -76,15 +75,19 @@
         class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
       >
         <div class="flex flex-shrink-0 items-center">
-          <img class="h-8 w-auto" src="/img/beeman.png" alt="BuzzyBees" />
+          <a href="/">
+            <img class="h-8 w-auto" src="/img/beeman.png" alt="BuzzyBees" />
+          </a>
         </div>
         <div class="hidden sm:ml-6 sm:block">
-          <div class="flex flex-wrap space-x-4">
+          <div
+            class="flex flex-wrap space-x-4 rounded-full bg-gradient-to-r from-white via-tertiary-200 via-80% to-gray-400 px-1 py-0.5 opacity-90 md:px-4"
+          >
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             {#each pages as page}
               <a
                 href={page.link}
-                class=" rounded-md px-3 py-2 text-sm font-medium text-slate-300"
+                class="my-1 rounded-full px-3 py-0.5 text-sm font-normal text-primary-600 hover:bg-white"
                 >{page.name}</a
               >
             {/each}
@@ -93,7 +96,7 @@
                 on:click={() => {
                   langDropdown = !langDropdown;
                 }}
-                class=" rounded-md px-3 py-2 text-sm font-medium text-slate-300"
+                class="my-1 rounded-full bg-primary-800 px-3 py-0.5 text-sm font-normal text-tertiary-100"
               >
                 lan-{getLanguageInstance().getLanguage()}
               </button>
@@ -128,29 +131,20 @@
         <RouterLink url="/login">
           <Button
             slim={true}
-            type="secondary"
+            type="secondary-noborder"
             className="hidden md:block h-min w-min md:mr-8 shrink-0 grow-0 mx-auto"
             imagePosition="right"
             text={"Prihlásiť sa"}
           />
 
           <CircleButton
-            type="primary"
-            className="block md:hidden "
+            type="secondary"
+            className="block md:hidden hover:animate-wobble"
             image="icons/arrow-right.svg"
             imagePosition="right"
             text={"Prihlásiť sa"}
           ></CircleButton>
         </RouterLink>
-
-        <!--        <button type="button" class="bg-gray-800 relative rounded-full p-1">-->
-        <!--          <RouterLink url="/login"-->
-        <!--            ><span-->
-        <!--              class="focus:ring-offset-gray-800 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"-->
-        <!--              >Prihlásiť sa</span-->
-        <!--            >-->
-        <!--          </RouterLink>-->
-        <!--        </button>-->
       </div>
     </div>
   </div>
@@ -162,7 +156,7 @@
         {#each pages as page}
           <a
             href={page.link}
-            class="hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium text-slate-300 hover:text-white"
+            class="block rounded-md px-3 py-2 text-base font-medium text-slate-300 hover:bg-gray-700 hover:text-white"
             >{page.name}</a
           >
         {/each}

@@ -54,7 +54,7 @@
 
     <button
       type="submit"
-      class="relative mt-8 w-full rounded-xl bg-secondary-400 p-2 text-xl font-bold duration-100 hover:scale-[1.01] active:scale-[.99]"
+      class="relative mt-8 w-full rounded-xl bg-secondary-400 p-2 text-xl font-bold text-primary-600 duration-100 hover:scale-[1.01] active:scale-[.99]"
       >Príhlásiť sa
 
       <Bee flip={true} className="absolute left-5 -bottom-16"></Bee>

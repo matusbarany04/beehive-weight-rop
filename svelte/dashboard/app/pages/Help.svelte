@@ -24,7 +24,7 @@
   description="Nemôžete nájsť odpoveď, ktorú hľadáte? Obráťte sa na náš zákaznícky servis."
 />
 
-<div class="divide-neutral-200 mx-auto mt-8 w-full">
+<div class="mx-auto mt-8 w-full divide-neutral-200">
   <HelpDropdown
     question="Čo je BuzzyBees?"
     answer="BuzzyBees je inovatívne riešenie na monitorovanie úľov navrhnuté tak, aby poskytovalo včelárom dáta v reálnom čase o zdraví úľa, produkcii medu, raste plodu a ďalších."

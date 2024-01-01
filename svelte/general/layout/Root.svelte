@@ -3,10 +3,13 @@
 
   export let className = "";
 
+  export let style = "";
+
   export let title = null;
 </script>
 
 <main
+  {style}
   class="{className} min-h-screen w-screen overflow-y-scroll bg-primary-500"
 >
   <slot name="beforeNavBar" />
@@ -18,7 +21,7 @@
       </h1>
     </div>
   {/if}
-  <div class="p-4">
+  <div class="">
     <slot />
   </div>
 </main>

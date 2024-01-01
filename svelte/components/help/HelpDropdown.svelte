@@ -28,7 +28,7 @@
         </svg>
       </span>
     </summary>
-    <p class="text-neutral-600 group-open:animate-fadeIn mt-3">
+    <p class="group-open:animate-fadeIn mt-3 text-neutral-600">
       {answer}
     </p>
   </details>

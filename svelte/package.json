@@ -23,7 +23,8 @@
     "sirv-cli": "^0.3.1",
     "svelte": "^4.2.0",
     "svelte-preprocess": "^5.0.4",
-    "taffydb": "^2.7.3"
+    "taffydb": "^2.7.3",
+    "tailwindcss-animate": "^1.0.7"
   },
   "scripts": {
     "java:dev": "rollup -c rollup.config.js -w --bundleConfigAsCjs",
@@ -46,6 +47,7 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
     "svelte-forms-lib": "^2.0.1",
+    "svelte-inview": "^4.0.2",
     "tailwindcss": "^3.3.3"
   }
 }
