@@ -4,7 +4,26 @@
   import Button from "../../components/Buttons/Button.svelte";
   import ButtonSmall from "../../components/Buttons/ButtonSmall.svelte";
   import CircleButton from "../../components/Buttons/CircleButton.svelte";
+  import ShaderCanvasTest from "../../components/test/ShaderCanvasTest.svelte";
+
+  let scale = 1;
+
+  let fragmentShader = `
+		precision highp float;
+
+		uniform vec2 u_resolution;
+		uniform vec2 u_mouse;
+		uniform float u_time;
+
+		void main() {
+			gl_FragColor = vec4(fract((gl_FragCoord.xy - u_mouse) / u_resolution), fract(u_time), 1);
+		}
+	`;
 </script>
+
+<section class="h-screen w-screen bg-tertiary-200">
+  <ShaderCanvasTest {scale} {fragmentShader} />
+</section>
 
 <section class="h-screen min-h-[40rem] w-full bg-tertiary-200">
   <div class="scroll-animated-element bg-red h-64 w-64"></div>

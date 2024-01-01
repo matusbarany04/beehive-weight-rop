@@ -51,13 +51,12 @@
   export let className = "";
 
   export let preventDefault;
-  
+
   export let slim = false;
 
   export let onClick = () => {
     console.log("Button action does not exist!");
   };
-  
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->

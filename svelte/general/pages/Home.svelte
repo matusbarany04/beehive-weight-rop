@@ -44,7 +44,6 @@
       icon: "cloud-arrow-down.svg",
       description:
         "Convenient cloud storage for data safety and accessibility.",
-
     },
   ];
 </script>
@@ -153,7 +152,6 @@
       {/each}
     </div>
   </section>
-
 
   <section
     id="statistics"
