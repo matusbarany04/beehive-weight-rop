@@ -23,7 +23,7 @@
 >
   <div class="flex items-center gap-2">
     <input
-      class="border-black h-4 w-4 appearance-none rounded-full border bg-white bg-clip-content transition duration-100 checked:bg-secondary-500 checked:p-[2px]"
+      class="h-4 w-4 appearance-none rounded-full border border-black bg-white bg-clip-content transition duration-100 checked:bg-secondary-500 checked:p-[2px]"
       type="radio"
       bind:group={selection}
       id={name}

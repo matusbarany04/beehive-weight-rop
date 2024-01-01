@@ -6,6 +6,14 @@
   import CircleButton from "../../components/Buttons/CircleButton.svelte";
 </script>
 
+<section class="h-screen min-h-[40rem] w-full bg-tertiary-200">
+  <div class="scroll-animated-element bg-red h-64 w-64"></div>
+</section>
+
+<div style="height: 100vh; background-color: #f0f0f0;"></div>
+
+<br class="h-10" />
+
 <main class="min-h-screen w-full flex-1 bg-primary-200 pt-10">
   <div class="absolute left-0 top-0 p-4">
     <CircleButton type="primary" link="/" image="icons/arrow-left.svg"
@@ -74,3 +82,42 @@
   </pre>
   </section>
 </main>
+
+<style>
+  /* App.css */
+  body {
+    height: 200vh; /* Make the body taller for scrolling */
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .scroll-animated-element {
+    width: 100%;
+    height: 300px;
+    background-color: lightblue;
+    margin-top: 50vh; /* Start the element below the viewport */
+    transition: background-color 0.5s ease;
+  }
+
+  /* Define a scroll timeline named "color-change-timeline" */
+  @scroll-timeline color-change-timeline {
+    scroll-timeline-axis: vertical;
+  }
+
+  /* Keyframes for the color change animation */
+  @keyframes colorChange {
+    from {
+      background-color: lightblue;
+    }
+    to {
+      background-color: coral;
+    }
+  }
+
+  /* Use the scroll timeline in the animation */
+  .scroll-animated-element {
+    animation: colorChange 2s ease infinite;
+    animation-timeline: color-change-timeline;
+    animation-range: 0% 100%; /* Animation runs from 0% to 100% of the scroll timeline */
+  }
+</style>

@@ -54,6 +54,8 @@
   
   export let slim = false;
 
+  export let slim = false;
+
   export let onClick = () => {
     console.log("Button action does not exist!");
   };

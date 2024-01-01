@@ -36,10 +36,10 @@
   <!--  login form -->
 
   <div
-    class="flex h-screen w-full max-w-full flex-1 items-center justify-center rounded-l-md bg-tertiary-100 shadow-2xl sm:max-w-sm md:max-w-md xl:max-w-xl"
+    class="flex h-screen w-full max-w-full flex-1 items-center justify-center rounded-l-md bg-primary-100 shadow-2xl sm:max-w-sm md:max-w-md xl:max-w-xl"
   >
     <div
-      class="text-black box-border h-max max-w-md flex-col rounded-3xl p-8 sm:space-y-5"
+      class="box-border h-max max-w-md flex-col rounded-3xl p-8 text-tertiary-100 sm:space-y-5"
     >
       <slot />
     </div>

@@ -13,6 +13,7 @@ export default {
   safelist: [
     "btn-primary",
     "btn-secondary",
+    "btn-secondary-noborder",
     "btn-tertiary",
     "btn-confirm",
     "btn-error",
@@ -35,6 +36,8 @@ export default {
     "text-confirm-300",
     "text-confirm-400",
     "text-confirm-500",
+    "waving-hand",
+    "wobble",
   ],
   theme: {
     colors: {
@@ -43,6 +46,7 @@ export default {
       slate: colors.slate,
       white: "#ffffff",
       red: "#cc0000",
+      ...colors,
       primary: {
         100: "#202325",
         200: "#1D2021",
@@ -76,7 +80,73 @@ export default {
       error: colors.red,
       // ...
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        wobble: {
+          "0%, 100%": {
+            transform: "translateX(0%)",
+            transformOrigin: "50% 50%",
+          },
+          "15%": {
+            transform: "translateX(-30px) rotate(-6deg)",
+          },
+          "30%": {
+            transform: "translateX(15px) rotate(6deg)",
+          },
+          "45%": {
+            transform: "translateX(-15px) rotate(-3.6deg)",
+          },
+          "60%": {
+            transform: "translateX(9px) rotate(2.4deg)",
+          },
+          "75%": {
+            transform: "translateX(-6px) rotate(-1.2deg)",
+          },
+        },
+        wave: {
+          "0%": { transform: "rotate(0.0deg)" },
+          "10%": { transform: "rotate(14deg)" },
+          "20%": { transform: "rotate(-8deg)" },
+          "30%": { transform: "rotate(14deg)" },
+          "40%": { transform: "rotate(-4deg)" },
+          "50%": { transform: "rotate(10.0deg)" },
+          "60%": { transform: "rotate(0.0deg)" },
+          "100%": { transform: "rotate(0.0deg)" },
+        },
+        "focus-in-expand-fwd": {
+          "0%": {
+            "letter-spacing": "-0.5em",
+            transform: "translateZ(-800px)",
+            filter: "blur(12px)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateZ(0)",
+            filter: "blur(0)",
+            opacity: "1",
+          },
+        },
+        "text-focus-in": {
+          "0%": {
+            filter: "blur(12px)",
+            opacity: 0,
+          },
+          "100%": {
+            filter: "blur(0px)",
+            opacity: 1,
+          },
+        },
+      },
+      animation: {
+        // ...animations,
+        wobble: "wobble 0.8s both",
+        "waving-hand": "wave 2s linear infinite",
+        "focus-in-expand-fwd":
+          "focus-in-expand-fwd 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
+        "text-focus-in":
+          "text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both",
+      },
+    },
   },
   plugins: [
     function ({ addUtilities, theme }) {
@@ -100,7 +170,11 @@ export default {
           "background-color": theme("colors.white"),
           outline: "2px solid #cfd2d6",
         },
-
+        ".btn-secondary-noborder": {
+          "--icon-color": "black",
+          "border-radius": "10px",
+          "background-color": theme("colors.white"),
+        },
         ".btn-confirm": {
           "background-color": theme("colors.confirm.500"),
           "--icon-color": "black",

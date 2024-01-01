@@ -11,6 +11,7 @@
    * @param {string} image  optional, if specified image will be displayed left to the text, image path + name located in folder static
    */
   export let image;
+
   
   export let className = ""
   /**

@@ -12,6 +12,7 @@
   import Contact from "../../pages/Contact.svelte";
   import About from "../../pages/About.svelte";
   import LoginAlt from "../../pages/LoginAlt.svelte";
+  import ScrollTest from "../../pages/ScrollTest.svelte";
 
   let value = Notfound;
   let props = {};
@@ -24,6 +25,7 @@
     routes.get("/register", Register);
     routes.get("/accountCreated", AccountCreated);
     routes.get("/test", TestGeneralSite);
+    routes.get("/scroll", ScrollTest);
     routes.get("/contact", Contact);
     routes.get("/about", About);
     routes.get("/shop", Shop);

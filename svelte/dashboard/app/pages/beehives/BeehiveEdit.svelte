@@ -370,7 +370,7 @@
           {li.get("beehives.settings.factory_reset")}
         </div>
         <div
-          class="cursor-pointer rounded-lg p-2 font-semibold text-red hover:bg-slate-100"
+          class="text-red cursor-pointer rounded-lg p-2 font-semibold hover:bg-slate-100"
           on:click={() => yesNoDialog("beehive_dialog", deleteBeehive)}
         >
           {li.get("beehives.settings.delete_beehive")}
