@@ -12,7 +12,8 @@
    */
   export let image;
 
-  export let className = "";
+  
+  export let className = ""
   /**
    * @param {function} onClick function when the button is clicked
    */

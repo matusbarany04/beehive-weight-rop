@@ -10,6 +10,7 @@
 
 <main
   {style}
+
   class="{className} min-h-screen w-screen overflow-y-scroll bg-primary-500"
 >
   <slot name="beforeNavBar" />

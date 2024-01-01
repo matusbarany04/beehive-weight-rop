@@ -10,6 +10,7 @@
   let gridItems = [
     {
       title: "Hive Alerts!",
+
       icon: "chat-dots.svg",
       description:
         "Instant alerts for beehive weight changes, theft prevention, and no missed nectar flows.",
@@ -43,6 +44,7 @@
       icon: "cloud-arrow-down.svg",
       description:
         "Convenient cloud storage for data safety and accessibility.",
+
     },
   ];
 </script>
@@ -151,6 +153,7 @@
       {/each}
     </div>
   </section>
+
 
   <section
     id="statistics"
