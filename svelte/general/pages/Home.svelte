@@ -44,7 +44,6 @@
       icon: "cloud-arrow-down.svg",
       description:
         "Convenient cloud storage for data safety and accessibility.",
-
     },
   ];
 </script>
@@ -139,21 +138,27 @@
     <div
       class="md:4/5 mx-auto grid w-11/12 max-w-6xl grid-cols-2 gap-x-16 gap-y-8 text-white md:grid-cols-3"
     >
-      {#each gridItems as { title, description, icon } (title)}
-        <div class="flex flex-col items-center justify-center p-4 text-left">
+      {#each gridItems as { title, description, icon }, index (title)}
+        
+        <div class="overflow-x-hidden min-h-min overflow-y-visible relative flex flex-col  items-center justify-center p-4 shadow-inner rounded-xl ">
+          
           <div
-            class="image mb-2 h-20 w-20 bg-secondary-600 bg-contain object-contain"
+            class="image md:absolute md:top-6 md:left-6 mb-2 md:h-12 md:w-12 w-20 h-20 bg-secondary-600 bg-contain object-contain"
             style="mask-image: url('icons/{icon}'); -webkit-mask-image: url('icons/{icon}'); "
           ></div>
-          <h3 class="my-2 text-center text-xl font-bold">{title}</h3>
-          <p class="hidden text-center text-sm text-gray-400 sm:inline-block">
+          
+          <h5 class="hidden  md:block text-12xl leading-[10rem] text-right w-full text-primary-100 -mr-[5rem] font-normal">{(index + 1).toString().padStart(2, '0')}</h5>
+<!--          outline outline-tertiary-200-->
+          
+          <h3 class="my-2 text-center md:text-left w-full text-xl font-bold">{title}</h3>
+          <p class="hidden text-center  md:text-left text-sm text-gray-400 sm:inline-block">
             {description}
           </p>
         </div>
+        
       {/each}
     </div>
   </section>
-
 
   <section
     id="statistics"

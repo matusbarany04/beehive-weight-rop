@@ -81,6 +81,28 @@ export default {
       // ...
     },
     extend: {
+      aspectRatio: {
+        '4/3': '4 / 3',
+        '5/3': '5 / 3',
+        '2/1': '2 / 1',
+        'video-vertical': '9 / 16',
+      },
+      fontSize: {
+        '10xl': '9rem',    /* Adjust as needed */
+        '11xl': '10rem',   /* Adjust as needed */
+        '12xl': '12rem',   /* Adjust as needed */
+      },
+      lineHeight: {
+        '1': '1rem',
+        '1.25': '1.25rem',
+        '1.5': '1.5rem',
+        '1.75': '1.75rem',
+        '2': '2rem',
+        '2.25': '2.25rem',
+        '2.5': '2.5rem',
+        '2.75': '2.75rem',
+        '3': '3rem',
+      },
       keyframes: {
         wobble: {
           "0%, 100%": {
@@ -104,14 +126,14 @@ export default {
           },
         },
         wave: {
-          "0%": { transform: "rotate(0.0deg)" },
-          "10%": { transform: "rotate(14deg)" },
-          "20%": { transform: "rotate(-8deg)" },
-          "30%": { transform: "rotate(14deg)" },
-          "40%": { transform: "rotate(-4deg)" },
-          "50%": { transform: "rotate(10.0deg)" },
-          "60%": { transform: "rotate(0.0deg)" },
-          "100%": { transform: "rotate(0.0deg)" },
+          "0%": {transform: "rotate(0.0deg)"},
+          "10%": {transform: "rotate(14deg)"},
+          "20%": {transform: "rotate(-8deg)"},
+          "30%": {transform: "rotate(14deg)"},
+          "40%": {transform: "rotate(-4deg)"},
+          "50%": {transform: "rotate(10.0deg)"},
+          "60%": {transform: "rotate(0.0deg)"},
+          "100%": {transform: "rotate(0.0deg)"},
         },
         "focus-in-expand-fwd": {
           "0%": {
@@ -149,7 +171,7 @@ export default {
     },
   },
   plugins: [
-    function ({ addUtilities, theme }) {
+    function ({addUtilities, theme}) {
       function calcDesaturated(color) {
         let hsl = colorUtils.RGBToHSL(color);
 

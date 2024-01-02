@@ -1,12 +1,12 @@
 <script>
   import RouterLink from "../../../components/RouterLink.svelte";
-  import {TW_BREAKPOINTS} from "../../../components/lib/utils/staticFuncs";
-  import {onMount} from "svelte";
+  import { TW_BREAKPOINTS } from "../../../components/lib/utils/staticFuncs";
+  import { onMount } from "svelte";
   import {
     languages,
     getLanguageInstance,
   } from "../../../components/language/languageRepository";
-  
+
   import { pushParam } from "../../../components/router/route.serv";
   import Button from "../../../components/Buttons/Button.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
@@ -36,11 +36,11 @@
   }
 </script>
 
-<svelte:window on:resize={resize}/>
+<svelte:window on:resize={resize} />
 
 <nav class="relative z-50 bg-primary-500">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-    <div class="relative flex h-16 items-center justify-between ">
+    <div class="relative flex h-16 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
         <!-- Mobile menu button-->
         <button
@@ -79,7 +79,6 @@
           <a href="/">
             <img class="h-8 w-auto" src="/img/beeman.png" alt="BuzzyBees" />
           </a>
-
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div
@@ -91,7 +90,6 @@
                 href={page.link}
                 class="my-1 rounded-full px-3 py-0.5 text-sm font-normal text-primary-600 hover:bg-white"
                 >{page.name}</a
-
               >
             {/each}
             <div class="relative">
@@ -148,7 +146,6 @@
             text={"Prihlásiť sa"}
           ></CircleButton>
         </RouterLink>
-      
       </div>
     </div>
   </div>
@@ -162,7 +159,6 @@
             href={page.link}
             class="block rounded-md px-3 py-2 text-base font-medium text-slate-300 hover:bg-gray-700 hover:text-white"
             >{page.name}</a
-
           >
         {/each}
       </div>
