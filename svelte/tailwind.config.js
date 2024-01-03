@@ -82,26 +82,26 @@ export default {
     },
     extend: {
       aspectRatio: {
-        '4/3': '4 / 3',
-        '5/3': '5 / 3',
-        '2/1': '2 / 1',
-        'video-vertical': '9 / 16',
+        "4/3": "4 / 3",
+        "5/3": "5 / 3",
+        "2/1": "2 / 1",
+        "video-vertical": "9 / 16",
       },
       fontSize: {
-        '10xl': '9rem',    /* Adjust as needed */
-        '11xl': '10rem',   /* Adjust as needed */
-        '12xl': '12rem',   /* Adjust as needed */
+        "10xl": "9rem" /* Adjust as needed */,
+        "11xl": "10rem" /* Adjust as needed */,
+        "12xl": "12rem" /* Adjust as needed */,
       },
       lineHeight: {
-        '1': '1rem',
-        '1.25': '1.25rem',
-        '1.5': '1.5rem',
-        '1.75': '1.75rem',
-        '2': '2rem',
-        '2.25': '2.25rem',
-        '2.5': '2.5rem',
-        '2.75': '2.75rem',
-        '3': '3rem',
+        1: "1rem",
+        1.25: "1.25rem",
+        1.5: "1.5rem",
+        1.75: "1.75rem",
+        2: "2rem",
+        2.25: "2.25rem",
+        2.5: "2.5rem",
+        2.75: "2.75rem",
+        3: "3rem",
       },
       keyframes: {
         wobble: {
@@ -135,6 +135,7 @@ export default {
           "60%": {transform: "rotate(0.0deg)"},
           "100%": {transform: "rotate(0.0deg)"},
         },
+
         "focus-in-expand-fwd": {
           "0%": {
             "letter-spacing": "-0.5em",
@@ -158,6 +159,18 @@ export default {
             opacity: 1,
           },
         },
+        "slide-in-top": {
+          "0%": {
+            "-webkit-transform": "translateY(-1000px)",
+            "transform": "translateY(-1000px)",
+            "opacity": "0"
+          },
+          "100%": {
+            "-webkit-transform": "translateY(0)",
+            "transform": "translateY(0)",
+            "opacity": "1"
+          }
+        },
       },
       animation: {
         // ...animations,
@@ -167,6 +180,7 @@ export default {
           "focus-in-expand-fwd 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
         "text-focus-in":
           "text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both",
+        "slide-in-top": "slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both"
       },
     },
   },
@@ -279,6 +293,42 @@ export default {
         },
       };
       addUtilities(newUtilities, ["responsive", "hover"]);
+
+      const swipeButton = Object.keys(theme("backgroundColor")).reduce(
+        (acc, color) => {
+          const baseClass = `.btn-swipe-${color}`;
+          const altClass = `.btn-swipe-${color}-alt`;
+          const hoverClass = `.btn-swipe-${color}:hover`;
+          const hoverAltClass = `.btn-swipe-${color}-alt:hover`;
+
+          acc[baseClass] = {
+            background: `linear-gradient(${theme(
+              `backgroundColor.${color}`,
+            )} 0 0) var(--p,0%) / var(--p,0%) no-repeat`,
+            transition: "background .4s, background-position 0s",
+          };
+
+          acc[altClass] = {
+            background: `linear-gradient(${theme(
+              `backgroundColor.${color}`,
+            )} 0 0) calc(100% - var(--p,0%)) / var(--p,0%) no-repeat`,
+            transition: "background .4s, background-position 0s",
+          };
+
+          acc[hoverClass] = {
+            "--p": "100%",
+          };
+
+          acc[hoverAltClass] = {
+            "--p": "100%",
+          };
+
+          return acc;
+        },
+        {},
+      );
+
+      addUtilities(swipeButton);
     },
   ],
 };

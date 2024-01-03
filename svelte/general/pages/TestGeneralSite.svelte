@@ -21,6 +21,9 @@
 	`;
 </script>
 
+<section class="grid h-screen w-screen place-items-center">
+  <button class="h-8 w-24 rounded-xl btn-swipe-primary"> ahoj </button>
+</section>
 <section class="h-screen w-screen bg-tertiary-200">
   <ShaderCanvasTest {scale} {fragmentShader} />
 </section>

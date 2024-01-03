@@ -10,7 +10,7 @@
 
 <main
   {style}
-  class="{className} min-h-screen w-screen overflow-y-scroll bg-primary-500"
+  class="{className} flex min-h-screen w-screen flex-col overflow-y-scroll bg-primary-500"
 >
   <slot name="beforeNavBar" />
   <NavigationBar />
@@ -21,7 +21,7 @@
       </h1>
     </div>
   {/if}
-  <div class="">
+  <div class="relative flex min-h-full flex-1 flex-col">
     <slot />
   </div>
 </main>
