@@ -104,7 +104,7 @@
 
               {#if langDropdown}
                 <div
-                  class="absolute left-0 z-20 mt-2 w-16 rounded-md bg-tertiary-100 text-sm text-primary-100 shadow-lg"
+                  class="animate-slide-in-top absolute left-0 z-20 mt-2 w-16 rounded-md bg-tertiary-100 text-sm text-primary-100 shadow-lg"
                 >
                   <ul>
                     {#each Object.entries(languages) as [code, label]}

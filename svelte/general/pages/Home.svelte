@@ -2,9 +2,10 @@
   import RouterLink from "../../components/RouterLink.svelte";
   import NavigationBar from "../app/components/NavigationBar.svelte";
   import Button from "../../components/Buttons/Button.svelte";
-  import { getLanguageInstance } from "../../components/language/languageRepository";
+  import {getLanguageInstance} from "../../components/language/languageRepository";
   import Root from "../layout/Root.svelte";
   import Edge from "../../components/Edge.svelte";
+
   const LI = getLanguageInstance();
 
   let gridItems = [
@@ -138,7 +139,7 @@
     <div
       class="md:4/5 mx-auto grid w-11/12 max-w-6xl grid-cols-2 gap-x-16 gap-y-8 text-white md:grid-cols-3"
     >
-      {#each gridItems as { title, description, icon }, index (title)}
+      {#each gridItems as {title, description, icon}, index (title)}
         <div
           class="relative flex min-h-min flex-col items-center justify-center overflow-x-hidden overflow-y-visible rounded-xl p-4 shadow-inner"
         >
@@ -165,6 +166,29 @@
         </div>
       {/each}
     </div>
+  </section>
+
+  <section
+    id="join"
+    class="relative flex min-h-min w-full flex-col items-center justify-center px-8 py-20"
+  >
+    <div
+      class="rotate-90 opacity-50 absolute top-0 left-0 w-full h-full bg-gradient-to-b from-secondary-400 via-orange-500 to-secondary-800 animate-gradient"
+      style="mask-image: url('/img/patterns/TopologyBlocky.svg'); mask-position: center; mask-size: contain; mask-repeat: no-repeat "
+
+    ></div>
+          
+
+    <h1
+      class="waving-hand z-10 mb-4 text-center text-7xl font-bold text-slate-100"
+    >
+      {LI.get("join.title")}
+    </h1>
+    <p class="wobble z-10 mb-4 max-w-3xl text-center text-2xl text-slate-100">
+      {LI.get("join.description")}
+    </p>
+
+    <Button type="primary" text={LI.get("join.button-buy")}/>
   </section>
 
   <section
@@ -201,21 +225,7 @@
     </div>
   </section>
 
-  <section
-    id="join"
-    class="relative flex min-h-min w-full flex-col items-center justify-center px-8 py-20"
-  >
-    <h1
-      class="waving-hand z-10 mb-4 text-center text-7xl font-bold text-slate-100"
-    >
-      {LI.get("join.title")}
-    </h1>
-    <p class="wobble z-10 mb-4 max-w-3xl text-center text-2xl text-slate-100">
-      {LI.get("join.description")}
-    </p>
 
-    <Button type="primary" text={LI.get("join.button-buy")} />
-  </section>
   <section id="spacer" class="h-12 md:h-64"></section>
 
   <section id="qna" class="min-h-min w-full px-8">
@@ -280,4 +290,50 @@
     background-repeat: no-repeat;
     -webkit-mask-size: 100%;
   }
+  
+
+  .animate-gradient {
+    background-size: 600% 600%;
+
+    -webkit-animation: gradientAnimation 4s ease infinite;
+    -moz-animation: gradientAnimation 4s ease infinite;
+    animation: gradientAnimation 4s ease infinite;
+  }
+
+  @-webkit-keyframes gradientAnimation {
+    0% {
+      background-position: 49% 0%
+    }
+    50% {
+      background-position: 52% 100%
+    }
+    100% {
+      background-position: 49% 0%
+    }
+  }
+
+  @-moz-keyframes gradientAnimation {
+    0% {
+      background-position: 49% 0%
+    }
+    50% {
+      background-position: 52% 100%
+    }
+    100% {
+      background-position: 49% 0%
+    }
+  }
+
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 49% 0%
+    }
+    50% {
+      background-position: 52% 100%
+    }
+    100% {
+      background-position: 49% 0%
+    }
+  }
+
 </style>

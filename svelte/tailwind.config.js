@@ -126,15 +126,16 @@ export default {
           },
         },
         wave: {
-          "0%": { transform: "rotate(0.0deg)" },
-          "10%": { transform: "rotate(14deg)" },
-          "20%": { transform: "rotate(-8deg)" },
-          "30%": { transform: "rotate(14deg)" },
-          "40%": { transform: "rotate(-4deg)" },
-          "50%": { transform: "rotate(10.0deg)" },
-          "60%": { transform: "rotate(0.0deg)" },
-          "100%": { transform: "rotate(0.0deg)" },
+          "0%": {transform: "rotate(0.0deg)"},
+          "10%": {transform: "rotate(14deg)"},
+          "20%": {transform: "rotate(-8deg)"},
+          "30%": {transform: "rotate(14deg)"},
+          "40%": {transform: "rotate(-4deg)"},
+          "50%": {transform: "rotate(10.0deg)"},
+          "60%": {transform: "rotate(0.0deg)"},
+          "100%": {transform: "rotate(0.0deg)"},
         },
+
         "focus-in-expand-fwd": {
           "0%": {
             "letter-spacing": "-0.5em",
@@ -158,6 +159,18 @@ export default {
             opacity: 1,
           },
         },
+        "slide-in-top": {
+          "0%": {
+            "-webkit-transform": "translateY(-1000px)",
+            "transform": "translateY(-1000px)",
+            "opacity": "0"
+          },
+          "100%": {
+            "-webkit-transform": "translateY(0)",
+            "transform": "translateY(0)",
+            "opacity": "1"
+          }
+        },
       },
       animation: {
         // ...animations,
@@ -167,11 +180,12 @@ export default {
           "focus-in-expand-fwd 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
         "text-focus-in":
           "text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both",
+        "slide-in-top": "slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both"
       },
     },
   },
   plugins: [
-    function ({ addUtilities, theme }) {
+    function ({addUtilities, theme}) {
       function calcDesaturated(color) {
         let hsl = colorUtils.RGBToHSL(color);
 
