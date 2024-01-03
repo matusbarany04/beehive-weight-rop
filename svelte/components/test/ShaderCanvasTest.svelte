@@ -31,7 +31,7 @@
   }
 
   onMount(() => {
-    console.log("dfdsfsd")
+    console.log("dfdsfsd");
     const gl = canvas.getContext("webgl");
     let frame;
 
