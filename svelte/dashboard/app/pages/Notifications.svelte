@@ -188,7 +188,6 @@
           <h1
             class="inline opacity-100
                   transition
-                         transition
                       duration-500
                       ease-in-out group-hover:hidden
                       group-hover:opacity-0"
