@@ -190,7 +190,6 @@
   let paramsNeeded = false;
 
   let typeChanged = (value) => {
-    console.log(beehiveObject.getDevices());
     chosenAction = value;
     if (templates[value] !== null) {
       currentTemplate = templates[value];

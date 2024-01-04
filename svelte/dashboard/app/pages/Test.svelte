@@ -45,7 +45,6 @@
 
   // Call the isPossible method with a 4x4 grid and the sample items
   const possible = GridResolver.isPossible(4, 4, items);
-  console.log("old items", possible);
   GridResolver.gridAsString(4, 4, items);
 
   let newItems = GridResolver.resolveAroundItem(4, 4, items, {

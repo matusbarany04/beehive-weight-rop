@@ -75,7 +75,6 @@
 
     for (d = firstDay, i = 0; d <= lastDay; d.setDate(d.getDate() + 1), i++) {
       daysOfMonth.push({ date: new Date(d), reminders: [] });
-      console.log(d);
     }
 
     updateReminders();
