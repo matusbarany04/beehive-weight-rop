@@ -1,6 +1,4 @@
 <script>
-  
-
   let scrollProgress = 0;
 
   function handleScroll() {
@@ -12,7 +10,6 @@
   }
 
   window.addEventListener("scroll", handleScroll);
-  
 </script>
 
 <div style="height: 50vh; background-color: #f0f0f0;"></div>
