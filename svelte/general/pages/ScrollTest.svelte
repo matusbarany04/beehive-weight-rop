@@ -1,7 +1,4 @@
 <script>
-  console.log("what is happening ");
-  import { onMount, tick } from "svelte";
-
   let scrollProgress = 0;
 
   function handleScroll() {
@@ -13,16 +10,6 @@
   }
 
   window.addEventListener("scroll", handleScroll);
-
-  // Add a scroll event listener to handle the animation on scroll
-  onMount(() => {
-    console.log("mounted");
-
-    // Cleanup the event listener on component unmount
-    // return () => {
-    //   window.removeEventListener('scroll', handleScroll);
-    // };
-  });
 </script>
 
 <div style="height: 50vh; background-color: #f0f0f0;"></div>

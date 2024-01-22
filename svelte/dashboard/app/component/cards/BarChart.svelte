@@ -29,7 +29,6 @@
   let beehivelist = cardStates.data;
 
   function getDataFromBeehive(beehive_id, type) {
-    // console.log("getDataFromBeehive", beehive_id);
     /** @type {BeehiveObj} */
     let beehiveObject = shared.getBeehiveById(beehive_id);
     if (beehiveObject == null) {
@@ -50,7 +49,6 @@
 
   try {
     let beehives = shared.getBeehives();
-    // console.log("cardStates.data.length === beehives.length",cardStates.data, cardStates.data.length, Object.keys(beehives).length)
     if (beehivelist.length === Object.keys(beehives).length) {
       allSelected = true;
     }

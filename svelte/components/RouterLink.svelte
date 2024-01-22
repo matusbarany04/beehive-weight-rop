@@ -42,7 +42,6 @@
   let currentPrefix = "";
 
   prefix.subscribe((value) => {
-    console.log(value);
     currentPrefix = value || "";
   });
 

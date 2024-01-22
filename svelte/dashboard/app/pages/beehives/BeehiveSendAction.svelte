@@ -125,6 +125,7 @@
   let formId = generateUUID();
 
   function handleSubmit(event) {
+    console.log("handling submit");
     event.preventDefault(); // Prevent the default form submission
 
     const data = new FormData(this);
@@ -189,7 +190,6 @@
   let paramsNeeded = false;
 
   let typeChanged = (value) => {
-    console.log(beehiveObject.getDevices());
     chosenAction = value;
     if (templates[value] !== null) {
       currentTemplate = templates[value];
@@ -232,8 +232,9 @@
 <!--</SettingsItem>-->
 
 {#if Object.keys(pendingActions).length > 0}
-  {#each Object.entries(pendingActions) as [id, action]}
+  {#each Object.values(pendingActions).reverse() as action (action.id)}
     <ActionCard
+      key={action.id}
       actionObject={action}
       onDeleteCard={() => {
         deleteAction(action.id);
@@ -317,13 +318,14 @@
     {/if}
   </form>
 
-  <button slot="footer" type="submit" form="addNewAction-{formId}">
+  <div slot="footer">
     <Button
       slot="footer"
       type="confirm"
       autofocus
+      formId="addNewAction-{formId}"
       clickType="submit"
       text="Urob to!"
     ></Button>
-  </button>
+  </div>
 </Modal>

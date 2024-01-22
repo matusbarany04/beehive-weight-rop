@@ -15,7 +15,6 @@
   export let question;
 
   if (question) {
-    console.log(li);
     positiveButton = li.get("yes");
     negativeButton = li.get("no");
   }

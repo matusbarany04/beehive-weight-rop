@@ -137,7 +137,7 @@
 <svelte:window on:resize={resizeWindowEvent} />
 
 <svelte:head>
-  <title>Hlavný Panel</title>
+  <title>{li.get("home.page")}</title>
   <meta name="description" content="Dashboard" />
 </svelte:head>
 
@@ -147,7 +147,7 @@
       <div class="flex gap-4">
         {#if editMode}
           <Button
-            text="Zahodiť zmeny"
+            text={li.get("home.cancel_changes")}
             type="secondary"
             onClick={restoreLayout}
           />
@@ -155,7 +155,7 @@
         <!-- TODO spravit len disabled mozno v buducnosti, 
                                           pridat aj popup preco to zmizlo (ked sa zmensi sirka okna) -->
         <Button
-          text={!editMode ? "upraviť" : "uložiť"}
+          text={!editMode ? li.get("home.edit") : li.get("home.save")}
           type={!editMode ? "primary" : "confirm"}
           onClick={() => {
             if (editMode) {

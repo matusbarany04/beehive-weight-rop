@@ -26,7 +26,6 @@
               "/dashboardApi/checkPairingStatus?token=" + token,
             );
             status = await response.json();
-            console.log(status["status"]);
             if (status["status"] === "PAIRED") {
               location.href = "/dashboard/beehives/" + token + "/edit";
               clearInterval(interval);

@@ -38,7 +38,6 @@
 
   try {
     let beehives = shared.getBeehives();
-    // console.log("cardStates.data.length === beehives.length",cardStates.data, cardStates.data.length, Object.keys(beehives).length)
     if (beehivelist.length === Object.keys(beehives).length) {
       allSelected = true;
     }
@@ -51,12 +50,10 @@
       beehivelist.length === beehives.length
     ) {
       allSelected = true;
-      // console.log("CardStates", cardStates);
       // noDataError is replaced with all weight from all devices
       // error = "NoDataError";
       beehivelist = [];
 
-      // console.log("beehives", beehives);
       for (const key of Object.keys(beehives)) {
         let beehive = beehives[key];
         beehivelist.push({
@@ -66,7 +63,6 @@
           beehive_id: beehive.beehive_id,
         });
       }
-      // console.log("cardstates", cardStates.data);
     }
 
     beehivelist.forEach((element) => {
