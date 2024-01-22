@@ -59,8 +59,11 @@
 </script>
 
 <svelte:head>
-  <title>Úle</title>
-  <meta name="Úle" content="Úle" />
+  <title>{li.get("beehives.page_title")}</title>
+  <meta
+    name={li.get("beehives.page_title")}
+    content={li.get("beehives.page_title")}
+  />
 </svelte:head>
 
 <div class="box-border h-full w-full">
@@ -140,11 +143,19 @@
           <thead class="bg-white">
             <tr class="h-12">
               <th class="text-slate-500"></th>
-              <Th {handler} orderBy="name">Názov váhy</Th>
-              <Th {handler} orderBy="battery">Batéria</Th>
-              <Th {handler}>Status</Th>
-              <Th {handler} orderBy="timestamp">Posledná aktualizácia</Th>
-              <Th {handler} orderBy="weight">Hmotnosť</Th>
+              <Th {handler} orderBy="name"
+                >{li.get("beehives.table.beehive_name")}</Th
+              >
+              <Th {handler} orderBy="battery"
+                >{li.get("beehives.table.battery")}</Th
+              >
+              <Th {handler}>{li.get("beehives.table.status")}</Th>
+              <Th {handler} orderBy="timestamp"
+                >{li.get("beehives.table.timestamp")}</Th
+              >
+              <Th {handler} orderBy="weight"
+                >{li.get("beehives.table.weight")}</Th
+              >
               <Th {handler} />
             </tr>
           </thead>
@@ -228,7 +239,7 @@
                 <td>
                   <Button
                     type="secondary"
-                    text="Detail"
+                    text={li.get("beehives.btn_detail")}
                     link={`/beehives/${row.beehive_id}`}
                     onClick={() => {}}
                   />
@@ -250,7 +261,7 @@
   {/if}
 </div>
 
-<style lang="scss">
+<style>
   td,
   th {
     padding: 4px 20px;
