@@ -2,8 +2,12 @@
   import CardRoot from "./components/CardRoot.svelte";
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import { getUnitByType } from "../../../../components/lib/utils/staticFuncs";
+  import {generateRandomText, generateUUID, getUnitByType} from "../../../../components/lib/utils/staticFuncs";
   import BeehiveTypeForm from "./forms/BeehiveTypeForm.svelte";
+  import fitty from 'fitty'
+
+  import {onMount} from "svelte";
+
 
   export let cardStates;
 
@@ -122,6 +126,29 @@
     // fetch all non-detachable and detachable data into key - value pairs
     // update data_types
   }
+
+  var fitties = null;
+  let textid = generateRandomText();
+  onMount(() => {
+    fitties = fitty(`#${textid}`)
+
+    // get element reference of first fitty
+    var myFittyElement = fitties[0].element;
+
+    myFittyElement.addEventListener('fit', function (e) {
+      // log the detail property to the console
+      console.log(e.detail);
+    });
+
+    setTimeout(() => {
+      fitties[0].fit();
+    }, 500)
+    // // force refit
+    //
+    // // force synchronous refit
+    // fitties[0].fit({ sync: true });
+
+  })
 </script>
 
 <!-- theme="dashed" -->
@@ -153,12 +180,11 @@
     bind:clientHeight={h}
   >
     <div
-      class="mb-4 flex items-center justify-center font-bold"
-      style="width: {w}px"
+      class="mb-4 flex items-center justify-center font-bold w-full"
     >
       <h1
-        class="overflow-hidden text-ellipsis whitespace-nowrap text-center"
-        style="font-size: {(size * 4.5) / 6}px"
+        id={textid}
+        class="overflow-hidden whitespace-nowrap text-center fit"
       >
         {value}
       </h1>
