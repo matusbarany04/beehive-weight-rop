@@ -17,13 +17,16 @@
     removeParam,
   } from "../../../components/router/route.serv";
 
-  message.setMessage("Nastavenia");
+  let li = getLanguageInstance();
+
+  message.setMessage(li.get("change_password.page"));
 
   let saveEnabled = false;
   let userObject;
 
   import { onMount } from "svelte";
   import toast from "../../../components/Toast/toast";
+  import { getLanguageInstance } from "../../../components/language/languageRepository";
 
   onMount(() => {
     // Check the 'passwordChanged' parameter and toast the appropriate message
@@ -89,10 +92,10 @@
 </script>
 
 <svelte:head>
-  <title>Zmena hesla</title>
+  <title>{li.get("change_password.page")}</title>
   <meta
-    name="Password change"
-    content="This page is for changing users password"
+    name={li.get("change_password.page")}
+    content={li.get("change_password.about")}
   />
 </svelte:head>
 
@@ -103,7 +106,7 @@
   on:submit={handleSubmit}
 >
   {#if userObject}
-    <SettingsHeader title="Zmena hesla" />
+    <SettingsHeader title={li.get("change_password.page")} />
     <input type="email" value={userObject.email} name="email" class="hidden" />
     {#if validationError}
       <div
@@ -115,12 +118,12 @@
       </div>
     {/if}
     <SettingsItem
-      title="Vaše staré heslo"
-      detail="Pre zmenu hesla zadajte prosím Vaše staré heslo"
+      title={li.get("change_password.old_pass.title")}
+      detail={li.get("change_password.old_pass.detail")}
     >
       <input
         type="password"
-        placeholder="Staré heslo"
+        placeholder={li.get("change_password.old_pass.placeholder")}
         name="currentPassword"
         bind:value={oldPassword}
         on:input={triggerSave}
@@ -131,13 +134,13 @@
     </SettingsItem>
 
     <SettingsItem
-      title="Vaše nové heslo"
-      detail="S týmto heslom sa budete prihlasovať do Vašeho účtu"
+      title={li.get("change_password.new_pass.title")}
+      detail={li.get("change_password.new_pass.detail")}
     >
       <input
         name="newPassword"
         type="password"
-        placeholder="Nové heslo"
+        placeholder={li.get("change_password.new_pass.placeholder")}
         bind:value={newPassword}
         on:input={triggerSave}
         class="{error.newPassword
@@ -151,7 +154,7 @@
       <Button
         className="float-right sm:w-16"
         bind:enabled={saveEnabled}
-        text={"Uložiť"}
+        text={li.get("change_password.save")}
         type="confirm"
         clickType={saveEnabled ? "submit" : "button"}
       />

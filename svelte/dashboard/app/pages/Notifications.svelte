@@ -59,7 +59,7 @@
 
   let messages = null;
 
-  message.setMessage(li.get("notifications.page_title"));
+  message.setMessage(li.get("notifications.page"));
 
   fetch("/dashboardApi/getNotifications")
     .then((response) => {
@@ -80,7 +80,7 @@
     });
 
   /**
-   * Sets notification to state 'read'
+   * Sets notification to state 'read' inside a database
    * @param id id of the notification
    */
   const setRead = (id) => {
@@ -135,7 +135,7 @@
   };
 
   /**
-   * Gets a cookie by name
+   * Gets a cookie by name from browser
    * @param name
    */
   function getCookie(name) {
@@ -147,8 +147,8 @@
 </script>
 
 <svelte:head>
-  <title>Upozornenia</title>
-  <meta name="Analytika" content="Analytika" />
+  <title>{li.get("notifications.page")}</title>
+  <meta name="Analytika" content={li.get("notifications.about")} />
 </svelte:head>
 {#if messages}
   <div
@@ -247,10 +247,10 @@
   </div>
   <!--  TODO translate -->
   <h1 class="my-4 text-center text-4xl font-bold text-slate-600">
-    Zatiaľ žiadne upozornenia!
+    {li.get("notifications.no_notifications")}
   </h1>
   <h1 class="my-4 text-center text-base text-slate-600">
-    Pri novom upozornení dostanete správu emailom
+    {li.get("notifications.no_notifications_suggestion")}
   </h1>
 {/if}
 

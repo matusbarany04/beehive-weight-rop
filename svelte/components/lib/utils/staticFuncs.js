@@ -109,6 +109,26 @@ export const generateUUID = () => {
   });
 };
 
+export const generateRandomText = () => {
+  let d = new Date().getTime(),
+    d2 =
+      (typeof performance !== "undefined" &&
+        performance.now &&
+        performance.now() * 1000) ||
+      0;
+  return "xxxxxxxxxxxxx".replace(/[a-z]/g, (c) => {
+    let r = Math.random() * 26; // 26 for the number of lowercase letters
+    if (d > 0) {
+      r = (d + r) % 26 | 0;
+      d = Math.floor(d / 26);
+    } else {
+      r = (d2 + r) % 26 | 0;
+      d2 = Math.floor(d2 / 26);
+    }
+    return String.fromCharCode((c === "x" ? r : (r & 0x7) | 0x8) + 97); // 97 is the ASCII code for 'a'
+  });
+};
+
 /** nepouzivat priamo toto je len fallback, volana iba z copyTextToClipboard*/
 function fallbackCopyTextToClipboard(text) {
   var textArea = document.createElement("textarea");

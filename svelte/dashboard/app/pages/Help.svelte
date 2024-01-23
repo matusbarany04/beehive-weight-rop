@@ -3,22 +3,19 @@
    * @fileoverview This page is for resolving user related problem and providing explanations
    * @module Help
    */
-  import HelpDropdown from "../../../components/help/HelpDropdown.svelte";
-  import SettingsHeader from "../component/settings/SettingsHeader.svelte";
-
   import message from "../stores/message";
+  import { getLanguageInstance } from "../../../components/language/languageRepository";
 
-  message.setMessage("Pomoc");
+  let li = getLanguageInstance();
+
+  message.setMessage(li.get("help.page"));
 </script>
 
 <svelte:head>
-  <title>Pomoc</title>
-  <meta
-    name="help"
-    content="This page is for resolving user related problem and providing explanations"
-  />
+  <title>{li.get("help.page")}</title>
+  <meta name="help" content={li.get("help.about")} />
 </svelte:head>
 
 <div class="grid h-full w-full place-items-center">
-  <p>Caka sa na spravenie</p>
+  <p>{li.get("help.in_construction")}</p>
 </div>

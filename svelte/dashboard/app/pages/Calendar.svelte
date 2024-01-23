@@ -178,19 +178,24 @@
     class="my-4 flex flex-col gap-4"
   >
     <Input
-      label="Názov"
-      placeholder="Názov"
+      label={li.get("calendar.new_reminder.name")}
+      placeholder={li.get("calendar.new_reminder.name_placeholder")}
       name="title"
       value=""
       required="required"
     />
 
-    <Input label="Poznámka" placeholder="Poznámka" name="details" value="" />
+    <Input
+      label={li.get("calendar.new_reminder.note")}
+      placeholder={li.get("calendar.new_reminder.note_placeholder")}
+      name="details"
+      value=""
+    />
 
-    <label for="color">Farba: </label>
+    <label for="color">{li.get("calendar.new_reminder.color")}: </label>
     <input type="color" name="color" id="color" value="#0000ff" />
 
-    <label for="date">Dátum: </label>
+    <label for="date">{li.get("calendar.new_reminder.date")}: </label>
     <input
       class="h-8 w-44 rounded-md border-2 border-slate-300 px-4"
       type="date"
@@ -205,7 +210,7 @@
       required
     />
 
-    <label for="time">Čas: </label>
+    <label for="time">{li.get("calendar.new_reminder.time")}: </label>
     <input
       class="h-8 w-44 rounded-md border-2 border-slate-300 px-4"
       type="time"
@@ -218,7 +223,7 @@
     />
 
     <DropdownInput
-      label="Upozornenie"
+      label={li.get("calendar.new_reminder.notification")}
       name="notifyBy"
       options={[
         [0, "-"], //TODO opravit hodnoty
@@ -226,12 +231,13 @@
       ]}
     />
   </form>
+
   <Button
     formId="newReminder"
     slot="footer"
     type="confirm"
     autofocus
     clickType="submit"
-    text="Uložiť a zatvoriť okno"
+    text={li.get("calendar.new_reminder.save_btn")}
   />
 </Modal>
