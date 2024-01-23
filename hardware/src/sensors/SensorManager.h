@@ -4,6 +4,7 @@
 #include "Sensor.h"
 #include "battery.h"
 #include "constants.h"
+#include "memory.h"
 
 #define SCAN_INTERVAL 1000
 #define CONFIG_CHANGED 1
@@ -16,10 +17,10 @@ class SensorManager {
 
     public:
 
-        void initWeightSensors() {
+        void initWeightSensors(Config config) {
             scale.begin(SCALE_DT, SCALE_SCK);
+            scale.set_offset(config.weight_offset);
             scale.set_scale(WEIGHT_SCALE);
-            scale.tare();
         }
 
         bool scan() {
@@ -117,7 +118,18 @@ class SensorManager {
         }
 
         int getWeight() {
-            return scale.get_units();
+            float value = scale.get_units();
+            return value > 0 ? value : 0;
+        }
+
+        long computeWeightOffset(float weight) {
+            scale.set_scale(1);
+            scale.set_offset(0);
+            long target_value = weight * 1000 * WEIGHT_SCALE;
+            long result_value = scale.get_units() - target_value;
+            scale.set_scale(WEIGHT_SCALE);
+            scale.set_offset(result_value);
+            return result_value;
         }
 
     private:

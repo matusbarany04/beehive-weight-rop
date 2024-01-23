@@ -169,7 +169,7 @@ void connect() {
 
 void updateStatus() {
   networkManager.turn_wifi_off();
-  sensorManager.initWeightSensors();
+  sensorManager.initWeightSensors(config);
   sensorManager.scan();
 
   String json = sensorManager.buildJSON();
@@ -264,6 +264,11 @@ void handleActions() {
     load(&config);
     return "DONE";
   });
+  actionManager.addAction(CALIBRATE_WEIGHT_SENSORS, [](JsonObject params) -> String {
+    config.weight_offset = sensorManager.computeWeightOffset(params["weight"]);
+    save(config);
+    return "DONE";
+  });
 }
 
 String changeConfig(JsonObject params) {
@@ -311,7 +316,6 @@ void loop()
         {
             Serial.write(gsmSerial.read()); // Forward what Software Serial received to Serial Port
         }
-
 }
 
  

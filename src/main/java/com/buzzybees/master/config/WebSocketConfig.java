@@ -71,6 +71,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
         @Override
         public boolean beforeHandshake(@NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response, @NotNull WebSocketHandler wsHandler, @NotNull Map<String, Object> attributes) throws Exception {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
+            System.out.println(request.getHeaders());
             String token = servletRequest.getServletRequest().getParameter("token");
 
             BeehiveRepository beehiveRepository = DatabaseController.accessRepo(Beehive.class);
