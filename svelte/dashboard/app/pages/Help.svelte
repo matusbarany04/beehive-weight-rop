@@ -19,8 +19,6 @@
   />
 </svelte:head>
 
-
-<div class="h-full w-full grid place-items-center">
-  
+<div class="grid h-full w-full place-items-center">
   <p>Caka sa na spravenie</p>
 </div>

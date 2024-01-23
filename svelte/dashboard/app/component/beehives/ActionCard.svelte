@@ -2,7 +2,7 @@
   import { getLanguageInstance } from "../../../../components/language/languageRepository";
   import CircleButton from "../../../../components/Buttons/CircleButton.svelte";
   import { fade, fly } from "svelte/transition";
-  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
+  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
   export let className;
 
   export let actionObject;
@@ -46,7 +46,7 @@
 </script>
 
 <div
-  id="{generateUUID()}"
+  id={generateUUID()}
   out:fly|local={{ x: 400, duration: 1000 }}
   class="{className} min-h-16 relative mx-auto mb-4 flex flex-col rounded-lg bg-white p-4 shadow shadow-tertiary-300 lg:w-5/6"
 >

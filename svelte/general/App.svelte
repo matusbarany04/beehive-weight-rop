@@ -10,7 +10,7 @@
   let languageLoaded = false;
   setLanguageDataLoadedEvent((json) => {
     languageLoaded = true;
-    });
+  });
 
   initLanguage("general");
 </script>

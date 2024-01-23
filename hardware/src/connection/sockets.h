@@ -25,12 +25,15 @@ WebsocketsClient webSocket;
 ulong lastPing;
 
 void (*onReceived)(JsonObject action);
+void socketConnect();
 
 void onEventsCallback(WebsocketsEvent event, String data) {
     if(event == WebsocketsEvent::ConnectionOpened) {
         Serial.println("Connnection Opened");
     } else if(event == WebsocketsEvent::ConnectionClosed) {
         Serial.println("Connnection Closed");
+        delay(1000);
+        socketConnect();
     }
 }
 
@@ -63,10 +66,10 @@ void listenSocketMessages() {
 }
 
 void socketConnect() {
+    Serial.println(webSocket.available());
     if(NetworkManager::connectionAvailable()) {
         webSocket.onEvent(onEventsCallback);
         listenSocketMessages();
-        
         webSocket.connect("ws://" + String(SERVER_URL) + "/websocket/beehive?token=" + String(BEEHIVE_ID));
         Param params[] = {{"newState", "ONLINE"}};
         sendActionToServer(UPDATE_DEVICE_STATE, params);

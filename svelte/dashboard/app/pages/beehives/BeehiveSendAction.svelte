@@ -318,7 +318,7 @@
     {/if}
   </form>
 
-  <div slot="footer"  >
+  <div slot="footer">
     <Button
       slot="footer"
       type="confirm"

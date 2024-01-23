@@ -41,7 +41,9 @@ public enum ActionType {
     ),
     FACTORY_RESET("FACTORY_RESET", false, true,
             new JSONForm()
-    );
+    ),
+
+    CALIBRATE_WEIGHT_SENSORS("CALIBRATE_WEIGHT_SENSORS", false, true, new JSONForm().addParam(new JSONParam("weight", ParamType.NUMERIC, true)));
 
     public final String name;
 

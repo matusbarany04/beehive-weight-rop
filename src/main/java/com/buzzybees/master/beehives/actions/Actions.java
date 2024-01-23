@@ -8,13 +8,11 @@ import com.buzzybees.master.websockets.ClientMessage;
 import com.buzzybees.master.websockets.ClientSocketHandler;
 import com.buzzybees.master.websockets.MessageType;
 import com.buzzybees.master.websockets.ServerAction;
-import nl.martijndwars.webpush.cli.Cli;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 record ActionCallback(Beehive beehive, ActionType actionType, Actions.OnActionResponse onActionResponse) {
 
