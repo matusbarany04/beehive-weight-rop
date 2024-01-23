@@ -65,12 +65,12 @@
   svg="icons/calendar.svg"
   link="/dashboard/calendar"
 />
-<PanelItem
-  {collapsed}
-  text="Test"
-  svg="icons/chat-dots.svg"
-  link="/dashboard/test"
-/>
+<!--<PanelItem-->
+<!--  {collapsed}-->
+<!--  text="Test"-->
+<!--  svg="icons/chat-dots.svg"-->
+<!--  link="/dashboard/test"-->
+<!--/>-->
 <div class="absolute bottom-2 w-full text-center text-white">
   <form action="/logoutUser" method="POST">
     <button type="submit">{li.get("sidenav.logout")}</button>
