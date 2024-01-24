@@ -2,12 +2,15 @@
   import CardRoot from "./components/CardRoot.svelte";
   import shared from "../../stores/shared";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
-  import {generateRandomText, generateUUID, getUnitByType} from "../../../../components/lib/utils/staticFuncs";
+  import {
+    generateRandomText,
+    generateUUID,
+    getUnitByType,
+  } from "../../../../components/lib/utils/staticFuncs";
   import BeehiveTypeForm from "./forms/BeehiveTypeForm.svelte";
-  import fitty from 'fitty'
+  import fitty from "fitty";
 
-  import {onMount} from "svelte";
-
+  import { onMount } from "svelte";
 
   export let cardStates;
 
@@ -130,25 +133,24 @@
   var fitties = null;
   let textid = generateRandomText();
   onMount(() => {
-    fitties = fitty(`#${textid}`)
+    fitties = fitty(`#${textid}`);
 
     // get element reference of first fitty
     var myFittyElement = fitties[0].element;
 
-    myFittyElement.addEventListener('fit', function (e) {
+    myFittyElement.addEventListener("fit", function (e) {
       // log the detail property to the console
       console.log(e.detail);
     });
 
     setTimeout(() => {
       fitties[0].fit();
-    }, 500)
+    }, 500);
     // // force refit
     //
     // // force synchronous refit
     // fitties[0].fit({ sync: true });
-
-  })
+  });
 </script>
 
 <!-- theme="dashed" -->
@@ -179,13 +181,8 @@
     bind:clientWidth={w}
     bind:clientHeight={h}
   >
-    <div
-      class="mb-4 flex items-center justify-center font-bold w-full"
-    >
-      <h1
-        id={textid}
-        class="overflow-hidden whitespace-nowrap text-center fit"
-      >
+    <div class="mb-4 flex w-full items-center justify-center font-bold">
+      <h1 id={textid} class="fit overflow-hidden whitespace-nowrap text-center">
         {value}
       </h1>
     </div>
