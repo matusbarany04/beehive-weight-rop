@@ -72,6 +72,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
         public boolean beforeHandshake(@NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response, @NotNull WebSocketHandler wsHandler, @NotNull Map<String, Object> attributes) throws Exception {
             System.out.println(request.getHeaders());
             request.getHeaders().set("Upgrade", "websocket");
+            request.getHeaders().set("Connection", "Upgrade");
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             String token = servletRequest.getServletRequest().getParameter("token");
 
