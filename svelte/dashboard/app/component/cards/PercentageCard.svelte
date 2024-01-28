@@ -151,6 +151,29 @@
     // // force synchronous refit
     // fitties[0].fit({ sync: true });
   });
+
+
+  function padStringToLength(inputString, minLength) {
+    if (inputString.length >= minLength) {
+      return inputString;
+    }
+
+    const paddingLength = minLength - inputString.length;
+    const leftPadding = Math.floor(paddingLength / 2);
+    const rightPadding = Math.ceil(paddingLength / 2);
+
+    const paddedString = ' '.repeat(leftPadding) + inputString + ' '.repeat(rightPadding);
+    return paddedString;
+  }
+
+  // Example usage:
+  const originalString = "ok";
+  const minLength = 4;
+  const paddedResult = padStringToLength(originalString, minLength);
+
+  console.log(paddedResult);
+
+  
 </script>
 
 <!-- theme="dashed" -->
@@ -181,29 +204,15 @@
     bind:clientWidth={w}
     bind:clientHeight={h}
   >
-    <div class="mb-4 flex w-full items-center justify-center font-bold">
-      <h1 id={textid} class="fit overflow-hidden whitespace-nowrap text-center">
-        {value}
-      </h1>
+    <div class="mb-4 py-32 flex w-full items-center justify-center font-bold">
+      <div class="h-full w-full">
+        <h1 id={textid} class="fit overflow-hidden whitespace-nowrap text-center">
+          {padStringToLength(value,6).replace(/ /g, '\u00a0')}
+        </h1>
+      </div>
     </div>
   </div>
-  <!--{#if !isNaN(parseFloat(comparisonPerc))}-->
-  <!--  <div-->
-  <!--    class="absolute bottom-4 box-border flex w-full items-center justify-center"-->
-  <!--    style="gap: {Math.min(w / 40, 20)}px; padding-left: {w / 40}px"-->
-  <!--  >-->
-  <!--    <div-->
-  <!--      class="image h-5 w-5 {comparisonPerc > 0 ? 'positive' : 'negative'}"-->
-  <!--    />-->
-  <!--    <p class="percent no_wrap whitespace-nowrap text-sm">{comparisonPerc}%</p>-->
-  <!--    <small class="overflow-hidden text-ellipsis whitespace-nowrap">-->
-  <!--      od posledného týždňa-->
-  <!--    </small>-->
-  <!--  </div>-->
-  <!--{/if}-->
-
-  <!--TODO might crash-->
-
+  
   <div class="" slot="customSettings">
     {#if true}
       <!--error == null && value !== "error" && value !== "NoData"-->
@@ -215,21 +224,3 @@
     {/if}
   </div>
 </CardRoot>
-
-<style lang="scss">
-  .image {
-    aspect-ratio: 1/1;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: url("/icons/add.svg");
-  }
-
-  .positive {
-    background-image: url("/icons/graph_positive.svg");
-  }
-
-  .negative {
-    background-image: url("/icons/graph_negative.svg");
-  }
-</style>
