@@ -134,7 +134,7 @@ class SensorManager {
 
     private:
         Sensor* sensors[sizeof(SENSOR_PINS) / sizeof(int)];
-        Battery battery = Battery(25);
+        Battery battery = Battery(BATTERY_PIN);
         long lastScan = 0;
 
 };

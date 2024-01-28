@@ -12,9 +12,13 @@
     "logout": "Odhlásiť sa"
   },
   "home": {
+    "page": "Hlavný panel",
     "greeting_morning": "Dobré ráno, včelár %s!",
     "greeting_noon": "Dobrý deň, včelár %s!",
-    "greeting_evening": "Dobrý večer, včelár %s!"
+    "greeting_evening": "Dobrý večer, včelár %s!",
+    "edit": "Upraviť",
+    "save": "Uložiť",
+    "cancel_changes": "Zahodiť zmeny"
   },
   "beehives": {
     "page_title": "Zoznam úľov",
@@ -29,6 +33,13 @@
     "next": "Nasledujúca",
     "search": "hľadať",
     "btn_detail": "Detail",
+    "table": {
+      "beehive_name": "Názov váhy",
+      "battery": "Batéria",
+      "status": "Status",
+      "timestamp":"Posledná aktualizácia",
+      "weight": "Hmotnosť"
+    },
     "settings": {
       "beehive_name": "Názov váhy",
       "location": "Poloha",
@@ -148,14 +159,51 @@
       }
     }
   },
+  "help": {
+    "page": "Pomoc",
+    "about": "This page is for resolving user related problem and providing explanations",
+    "in_construction": "Čaká sa na spravenie"
+  },
+  "change_password": {
+    "page": "Zmena hesla",
+    "about": "This page is for changing users password",
+    "old_pass":{
+      "title": "Vaše staré heslo",
+      "detail": "Pre zmenu hesla zadajte prosím Vaše staré heslo",
+      "placeholder": "Staré heslo"
+    },
+    "new_pass": {
+      "title": "Vaše nové heslo",
+      "detail": "S týmto heslom sa budete prihlasovať do Vašeho účtu",
+      "placeholder": "Nové heslo"
+    },
+    "save": "Uložiť"
+  },
   "notifications": {
-    "page_title": "Upozornenia",
+    "page": "Upozornenia",
+    "about": "This page displays all notifications done by any of our internal systems",
     "title": "Vaše upozornenia",
+    "no_notifications": "Zatiaľ žiadne upozornenia!",
+    "no_notifications_suggestion": "Pri novom upozornení dostanete správu emailom",
     "btn_mark_read": "Označiť všetky ako prečítané"
+  },
+  "not_found": {
+     "message": " Veľmi sa ospravedlňujeme, ale nenašli sme čo hľadáte"
   },
   "calendar": {
     "page_title": "Kalendár",
-    "btn_new_reminder": "Nová poznámka/pripomienka"
+    "btn_new_reminder": "Nová poznámka/pripomienka",
+    "new_reminder": {
+      "name": "Názov",
+      "name_placeholder": "Názov",
+      "note": "Poznámka",
+      "note_placeholder": "Poznámka",
+      "color": "Farba",
+      "date": "Date",
+      "time": "Čas",
+      "notification": "Upozornenie",
+      "save_btn": "Uložiť a zatvoriť okno"
+    }
   },
   "actions": {
     "MOTOR_MOVE": "Pohyb motora",

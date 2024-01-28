@@ -4,18 +4,17 @@
 #include <ArduinoJson.h>
 #include <Servo.h>
 
-#include "sensors/SensorManager.h" 
-#include "connection/network.h"
-#include "connection/sockets.h"
-#include "connection/sim.h"
 #include "constants.h"
-#include "actions.h"
 #include "led.h"
+#include "actions.h"
 #include "Button.h"
 #include "memory.h"
 #include "power.h"
 #include "enums.h"
-
+#include "sensors/SensorManager.h" 
+#include "connection/network.h"
+#include "connection/sockets.h"
+#include "connection/sim.h"
 
 
 void pair();
@@ -33,8 +32,7 @@ SensorManager sensorManager;
 NetworkManager networkManager;
 ActionManager actionManager;
 
-LED led(19);
-Button button(21);
+Button button(12);
 SIM sim(1);
 
 Config config = {};
@@ -53,9 +51,9 @@ void setup()
   Serial.begin(9600);
   Serial.println();
 
-  if(Power::getWakeUpCause() == COLD_BOOT) wakeUp = true;
+  if(Power::getWakeUpCause() == COLD_BOOT || Power::getWakeUpCause() == USER_EVENT) wakeUp = true;
  
-  led.indicate(OK);
+  led.indicate(POWER);
   handleActions();
 
   load(&config);
@@ -63,7 +61,10 @@ void setup()
   wakeUpTime = 1701187047;
 
   updateStatus();
-  if(wakeUp) socketConnect();
+
+  if(wakeUp) {
+    socketConnect();
+  }
 
   onSocketActionReceived([](JsonObject action) {
     ActionType actionType = parseActionType(action["type"]);
@@ -124,7 +125,7 @@ void setup()
 /*
   led.indicate(REQUEST_SUCCESS);
 
- // button.setAction(pair);
+
 
   delay(2000);
 
@@ -146,13 +147,21 @@ void setup()
  //digitalWrite(SCL_PIN, LOW);
  //pinMode(33, INPUT);
 
- if(!wakeUp) Power::sleep(config.interval * 60);
+  button.setAction(updateStatus);
+  button.setLongPressAction([]() {
+    if(Power::getState() == BATTERY_POWER) {
+      Param actionParams[] = {{"newState", "IDLE"}};
+      sendActionToServer(UPDATE_DEVICE_STATE, actionParams);
+      Power::sleep(config.interval * 60);
+
+    } else led.indicate(ERROR);
+  });
+
+  if(!wakeUp) Power::sleep(config.interval * 60);
 }
 
-
-
 void connect() {
- // led.indicate(CONNECTING);
+  led.indicate(CONNECTING);
   switch (config.connectionMode) {
     case GSM:
         break;
@@ -299,23 +308,32 @@ String changeConfig(JsonObject params) {
     return "DONE";
 }
 
+void checkCharging() {
+  if(!socket_connecting && millis() - Power::lastCheckTime > CHARGE_CHECK_INTERVAL) {
+    if (Power::getState() == CHARGING_IN_PROGRESS) led.indicate(CHARGING);
+    else led.indicate(POWER);
+  }
+}
 
 void loop()
 {
-  // delay(500);
+   //delay(500);
+  //Serial.println(digitalRead(13));
   updateSocket();
   if(NetworkManager::connectionAvailable() && sensorManager.intervalScan() == CONFIG_CHANGED) {
     Param params[] = {{"config", sensorManager.buildJSON(true)}};
     sendActionToServer(UPDATE_DEVICE_CONFIG, params);
   }
-  while (Serial.available())
+
+  checkCharging();
+  /*while (Serial.available())
   {
             gsmSerial.write(Serial.read()); // Forward what Serial received to Software Serial Port
         }
         while (gsmSerial.available())
         {
             Serial.write(gsmSerial.read()); // Forward what Software Serial received to Serial Port
-        }
+        }*/
 }
 
  

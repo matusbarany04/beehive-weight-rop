@@ -4,6 +4,11 @@
 
 #define SDA_PIN 22
 #define SCL_PIN 23
+#define BATTERY_PIN 4
+#define CHARGING_PIN 13
+#define LED_PIN 18
+
+#define WAKE_UP_PINS 0x3000
 
 #define SCALE_DT 5
 #define SCALE_SCK 15

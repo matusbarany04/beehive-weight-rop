@@ -1,20 +1,23 @@
 #pragma once
 #include <Arduino.h>
 
-#define IDLE 0
-#define OK 1
-#define REQUEST_SUCCESS 2
-#define CONNECTING 3
-#define ERROR -1
+enum State {
+    POWER,
+    IDLE,
+    REQUEST_SUCCESS,
+    CONNECTING,
+    CHARGING,
+    ERROR
+};
 
 #define TASK_NAME "blink"
 #define STACK_SIZE 128
+#define INFINITE -1
 
 struct Params {
     int duration;
-    uint8_t times;
-    bool infinite;
-    uint8_t pin;
+    int8_t times;
+    bool fadeIn;
 };
 
 class LED {
@@ -24,37 +27,46 @@ class LED {
         LED(uint8_t pin) {
             this->pin = pin;
             pinMode(pin, OUTPUT);
-            digitalWrite(this->pin, HIGH);
+            analogWrite(this->pin, 255);
         }
 
-        void indicate(int status) {
+        void indicate(State state) {
+            if(state == currentState) return;
+            currentState = state;
+            Serial.print("new indication: ");
+            Serial.println(state);
             endProcess();
-            Params params;
+            //Params params;
 
-            switch (status) {
+            switch (state) {
             
-                case OK:
+                case POWER:
                     on();
                     break;
 
-                case IDLE:
-                    params = {250, 3, false, this->pin}; 
+               /* case IDLE:
+                    params = {250, 3, false, false, this->pin}; 
                     xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 1, &blinkTask);
                     break;
 
                 case REQUEST_SUCCESS:
-                    params = {250, 2, false, this->pin}; 
+                    params = {250, 2, false, false, this->pin}; 
                     xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 1, &blinkTask);
-                    break;
+                    break;*/
 
                 case CONNECTING:
-                    params = {500, 1, true, this->pin}; 
-                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 1, &blinkTask);
+                    params = {500, INFINITE, false}; 
+                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 4, &blinkTask);
                     break;
 
                 case ERROR:
-                    params = {250, 2, true, this->pin};
-                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 1, &blinkTask);
+                    params = {250, 2, false};
+                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 4, &blinkTask);
+                    break;
+                
+                case CHARGING:
+                    params = {1000, INFINITE, true};
+                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 4, &blinkTask);
            } 
         }
 
@@ -62,18 +74,33 @@ class LED {
             Params* params = (Params*) pvParameters;
 
             do {
-                for(int i = 0; i < params->times; i++) blinkOnce(params);
-                vTaskDelay(params->duration / portTICK_RATE_MS * (params->times - 1));
+                if(params->times == INFINITE) blinkOnce(params);
+                else {
+                    for(int i = 0; i < params->times; i++) blinkOnce(params);
+                    analogWrite(LED_PIN, 255);
+                    vTaskDelay(params->duration * (params->times - 1));
+                }
 
-            } while(params->infinite);
-            while(true);
+            } while(true);
         }
 
         static void blinkOnce(Params* params) {
-            digitalWrite(params->pin, LOW);
-            vTaskDelay(params->duration / portTICK_RATE_MS);
-            digitalWrite(params->pin, HIGH);
-            vTaskDelay(params->duration / portTICK_RATE_MS);
+            analogWrite(LED_PIN, 255);
+            
+            if (params->fadeIn) {
+                vTaskDelay(params->duration / 2);
+                for (int i = 0; i < params->duration * 1.5; i++) {
+                    int value = 255 - round(255.0 / params->duration * i);
+                    analogWrite(LED_PIN, value);
+                    vTaskDelay(1);
+                }
+            
+            } else {
+                Serial.println(params->duration);
+                vTaskDelay(params->duration);
+                analogWrite(LED_PIN, 0);
+                vTaskDelay(params->duration);
+            }   
         }
 
         void endProcess() {
@@ -83,15 +110,23 @@ class LED {
 
         void off() {
             endProcess();
-            digitalWrite(this->pin, HIGH);
+            analogWrite(this->pin, 255);
         }
 
         void on() {
             endProcess();
-            digitalWrite(this->pin, LOW);
+            analogWrite(this->pin, 0);
+        }
+
+        State getCurrentState() {
+            return currentState;
         }
         
     private:
         uint8_t pin;
         TaskHandle_t blinkTask;
+        Params params;
+        State currentState;
 };
+
+LED led(LED_PIN);
