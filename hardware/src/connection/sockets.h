@@ -6,6 +6,7 @@
 
 #define ACTION_JSON_SIZE 256
 #define PING_INTERVAL 60000
+#define SOCKET_TIMEOUT 15000
 
 using namespace websockets;
 
@@ -23,6 +24,8 @@ struct Param {
 
 WebsocketsClient webSocket;
 ulong lastPing;
+long attemptStart;
+bool socket_connecting = false;
 
 void (*onReceived)(JsonObject action);
 void socketConnect();
@@ -30,6 +33,9 @@ void socketConnect();
 void onEventsCallback(WebsocketsEvent event, String data) {
     if(event == WebsocketsEvent::ConnectionOpened) {
         Serial.println("Connnection Opened");
+        socket_connecting = false;
+        led.indicate(POWER);
+
     } else if(event == WebsocketsEvent::ConnectionClosed) {
         Serial.println("Connnection Closed");
         delay(1000);
@@ -65,9 +71,12 @@ void listenSocketMessages() {
     });
 }
 
+
 void socketConnect() {
+    socket_connecting = true;
     Serial.println(webSocket.available());
     if(NetworkManager::connectionAvailable()) {
+        attemptStart = millis();
         webSocket.onEvent(onEventsCallback);
         listenSocketMessages();
         webSocket.connect("ws://" + String(SERVER_URL) + "/websocket/beehive?token=" + String(BEEHIVE_ID));
@@ -81,6 +90,7 @@ bool socketConnectionAvailable() {
 }
 
 void updateSocket() {
+    if(socket_connecting && millis() - attemptStart > SOCKET_TIMEOUT) socketConnect(); 
     webSocket.poll();
     if(millis() - lastPing >= PING_INTERVAL) {
         webSocket.send("ping");
