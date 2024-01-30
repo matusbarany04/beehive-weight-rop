@@ -1,4 +1,8 @@
-<div class="absolute h-screen w-full">
+<script>
+  export let className = "";
+</script>
+
+<div class="{className} absolute h-screen w-full">
   <!--  <img alt="grass" class="absolute bottom-0" src="../img/grass.svg" />-->
   <!--  <img-->
   <!--    alt="beehive"-->

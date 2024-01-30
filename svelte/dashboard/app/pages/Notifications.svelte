@@ -71,6 +71,7 @@
     .then((data) => {
       console.log(data);
       messages = data.notifications;
+      messages.reverse();
     })
     .catch((error) => {
       console.error(

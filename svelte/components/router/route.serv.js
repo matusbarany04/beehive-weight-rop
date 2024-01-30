@@ -40,15 +40,15 @@ export function getRouteDepth() {
  */
 export function traverseBack(levels) {
   // get original route
-  const path = get(route)
+  const path = get(route);
   // split to segments
   const segments = path.split("/").filter((segment) => segment.trim() !== "");
   // calculate new length
-  const newLength = Math.max(0, segments.length - (levels));
-  // make new route 
-  let newRoute  = `/${segments.slice(0, newLength).join("/")}`
+  const newLength = Math.max(0, segments.length - levels);
+  // make new route
+  let newRoute = `/${segments.slice(0, newLength).join("/")}`;
   // navigate to new route
-  navigate(newRoute)
+  navigate(newRoute);
 }
 
 /**
