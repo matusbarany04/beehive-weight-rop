@@ -39,12 +39,12 @@
 
 <svelte:window bind:innerWidth={screenWidth} />
 
-<div class="relative z-50 no-scrollbar">
+<div class="relative z-50 bg-tertiary-100 no-scrollbar">
   <section
     class="{visible
       ? 'overflow-x-visible'
-      : 'overflow-x-hidden'} animate-width absolute h-screen flex-col bg-primary-100 no-scrollbar lg:relative
-    {visible ? 'w-56' : 'w-0'}"
+      : 'overflow-x-hidden'} animate-translate absolute h-screen w-56 flex-col bg-primary-100 no-scrollbar lg:relative
+    {visible ? 'translate-x-0' : '-translate-x-56'}"
   >
     {#if retracable}
       <button
@@ -85,6 +85,10 @@
 <style>
   .animate-width {
     transition: width 0.3s ease;
+  }
+
+  .animate-translate {
+    transition: transform 0.3s ease;
   }
 
   @keyframes fade-in {

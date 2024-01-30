@@ -21,6 +21,37 @@ prefix.subscribe((value) => {
 });
 
 /**
+ * Get the depth of the current route.
+ * @returns {number} The depth of the route.
+ */
+export function getRouteDepth() {
+  const routeSegments = get(route)
+    .replace(/^\/|\/$/g, "")
+    .split("/");
+  const nonEmptySegments = routeSegments.filter(
+    (segment) => segment.trim() !== "",
+  );
+  return nonEmptySegments.length;
+}
+
+/**
+ * Traverse back a certain number of levels in the route.
+ * @param {number} levels - The number of levels to traverse back.
+ */
+export function traverseBack(levels) {
+  // get original route
+  const path = get(route);
+  // split to segments
+  const segments = path.split("/").filter((segment) => segment.trim() !== "");
+  // calculate new length
+  const newLength = Math.max(0, segments.length - levels);
+  // make new route
+  let newRoute = `/${segments.slice(0, newLength).join("/")}`;
+  // navigate to new route
+  navigate(newRoute);
+}
+
+/**
  * Param holder and adjacent functions
  */
 let urlParams = new URLSearchParams(window.location.search);
@@ -35,6 +66,11 @@ export function removeParam(paramName) {
   updateUrl();
 }
 
+/**
+ *
+ * @param paramName
+ * @returns {string}
+ */
 export function getParamValue(paramName) {
   return urlParams.get(paramName);
 }

@@ -3,8 +3,20 @@
   import PanelRoot from "../component/panel/PanelRoot.svelte";
   import message from "../stores/message";
   import panelState from "../component/panel/panelState";
+  import CircleButton from "../../../components/Buttons/CircleButton.svelte";
+  import {
+    getRouteDepth,
+    route,
+    traverseBack,
+  } from "../../../components/router/route.serv";
 
   let headerMessage = message.getMessage();
+
+  let circleButton = false;
+
+  route.subscribe((route) => {
+    circleButton = getRouteDepth() > 2;
+  });
 
   message.getMessageRef().subscribe((message) => {
     headerMessage = message;
@@ -21,9 +33,22 @@
 
 <main class="box-border flex min-h-screen w-full flex-1 select-none">
   <Panel />
-  <div class="h-screen flex-1 overflow-y-scroll bg-tertiary-100 px-8">
+  <div
+    class="h-screen flex-1 overflow-y-scroll bg-tertiary-100 px-2 sm:px-4 md:px-8"
+  >
     <header class="flex h-16 align-middle">
       {#if !loading}
+        {#if circleButton}
+          <div class="ml-8 p-4 lg:ml-0">
+            <CircleButton
+              type="primary"
+              image="icons/arrow-left.svg"
+              onClick={() => {
+                traverseBack(1);
+              }}
+            ></CircleButton>
+          </div>
+        {/if}
         <h1 class=" my-auto text-3xl font-bold {leftPadding ? 'ml-8' : ''}">
           {headerMessage}
         </h1>

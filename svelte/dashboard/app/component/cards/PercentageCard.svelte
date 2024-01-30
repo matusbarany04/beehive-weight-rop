@@ -134,24 +134,10 @@
   let textid = generateRandomText();
   onMount(() => {
     fitties = fitty(`#${textid}`);
-
-    // get element reference of first fitty
-    var myFittyElement = fitties[0].element;
-
-    myFittyElement.addEventListener("fit", function (e) {
-      // log the detail property to the console
-      console.log(e.detail);
-    });
-
     setTimeout(() => {
       fitties[0].fit();
     }, 500);
-    // // force refit
-    //
-    // // force synchronous refit
-    // fitties[0].fit({ sync: true });
   });
-
 
   function padStringToLength(inputString, minLength) {
     if (inputString.length >= minLength) {
@@ -162,18 +148,10 @@
     const leftPadding = Math.floor(paddingLength / 2);
     const rightPadding = Math.ceil(paddingLength / 2);
 
-    const paddedString = ' '.repeat(leftPadding) + inputString + ' '.repeat(rightPadding);
+    const paddedString =
+      " ".repeat(leftPadding) + inputString + " ".repeat(rightPadding);
     return paddedString;
   }
-
-  // Example usage:
-  const originalString = "ok";
-  const minLength = 4;
-  const paddedResult = padStringToLength(originalString, minLength);
-
-  console.log(paddedResult);
-
-  
 </script>
 
 <!-- theme="dashed" -->
@@ -204,15 +182,18 @@
     bind:clientWidth={w}
     bind:clientHeight={h}
   >
-    <div class="mb-4 py-32 flex w-full items-center justify-center font-bold">
+    <div class="mb-4 flex w-full items-center justify-center py-32 font-bold">
       <div class="h-full w-full">
-        <h1 id={textid} class="fit overflow-hidden whitespace-nowrap text-center">
-          {padStringToLength(value,6).replace(/ /g, '\u00a0')}
+        <h1
+          id={textid}
+          class="fit overflow-hidden whitespace-nowrap text-center"
+        >
+          {padStringToLength(value, 6).replace(/ /g, "\u00a0")}
         </h1>
       </div>
     </div>
   </div>
-  
+
   <div class="" slot="customSettings">
     {#if true}
       <!--error == null && value !== "error" && value !== "NoData"-->
