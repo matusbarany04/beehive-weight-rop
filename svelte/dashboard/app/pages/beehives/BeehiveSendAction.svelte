@@ -242,6 +242,7 @@
     ></ActionCard>
   {/each}
 {:else}
+  <!--TODO adda translation -->
   <div
     class="m-auto mt-4 flex h-24 flex-row items-center justify-center lg:w-5/6"
   >
@@ -279,7 +280,7 @@
     />
 
     <!-- sensor to be acted upon-->
-    <!-- make dynamically shown and dynamically filled with right options -->
+    <!-- TODO make dynamically shown and dynamically filled with right options -->
     {#if sensorNeeded}
       <DropdownInput
         label="Senzor"

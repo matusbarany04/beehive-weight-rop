@@ -69,7 +69,7 @@
 <div class="box-border h-full w-full">
   {#if handler && rows}
     <div
-      class="mt-4 flex h-auto w-full flex-col rounded-lg bg-white p-8 shadow shadow-tertiary-300"
+      class="mt-4 flex h-auto w-full flex-col rounded-lg bg-white px-0 py-8 shadow shadow-tertiary-300 sm:px-4 md:px-8"
     >
       <div
         class="flex h-36 flex-col content-between items-center gap-2 md:h-8 md:flex-row md:gap-0"

@@ -26,7 +26,7 @@ const cardtypes = [
   { format: "PercentageCard", component: PercentageCard },
   { format: "MapCard", component: MapCard },
   { format: "WeatherCard", component: WeatherCard },
-  { format: "TestCard", component: TestCard },
+  // { format: "TestCard", component: TestCard },
   { format: "Doughnut", component: Doughnut },
   { format: "BarChart", component: BarChart },
 ];

@@ -26,6 +26,7 @@
   import Login from "../../../general/pages/Login.svelte";
   import { getLanguageInstance } from "../../../components/language/languageRepository";
   import sf from "../../../components/lib/utils/staticFuncs";
+  import SimpleDialog from "../../../components/SimpleDialog.svelte";
 
   let cardList = [];
 
@@ -37,14 +38,14 @@
 
   const li = getLanguageInstance();
 
-  /* this is only temporally, in future there should be a popup that will pause editing until user widens the website */
-  panelState.getOpenedRef().subscribe((panelOpened) => {
-    if (!panelOpened) {
-      editMode = false;
-    }
-  });
+  let showDialog = false;
+
+  function checkDialog() {
+    showDialog = editMode && !editButton;
+  }
 
   let resizeWindowEvent = (event) => {
+    checkDialog();
     if (TW_BREAKPOINTS.md > window.innerWidth) {
       if (!stacked) {
         stacked = true;
@@ -53,7 +54,8 @@
       if (editMode) {
         refreshDashboard();
       }
-      editMode = false;
+      // editMode = false;
+
       editButton = false;
     } else {
       editButton = true;
@@ -143,33 +145,32 @@
 
 {#if editButton}
   <div class="absolute right-0 top-0 z-50 flex w-min justify-end gap-3 p-4">
-    {#if editButton}
-      <div class="flex gap-4">
-        {#if editMode}
-          <Button
-            text={li.get("home.cancel_changes")}
-            type="secondary"
-            onClick={restoreLayout}
-          />
-        {/if}
-        <!-- TODO spravit len disabled mozno v buducnosti, 
-                                          pridat aj popup preco to zmizlo (ked sa zmensi sirka okna) -->
+    <div class="flex gap-4">
+      {#if editMode}
         <Button
-          text={!editMode ? li.get("home.edit") : li.get("home.save")}
-          type={!editMode ? "primary" : "confirm"}
-          onClick={() => {
-            if (editMode) {
-              save(grid.serialize());
-              panelState.resetMode();
-            } else {
-              panelState.setMode("dashboardEdit");
-            }
-
-            editMode = !editMode;
-          }}
+          text={li.get("home.cancel_changes")}
+          type="secondary"
+          onClick={restoreLayout}
         />
-      </div>
-    {/if}
+      {/if}
+      <!-- TODO spravit len disabled mozno v buducnosti, 
+                                          pridat aj popup preco to zmizlo (ked sa zmensi sirka okna) -->
+      <Button
+        text={!editMode ? li.get("home.edit") : li.get("home.save")}
+        type={!editMode ? "primary" : "confirm"}
+        onClick={() => {
+          console.log("clicked on edit or save button!!!");
+          if (editMode) {
+            save(grid.serialize());
+            panelState.resetMode();
+          } else {
+            panelState.setMode("dashboardEdit");
+          }
+
+          editMode = !editMode;
+        }}
+      />
+    </div>
   </div>
 {/if}
 
@@ -199,6 +200,22 @@
     </div>
   {/if}
 </div>
+<!-- TODO add translation -->
+<SimpleDialog
+  bind:show={showDialog}
+  dismissible={false}
+  dismissAction={() => {
+    refreshDashboard();
+    editMode = false;
+  }}
+  action={() => {
+    save(grid.serialize());
+    editMode = false;
+  }}
+  message={`Aby ste mohli nadaľej pokračovať v úprave, rozšírte okno prehliadača, nakoľko toto rozlíšenie nie je podporované`}
+  positiveButton="Uložiť"
+  negativeButton="Zrušiť zmeny"
+/>
 
 <style>
   .loading {

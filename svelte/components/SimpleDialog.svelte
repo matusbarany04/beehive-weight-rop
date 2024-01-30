@@ -10,6 +10,8 @@
   export let positiveButton;
   export let negativeButton;
   export let action;
+
+  export let dismissAction = () => {};
   export let message;
 
   export let question;
@@ -18,6 +20,8 @@
     positiveButton = li.get("yes");
     negativeButton = li.get("no");
   }
+
+  export let dismissible = true;
 
   onLoad("");
 
@@ -31,8 +35,8 @@
   id={generateUUID()}
   bind:this={dialog}
   class="w-1/4 overflow-x-visible rounded-md bg-[white]"
-  on:close={() => (show = false)}
-  on:click|self={() => dialog.close()}
+  on:close={() => (dismissible ? (show = false) : "")}
+  on:click|self={() => (dismissible ? dialog.close() : "")}
 >
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div class="p-4" on:click|stopPropagation>
@@ -43,7 +47,10 @@
         <Button
           type="secondary"
           autofocus
-          onClick={() => dialog.close()}
+          onClick={() => {
+            dialog.close();
+            dismissAction();
+          }}
           text={negativeButton}
         />
       {/if}

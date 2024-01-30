@@ -23,8 +23,6 @@ export default {
         return json["status"] === "ok" ? json["settings"] : undefined;
       },
     );
-    // TODO remove log
-    // console.log(results);
 
     if (results.error === undefined) {
       // adding data to shared.onDataLoaded
