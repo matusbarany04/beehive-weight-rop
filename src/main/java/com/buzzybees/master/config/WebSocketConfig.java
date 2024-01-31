@@ -7,17 +7,26 @@ import com.buzzybees.master.controllers.template.DatabaseController;
 import com.buzzybees.master.users.UserService;
 import com.buzzybees.master.websockets.ClientSocketHandler;
 import com.buzzybees.master.websockets.EspSocketHandler;
+import org.apache.catalina.connector.Connector;
+import org.apache.coyote.http11.Http11NioProtocol;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.*;
 import org.springframework.web.socket.server.HandshakeInterceptor;
+import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 import java.net.HttpCookie;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +81,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
         public boolean beforeHandshake(@NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response, @NotNull WebSocketHandler wsHandler, @NotNull Map<String, Object> attributes) throws Exception {
             System.out.println(request.getHeaders());
             request.getHeaders().set("Upgrade", "websocket");
-            request.getHeaders().set("Connection", "Upgrade");
+            request.getHeaders().set("Connection", "upgrade");
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             String token = servletRequest.getServletRequest().getParameter("token");
 
@@ -85,7 +94,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
         @Override
         public void afterHandshake(@NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response, @NotNull WebSocketHandler wsHandler, Exception exception) {
-
+            response.setStatusCode(HttpStatus.SWITCHING_PROTOCOLS);
         }
     }
 
