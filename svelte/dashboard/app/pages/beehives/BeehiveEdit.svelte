@@ -54,7 +54,7 @@
   const li = getLanguageInstance();
 
   let socket = new WebSocket(
-    "ws://" + location.hostname + ":8080/websocket/connect",
+    location.protocol === "https:" ? "ws://" : "wss://" + location.host + "/websocket/connect",
   );
 
   socket.onmessage = (message) => {

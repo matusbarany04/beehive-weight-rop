@@ -167,7 +167,7 @@ void connect() {
         break;
 
     case WIFI:
-      networkManager.connect(WIFI_SSID, WIFI_PASSWORD);
+      networkManager.connect(config.wifi_ssid, config.wifi_password);
       networkManager.setContentType("application/json");
       networkManager.setDefaultHostname(SERVER_URL);
       
@@ -317,8 +317,8 @@ void checkCharging() {
 
 void loop()
 {
-   //delay(500);
-  //Serial.println(digitalRead(13));
+  //delay(500);
+ // Serial.println(sensorManager.getWeight());
   updateSocket();
   if(NetworkManager::connectionAvailable() && sensorManager.intervalScan() == CONFIG_CHANGED) {
     Param params[] = {{"config", sensorManager.buildJSON(true)}};
