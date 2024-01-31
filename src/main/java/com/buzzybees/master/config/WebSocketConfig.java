@@ -70,7 +70,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
         @Override
         public void afterHandshake(@NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response, @NotNull WebSocketHandler wsHandler, Exception exception) {
-
+            System.out.println(request.getHeaders());
         }
     }
 
