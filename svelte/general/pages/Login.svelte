@@ -9,7 +9,7 @@
 </script>
 
 <div class="bg-primary v-screen relative h-screen bg-primary-500">
-  <Background ></Background>
+  <Background></Background>
   <div class="absolute left-0 top-0 p-4">
     <CircleButton type="primary" link="/" image="icons/arrow-left.svg"
     ></CircleButton>

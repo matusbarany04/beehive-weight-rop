@@ -14,7 +14,7 @@
     ></CircleButton>
   </div>
   <!--  banner div-->
-  <div class="shadow-2xl sm:flex-1 hidden sm:block">
+  <div class="hidden shadow-2xl sm:block sm:flex-1">
     <div class="relative h-full w-full bg-cover bg-right bg-no-repeat">
       <video
         autoplay
