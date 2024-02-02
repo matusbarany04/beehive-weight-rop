@@ -291,7 +291,7 @@
     {/if}
 
     {#each Object.keys(currentTemplate) as key}
-      {key}
+
       {#if currentTemplate[key] === "NUMERIC"}
         <!--TODO change label to translation -->
         <Input label={key} name={"dynamic_" + key} type="number" value="" />
@@ -314,9 +314,9 @@
     <!-- value of the action -->
     <!--    {#if paramsNeeded}-->
     <!--    {/if}-->
-    {#if currentTemplate}
-      {JSON.stringify(currentTemplate)}
-    {/if}
+    <!--{#if currentTemplate}-->
+    <!--  {JSON.stringify(currentTemplate)}-->
+    <!--{/if}-->
   </form>
 
   <div slot="footer">

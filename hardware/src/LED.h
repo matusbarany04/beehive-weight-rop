@@ -96,7 +96,7 @@ class LED {
                 }
             
             } else {
-                Serial.println(params->duration);
+              //  Serial.println(params->duration);
                 vTaskDelay(params->duration);
                 analogWrite(LED_PIN, 0);
                 vTaskDelay(params->duration);

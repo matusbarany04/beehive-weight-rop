@@ -1,4 +1,4 @@
-#define SERVER_URL "dismounted.space:8080"
+#define SERVER_URL "dismounted.space"
 #define BEEHIVE_ID "NY17IS0J9RKMRFP3"
 #define MODEL_NAME "BBIMZ-A"
 
