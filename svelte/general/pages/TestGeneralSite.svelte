@@ -19,8 +19,25 @@
 			gl_FragColor = vec4(fract((gl_FragCoord.xy - u_mouse) / u_resolution), fract(u_time), 1);
 		}
 	`;
+
+  import { derived } from 'svelte/store';
+
+  let cardList = [];
+
+  const cardListLength = derived(
+    cardList,
+    ($cardList) => $cardList.length
+  );
+
+  function addCard() {
+    cardList = [...cardList, { /* your card properties */ }];
+  }
 </script>
 
+<main>
+  <p>Card List Length: {$cardListLength}</p>
+  <button on:click={addCard}>Add Card</button>
+</main>
 <section class="grid h-screen w-screen place-items-center">
   <button class="h-8 w-24 rounded-xl btn-swipe-primary"> ahoj </button>
 </section>
