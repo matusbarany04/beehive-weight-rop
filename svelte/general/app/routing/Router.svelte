@@ -36,6 +36,4 @@
   });
 </script>
 
-<main>
-  <svelte:component this={value} {props} />
-</main>
+<svelte:component this={value} {props} />

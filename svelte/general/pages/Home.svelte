@@ -5,6 +5,7 @@
   import { getLanguageInstance } from "../../components/language/languageRepository";
   import Root from "../layout/Root.svelte";
   import Edge from "../../components/Edge.svelte";
+  import Footer from "../app/components/Footer.svelte";
 
   const LI = getLanguageInstance();
 
@@ -170,12 +171,13 @@
 
   <section
     id="join"
-    class="relative flex min-h-min w-full flex-col items-center justify-center px-8 py-20"
+    class="relative my-12 flex min-h-min w-full flex-col items-center justify-center px-8 py-48"
   >
     <div
-      class="animate-gradient absolute left-0 top-0 h-full w-full rotate-90 bg-gradient-to-b from-secondary-400 via-orange-500 to-secondary-800 opacity-50"
-      style="mask-image: url('/img/patterns/TopologyBlocky.svg'); mask-position: center; mask-size: contain; mask-repeat: no-repeat "
+      class="animate-gradient absolute left-0 top-0 h-full w-full rotate-90 bg-gradient-to-b from-secondary-400 via-orange-500 to-secondary-800 opacity-20"
+      style="mask-image: url('/img/abstract_shapes/5.png'); mask-position: center; mask-size: contain; mask-repeat: no-repeat "
     ></div>
+    <!--      style="mask-image: url('/img/patterns/TopologyRounded.svg'); mask-position: center; mask-size: contain; mask-repeat: no-repeat "-->
 
     <h1
       class="waving-hand z-10 mb-4 text-center text-7xl font-bold text-slate-100"
@@ -186,15 +188,20 @@
       {LI.get("join.description")}
     </p>
 
-    <Button type="primary" text={LI.get("join.button-buy")} />
+    <Button className="z-10" type="primary" text={LI.get("join.button-buy")} />
   </section>
 
   <section
     id="statistics"
-    class=" flex min-h-screen w-full flex-row items-center justify-center"
+    class="flex min-h-fit w-full py-32 flex-row items-center justify-center relative"
   >
+      <div
+        class="absolute aspect-4/3 xl:aspect-auto xl:h-full w-full bg-secondary-400"
+        style="mask-image: url('/img/abstract_shapes/26.png'); mask-position: center; mask-size: contain; mask-repeat: no-repeat "
+      ></div>
+  
     <div
-      class="grid w-full max-w-7xl grid-cols-1 gap-1 px-10 sm:grid-cols-3 sm:gap-2 md:gap-16"
+      class="z-10 grid w-full max-w-7xl grid-cols-1 gap-1 px-10 sm:grid-cols-3 sm:gap-2 md:gap-16"
     >
       <div
         class="m-4 flex aspect-square flex-col items-center justify-center rounded-bl-[50%] rounded-br-[50%] rounded-tl-2xl rounded-tr-[50%] bg-confirm-800"
@@ -223,10 +230,10 @@
     </div>
   </section>
 
-  <section id="spacer" class="h-12 md:h-64"></section>
+  <section id="spacer" class="h-12 md:h-32"></section>
 
   <section id="qna" class="min-h-min w-full px-8">
-    <h1 class="mb-4 text-center text-4xl font-bold text-slate-100">
+    <h1 class="mb-4 text-center text-6xl font-bold text-slate-100 pb-6">
       {LI.get("faq.title")}
     </h1>
     <div class="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-3">
@@ -270,11 +277,7 @@
   </section>
   <section id="spacer" class="h-12 md:h-64"></section>
 
-  <div
-    style="        
-    mask-image: url('/patterns/hexa_pattern.png');"
-    class="via h-64 w-full bg-gradient-to-b from-transparent from-10% via-secondary-900 via-70% to-secondary-800 to-90% opacity-30"
-  ></div>
+  <Footer></Footer>
 </Root>
 
 <style>
