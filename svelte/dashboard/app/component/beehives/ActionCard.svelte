@@ -1,11 +1,18 @@
 <script>
-  import { getLanguageInstance } from "../../../../components/language/languageRepository";
+  import {getLanguageInstance} from "../../../../components/language/languageRepository";
   import CircleButton from "../../../../components/Buttons/CircleButton.svelte";
-  import { fade, fly } from "svelte/transition";
-  import { generateUUID } from "../../../../components/lib/utils/staticFuncs";
+  import {fade, fly} from "svelte/transition";
+  import {generateUUID} from "../../../../components/lib/utils/staticFuncs";
+
   export let className;
 
   export let actionObject;
+
+  export let loading = false;
+  
+  export let failed = false;
+  
+  export let finished = false;
 
   const li = getLanguageInstance();
 
@@ -48,7 +55,7 @@
 <div
   id={generateUUID()}
   out:fly|local={{ x: 400, duration: 1000 }}
-  class="{className} min-h-16 relative mx-auto mb-4 flex flex-col rounded-lg bg-white p-4 shadow shadow-tertiary-300 lg:w-5/6"
+  class="{className} min-h-16 relative mx-auto relative mb-4 flex flex-col rounded-lg bg-white p-4 shadow shadow-tertiary-300 lg:w-5/6"
 >
   <!-- title -->
   <div>
@@ -83,4 +90,55 @@
   </div>
 
   <p class="text-end">scheduled in {formatTime(timeLeft.getTime())}</p>
+  
+  {#if loading}
+    <div class="absolute w-full left-0 bottom-0 h-2">
+      <div class="loadingBar top-0 bottom-0 left-0 bg-secondary-400 rounded-3xl">
+      </div>
+    </div>
+  {/if}
+
+  {#if finished || failed}
+    <div 
+      class="absolute w-full left-0 rounded bottom-0 h-2 
+      {finished ? 'bg-confirm-600': ''} 
+      {failed ? 'bg-error-800': ''}">
+    </div>
+  {/if}
+
+
+
+
 </div>
+
+
+<style>
+
+  .loadingBar {
+    position: absolute;
+    animation: borealisBar 2s linear infinite;
+  }
+
+  @keyframes borealisBar {
+    0% {
+      left: 0%;
+      right: 100%;
+      width: 0%;
+    }
+    10% {
+      left: 0%;
+      right: 75%;
+      width: 25%;
+    }
+    90% {
+      right: 0%;
+      left: 75%;
+      width: 25%;
+    }
+    100% {
+      left: 100%;
+      right: 0%;
+      width: 0%;
+    }
+  }
+</style>

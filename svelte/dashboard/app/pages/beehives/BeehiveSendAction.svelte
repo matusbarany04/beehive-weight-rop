@@ -6,8 +6,8 @@
   import Button from "../../../../components/Buttons/Button.svelte";
   import message from "../../stores/message";
   import SettingsHeader from "../../component/settings/SettingsHeader.svelte";
-  import { getLanguageInstance } from "../../../../components/language/languageRepository";
-  import shared, { onLoad } from "../../stores/shared";
+  import {getLanguageInstance} from "../../../../components/language/languageRepository";
+  import shared, {onLoad} from "../../stores/shared";
   import ActionCard from "../../component/beehives/ActionCard.svelte";
   import Modal from "../../../../components/Modal.svelte";
   import staticFuncs, {
@@ -15,6 +15,8 @@
   } from "../../../../components/lib/utils/staticFuncs";
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import Input from "../../../../components/Inputs/Input.svelte";
+  import toast from "../../../../components/Toast/toast";
+  import {writable} from "svelte/store"
 
   export let props;
 
@@ -66,13 +68,48 @@
     beehiveObject = shared.getBeehiveById(beehiveId);
   });
 
+  $: loaded = writable({})
+
+  function waitForActionResult(actionId) {
+    console.log("wait for action ! ")
+    $loaded[actionId] = {
+      status: "loading"
+    };
+    let socket = new WebSocket(
+      (location.protocol === "https:" ? "wss://" : "ws://") +
+      location.host +
+      "/websocket/connect",
+    );
+
+    socket.onmessage = (message) => {
+      const action = JSON.parse(message.data);
+      if (
+        action.messageType === "ACTION_RESULT" &&
+        action.params.id === actionId
+      ) {
+        socket.close();
+
+        $loaded[actionId] = {
+          status: "finished"
+        };
+        console.log("finished")
+        $loaded = {...loaded};
+      } else {
+        $loaded[actionId] = {
+          status: "failed"
+        };
+        console.log("failed")
+        
+      }
+    };
+  }
+
   function sendAction(type, params) {
     const actionData = {
       author: user.id,
       type: type,
       beehive: beehiveId,
       params: params,
-      // executionTime: new Date().getTime() + 1000, //* 60 * 60,
       executionTime: 0,
     };
 
@@ -85,8 +122,13 @@
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+        console.log("Success:", data, data.action.id);
+
+        //add check if online stuff 
+        waitForActionResult(data.action.id)
+
         fetchPendingActions();
+
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -230,11 +272,14 @@
 <!--<SettingsItem>-->
 <!--  <Button text="Sledovanie akcií zariadenia" onClick={sendAction} />-->
 <!--</SettingsItem>-->
-
+{JSON.stringify($loaded)}
 {#if Object.keys(pendingActions).length > 0}
   {#each Object.values(pendingActions).reverse() as action (action.id)}
     <ActionCard
       key={action.id}
+      loading={$loaded[action.id]?.status === "loading"}
+      finished={$loaded[action.id]?.status === "finished"}
+      failed={$loaded[action.id]?.status === "failed"}
       actionObject={action}
       onDeleteCard={() => {
         deleteAction(action.id);
@@ -294,10 +339,10 @@
 
       {#if currentTemplate[key] === "NUMERIC"}
         <!--TODO change label to translation -->
-        <Input label={key} name={"dynamic_" + key} type="number" value="" />
+        <Input label={key} name={"dynamic_" + key} type="number" value=""/>
       {:else if currentTemplate[key] === "TEXT"}
         <!--TODO change label to translation -->
-        <Input label={key} name={"dynamic_" + key} type="text" value="" />
+        <Input label={key} name={"dynamic_" + key} type="text" value=""/>
       {:else if currentTemplate[key] === "BOOLEAN"}
         <!--TODO change label to translation -->
         <DropdownInput
