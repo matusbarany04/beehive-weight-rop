@@ -209,6 +209,26 @@ public class DashboardController extends CookieAuthController {
         return new ApiResponse("reminder", reminder);
     }
 
+    /**
+     * deletes  reminder from database
+     *
+     * @param body with id -> reminderId
+     * @return ApiResponse status
+     */
+    @PostMapping(value = "/deleteReminder", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiResponse newReminder(@RequestBody HashMap<String, String> body) {
+        int id = Integer.parseInt(body.get("id"));
+        ReminderRepository repository = getRepo(Reminder.class);
+
+        if (repository.isReminderUsers(currentUserId, id)) {
+
+            repository.deleteByReminderId(id);
+
+            return ApiResponse.OK();
+        } else {
+            return ApiResponse.ERROR("message", "You don't have any notification with that id");
+        }
+    }
 
     /**
      * Updates the status of a notification based on the provided JSON data.

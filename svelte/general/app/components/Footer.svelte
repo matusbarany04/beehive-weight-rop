@@ -22,15 +22,15 @@
           <div class="p-4"></div>
         </div>
       </div>
-      <div class="flex w-1/2 justify-items-center items-center">
+      <div class="flex w-1/2 items-center justify-items-center">
         <div
           class=" h-full w-full bg-secondary-400"
           style="mask-image: url('/img/abstract_shapes/18.png'); mask-position: center; mask-size: contain; mask-repeat: no-repeat "
         ></div>
       </div>
     </div>
-    <hr class="mt-4">
-    <div class="w-full h-12py-4">
+    <hr class="mt-4" />
+    <div class="h-12py-4 w-full">
       <div class="float-left p-4">
         <p>BuzzyBees</p>
       </div>

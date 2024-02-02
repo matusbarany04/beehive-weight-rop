@@ -193,13 +193,13 @@
 
   <section
     id="statistics"
-    class="flex min-h-fit w-full py-32 flex-row items-center justify-center relative"
+    class="relative flex min-h-fit w-full flex-row items-center justify-center py-32"
   >
-      <div
-        class="absolute aspect-4/3 xl:aspect-auto xl:h-full w-full bg-secondary-400"
-        style="mask-image: url('/img/abstract_shapes/26.png'); mask-position: center; mask-size: contain; mask-repeat: no-repeat "
-      ></div>
-  
+    <div
+      class="absolute aspect-4/3 w-full bg-secondary-400 xl:aspect-auto xl:h-full"
+      style="mask-image: url('/img/abstract_shapes/26.png'); mask-position: center; mask-size: contain; mask-repeat: no-repeat "
+    ></div>
+
     <div
       class="z-10 grid w-full max-w-7xl grid-cols-1 gap-1 px-10 sm:grid-cols-3 sm:gap-2 md:gap-16"
     >
@@ -233,7 +233,7 @@
   <section id="spacer" class="h-12 md:h-32"></section>
 
   <section id="qna" class="min-h-min w-full px-8">
-    <h1 class="mb-4 text-center text-6xl font-bold text-slate-100 pb-6">
+    <h1 class="mb-4 pb-6 text-center text-6xl font-bold text-slate-100">
       {LI.get("faq.title")}
     </h1>
     <div class="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-3">

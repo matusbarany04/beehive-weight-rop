@@ -19,6 +19,8 @@
   let markedItem = now;
   let newReminder = false;
   let reminders = [];
+  let showReminder = false;
+  let reminderData;
 
   message.setMessage(li.get("calendar.page_title"));
 
@@ -92,6 +94,23 @@
       });
   }
 
+  function deleteReminder(id) {
+    fetch("/dashboardApi/deleteReminder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: id }),
+    })
+      .then((r) => r.json())
+      .then((response) => {
+        newReminder = false;
+        if (response.status === "ok") {
+          updateCalendar();
+        }
+      });
+  }
+
   function calcTextColor(background) {
     const match = background.match(
       /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i,
@@ -99,6 +118,11 @@
     const rgb = match.slice(1).map((h) => parseInt(h, 16));
     if (rgb[0] + rgb[1] * 2 < 380) return "white";
     else return "black";
+  }
+
+  function reminderDetail(data) {
+    reminderData = data;
+    showReminder = true;
   }
 </script>
 
@@ -158,6 +182,9 @@
       >
         {#each day.reminders as reminder}
           <div
+            on:click={(e) => {
+              reminderDetail(reminder);
+            }}
             style="background-color: {reminder.color}"
             class="rounded p-1 text-{calcTextColor(reminder.color)}"
           >
@@ -241,3 +268,31 @@
     text={li.get("calendar.new_reminder.save_btn")}
   />
 </Modal>
+
+{#if reminderData}
+  <Modal bind:showModal={showReminder}>
+    <!--  TODO add translation -->
+    <h2 slot="header" class="text-2xl font-bold">Detail poznámky</h2>
+
+    <div class="my-4 flex flex-col gap-4">
+      <p>
+        {reminderData.title}
+      </p>
+
+      <p>
+        {reminderData.details}
+      </p>
+    </div>
+
+    <Button
+      slot="footer"
+      type="error"
+      onClick={() => {
+        deleteReminder(reminderData.id);
+        showReminder = false;
+        reminderData = null;
+      }}
+      text="Odstranit pripomienku"
+    />
+  </Modal>
+{/if}
