@@ -291,7 +291,7 @@
     {/if}
 
     {#each Object.keys(currentTemplate) as key}
-      {key}
+
       {#if currentTemplate[key] === "NUMERIC"}
         <!--TODO change label to translation -->
         <Input label={key} name={"dynamic_" + key} type="number" value="" />
