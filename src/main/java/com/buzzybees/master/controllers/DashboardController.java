@@ -24,6 +24,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -173,12 +175,50 @@ public class DashboardController extends CookieAuthController {
     /**
      * @return user's notifications
      */
-    @GetMapping("/getNotifications")
+    @GetMapping("/getAllNotifications")
     public ApiResponse getNotifications() {
         NotificationRepository notificationRepository = getRepo(Notification.class);
         Notification[] notifications = notificationRepository.getUserNotifications(currentUserId);
 
         return new ApiResponse("notifications", notifications);
+    }
+
+
+    /**
+     * Get user's notifications with pagination.
+     *
+     * @param page     Page number (starting from 0)
+     * @param pageSize Number of notifications per page
+     * @return ApiResponse containing paginated user's notifications
+     */
+    @GetMapping("/getNotifications")
+    public ApiResponse getNotifications(@RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int pageSize) {
+        NotificationRepository notificationRepository = getRepo(Notification.class);
+
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Notification[] response = notificationRepository.getUserNotificationsWithPagination(currentUserId, pageable).toList().toArray(new Notification[0]);
+
+        return new ApiResponse("notifications",
+                response
+        );
+    }
+
+    /**
+     * Get the total number of pages for user's notifications.
+     *
+     * @param pageSize Number of notifications per page
+     * @return ApiResponse containing the total number of pages
+     */
+    @GetMapping("/getNotificationPageCount")
+    public ApiResponse getNotificationPageCount(@RequestParam(defaultValue = "10") int pageSize) {
+        NotificationRepository notificationRepository = getRepo(Notification.class);
+
+        long totalNotifications = notificationRepository.countUserNotifications(currentUserId);
+
+        int totalPages = (int) Math.ceil((double) totalNotifications / pageSize);
+
+        return new ApiResponse("pageCount", totalPages);
     }
 
     /**

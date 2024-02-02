@@ -283,7 +283,7 @@
         {reminderData.details}
       </p>
     </div>
-    
+
     <!-- TODO add translation -->
     <Button
       slot="footer"
@@ -293,7 +293,6 @@
         showReminder = false;
         reminderData = null;
       }}
-      
       text="Odstranit pripomienku"
     />
   </Modal>
