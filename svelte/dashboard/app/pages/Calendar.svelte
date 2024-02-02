@@ -283,7 +283,8 @@
         {reminderData.details}
       </p>
     </div>
-
+    
+    <!-- TODO add translation -->
     <Button
       slot="footer"
       type="error"
@@ -292,6 +293,7 @@
         showReminder = false;
         reminderData = null;
       }}
+      
       text="Odstranit pripomienku"
     />
   </Modal>
