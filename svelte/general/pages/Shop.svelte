@@ -9,8 +9,8 @@
   <meta name="Shop" content="Shop" />
 </svelte:head>
 
-<Root className="pt-4">
-  <div class="mt-16 flex flex-1 items-center justify-center">
+<Root className="">
+  <div class="mt-16 flex flex-1 items-center justify-center px-4">
     <div
       class="box-border flex min-h-[50rem] max-w-7xl flex-1 flex-col p-4 text-slate-100 sm:flex-row"
     >

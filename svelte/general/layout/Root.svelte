@@ -8,9 +8,10 @@
   export let title = null;
 </script>
 
+<!--overflow-x-hidden overflow-y-scroll-->
 <main
   {style}
-  class="{className} flex min-h-screen w-screen flex-col overflow-y-scroll bg-primary-500"
+  class="{className} max-w-screen flex min-h-screen flex-col overflow-x-hidden bg-primary-500"
 >
   <slot name="beforeNavBar" />
   <NavigationBar />
