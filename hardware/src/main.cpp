@@ -168,6 +168,7 @@ void connect() {
 
     case WIFI:
       networkManager.connect(config.wifi_ssid, config.wifi_password);
+      //networkManager.initHTTPS();
       networkManager.setContentType("application/json");
       networkManager.setDefaultHostname(SERVER_URL);
       

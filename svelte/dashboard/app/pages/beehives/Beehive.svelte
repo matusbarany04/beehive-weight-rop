@@ -116,7 +116,9 @@
 
   function waitForHibernation(actionId) {
     let socket = new WebSocket(
-      "ws://" + location.hostname + ":8080/websocket/connect",
+      (location.protocol === "https:" ? "wss://" : "ws://") +
+        location.host +
+        "/websocket/connect",
     );
 
     socket.onmessage = (message) => {

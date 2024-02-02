@@ -1,10 +1,12 @@
 #pragma once
 
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include "constants.h"
 #include "constants.h"
+#include "certificate.h"
 #include "LED.h"
 
 #define JSON_SIZE 1024
@@ -43,24 +45,31 @@ class NetworkManager {
             return WiFi.status();
         }
 
+        void initHTTPS() {
+            /*Serial.println(SSL_CERTIFICATE);
+            client = new WiFiClientSecure;
+            client->setCACert(SSL_CERTIFICATE);*/
+        }
+
         void setContentType(String contentType) {
             this->contentType = contentType;
         }
 
         void setDefaultHostname(String hostname) {
             this->hostname = hostname;
-        } 
+        }
 
         void POST(String url, String data) {
             http.addHeader("Content-Type", contentType);
             if(url.indexOf('.') == -1) url = hostname + url;
-            http.begin(client, ("http://" + url).c_str());
+            http.begin(client, ("https://" + url).c_str());
             int httpResponseCode = http.POST(data);  
             result = http.getString();
             http.end();
         }
 
         void GET(String url) {
+            http.useHTTP10(true);
             http.addHeader("Content-Type", contentType);
             if(url.indexOf('.') == -1) url = hostname + url;
             http.begin(client, url.c_str());

@@ -70,7 +70,6 @@
 
   message.setMessage(li.get("notifications.page"));
 
-
   function fetchNotifications() {
     fetch("/dashboardApi/getNotificationPageCount")
       .then((response) => {
