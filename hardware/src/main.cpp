@@ -238,6 +238,7 @@ String testConnection(String wifiSSID, String wifiPasswd) {
 
 void handleActions() {
   actionManager.addAction(UPDATE_STATUS, [] (JsonObject params) -> String {
+    socketDisconnect();
     networkManager.turn_wifi_off();
     updateStatus();
     return "DONE";
@@ -253,10 +254,15 @@ void handleActions() {
   });
 
   actionManager.addAction(WAKE_UP, [](JsonObject params) -> String { 
-    wakeUp = true;
-    connect();
-    return "DONE";
-  }, [](String result) { socketConnect(); });
+    if (!wakeUp) {
+      wakeUp = true;
+      connect();
+      return "DONE";
+    } else return "DONE";
+    
+  }, [](String result) { 
+    //socketConnect(); 
+    });
 
   actionManager.addAction(HIBERNATE, [](JsonObject params) -> String { 
     if(wakeUp) {

@@ -85,6 +85,13 @@ void socketConnect() {
     }
 }
 
+void socketDisconnect() {
+    webSocket.onEvent([] (WebsocketsEvent event, String data) { 
+        if(event == WebsocketsEvent::ConnectionClosed) Serial.println("Socket disconnected.");
+    });
+    webSocket.close();
+}
+
 bool socketConnectionAvailable() {
     return webSocket.available();
 }

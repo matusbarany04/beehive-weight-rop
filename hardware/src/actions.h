@@ -63,7 +63,7 @@ class ActionManager {
                 if(afterExecute != nullptr) afterExecute(id, status);
                 if(action->postExecute != nullptr) action->postExecute(status);
     
-            } else afterExecute(0, "ACTION_NOT_RECOGNIZED");
+            } else afterExecute(id, "ACTION_NOT_RECOGNIZED");
         }
 
         void schedule(ActionType type, long id, long executionTime, JsonObject params = JsonObject()) {
