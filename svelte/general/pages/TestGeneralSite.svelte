@@ -20,17 +20,19 @@
 		}
 	`;
 
-  import { derived } from 'svelte/store';
+  import { derived } from "svelte/store";
 
   let cardList = [];
 
-  const cardListLength = derived(
-    cardList,
-    ($cardList) => $cardList.length
-  );
+  const cardListLength = derived(cardList, ($cardList) => $cardList.length);
 
   function addCard() {
-    cardList = [...cardList, { /* your card properties */ }];
+    cardList = [
+      ...cardList,
+      {
+        /* your card properties */
+      },
+    ];
   }
 </script>
 
