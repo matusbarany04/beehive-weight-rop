@@ -93,7 +93,7 @@
           status: "finished"
         };
         console.log("finished")
-        $loaded = {...loaded};
+  
       } else {
         $loaded[actionId] = {
           status: "failed"
