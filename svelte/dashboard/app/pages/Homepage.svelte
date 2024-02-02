@@ -3,7 +3,7 @@
    * @fileoverview This page shows graphs and charts related to beehives and their data
    * @module HomePage
    */
-  import {onMount, setContext, tick} from "svelte";
+  import { onMount, setContext, tick } from "svelte";
 
   import Button from "../../../components/Buttons/Button.svelte";
   import EditPanel from "../component/panel/EditPanel.svelte";
@@ -12,7 +12,7 @@
     generateUUID,
     TW_BREAKPOINTS,
   } from "../../../components/lib/utils/staticFuncs";
-  import shared, {onLoad} from "../stores/shared";
+  import shared, { onLoad } from "../stores/shared";
   import Loading from "../../../components/pages/Loading.svelte";
   import message from "../stores/message";
   import Grid from "../component/cards/utils/Grid.svelte";
@@ -21,22 +21,18 @@
   import PercentageCard from "../component/cards/PercentageCard.svelte";
   import WeatherCard from "../component/cards/WeatherCard.svelte";
   import MapCard from "../component/cards/MapCard.svelte";
-  import {getCardByFormat} from "../component/cards/cardUtilities";
+  import { getCardByFormat } from "../component/cards/cardUtilities";
   import toast from "../../../components/Toast/toast";
   import Login from "../../../general/pages/Login.svelte";
-  import {getLanguageInstance} from "../../../components/language/languageRepository";
+  import { getLanguageInstance } from "../../../components/language/languageRepository";
   import sf from "../../../components/lib/utils/staticFuncs";
   import SimpleDialog from "../../../components/SimpleDialog.svelte";
 
-  import { derived } from 'svelte/store';
+  import { derived } from "svelte/store";
   let cardList = [];
 
-  const cardListLength = derived(
-    cardList,
-    ($cardList) => $cardList.length
-  );
-    
-  
+  const cardListLength = derived(cardList, ($cardList) => $cardList.length);
+
   let editMode = false;
   let editButton = true;
   let renderCards = false;
@@ -100,7 +96,7 @@
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({data: JSON.stringify(data)}),
+        body: JSON.stringify({ data: JSON.stringify(data) }),
       });
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -143,11 +139,11 @@
   });
 </script>
 
-<svelte:window on:resize={resizeWindowEvent}/>
+<svelte:window on:resize={resizeWindowEvent} />
 
 <svelte:head>
   <title>{li.get("home.page")}</title>
-  <meta name="description" content="Dashboard"/>
+  <meta name="description" content="Dashboard" />
 </svelte:head>
 
 {#if editButton}
@@ -182,7 +178,6 @@
 {/if}
 
 <div class="relative flex min-h-screen w-full flex-1 flex-col">
-
   {#if renderCards}
     <!--{#if $cardListLength === 0 }-->
     <!--  <div class="absolute left-0 top-0 hidden h-full w-full p-8 md:block opacity-20">-->
@@ -194,7 +189,7 @@
     <!--          "upraviť" {JSON.stringify(grid)}-->
     <!--        </p>-->
     <!--      </div>-->
-    
+
     <!--      <div-->
     <!--        class="max-w-md flex-1 bg-contain bg-right-top bg-no-repeat "-->
     <!--        style="background-image: url('/img/arrow.svg');"-->
@@ -220,7 +215,7 @@
   {:else}
     <!--    <Loading />-->
     <div class="grid aspect-square w-full grid-cols-4 grid-rows-4 gap-4">
-      {#each Array.from({length: 16}) as _, i}
+      {#each Array.from({ length: 16 }) as _, i}
         <div class="loading rounded-md bg-tertiary-200"></div>
       {/each}
     </div>
