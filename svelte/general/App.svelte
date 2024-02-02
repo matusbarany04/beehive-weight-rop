@@ -15,7 +15,7 @@
   initLanguage("general");
 </script>
 
-<div class="min-h-screen w-screen">
+<div class="min-h-screen w-full">
   {#if languageLoaded}
     <Router />
   {:else}

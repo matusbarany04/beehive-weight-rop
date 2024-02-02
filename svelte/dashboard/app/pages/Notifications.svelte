@@ -58,27 +58,48 @@
   }
 
   let messages = null;
+  let page = 0;
+  let perPage = 10;
+  let pageCount;
+
+  let updatePage = (by) => {
+    page = Math.max(Math.min(page + by, pageCount), 0);
+
+    fetchNotifications();
+  };
 
   message.setMessage(li.get("notifications.page"));
 
-  fetch("/dashboardApi/getNotifications")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      messages = data.notifications;
-      messages.reverse();
-    })
-    .catch((error) => {
-      console.error(
-        "There was a problem with the fetch operation:",
-        error.message,
-      );
-    });
+
+  function fetchNotifications() {
+    fetch("/dashboardApi/getNotificationPageCount")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        pageCount = data.pageCount - 1;
+      });
+    fetch(`/dashboardApi/getNotifications?page=${page}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        messages = data.notifications;
+      })
+      .catch((error) => {
+        console.error(
+          "There was a problem with the fetch operation:",
+          error.message,
+        );
+      });
+  }
+  fetchNotifications();
 
   /**
    * Sets notification to state 'read' inside a database
@@ -157,16 +178,63 @@
   >
     <!-- title -->
     <h1 class="text-2xl font-semibold">{li.get("notifications.title")}</h1>
+    <div class="flex flex-row">
+      <div class="px-4">
+        <section class="flex flex-row">
+          <button
+            type="button"
+            on:click={() => {
+              updatePage(-1);
+            }}
+            class=" h-8 rounded-s-lg border-2 border-tertiary-200 bg-white p-1 {page >
+            0
+              ? ''
+              : 'disabled'}">Previous</button
+          >
 
-    <Button
-      text={li.get("notifications.btn_mark_read")}
-      onClick={() => {
-        // TODO mato spravi request pre viac precitanych
-        messages.forEach((element) => {
-          setRead(element.id);
-        });
-      }}
-    />
+          {#each Array(Math.max(Math.min(2, page - 2), 0)) as _, i}
+            <button
+              type="button"
+              class="active h-8 border border-tertiary-200 p-1"
+              >{page - 2 + i}</button
+            >
+          {/each}
+          <button
+            type="button"
+            class="active h-8 border border-tertiary-200 p-1 font-bold"
+            >{page}</button
+          >
+
+          {#each Array(Math.max(0, Math.min(2, pageCount - page))) as _, i}
+            <button
+              type="button"
+              class="active h-8 border border-tertiary-200 p-1"
+              >{page + 1 + i}</button
+            >
+          {/each}
+
+          <button
+            type="button"
+            on:click={() => {
+              updatePage(1);
+            }}
+            class="h-8 rounded-e-lg border-2 border-tertiary-200 bg-white p-1 {page <
+            pageCount
+              ? ''
+              : 'disabled'}">Next</button
+          >
+        </section>
+      </div>
+      <Button
+        text={li.get("notifications.btn_mark_read")}
+        onClick={() => {
+          // TODO mato spravi request pre viac precitanych
+          messages.forEach((element) => {
+            setRead(element.id);
+          });
+        }}
+      />
+    </div>
   </div>
 
   {#each messages as message, index (message.id)}

@@ -6,16 +6,16 @@
 </script>
 
 <div
-  class="min-h-16 mx-auto mb-4 rounded-lg shadow shadow-tertiary-300 {bgClass} p-4 lg:w-5/6 {className}"
+  class="min-h-16 mx-auto mb-4 rounded-lg {bgClass} p-4 lg:w-5/6 {className}"
 >
   <details class="group">
     <summary
       class="flex cursor-pointer list-none items-center justify-between font-medium"
     >
-      <span>{question}</span>
+      <span class="text-tertiary-100">{question}</span>
       <span class="transition group-open:rotate-180">
         <svg
-          fill="none"
+          fill="white"
           height="24"
           shape-rendering="geometricPrecision"
           stroke="currentColor"
@@ -28,7 +28,7 @@
         </svg>
       </span>
     </summary>
-    <p class="group-open:animate-fadeIn mt-3 text-neutral-600">
+    <p class="group-open:animate-fadeIn mt-3 text-tertiary-200">
       {answer}
     </p>
   </details>
