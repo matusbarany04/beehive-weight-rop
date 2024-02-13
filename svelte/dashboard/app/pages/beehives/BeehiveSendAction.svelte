@@ -6,8 +6,8 @@
   import Button from "../../../../components/Buttons/Button.svelte";
   import message from "../../stores/message";
   import SettingsHeader from "../../component/settings/SettingsHeader.svelte";
-  import {getLanguageInstance} from "../../../../components/language/languageRepository";
-  import shared, {onLoad} from "../../stores/shared";
+  import { getLanguageInstance } from "../../../../components/language/languageRepository";
+  import shared, { onLoad } from "../../stores/shared";
   import ActionCard from "../../component/beehives/ActionCard.svelte";
   import Modal from "../../../../components/Modal.svelte";
   import staticFuncs, {
@@ -16,7 +16,7 @@
   import DropdownInput from "../../../../components/Inputs/DropdownInput.svelte";
   import Input from "../../../../components/Inputs/Input.svelte";
   import toast from "../../../../components/Toast/toast";
-  import {writable} from "svelte/store"
+  import { writable } from "svelte/store";
 
   export let props;
 
@@ -68,17 +68,17 @@
     beehiveObject = shared.getBeehiveById(beehiveId);
   });
 
-  $: loaded = writable({})
+  $: loaded = writable({});
 
   function waitForActionResult(actionId) {
-    console.log("wait for action ! ")
+    console.log("wait for action ! ");
     $loaded[actionId] = {
-      status: "loading"
+      status: "loading",
     };
     let socket = new WebSocket(
       (location.protocol === "https:" ? "wss://" : "ws://") +
-      location.host +
-      "/websocket/connect",
+        location.host +
+        "/websocket/connect",
     );
 
     socket.onmessage = (message) => {
@@ -90,16 +90,14 @@
         socket.close();
 
         $loaded[actionId] = {
-          status: "finished"
+          status: "finished",
         };
-        console.log("finished")
-  
+        console.log("finished");
       } else {
         $loaded[actionId] = {
-          status: "failed"
+          status: "failed",
         };
-        console.log("failed")
-        
+        console.log("failed");
       }
     };
   }
@@ -124,11 +122,10 @@
       .then((data) => {
         console.log("Success:", data, data.action.id);
 
-        //add check if online stuff 
-        waitForActionResult(data.action.id)
+        //add check if online stuff
+        waitForActionResult(data.action.id);
 
         fetchPendingActions();
-
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -336,13 +333,12 @@
     {/if}
 
     {#each Object.keys(currentTemplate) as key}
-
       {#if currentTemplate[key] === "NUMERIC"}
         <!--TODO change label to translation -->
-        <Input label={key} name={"dynamic_" + key} type="number" value=""/>
+        <Input label={key} name={"dynamic_" + key} type="number" value="" />
       {:else if currentTemplate[key] === "TEXT"}
         <!--TODO change label to translation -->
-        <Input label={key} name={"dynamic_" + key} type="text" value=""/>
+        <Input label={key} name={"dynamic_" + key} type="text" value="" />
       {:else if currentTemplate[key] === "BOOLEAN"}
         <!--TODO change label to translation -->
         <DropdownInput

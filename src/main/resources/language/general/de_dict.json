@@ -1,33 +1,99 @@
 {
   "home": {
-    "title": "Moderne Bienenstockwaagen zur Überwachung",
-    "description": "Das BuzzyBees Bienenstock-Wiegesystem ist ein Überwachungssystem, das den Imker sofort über größere Veränderungen im Bienenstock informiert - Gewicht, Temperatur, Feuchtigkeit und das Summen der Bienen.",
+    "title": "Moderne Bienenstockwaagen",
+    "description": "Das BuzzyBees Bienenstock-Wägesystem ist ein Überwachungssystem, das den Imker sofort über wichtige Veränderungen im Bienenstock informiert - Gewicht, Temperatur, Luftfeuchtigkeit und das Summen der Bienen.",
     "button-buy": "Kaufen",
-    "button-more": "Mehr erfahren"
+    "button-more": "Mehr erfahren",
+    "possibilities-header": "Was kann es tun?",
+    "login": "Anmelden",
+    "faq": "FAQ",
+    "contact": "Kontakt",
+    "about-us": "Über uns",
+    "shop": "Geschäft"
   },
+  "grid": [
+    {
+      "title": "Bienenstock-Alarme!",
+      "icon": "chat-dots.svg",
+      "description": "Sofortige Alarme bei Gewichtsveränderungen des Bienenstocks, Diebstahlschutz und kein verpasster Nektarfluss."
+    },
+    {
+      "title": "Fernsteuerung",
+      "icon": "wifi-solid.svg",
+      "description": "Mühelose Bienenstockverwaltung mit unserer benutzerfreundlichen Fernsteuerungsfunktion."
+    },
+    {
+      "title": "Verschiedene Messungen",
+      "icon": "weight-hanging-solid-white.svg",
+      "description": "Verfolgen Sie Bienenstockgewicht, Temperatur, Luftfeuchtigkeit und Geräusche für eine umfassende Überwachung."
+    },
+    {
+      "title": "Anschließen und Loslegen",
+      "icon": "plug-fill.svg",
+      "description": "Einfache Installation mit Schritt-für-Schritt-Anleitungen, die einen reibungslosen Betrieb ab dem ersten Tag gewährleisten."
+    },
+    {
+      "title": "Langlebiger Akku",
+      "icon": "battery.svg",
+      "description": "Lang anhaltende Batterielebensdauer - nur eine Ladung pro Bienensaison."
+    },
+    {
+      "title": "Cloud-basierte Daten",
+      "icon": "cloud-arrow-down.svg",
+      "description": "Bequeme Cloud-Speicherung für Datensicherheit und Zugänglichkeit."
+    }
+  ],
   "pros": {
     "first": "Zufriedene Imker",
-    "second": "Erhöhte Produktivität",
+    "second": "Steigerung der Produktivität",
     "third": "Garantierte Zuverlässigkeit"
   },
   "join": {
     "title": "Treten Sie dem Bienenstock bei!",
-    "description": "Bringen Sie Ihre Imkerei mit der neuesten Technologie zur Bienenstockverwaltung auf das nächste Level. Verpassen Sie nicht die Gelegenheit für süßere Ernten. Erleben Sie das aufregende Summen!",
-    "button-buy": "Waage kaufen"
+    "description": "Heben Sie Ihre Bienenzucht auf die nächste Stufe mit den neuesten Technologien zur Bienenstockverwaltung. Verpassen Sie nicht die süßeren Erträge. Erleben Sie das aufregende Summen!",
+    "button-buy": "Die Waage kaufen"
   },
   "faq": {
     "title": "Summende Fragen",
     "first": {
       "question": "Wie einfach ist die Installation?",
-      "answer": "Es ist ein Kinderspiel! Unser schrittweiser Leitfaden gewährleistet eine problemlose Integration in Ihren bestehenden Bienenstock."
+      "answer": "Ein Kinderspiel! Unsere Schritt-für-Schritt-Anleitung gewährleistet eine nahtlose Integration in Ihren vorhandenen Bienenstock."
     },
     "second": {
       "question": "Ist sie wetterfest?",
-      "answer": "Absolut ja! Unsere Waage ist so konzipiert, dass sie den Einflüssen des Wetters standhält, einschließlich extremer Hitze, Kälte und Feuchtigkeit."
+      "answer": "Absolut ja! Unsere Waage ist darauf ausgelegt, den Elementen standzuhalten, einschließlich extremer Hitze, Kälte und Feuchtigkeit."
     },
     "third": {
-      "question": "Kann ich aus der Ferne auf die Daten zugreifen?",
+      "question": "Kann ich auf die Daten fern zugreifen?",
       "answer": "Ja! Unsere einfache App synchronisiert sich mit Ihrer Waage und ermöglicht es Ihnen, Ihren Bienenstock von überall aus zu überwachen."
+    }
+  },
+  "subpages": {
+    "faq": {
+      "title": "Häufig gestellte Fragen",
+      "description": "Willkommen in unserer Sammlung häufig gestellter Fragen! Wir freuen uns, dass Sie hier sind. Wenn Ihnen jedoch etwas entgangen ist, zögern Sie nicht, uns zu kontaktieren. Unser Team steht Ihnen mit freundlicher Hilfe und maßgeschneiderten Lösungen zur Verfügung. Ihre Zufriedenheit steht für uns an erster Stelle, und wir sind hier, um Ihnen zu helfen, ein großartiges Erlebnis mit unseren Dienstleistungen zu schaffen.",
+      "questions": [
+        {
+          "question": "Was ist BuzzyBees?",
+          "description": "BuzzyBees ist eine innovative Lösung zur Überwachung von Bienenstöcken, die Imkern Echtzeitdaten über die Gesundheit des Bienenstocks, die Honigproduktion, das Wachstum der Brut und mehr liefert."
+        },
+        {
+          "question": "Wie funktioniert BuzzyBees?",
+          "answer": "BuzzyBees misst mithilfe fortschrittlicher Sensoren und eigener Algorithmen das Gewicht, die Temperatur und andere wichtige Parameter Ihrer Bienenstöcke und überträgt diese Informationen dann in eine benutzerfreundliche App oder ein Dashboard."
+        },
+        {
+          "question": "Warum ist die Überwachung des Bienenstocks wichtig?",
+          "answer": "Die Überwachung des Gewichts und der Bedingungen des Bienenstocks kann dabei helfen, die Honigproduktion, die Gesundheit der Bienen, das Brutwachstum, die Vorräte an Futtermitteln und mögliche Bienenschwärme zu bestimmen. BuzzyBees trägt dazu bei, den Wohlstand Ihrer Bienenvölker zu gewährleisten."
+        },
+        {
+          "question": "Was unterscheidet BuzzyBees von anderen Überwachungswerkzeugen?",
+          "answer": "BuzzyBees vereint jahrhundertealtes Imkerwissen mit modernster Technologie. Unsere benutzerfreundliche App, präzisen Sensoren und einzigartigen Algorithmen unterscheiden uns von herkömmlichen Überwachungslösungen."
+        },
+        {
+          "question": "Sind meine Daten sicher?",
+          "answer": "Auf jeden Fall. Der Schutz der Privatsphäre und die Sicherheit der Daten haben oberste Priorität. Alle übertragenen Daten werden verschlüsselt, und wir verkaufen Ihre Daten niemals an Dritte."
+        }
+      ]
     }
   }
 }

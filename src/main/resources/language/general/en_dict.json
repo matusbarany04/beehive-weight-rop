@@ -3,8 +3,46 @@
     "title": "Modern hive scales for monitoring",
     "description": "BuzzyBees hive weighing system is a monitoring system that instantly informs the beekeeper about any major changes in the hive - weight, temperature, humidity, and the sound of bees.",
     "button-buy": "Buy",
-    "button-more": "Learn More"
+    "button-more": "Learn More",
+    "possibilities-header": "What can it do?",
+    "login": "Login",
+    "faq": "FaQ",
+    "contact": "Contact",
+    "about-us": "About us",
+    "shop": "Shop"
   },
+  "grid": [
+    {
+      "title": "Hive Alerts!",
+      "icon": "chat-dots.svg",
+      "description": "Instant alerts for beehive weight changes, theft prevention, and no missed nectar flows."
+    },
+    {
+      "title": "Remote Control",
+      "icon": "wifi-solid.svg",
+      "description": "Effortless beehive management with our user-friendly remote control feature."
+    },
+    {
+      "title": "Various Measurements",
+      "icon": "weight-hanging-solid-white.svg",
+      "description": "Track beehive weight, temperature, humidity, and sound for comprehensive monitoring."
+    },
+    {
+      "title": "Plug and Play",
+      "icon": "plug-fill.svg",
+      "description": "Easy installation with step-by-step guides, ensuring seamless operation out of the box."
+    },
+    {
+      "title": "Long-Lasting Battery",
+      "icon": "battery.svg",
+      "description": "Extended battery life—only one charge per beekeeping season."
+    },
+    {
+      "title": "Cloud-Based Data",
+      "icon": "cloud-arrow-down.svg",
+      "description": "Convenient cloud storage for data safety and accessibility."
+    }
+  ],
   "pros": {
     "first": "Satisfied beekeepers",
     "second": "Increased productivity",
@@ -28,6 +66,34 @@
     "third": {
       "question": "Can I access the data remotely?",
       "answer": "Yes! Our simple app syncs with your scale, allowing you to monitor your hive from anywhere."
+    }
+  },
+  "subpages": {
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "description": "Welcome to our collection of frequently asked questions! We're glad you're here.\n However, if we missed anything, feel free to reach out to us. Our team is here\n for you with friendly assistance and tailored solutions. Your satisfaction\n is our priority, and we're here to help you create a great experience with our services.",
+      "questions": [
+        {
+          "question": "What is BuzzyBees?",
+          "description": "BuzzyBees is an innovative solution for monitoring beehives designed to provide beekeepers with real-time data on hive health, honey production, fruit growth, and more."
+        },
+        {
+          "question": "How does BuzzyBees work?",
+          "answer": "By utilizing advanced sensors and proprietary algorithms, BuzzyBees measures the weight, temperature, and other key parameters of your hives and then transmits this information to an accessible application or panel."
+        },
+        {
+          "question": "Why is hive monitoring important?",
+          "answer": "Monitoring hive weight and conditions can help determine levels of honey production, bee health, fruit growth, food reserves, and potential bee swarms. BuzzyBees helps ensure the prosperity of your bee colonies."
+        },
+        {
+          "question": "How does BuzzyBees differ from other monitoring tools?",
+          "answer": "BuzzyBees combines ancient beekeeping wisdom with the most modern technology. Our user-friendly application, precise sensors, and unique algorithms set us apart from traditional monitoring solutions."
+        },
+        {
+          "question": "Are my data secure?",
+          "answer": "Absolutely. User privacy and data security are top priorities. All transmitted data is encrypted, and we never sell your data to third parties."
+        }
+      ]
     }
   }
 }
