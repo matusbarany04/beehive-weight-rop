@@ -104,12 +104,6 @@ public class UserController extends CookieAuthController {
         return ApiResponse.OK();
     }
 
-    @GetMapping("/sendMail")
-    public String send() {
-        Mailer.sendVerification("mbelej100@gmail.com", 1152);
-        return "OK";
-    }
-
     @GetMapping("/createNotification")
     public String createNotification() {
         String title = "Slabá batéria v úli číslo 1";

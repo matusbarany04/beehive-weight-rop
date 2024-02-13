@@ -3,6 +3,7 @@ package com.buzzybees.master.controllers;
 import com.buzzybees.master.beehives.*;
 import com.buzzybees.master.beehives.actions.*;
 import com.buzzybees.master.beehives.devices.*;
+import com.buzzybees.master.users.Mailer;
 import com.buzzybees.master.websockets.EspSocketHandler;
 import com.buzzybees.master.controllers.template.ApiResponse;
 import com.buzzybees.master.controllers.template.DatabaseController;
@@ -28,6 +29,12 @@ public class BeeController extends DatabaseController {
 
     @Autowired
     ActionRepository actionRepository;
+
+    @GetMapping("/sendMail")
+    public String send() {
+        Mailer.sendVerification("mbelej100@gmail.com", 1152);
+        return "OK";
+    }
 
     @GetMapping("/clk_sync")
     public long clk() {
