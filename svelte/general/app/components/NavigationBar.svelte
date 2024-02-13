@@ -11,6 +11,8 @@
   import Button from "../../../components/Buttons/Button.svelte";
   import CircleButton from "../../../components/Buttons/CircleButton.svelte";
 
+  const LI = getLanguageInstance();
+
   let toggle = false;
 
   const resize = (e) => {
@@ -21,10 +23,10 @@
 
   let pages = [
     // {name: "Dev Docs", link: "/test", selected: false},
-    { name: "FaQ", link: "/faq", selected: false },
-    { name: "Kontakt", link: "/contact", selected: false },
-    { name: "O nás", link: "/about", selected: false },
-    { name: "Obchod", link: "/shop", selected: false },
+    { name: LI.get("home.faq"), link: "/faq", selected: false },
+    { name: LI.get("home.contact"), link: "/contact", selected: false },
+    { name: LI.get("home.about-us"), link: "/about", selected: false },
+    { name: LI.get("home.shop"), link: "/shop", selected: false },
   ];
 
   let langDropdown = false;
@@ -86,11 +88,13 @@
           >
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             {#each pages as page}
-              <a
-                href={page.link}
-                class="my-1 rounded-full px-3 py-0.5 text-sm font-normal text-primary-600 hover:bg-white"
-                >{page.name}</a
-              >
+              <RouterLink url={page.link}>
+                <div
+                  class="my-1 rounded-full px-3 py-0.5 text-sm font-normal text-primary-600 hover:bg-white"
+                >
+                  {page.name}
+                </div>
+              </RouterLink>
             {/each}
             <div class="relative">
               <button
@@ -135,7 +139,7 @@
             type="secondary-noborder"
             className="hidden md:block h-min w-min md:mr-8 shrink-0 grow-0 mx-auto"
             imagePosition="right"
-            text={"Prihlásiť sa"}
+            text={LI.get("home.login")}
           />
 
           <CircleButton
@@ -143,7 +147,7 @@
             className="block md:hidden hover:animate-wobble"
             image="icons/arrow-right.svg"
             imagePosition="right"
-            text={"Prihlásiť sa"}
+            text={LI.get("home.login")}
           ></CircleButton>
         </RouterLink>
       </div>

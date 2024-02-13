@@ -21,10 +21,10 @@ import java.util.concurrent.TimeUnit;
 public class Mailer {
 
     public static final String SENDER = "BuzzyBees";
-    public static final String ADDRESS = "noreply@dismounted.space";
-    public static final String HOST = "dismounted.space";
-    public static final String USERNAME = "root";
-    public static final String PASSWORD = "vcelicky#258";
+    public static final String ADDRESS = "noreply.buzzybees@azet.sk";
+    public static final String HOST = "smtp.azet.sk";
+    public static final String USERNAME = "noreply.buzzybees";
+    public static final String PASSWORD = "eac2e132";
 
     public static final String BACKEND_HOST = "http://localhost:5173";
 

@@ -9,45 +9,7 @@
 
   const LI = getLanguageInstance();
 
-  let gridItems = [
-    {
-      title: "Hive Alerts!",
-
-      icon: "chat-dots.svg",
-      description:
-        "Instant alerts for beehive weight changes, theft prevention, and no missed nectar flows.",
-    },
-    {
-      title: "Remote Control",
-      icon: "wifi-solid.svg",
-      description:
-        "Effortless beehive management with our user-friendly remote control feature.",
-    },
-    {
-      title: "Various Measurements",
-      icon: "weight-hanging-solid-white.svg",
-      description:
-        "Track beehive weight, temperature, humidity, and sound for comprehensive monitoring.",
-    },
-    {
-      title: "Plug and Play",
-      icon: "plug-fill.svg",
-      description:
-        "Easy installation with step-by-step guides, ensuring seamless operation out of the box.",
-    },
-    {
-      title: "Long-Lasting Battery",
-      icon: "battery.svg",
-      description:
-        "Extended battery life—only one charge per beekeeping season.",
-    },
-    {
-      title: "Cloud-Based Data",
-      icon: "cloud-arrow-down.svg",
-      description:
-        "Convenient cloud storage for data safety and accessibility.",
-    },
-  ];
+  let gridItems = LI.get("grid");
 </script>
 
 <Root>
@@ -135,7 +97,7 @@
     class="box-border block w-full flex-col items-center justify-center px-6"
   >
     <h1 class="mb-6 mt-16 text-center text-6xl font-bold text-slate-100">
-      {"What can it do?"}
+      {LI.get("home.possibilities-header")}
     </h1>
     <div
       class="md:4/5 mx-auto grid w-11/12 max-w-6xl grid-cols-2 gap-x-16 gap-y-8 text-white md:grid-cols-3"

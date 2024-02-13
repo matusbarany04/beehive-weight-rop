@@ -3,8 +3,46 @@
     "title": "Moderné úľové váhy pre monitorovanie",
     "description": "BuzzyBees váhový systém včelieho úľa je monitorovací systém, ktorý okamžite informuje včelára o akýchkoľvek väčších zmenách v úli - váhe, teplote, vlhkosti a zvuku včiel.",
     "button-buy": "Kúpiť",
-    "button-more": "Zistiť viac"
+    "button-more": "Zistiť viac",
+    "possibilities-header": "Čo zariadenie dokáže?",
+    "login": "Prihlásiť sa",
+    "faq": "FaQ",
+    "contact": "Kontakt",
+    "about-us": "O nás",
+    "shop": "Obchod"
   },
+  "grid": [
+    {
+      "title": "Upozornenia z úľa!",
+      "icon": "chat-dots.svg",
+      "description": "Okamžité upozornenia na zmeny váhy úľa, prevenciu krádeží a žiadne zmeškané prílevy nektáru."
+    },
+    {
+      "title": "Diaľkové ovládanie",
+      "icon": "wifi-solid.svg",
+      "description": "Hocijaké riadenie úľa s našou užívateľsky prívetivou funkciou diaľkového ovládania."
+    },
+    {
+      "title": "Rôzne merania",
+      "icon": "weight-hanging-solid-white.svg",
+      "description": "Sledujte váhu úľa, teplotu, vlhkosť a zvuk pre komplexné monitorovanie."
+    },
+    {
+      "title": "Jednoduchá inštalácia",
+      "icon": "plug-fill.svg",
+      "description": "Jednoduchá inštalácia s postupným sprievodcom, zabezpečujúca bezproblémovú prevádzku ihneď po vybalení z krabice."
+    },
+    {
+      "title": "Batéria s dlhou životnosťou",
+      "icon": "battery.svg",
+      "description": "Predĺžená životnosť batérie - len jedno nabitie za včelársku sezónu."
+    },
+    {
+      "title": "Cloudové údaje",
+      "icon": "cloud-arrow-down.svg",
+      "description": "Pohodlné ukladanie údajov v cloude pre bezpečnosť a prístupnosť údajov."
+    }
+  ],
   "pros": {
     "first": "Spokojných včelárov",
     "second": "Zvýšená produktivita",
@@ -28,6 +66,34 @@
     "third": {
       "question": "Môžem pristupovať k údajom na diaľku?",
       "answer": "Áno! Naša jednoduchá aplikácia sa synchronizuje s vašou váhou, umožňujúc vám sledovať váš úľ z akéhokoľvek miesta."
+    }
+  },
+  "subpages": {
+    "faq": {
+      "title": "Často kladené otázky",
+      "description": "Vitajte v našej zbierke často kladených otázok! Sme radi, že tu ste.\n          Ak nám však niečo uniklo, neváhajte sa obrátiť na nás. Náš tím je tu\n          pre vás s priateľskou pomocou a riešeniami na mieru. Vaša spokojnosť\n          je pre nás prioritou, a sme tu, aby sme vám pomohli vytvoriť skvelý zážitok s našimi službami.",
+      "questions": [
+        {
+          "question": "Čo je BuzzyBees?",
+          "description": "BuzzyBees je inovatívne riešenie na monitorovanie úľov navrhnuté tak, aby poskytovalo včelárom dáta v reálnom čase o zdraví úľa, produkcii medu, raste plodu a ďalších."
+        },
+        {
+          "question": "Ako funguje BuzzyBees?",
+          "answer": "Využívaním pokročilých senzorov a vlastných algoritmov BuzzyBees meria hmotnosť, teplotu a ďalšie kľúčové parametre vašich úľov a potom tieto informácie prenáša do prístupnej aplikácie alebo panela."
+        },
+        {
+          "question": "Prečo je monitorovanie úľa dôležité?",
+          "answer": "Monitorovanie hmotnosti a podmienok úľa môže pomôcť pri určovaní úrovní produkcie medu, zdravia včiel, rastu plodu, potravinových rezerv a možných včelích rojov. BuzzyBees pomáha zabezpečiť prosperitu vašich včelích kolónií."
+        },
+        {
+          "question": "Čím sa BuzzyBees líši od iných monitorovacích nástrojov?",
+          "answer": "BuzzyBees kombinuje starodávne včelárske múdrosti s najmodernejšou technológiou. Naša ľahko použiteľná aplikácia, presné senzory a jedinečné algoritmy nás odlišujú od tradičných monitorovacích riešení."
+        },
+        {
+          "question": "Sú moje dáta v bezpečí?",
+          "answer": "Rozhodne. Prioritou je súkromie používateľa a bezpečnosť dát. Všetky prenášané dáta sú šifrované a nikdy nepredávame vaše dáta tretím stranám."
+        }
+      ]
     }
   }
 }

@@ -103,7 +103,9 @@ export function navigate(path) {
   }
   //else route
   window.history.pushState({}, "", `${path}?${urlParams}`);
+
   route.set(path);
+
   //clear the data state to not interfere with other pages
   resetUnsavedData();
 }

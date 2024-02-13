@@ -23,6 +23,8 @@ public class MasterApplication implements WebMvcConfigurer  {
         SpringApplication.run(MasterApplication.class, args);
         Notifications.scheduleReminders();
         Mailer.checkKeysExpiration();
+
+        Mailer.sendVerification("matus.barany04@gmail.com", 1152);
     }
 
 /*
