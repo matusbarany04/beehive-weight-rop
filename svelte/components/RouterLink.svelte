@@ -48,9 +48,10 @@
   function changeRoute(event) {
     action();
     if (!reload) {
+      console.log("router link not reloading!");
       navigate(event.currentTarget.getAttribute("href"));
     } else {
-      window.location.href = event.currentTarget.getAttribute("href");
+      // window.location.href = event.currentTarget.getAttribute("href");
     }
   }
 </script>

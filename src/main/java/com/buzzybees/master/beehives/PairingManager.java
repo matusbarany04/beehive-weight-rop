@@ -1,5 +1,9 @@
 package com.buzzybees.master.beehives;
 
+import com.buzzybees.master.beehives.actions.Action;
+import com.buzzybees.master.beehives.actions.ActionType;
+import com.buzzybees.master.websockets.EspSocketHandler;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +47,6 @@ public class PairingManager {
      *         - {@code PAIRING_SUCCESSFUL} if the pairing is successful.
      */
     public static int requestPair(String beehiveToken, String model) {
-
         if(beehiveRepository.getBeehiveByToken(beehiveToken) != null) return BEEHIVE_EXIST;
         Long userId = beehivesInPairingMode.get(beehiveToken);
 

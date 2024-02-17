@@ -10,6 +10,7 @@ enum ActionType {
     CHANGE_BEEHIVE_CONFIG,
     FACTORY_RESET,
     CALIBRATE_WEIGHT_SENSORS,
+    UNPAIR
 };
 
 enum ConnectionMode {
@@ -20,7 +21,7 @@ enum ConnectionMode {
 
 
 ActionType parseActionType(const char* enumString) {
-    const char* actionTypeStrings[] = {"UPDATE_STATUS", "MOTOR_MOVE", "WAKE_UP", "HIBERNATE", "ENABLE_SHARING_CONNECTION", "BURN_SENSOR_ID", "CHANGE_BEEHIVE_CONFIG", "FACTORY_RESET", "CALIBRATE_WEIGHT_SENSORS"};
+    const char* actionTypeStrings[] = {"UPDATE_STATUS", "MOTOR_MOVE", "WAKE_UP", "HIBERNATE", "ENABLE_SHARING_CONNECTION", "BURN_SENSOR_ID", "CHANGE_BEEHIVE_CONFIG", "FACTORY_RESET", "CALIBRATE_WEIGHT_SENSORS", "UNPAIR"};
 
     for (int i = 0; i < sizeof(actionTypeStrings) / sizeof(actionTypeStrings[0]); ++i) {
         if (strcmp(enumString, actionTypeStrings[i]) == 0) return (enum ActionType)i;

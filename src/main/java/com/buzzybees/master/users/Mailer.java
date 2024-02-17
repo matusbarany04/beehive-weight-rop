@@ -21,10 +21,10 @@ import java.util.concurrent.TimeUnit;
 public class Mailer {
 
     public static final String SENDER = "BuzzyBees";
-    public static final String ADDRESS = "noreply@dismounted.space";
-    public static final String HOST = "dismounted.space";
-    public static final String USERNAME = "root";
-    public static final String PASSWORD = "vcelicky#258";
+    public static final String ADDRESS = "noreply.buzzybees@azet.sk";
+    public static final String HOST = "smtp.azet.sk";
+    public static final String USERNAME = "noreply.buzzybees";
+    public static final String PASSWORD = "eac2e132";
 
     public static final String BACKEND_HOST = "http://localhost:5173";
 
@@ -83,9 +83,11 @@ public class Mailer {
 
     private static Session getSession() {
         Properties props = System.getProperties();
-
+        props.put("mail.smtp.auth", true);
+        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", HOST);
-        props.put("mail.smtp.port", PORT);
+        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.ssl.trust", HOST);
 
         Authenticator authenticator = new Authenticator() {
             @Override
@@ -93,6 +95,7 @@ public class Mailer {
                 return new PasswordAuthentication(USERNAME, PASSWORD);
             }
         };
+
 
         return Session.getInstance(props, authenticator);
     }

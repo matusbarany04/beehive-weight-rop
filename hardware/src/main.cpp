@@ -62,7 +62,7 @@ void setup()
 
   updateStatus();
 
-  if(wakeUp) {
+  if(wakeUp && config.paired) {
     socketConnect();
   }
 
@@ -116,13 +116,7 @@ void setup()
   //networkManager.POST("/updateActionsStatuses", actionManager.getExecutedActions());
 
 /*
-*/
 
-  //sensorManager.burn(1, {"", 1000, TEMPERATURE, 0});
-  //sensorManager.burn(2, {"", 1000, LIGHT, 0});
-
-  
-/*
   led.indicate(REQUEST_SUCCESS);
 
 
@@ -147,7 +141,7 @@ void setup()
  //digitalWrite(SCL_PIN, LOW);
  //pinMode(33, INPUT);
 
-  button.setAction(updateStatus);
+  button.setAction(config.paired ? updateStatus : pair);
   button.setLongPressAction([]() {
     if(Power::getState() == BATTERY_POWER) {
       Param actionParams[] = {{"newState", "IDLE"}};
@@ -177,6 +171,13 @@ void connect() {
   }
 }
 
+void getActions() {
+    networkManager.GET("/getActionsForBeehive?token=" + String(BEEHIVE_ID));
+    DynamicJsonDocument response = networkManager.getResponseJSON();
+    executeActions(response["actions"]);
+    Serial.println(networkManager.getRequestResult());
+}
+
 void updateStatus() {
   networkManager.turn_wifi_off();
   sensorManager.initWeightSensors(config);
@@ -188,12 +189,17 @@ void updateStatus() {
   connect();
   Serial.println("Connected");
 
-  networkManager.POST("/updateStatus", json);
-  DynamicJsonDocument response = networkManager.getResponseJSON();
-  executeActions(response["actions"]);
-  Serial.println(networkManager.getRequestResult());
-}
+  if (config.paired) {
+    networkManager.POST("/updateStatus", json);
+    if (!networkManager.isRequestSuccessful()) getActions();
+    else {
+      DynamicJsonDocument response = networkManager.getResponseJSON();
+      executeActions(response["actions"]);
+      Serial.println(networkManager.getRequestResult());
+    }
 
+  } else getActions();
+}
 
 void executeActions(JsonArray actions) {
   for(int i = 0; i < actions.size(); i++) {
@@ -214,15 +220,23 @@ void executeActions(JsonArray actions) {
 }
 
 void pair() {
-    DynamicJsonDocument data(150);
-    data["beehive"] = BEEHIVE_ID;
-    data["model"] = MODEL_NAME;
+  Serial.println("paring...");
+  DynamicJsonDocument data(150);
+  data["beehive"] = BEEHIVE_ID;
+  data["model"] = MODEL_NAME;
 
-    String json;
-    serializeJson(data, json);
+  String json;
+  serializeJson(data, json);
 
-    networkManager.POST("/requestPair", json);
-    Serial.println(networkManager.getRequestResult());
+  networkManager.POST("/requestPair", json);
+  Serial.println(networkManager.getRequestResult());
+  if (networkManager.getRequestResult().equals("SUCCESS")) {
+    led.indicate(PAIRED);
+    config.paired = true;
+    save(config);
+    delay(1500);
+    esp_restart();
+  }
 }
 
 String testConnection(String wifiSSID, String wifiPasswd) {
@@ -238,6 +252,7 @@ String testConnection(String wifiSSID, String wifiPasswd) {
 
 void handleActions() {
   actionManager.addAction(UPDATE_STATUS, [] (JsonObject params) -> String {
+    socketDisconnect();
     networkManager.turn_wifi_off();
     updateStatus();
     return "DONE";
@@ -253,10 +268,15 @@ void handleActions() {
   });
 
   actionManager.addAction(WAKE_UP, [](JsonObject params) -> String { 
-    wakeUp = true;
-    connect();
-    return "DONE";
-  }, [](String result) { socketConnect(); });
+    if (!wakeUp) {
+      wakeUp = true;
+      connect();
+      return "DONE";
+    } else return "DONE";
+    
+  }, [](String result) { 
+    //socketConnect(); 
+    });
 
   actionManager.addAction(HIBERNATE, [](JsonObject params) -> String { 
     if(wakeUp) {
@@ -278,6 +298,15 @@ void handleActions() {
     config.weight_offset = sensorManager.computeWeightOffset(params["weight"]);
     save(config);
     return "DONE";
+  });
+   actionManager.addAction(UNPAIR, [](JsonObject params) -> String {
+    config.paired = false;
+    save(config);
+    return "DONE";
+
+  }, [](String result) {
+    delay(500);
+    esp_restart();
   });
 }
 

@@ -56,7 +56,8 @@ void sendActionToServer(ServerAction serverAction, Param (&params)[N]) {
     for (int i = 0; i < N; i++) {
         int intValue = params[i].value.toInt();
         if (params[i].value.equals(String(intValue))) doc["params"][params[i].name] = intValue;
-        else doc["params"][params[i].name] = params[i].value;       
+        else doc["params"][params[i].name] = params[i].value;      
+        Serial.println(params[i].value); 
     }
     serializeJson(doc, message);
     webSocket.send(message);
@@ -83,6 +84,13 @@ void socketConnect() {
         Param params[] = {{"newState", "ONLINE"}};
         sendActionToServer(UPDATE_DEVICE_STATE, params);
     }
+}
+
+void socketDisconnect() {
+    webSocket.onEvent([] (WebsocketsEvent event, String data) { 
+        if(event == WebsocketsEvent::ConnectionClosed) Serial.println("Socket disconnected.");
+    });
+    webSocket.close();
 }
 
 bool socketConnectionAvailable() {

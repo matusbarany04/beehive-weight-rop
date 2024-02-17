@@ -1,33 +1,99 @@
 {
   "home": {
-    "title": "Modern méhsúlymérlegek a monitorozáshoz",
-    "description": "A BuzzyBees méh súlymérő rendszere egy olyan monitorozási rendszer, amely azonnal értesíti a méhészetet a méhben bekövetkező jelentős változásokról - súly, hőmérséklet, páratartalom és a méhek zümmögése.",
+    "title": "Modern kaptár mérlegek a monitorozáshoz",
+    "description": "A BuzzyBees kaptár súlymérő rendszere olyan monitorozó rendszer, amely azonnal értesíti a méhészét a kaptárban bekövetkező jelentős változásokról - súly, hőmérséklet, páratartalom és a méhek hangja.",
     "button-buy": "Vásárlás",
-    "button-more": "További információk"
+    "button-more": "További információ",
+    "possibilities-header": "Mit tud ez?",
+    "login": "Bejelentkezés",
+    "faq": "GYIK",
+    "contact": "Kapcsolat",
+    "about-us": "Rólunk",
+    "shop": "Üzlet"
   },
+  "grid": [
+    {
+      "title": "Kaptár Riasztások!",
+      "icon": "chat-dots.svg",
+      "description": "Azonnali riasztások a kaptár súlyváltozásaira, lopás elleni védelemre és nincs elmulasztott nektáráramlás."
+    },
+    {
+      "title": "Távirányítás",
+      "icon": "wifi-solid.svg",
+      "description": "Könnyed méhészeti irányítás a felhasználóbarát távirányításunkkal."
+    },
+    {
+      "title": "Különböző Mérések",
+      "icon": "weight-hanging-solid-white.svg",
+      "description": "Kövesse a kaptár súlyát, hőmérsékletét, páratartalmát és hangját a teljes körű monitorozás érdekében."
+    },
+    {
+      "title": "Csatlakoztasd és használd",
+      "icon": "plug-fill.svg",
+      "description": "Egyszerű telepítés lépésről lépésre történő útmutatókkal, hogy zökkenőmentesen működjön azonnal."
+    },
+    {
+      "title": "Hosszú Élettartamú Akkumulátor",
+      "icon": "battery.svg",
+      "description": "Hosszabbított akkumulátor élettartam - csak egy feltöltés szezononként."
+    },
+    {
+      "title": "Felhőalapú Adatok",
+      "icon": "cloud-arrow-down.svg",
+      "description": "Kényelmes felhőtárolás az adatbiztonság és hozzáférhetőség érdekében."
+    }
+  ],
   "pros": {
     "first": "Elégedett méhészek",
-    "second": "Növelt termelékenység",
-    "third": "Garantált megbízhatóság"
+    "second": "Növekvő termelékenység",
+    "third": "Garantált Megbízhatóság"
   },
   "join": {
-    "title": "Csatlakozzon a méhekhez!",
-    "description": "Emelje fel méhészetét a legújabb méhkezelési technológiákkal. Ne maradjon le az édesebb termésekről. Tapasztalja meg a izgalmas zümmögést!",
-    "button-buy": "Vásárolja meg a mérleget"
+    "title": "Csatlakozz a kaptárhoz!",
+    "description": "Fejleszd méhészkedésedet a legújabb kaptárkezelési technológiákkal. Ne maradj le az édesebb termésekről. Tapasztald meg a izgalmas zümmögést!",
+    "button-buy": "Vásárolj egy mérleget"
   },
   "faq": {
     "title": "Zümmögő kérdések",
     "first": {
-      "question": "Mennyire egyszerű a telepítés?",
-      "answer": "Ez gyerekjáték! Step-by-step útmutatónk biztosítja a zökkenőmentes integrációt meglévő méhkasával."
+      "question": "Milyen könnyű a telepítés?",
+      "answer": "Egyszerű! Lépésről lépésre haladva biztosítjuk a zökkenőmentes integrációt a meglévő kaptárodba."
     },
     "second": {
       "question": "Időjárásálló-e?",
-      "answer": "Abszolút igen! A mérleg tervezése során figyelembe vettük az időjárási viszonyokat, beleértve az extrém hőséget, hideget és nedvességet."
+      "answer": "Abszolút igen! A mérlegünk tervezése során figyelembe vettük az időjárás viszontagságait, beleértve a szélsőséges hőmérsékletet, hideget és nedvességet."
     },
     "third": {
-      "question": "Elérhetem-e adataimat távolról?",
-      "answer": "Igen! Egyszerű alkalmazásunk szinkronizál a mérleggel, lehetővé téve a méhkas távolról történő monitorozását bárhol is legyél."
+      "question": "Távolról is hozzáférhetek az adatokhoz?",
+      "answer": "Igen! Egyszerű alkalmazásunk szinkronizálódik a mérleggel, lehetővé téve a kaptárad monitorozását bárhonnan."
+    }
+  },
+  "subpages": {
+    "faq": {
+      "title": "Gyakran Ismételt Kérdések",
+      "description": "Köszöntünk a gyakran ismételt kérdések gyűjteményében! Örömmel látunk itt. Ha azonban valami kimaradt volna, ne habozz kapcsolatba lépni velünk. Csapatunk itt van, hogy barátságos segítséget és testreszabott megoldásokat nyújtson. A te elégedettséged a prioritásunk, és itt vagyunk, hogy segítsünk abban, hogy remek élményt nyújtsunk szolgáltatásainkkal.",
+      "questions": [
+        {
+          "question": "Mi is az a BuzzyBees?",
+          "description": "A BuzzyBees egy innovatív megoldás a méhek új generációjának figyelemmel kísérésére, amely valós idejű adatokat biztosít a kaptárok egészségéről, a méztermelésről, a gyümölcs növekedéséről és egyebekről."
+        },
+        {
+          "question": "Hogyan működik a BuzzyBees?",
+          "answer": "A BuzzyBees fejlett szenzorok és saját algoritmusok segítségével méri a kaptárak tömegét, hőmérsékletét és egyéb kulcsfontosságú paramétereit, majd ezeket az információkat hozzáférhető alkalmazásba vagy panelbe továbbítja."
+        },
+        {
+          "question": "Miért fontos a kaptárak figyelemmel kísérése?",
+          "answer": "A kaptár tömegének és körülményeinek figyelemmel kísérése segíthet meghatározni a méztermelés szintjét, a méhek egészségét, a gyümölcs növekedését, az élelmiszer-tartalékot és a lehetséges méhrajokat. A BuzzyBees segít biztosítani a méhek kolóniáinak jólétét."
+        },
+        {
+          "question": "Miben különbözik a BuzzyBees más monitorozási eszközöktől?",
+          "answer": "A BuzzyBees az ősi méhészeti bölcsességeket a legkorszerűbb technológiával kombinálja. Könnyen használható alkalmazásunk, pontos szenzoraink és egyedi algoritmusaink megkülönböztetnek minket a hagyományos monitorozási megoldásoktól."
+        },
+        {
+          "question": "Biztonságban vannak az adataim?",
+          "answer": "Mindenképpen. A felhasználói adatok és az adatbiztonság az elsődleges szempont. Az összes továbbított adat titkosított, és soha nem adjuk el az adataidat harmadik félnek."
+        }
+      ]
     }
   }
 }

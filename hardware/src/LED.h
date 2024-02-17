@@ -4,7 +4,7 @@
 enum State {
     POWER,
     IDLE,
-    REQUEST_SUCCESS,
+    PAIRED,
     CONNECTING,
     CHARGING,
     ERROR
@@ -48,11 +48,11 @@ class LED {
                     params = {250, 3, false, false, this->pin}; 
                     xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 1, &blinkTask);
                     break;
-
-                case REQUEST_SUCCESS:
-                    params = {250, 2, false, false, this->pin}; 
-                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 1, &blinkTask);
-                    break;*/
+*/
+                case PAIRED:
+                    params = {250, 3, false}; 
+                    xTaskCreate(blinkLoop, TASK_NAME, configMINIMAL_STACK_SIZE + STACK_SIZE, &params, 4, &blinkTask);
+                    break;
 
                 case CONNECTING:
                     params = {500, INFINITE, false}; 

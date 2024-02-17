@@ -62,18 +62,17 @@ class NetworkManager {
         void POST(String url, String data) {
             http.addHeader("Content-Type", contentType);
             if(url.indexOf('.') == -1) url = hostname + url;
-            http.begin(client, ("https://" + url).c_str());
-            int httpResponseCode = http.POST(data);  
+            http.begin(client, ("http://" + url).c_str());
+            httpResponseCode = http.POST(data);  
             result = http.getString();
             http.end();
         }
 
         void GET(String url) {
-            http.useHTTP10(true);
             http.addHeader("Content-Type", contentType);
             if(url.indexOf('.') == -1) url = hostname + url;
-            http.begin(client, url.c_str());
-            int httpResponseCode = http.GET();  
+            http.begin(client, ("http://" + url).c_str());
+            httpResponseCode = http.GET();  
             result = http.getString();
             http.end();
         }
@@ -91,7 +90,7 @@ class NetworkManager {
         }
 
         bool isRequestSuccessful() {
-            return httpResponseCode > 0;
+            return httpResponseCode == 200;
         }
 
         void turn_wifi_off() {

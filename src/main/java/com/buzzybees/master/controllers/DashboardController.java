@@ -18,6 +18,8 @@ import com.buzzybees.master.notifications.Reminder;
 import com.buzzybees.master.notifications.ReminderRepository;
 import com.buzzybees.master.tables.PairList;
 import com.buzzybees.master.tables.Status;
+import com.buzzybees.master.utils.json.JSONForm;
+import com.buzzybees.master.websockets.EspSocketHandler;
 import org.apache.poi.ss.formula.functions.T;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -349,6 +351,7 @@ public class DashboardController extends CookieAuthController {
      */
     @PostMapping("/newPairing")
     public ApiResponse newPairing(@RequestBody String beehive) {
+        System.out.println("pairing");
         PairingManager.init(beehive, currentUserId);
         return new ApiResponse();
     }
@@ -369,7 +372,13 @@ public class DashboardController extends CookieAuthController {
         }
 
         deleteData(beehiveToken);
+
         beehiveRepository.delete(beehive);
+
+        Action action = new Action(ActionType.UNPAIR, "{}", beehiveToken);
+        ActionRepository actionRepository = getRepo(Action.class);
+        actionRepository.saveOrUpdate(action);
+        EspSocketHandler.sendFlashActionToBeehive(action);
 
         return ApiResponse.OK();
     }
@@ -403,17 +412,25 @@ public class DashboardController extends CookieAuthController {
         List<Action> actions = Actions.createConfigActions(targetBeehive, beehive);
         ActionRepository actionRepository = getRepo(Action.class);
         actionRepository.saveOrUpdateAll(actions);
+        for (Action action : actions) EspSocketHandler.sendFlashActionToBeehive(action);
 
         beehive.setUserId(currentUserId);
         beehive.setModel(targetBeehive.getModel());
 
+        Beehive backup = beehive.createBackup(targetBeehive);
+        beehiveRepository.save(backup);
         Actions.handleResponse(beehive, ActionType.CHANGE_BEEHIVE_CONFIG, action -> {
-            if (action.getStatus() == ActionStatus.DONE) beehiveRepository.save(beehive);
+            Notification.Type type = action.getStatus() == ActionStatus.DONE ? Notification.Type.INFO : Notification.Type.PROBLEM;
+            String message = action.getStatus() == ActionStatus.DONE ? "Úspešne aktualizovaná" : "Vyskytla sa chyba: " + action.getStatus();
+            Notification notification = new Notification(type, currentUserId, "Zmena konfigurácie zariadenia", message);
+            notification.sendToUser();
+            beehiveRepository.save(beehive);
         });
 
         DeviceRepository deviceRepository = getRepo(Device.class);
         deviceRepository.saveAll(beehive.getDevices());
 
-        return new ApiResponse();
+        if (actions.size() > 0) return new ApiResponse("actionId", actions.get(0).getId());
+        else return new ApiResponse();
     }
 }

@@ -16,6 +16,7 @@ struct Config {
     char wifi_ssid[32];
     char wifi_password[32];
     int weight_offset;
+    bool paired;
 };
 
 struct ScheduledAction {
@@ -92,6 +93,7 @@ void factoryReset() {
     newConfig.interval = 30;
     newConfig.connectionMode = WIFI;
     newConfig.weight_offset = DEFAULT_WEIGHT_OFFSET;
+    newConfig.paired = false;
     memcpy(newConfig.wifi_ssid, "SNPD", sizeof(newConfig.wifi_ssid));
     memcpy(newConfig.wifi_password, "ke257-NT_61_ab", sizeof(newConfig.wifi_password));
     save(newConfig);

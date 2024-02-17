@@ -93,7 +93,7 @@
     <Loading />
     <div class="flex items-center">
       <img class="h-20" src="/img/press_button.svg" alt="stlacte tlacidlo" />
-      Stlačte prosím tlačidlo REQ_CONNECT na váhe
+      Stlačte prosím tlačidlo na zariadení
     </div>
   {/if}
 </div>
