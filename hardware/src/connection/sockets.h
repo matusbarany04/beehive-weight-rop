@@ -56,7 +56,8 @@ void sendActionToServer(ServerAction serverAction, Param (&params)[N]) {
     for (int i = 0; i < N; i++) {
         int intValue = params[i].value.toInt();
         if (params[i].value.equals(String(intValue))) doc["params"][params[i].name] = intValue;
-        else doc["params"][params[i].name] = params[i].value;       
+        else doc["params"][params[i].name] = params[i].value;      
+        Serial.println(params[i].value); 
     }
     serializeJson(doc, message);
     webSocket.send(message);

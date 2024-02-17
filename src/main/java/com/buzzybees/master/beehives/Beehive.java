@@ -3,11 +3,15 @@ package com.buzzybees.master.beehives;
 import com.buzzybees.master.beehives.devices.Device;
 import com.buzzybees.master.controllers.template.DatabaseController;
 import com.buzzybees.master.tables.Status;
+import com.buzzybees.master.websockets.ClientMessage;
+import com.buzzybees.master.websockets.ClientSocketHandler;
+import com.buzzybees.master.websockets.MessageType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +81,9 @@ public class Beehive {
     public Beehive (String token, String model) {
         this.token = token;
         this.model = model;
+        deviceState = BeehiveState.OFFLINE;
+        location = "";
+        name = "";
     }
 
     public void setLocation(String location) {
@@ -210,6 +217,28 @@ public class Beehive {
     public void updateState(BeehiveState deviceState) {
         BeehiveRepository beehiveRepository = DatabaseController.accessRepo(getClass());
         setDeviceState(deviceState);
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("state", deviceState);
+        params.put("beehive", token);
+        ClientSocketHandler.sendMessageToUser(userId, new ClientMessage(MessageType.UPDATE_DEVICE_STATE, params));
         beehiveRepository.save(this);
+    }
+
+    public Beehive createBackup(Beehive oldBeehive) {
+        Beehive beehive = new Beehive();
+        beehive.token = token;
+        beehive.name = name;
+        beehive.location = location;
+        beehive.model = model;
+        beehive.longitude = longitude;
+        beehive.latitude = latitude;
+        beehive.userId = userId;
+        beehive.connectionMode = connectionMode;
+        beehive.deviceState = oldBeehive.getState();
+        beehive.sim_password = oldBeehive.getSim_password();
+        beehive.wifi_password = oldBeehive.getWifi_password();
+        beehive.wifi_ssid = oldBeehive.getWifiSSID();
+        beehive.interval = oldBeehive.getInterval();
+        return beehive;
     }
 }

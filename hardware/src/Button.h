@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 #define PRESS_THRESHOLD 2000
-#define TASK_STACK_SIZE 1024
+#define TASK_STACK_SIZE 2048
 class Button {
     
     public:

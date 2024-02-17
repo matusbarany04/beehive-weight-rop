@@ -47,6 +47,12 @@ public class BeeController extends DatabaseController {
         EspSocketHandler.sendFlashActionToBeehive(new Action());
     }
 
+    @GetMapping("/getActionsForBeehive")
+    public ApiResponse getActionsForBeehive(@RequestParam("token") String token) {
+        List<Action> actions = new ArrayList<>(List.of(actionRepository.getPendingActionsByBeehiveId(token)));
+        return new ApiResponse("actions", actions);
+    }
+
     /**
      * Checks timestamp and insert new data to the database.
      *

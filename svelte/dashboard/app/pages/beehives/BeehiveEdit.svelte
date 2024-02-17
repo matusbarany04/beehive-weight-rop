@@ -40,6 +40,7 @@
   let showDialog;
   let dialogMsg;
   let dialogYesAction;
+  let actionId;
 
   let intervals = [
     [10, "10min"],
@@ -63,6 +64,17 @@
     const action = JSON.parse(message.data);
     if (action.messageType === "UPDATE_DEVICE_CONFIG") {
       sensors = action.params.devices;
+    } else if (
+      action.messageType === "ACTION_RESULT" &&
+      action.params.id === actionId
+    ) {
+      toast.push("Nastavenia boli úspešne nahrané do zariadenia");
+      oldInterval = beehive.interval;
+    } else if (
+      action.messageType === "UPDATE_DEVICE_STATE" &&
+      action.params.beehive === beehive.beehive_id
+    ) {
+      beehive.state = action.params.state;
     }
   };
 
@@ -95,6 +107,7 @@
       for (let id in actions) {
         let action = actions[id];
         let params = JSON.parse(action.params);
+        if (params["wifi_ssid"]) beehive["wifiSSID"] = params["wifi_ssid"];
         if (params["wifi_ssid"]) beehive["wifiSSID"] = params["wifi_ssid"];
         if (params["interval"]) beehive.interval = params["interval"];
       }
@@ -138,8 +151,11 @@
     })
       .then((r) => r.json())
       .then((response) => {
-        if (response.status === "ok") toast.push("Zmeny boli uložené");
-        else
+        if (response.status === "ok") {
+          toast.push("Zmeny boli uložené");
+            actionId = response["actionId"];
+            shared.fetchBeehives()
+        } else
           toast.push(
             `Pri ukladaní nastala chyba (${response.status})`,
             "error",
@@ -237,7 +253,13 @@
 </svelte:head>
 
 {#if beehive}
+  {#if beehive.state === "ONLINE"}
+    <div class="my-auto font-bold text-confirm-600">
+      {li.get("beehives.settings.connected")}
+    </div>
+  {/if}
   <div>Model: {beehive.model}</div>
+
   <div class="flex w-full flex-row justify-center">
     <form
       class="w-5/6"
@@ -278,7 +300,7 @@
           inline
         />
 
-        {#if beehive.interval !== oldInterval}
+        {#if beehive.interval !== oldInterval && beehive.state !== "ONLINE"}
           <div class="flex items-center gap-2">
             <img
               class="h-4 w-4"

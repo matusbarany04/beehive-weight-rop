@@ -83,9 +83,11 @@ public class Mailer {
 
     private static Session getSession() {
         Properties props = System.getProperties();
-
+        props.put("mail.smtp.auth", true);
+        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", HOST);
-        props.put("mail.smtp.port", PORT);
+        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.ssl.trust", HOST);
 
         Authenticator authenticator = new Authenticator() {
             @Override
@@ -93,6 +95,7 @@ public class Mailer {
                 return new PasswordAuthentication(USERNAME, PASSWORD);
             }
         };
+
 
         return Session.getInstance(props, authenticator);
     }
