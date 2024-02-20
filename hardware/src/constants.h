@@ -1,4 +1,4 @@
-#define SERVER_URL "192.168.0.107:8080"
+#define SERVER_URL "dismounted.space"
 #define BEEHIVE_ID "NY17IS0J9RKMRFP3"
 #define MODEL_NAME "BBIMZ-A"
 
@@ -16,6 +16,6 @@
 #define WEIGHT_SCALE -34.85
 #define DEFAULT_WEIGHT_OFFSET -266000
 
-#define WIFI_SSID "SNPD"
-#define WIFI_PASSWORD "ke257-NT_61_ab"
+#define WIFI_SSID "ROP"
+#define WIFI_PASSWORD "matus987"
 

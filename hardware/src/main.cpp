@@ -5,7 +5,7 @@
 #include <Servo.h>
 
 #include "constants.h"
-#include "led.h"
+#include "LED.h"
 #include "actions.h"
 #include "Button.h"
 #include "memory.h"

@@ -16,7 +16,7 @@
   class="min-h-full w-full cursor-pointer rounded bg-slate-100 p-2 text-center duration-200 hover:scale-110"
   on:click={() => action(type, name, sensorPorts[type])}
 >
-  <img class="m-auto w-8" src="../../../icons/{type}.svg" alt={name} />
+  <img class="m-auto w-8" src="../../../icons/{type.toLowerCase()}.svg" alt={name} />
 
   {#if name}
     <div>{name}</div>
