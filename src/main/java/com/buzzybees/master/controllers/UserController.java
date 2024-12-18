@@ -75,22 +75,6 @@ public class UserController extends CookieAuthController {
         return response.toString();
     }
 
-//    @PostMapping(value = "/updateSettings", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String updateSettings(@RequestBody Map<String, String> data) {
-//
-//        if (currentUserId > 0) {
-//            User user = userRepository.getUserById(currentUserId);
-//            user.updateSettings(data.get("settings"));
-//
-//            JSONObject response = new JSONObject();
-//            response.put("status", "ok");
-//            return response.toString();
-//        }
-//        JSONObject error = new JSONObject();
-//        error.put("status", "error");
-//        return error.toString();
-//    }
-
 
     @GetMapping("/send-notification")
     public void sendNotification() {
@@ -245,22 +229,19 @@ public class UserController extends CookieAuthController {
     public void sendToSpecificUser(@Payload Message message) {
         System.out.println(message);
         //   simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/specific", message);
-    }
+    }*/
 
-*/
     /**
      * Sends a test message to a specific user using WebSocket.
      * The message is sent to the user's unique destination based on their token.
      */
- /*   @GetMapping("/messageTest")
+    /*
+    @GetMapping("/messageTest")
     public void messageTest() {
         String token = UserService.getTokenByUserId(1);
         simpMessagingTemplate.convertAndSend("/specific/" + token, "message test");
         System.out.println(simpMessagingTemplate.getMessageChannel());
-    }
-*/
-
-
+    }*/
 
     /**
      * Sends a test message to all subscribers by publishing it to the "/all/messages" destination.

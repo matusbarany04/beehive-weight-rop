@@ -1,3 +1,0 @@
-BuzzyBees - Smart monitorovanie úľov
-
-BuzzysBees je technológia slúžiaca na monitorovanie úľov, ktorá meria ich základné paremetre a automaticky ich preposiela na server. Včelár si tieto údaje môže prezrieť na webovej stránke.
